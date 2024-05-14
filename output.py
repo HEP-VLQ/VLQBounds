@@ -10,5 +10,3 @@ class Result:
         return f"Top Bounds Result: {self.allowed_or_excluded} (1 allowed, 0 excluded)\n" + \
             f"Channel : {self.channel}\nObserved Ratio : {self.model_observed_ratio}"
 
-
-

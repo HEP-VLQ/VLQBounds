@@ -9,11 +9,11 @@ from pyTop import *
 #with open("data/coupling_results_2channels.txt","w") as f:
   #f.write("mass s_L res ratio channel\n")
 
-s_l = np.linspace(0.01,1,500)
+s_l = np.linspace(0.01 ,1, 500)
 
 #mass = np.linspace(1000,2200,500)
 
-cs = np.linspace(10,0.01,500)
+cs = np.linspace(10, 0.01, 500)
 '''
 with open("data/kappa_test_5.txt","w") as f:
  for k in kappa:
@@ -190,7 +190,7 @@ pt.filling_couplings_data()
 
 sin_left = np.linspace(0, 1, 500)
 mass = np.linspace(1000, 2400, 500)
-with open("data/coupling_limit_from_class.dat", "w") as f:
+with open("data/coupling_2.dat", "w") as f:
     f.write("mass sin_l res ratio channel width\n")
     for i in range(60000):
         m = rd.choice(mass)
@@ -200,17 +200,17 @@ with open("data/coupling_limit_from_class.dat", "w") as f:
         print("---------------")
         print(f"mass: {m}")
         print(f"sin_left: {s_l}")
-        pt.check_coupling_limit(m, -1, -1, -1, s_l,-1)
+        pt.check_coupling_limit(m, s_l)
         f.write(f"{m} {pt.m.universal_coupling()} {pt.allowed_or_excluded} {pt.model_observed_ratio} {pt.channel} {pt.m.get_width_mass_ratio_from_wb()}\n")
 '''
-'''
+
 d = Doublet()
 pt = PyTop(d)
 pt.filling_couplings_data()
 
 sin_left = np.linspace(0, 1, 500)
 mass = np.linspace(1000, 2400, 500)
-with open("data/coupling_limit_from_class_doublet.dat", "w") as f:
+with open("data/test.dat", "w") as f:
     f.write("mass sin_l res ratio channel width\n")
     for i in range(60000):
         m = rd.choice(mass)
@@ -220,29 +220,25 @@ with open("data/coupling_limit_from_class_doublet.dat", "w") as f:
         print("---------------")
         print(f"mass: {m}")
         print(f"sin_left: {s_l}")
-        pt.check_coupling_limit(m, -1, -1, -1, s_l)
+        pt.check_coupling_limit(m, s_l)
         f.write(f"{m} {pt.m.universal_coupling()} {pt.allowed_or_excluded} {pt.model_observed_ratio} {pt.channel} {pt.m.get_width_mass_ratio_from_wb()}\n")
-'''
-p = PureDecay()
 
-pt = PyTop(p)
-pt.filling_channels_data()
-print(pt.file_name)
 
+
+"""
 s = Singlet()
 
 pt = PyTop(s)
 pt.filling_channels_data()
-print('2209.07327_CMS_f9a_pp_TTbar_Singlet.txt' in pt.file_name)
+pt.check_singlet_limit(800, 10, 10, 0.1, 0.23)
+"""
 
+'''
 d = Doublet()
-
 pt = PyTop(d)
 pt.filling_channels_data()
-print(pt.file_name)
-
-
-
+pt.check_doublet_limit_with_TB_doublet(1000, 10, 1, 0.2, 0.1, 0.2)
+'''
 
 
 

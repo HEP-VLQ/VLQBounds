@@ -13,12 +13,6 @@ class TheoryCalc(Tables, Result):
         Result.__init__(self)
         self.m = m
 
-       # if isinstance(self.m, Singlet) or isinstance(self.m, Doublet):
-       #     self.r = self.m.get_width_mass_ratio_from_zt() # or wb
-       #     self.kappa = self.m.universal_coupling()
-       # else:
-       #     raise Exception('Invalid model type. The model must be either a Singlet or a Doublet.')
-
     def get_ratio_and_universal_coupling(self):
         r = self.m.get_width_mass_ratio_from_wb() #which ratio wb or zt or ht
         kappa = self.m.universal_coupling()
@@ -132,7 +126,7 @@ class TheoryCalc(Tables, Result):
 
         ztht_eee = self.m.vv() * self.m.br_vzt() * self.m.br_vht() * c.BR_Z_ee * c.BR_t_Wb ** 2 * c.BR_h_bb * c.BR_W_enu
 
-        if self.m.get_sin_up_right() is not None:
+        if self.m.model() == 'Doublet' and self.m.get_sin_up_right() is not None:
             ztzt_epem_from_tb_doublet = (self.m.vv() * self.m.br_vzt_tb_doublet() * self.m.br_vzt_tb_doublet()
                                          * c.BR_Z_ee * c.BR_t_Wb ** 2 * c.BR_W_qq ** 2 * c.BR_Z_qq)
             ztht_eee_from_tb_doublet = (self.m.vv() * self.m.br_vzt_tb_doublet() * self.m.br_vht_tb_doublet() *
@@ -290,7 +284,7 @@ class TheoryCalc(Tables, Result):
     def numerator(self, i):
 
         (ztzt_e, ztzt_eee, wbwb_e, wbwb_mu, ztzt_epem, htht_j, htht_e,
-         c1, c2,c_from_tb, c3, c4) = self.pair_prod_calc()
+         c1, c2, c_from_tb, c3, c4) = self.pair_prod_calc()
 
         r, kappa = self.get_ratio_and_universal_coupling()
 

@@ -10,16 +10,15 @@ def lambda_func(x, y, z):
     return lamda
 
 
-def check_single_prod_cs(cs):
-    if cs is not None:
-        if cs < 0:
-            raise ValueError("Invalid single-production cross-section value. It must be positive.")
+def validate_cross_section_value(cross_section_value):
+    if cross_section_value is None:
+        raise ValueError("Cross-section value cannot be None.")
 
+    if not isinstance(cross_section_value, (int, float)):
+        raise TypeError("Cross-section value must be a numeric type.")
 
-def check_pair_prod_cs(cs):
-    if cs is not None:
-        if cs < 0:
-            raise ValueError("Invalid pair-production cross section value. It must be positive.")
+    if cross_section_value < 0:
+        raise ValueError("Cross-section value must be non-negative.")
 
 
 def check_sin(s):

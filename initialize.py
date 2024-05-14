@@ -1,5 +1,3 @@
-import numpy as np
-import os
 from utils import load_data_from_files
 
 
@@ -815,6 +813,14 @@ class Tables:
             self.process[16] = 'pp --> TT --> WbWb --> l + j'
             self.energy[16] = 8
             self.luminosity[16] = 20.3
+
+            self.key[17] = '5468'
+            self.label[17] = 'arXiv:1210.5468'
+            self.expt[17] = 'ATLAS'
+            self.file_name[17] = '1210.5468_ATLAS_Fig-3_pp_tt_Wb.txt'
+            self.process[17] = 'pp --> TT --> WbWb --> e + E_T + j'
+            self.energy[17] = 7
+            self.luminosity[17] = 4.7
 
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
         else:
