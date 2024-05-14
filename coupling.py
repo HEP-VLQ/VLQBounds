@@ -7,7 +7,7 @@ from scipy.interpolate import interp1d
 class Coupling(TheoryCalc):
     def __init__(self, m):
         TheoryCalc.__init__(self, m)
-        if isinstance(m, Singlet) or isinstance(m, Doublet):
+        if isinstance(m, Singlet) or isinstance(m, Doublet) or isinstance(m, PureDecay):
             self.m = m
         else:
             raise Exception('Invalid model. Must be a singlet or Doublet')
@@ -40,7 +40,7 @@ class Coupling(TheoryCalc):
             self.energy = [None] * number_of_atlas_cms_tables
             self.luminosity = [None] * number_of_atlas_cms_tables
         else:
-            raise Exception(f"Invalid model. There is no coupling limits for this {self.m.model()}")
+            print(f"Warning. There is no coupling limits for this model {self.m.model()}")
 
     def fill_coupling_tables(self):
         if self.m.model() == 'Singlet':

@@ -6,7 +6,7 @@ from coupling import Coupling
 
 class PyTop(Coupling):
     def __init__(self, m):
-        if isinstance(m, Singlet) or isinstance(m, Doublet):
+        if isinstance(m, Singlet) or isinstance(m, Doublet) or isinstance(m, PureDecay):
             TheoryCalc.__init__(self, m)
             Coupling.__init__(self, m)
             self.m = m

@@ -299,7 +299,7 @@ class Doublet:
 
 
 class PureDecay:
-    def __init__(self, mv, pp_vv, pp_vbq, pp_vtq):
+    def __init__(self, mv=None, pp_vv=None, pp_vbq=None, pp_vtq=None):
         self.mv_theo = mv
         self.cs_pp_vv = pp_vv
         self.cs_pp_vbq = pp_vbq

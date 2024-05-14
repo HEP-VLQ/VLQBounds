@@ -161,7 +161,7 @@ with open("data/sin_l_test.dat", "w") as f:
             pt.check_singlet_limit(m, 10, 10, 10,s_l)
             f.write(f"{m} {s_l} {pt.allowed_or_excluded} {pt.model_observed_ratio}\n")
 '''
-
+'''
 d = Doublet()
 pt = PyTop(d)
 pt.filling_channels_data()
@@ -182,7 +182,7 @@ for i in range(2):
     print(f"sin_left: {s_l}")
     pt.check_doublet_limit_with_TB_doublet(m, 10, 10, s_l, 0.23, 0.1)
         #f.write(f"{m} {pt.m.universal_coupling()} {pt.allowed_or_excluded} {pt.model_observed_ratio} {pt.channel} {pt.m.get_width_mass_ratio_from_zt()}\n")
-
+'''
 '''
 s = Singlet()
 pt = PyTop(s)
@@ -223,6 +223,27 @@ with open("data/coupling_limit_from_class_doublet.dat", "w") as f:
         pt.check_coupling_limit(m, -1, -1, -1, s_l)
         f.write(f"{m} {pt.m.universal_coupling()} {pt.allowed_or_excluded} {pt.model_observed_ratio} {pt.channel} {pt.m.get_width_mass_ratio_from_wb()}\n")
 '''
+p = PureDecay()
+
+pt = PyTop(p)
+pt.filling_channels_data()
+print(pt.file_name)
+
+s = Singlet()
+
+pt = PyTop(s)
+pt.filling_channels_data()
+print('2209.07327_CMS_f9a_pp_TTbar_Singlet.txt' in pt.file_name)
+
+d = Doublet()
+
+pt = PyTop(d)
+pt.filling_channels_data()
+print(pt.file_name)
+
+
+
+
 
 
 

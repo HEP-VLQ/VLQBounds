@@ -694,16 +694,16 @@ class Tables:
       
         elif self.m.model() == 'Pure':
    
-            number_of_atlas_cms_tables = 17
+            number_of_atlas_cms_tables = 16
 
-            self.file_name = [None]*number_of_atlas_cms_tables
-            self.key = [None]*number_of_atlas_cms_tables
-            self.label = [None]*number_of_atlas_cms_tables
-            self.expt = [None]*number_of_atlas_cms_tables
-            self.MT = [None]*number_of_atlas_cms_tables
-            self.obs = [None]*number_of_atlas_cms_tables
-            self.exp = [None]*number_of_atlas_cms_tables
-            self.process = [None]*number_of_atlas_cms_tables
+            self.file_name = [None] * number_of_atlas_cms_tables
+            self.key = [None] * number_of_atlas_cms_tables
+            self.label = [None] * number_of_atlas_cms_tables
+            self.expt = [None] * number_of_atlas_cms_tables
+            self.MT = [None] * number_of_atlas_cms_tables
+            self.obs = [None] * number_of_atlas_cms_tables
+            self.exp = [None] * number_of_atlas_cms_tables
+            self.process = [None] * number_of_atlas_cms_tables
             self.energy = [None] * number_of_atlas_cms_tables
             self.luminosity = [None] * number_of_atlas_cms_tables
 
@@ -832,16 +832,16 @@ class Tables:
             self.expt[15] = 'CMS'
             self.file_name[15] = '1209.0471_CMS_Fig6_lower_pp_TT_bW.txt'
             self.process[15] = 'pp --> TT --> WbWb --> e + E_T + j'
-            self.energy[13] = 7
-            self.luminosity[13] = 5
+            self.energy[15] = 7
+            self.luminosity[15] = 5
 
-            self.key[16] = '04306fa'
-            self.label[16] = 'arXiv:1505.04306'
-            self.expt[16] = 'CMS'
-            self.file_name[16] = '1505.04306_ATLAS_Fig18-a_pp_TT_Wb+X.txt'
-            self.process[16] = 'pp --> TT --> WbWb --> l + j'
-            self.energy[16] = 8
-            self.luminosity[16] = 20.3
+            #self.key[16] = '04306fa'
+            #self.label[16] = 'arXiv:1505.04306'
+            #self.expt[16] = 'ATLAS'
+            #self.file_name[16] = '1505.04306_ATLAS_Fig18-a_pp_TT_Wb+X.txt'
+            #self.process[16] = 'pp --> TT --> WbWb --> l + j'
+            #self.energy[16] = 8
+            #self.luminosity[16] = 20.3
 
             for i in range(len(self.key)):
                 if self.expt[i] == 'ATLAS':
