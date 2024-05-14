@@ -1,0 +1,16 @@
+#arxiv:1210.5468 
+#title:Search for pair production of heavy top-like quarks decaying to a high-pT $W$ boson and a $b$ quark in the lepton plus jets final state at $\sqrt{s}$=7 TeV with the ATLAS detector 
+#04721_CMS_4.7 fb-1 
+#Energy 7000 GeV 
+#G.~Aad \textit{et al.} [ATLAS] 
+#Fig 3 
+#pp → tt→Wb 
+#Mass(GeV), obs(pb), exp(pb) 
+#mass (GeV) obseved (pb) expected (pb) 
+400 0.24752708365548617 0.25125044322266543
+450 0.15564539562722127 0.15181911954401944
+500 0.08815786213186308 0.0877190189399227
+550 0.05943343519619751 0.05943383982784127
+600 0.04889365223713737 0.05216188201888928
+650 0.03789139865421674 0.044433487949404604
+750 0.024157742809376704 0.037104114998117

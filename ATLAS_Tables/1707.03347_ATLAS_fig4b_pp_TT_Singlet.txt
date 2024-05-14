@@ -1,0 +1,24 @@
+#arXiv:1707.03347
+#title:Search for pair production of heavy vector-like quarks decaying to high-pT​ W bosons and $b$ quarks in the lepton-plus-jets final state in pp collisions at $\sqrt{s}$=13 TeV with the ATLAS detector
+#5468_ATLAS_36.1fb-1
+#Energy 13000GeV
+# M.~Aaboud\textit{et al.} [ATLAS]
+#Fig4b
+#pp$\rightarrow$TT$\rightarrow$Wb, Singlet
+#Mass (GeV), obs (pb), exp(pb)
+500 0.329826 0.462103
+600 0.168374 0.24214
+700 0.10471 0.113824
+750 0.0706006 0.0810287
+800 0.0580453 0.0692341
+850 0.0376813 0.0485327
+900 0.0298693 0.0405414
+950 0.0239206 0.0339184
+1000 0.0195809 0.0288923
+1050 0.0177007 0.0260754
+1100 0.0164908 0.0242311
+1150 0.0138164 0.0198096
+1200 0.0134331 0.0190282
+1300 0.0120735 0.0168725
+1400 0.0117122 0.0163073
+

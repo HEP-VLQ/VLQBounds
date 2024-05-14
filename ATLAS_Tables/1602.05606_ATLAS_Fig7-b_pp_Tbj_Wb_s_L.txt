@@ -1,0 +1,16 @@
+#arXiv:1602.05606  
+#title:Search for single production of vector-like quarks decaying into Wb in pp collisions at $\sqrt{s} = 8$  TeV with the ATLAS detector 
+#05606_ATLAS_20.3 fb-1 
+#Energy 8000 GeV 
+#G.~Aad 	extit{et al.} [ATLAS] 
+#Fig 7b 
+#pp → Tbj→Wb, \sin	heta_L 
+#Mass(GeV), obs(pb), exp(pb) 
+#mass (GeV) obseved (pb) expected (pb) 
+600.0 0.42348473355201344 0.43136692072026
+700.0 0.42348473355201355 0.4450253939123806
+800.0 0.514079094343443 0.5146725868685571
+900.0 0.5624960438444867 0.4965842230539889
+1000.0 0.7215514605592523 0.5509289227010237
+1100.0 0.8680641180256912 0.6342163603227036
+1200.0 0.8541463322423962 0.6947492137751388

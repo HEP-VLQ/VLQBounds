@@ -1,0 +1,21 @@
+#arXiv:1705.10751
+#Search for pair production of vector-like top quarks in events with one lepton, jets, and missing transverse momentum in $ \sqrt{s}=13 $ TeV $pp$ collisions with the ATLAS detector
+#10751_ATLAS_36.1b-1
+#Energy 13000GeV
+#M.Aaboud\textit{et al.} [ATLAS]
+#Fig6a
+#pp$\rightarrow$TT$\rightarrow$Zt, Singlet
+#Mass (GeV), obs (pb), exp (pb)
+750 0.062682 0.057134
+800 0.040088 0.03649
+850 0.033477 0.030416
+900 0.025634 0.023282
+950 0.023462 0.021314
+1000 0.02212 0.020106
+1050 0.019308 0.017545
+1100 0.017006 0.01547
+1150 0.014943 0.01358
+1200 0.014623 0.013294
+1300 0.014484 0.013206
+1400 0.013241 0.012055
+

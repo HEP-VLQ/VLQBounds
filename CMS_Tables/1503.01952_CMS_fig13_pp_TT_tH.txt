@@ -1,0 +1,15 @@
+#arXiv:1503.01952
+#title:Search for vector-like T quarks decaying to top quarks and Higgs bosons in the all-hadronic channel using jet substructure
+#01952_CMS_19.7fb-1
+#Energy 8000GeV
+#V.~Khachatryan\textit{et al.} [CMS]
+#Fig13
+#$pp\rightarrow TT\rightarrow tH$, Singlet
+#Mass (GeV), obs (pb), exp (pb)
+500 0.432 0.244
+600 0.132 0.105
+700 0.046 0.046
+800 0.036 0.026
+900 0.029 0.02
+1000 0.026 0.015
+

@@ -1,0 +1,15 @@
+#arXiv:1909.04721 
+#title:Search for electroweak production of a vector-like T quark using fully hadronic final states 
+#04721_CMS_35.9 fb-1 
+#Energy 13000 GeV 
+#A.~M.~Sirunyan \textit{et al.} [CMS] 
+#Fig11 lower row left 
+#pp → Ttq → (tH+tZ)tq, Γ/m_T=0.2 
+#Mass(GeV), obs(pb), exp(pb) 
+#mass (GeV) obseved (pb) expected (pb) 
+800.0 1.2888909297927988 0.5642616255749233
+1200.0 0.38310972719551395 0.19380013750787134
+1400.0 0.20725325142828122 0.11505412679036063
+1600.0 0.1103990708031077 0.0866137456698117
+1800.0 0.13784011427805898 0.07380432078755401
+2000.0 0.09803586448459563 0.06419969447494597

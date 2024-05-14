@@ -1,0 +1,15 @@
+#arXiv:1509.04177
+#title:Search for vector-like charge 2/3 T quarks in proton-proton collisions at sqrt(s) = 8 TeV
+#04177_CMS_19.7fb-1
+#Energy 8000 GeV
+#V.~Khachatryan \textit{et al.}[CMS]
+#Fig6
+#pp$\rightarrow$TT$\rightarrow$tZ
+#Mass (GeV), obs (Pb), exp (Pb)
+500 0.04 0.037
+600 0.027 0.026
+700 0.026 0.021
+800 0.026 0.018
+900 0.019 0.015
+1000 0.015 0.013
+

@@ -1,0 +1,20 @@
+#arXiv:1812.09768
+#Search for vector-like quarks in events with two oppositely charged leptons and jets in proton-proton collisions at $\sqrt{s} =$ 13 TeV
+#09768_CMS_35.9fb-1
+#Energy 13000GeV
+#A.~Tumasyan\textit{et al.} [CMS]
+#Fig4a
+#pp$\rightarrow$TT$\rightarrow$tZ, Singlet
+#Mass (GeV), obs (pb), exp (pb)
+800 0.023832 0.019231
+900 0.013959 0.012854
+1000 0.010681 0.010302
+1100 0.0087754 0.009166
+1200 0.007904 0.0073206
+1300 0.0071324 0.0067206
+1400 0.0065237 0.0064277
+1500 0.0060568 0.0061033
+1600 0.0063617 0.0058549
+1700 0.0065169 0.0056462
+1800 0.0060614 0.0055247
+

@@ -1,0 +1,17 @@
+#arXiv:1409.5500 
+#title:Search for pair and single production of new heavy quarks that decay to a $Z$ boson and a third-generation quark in $pp$ collisions at $\sqrt{s}=8$ TeV with the ATLAS detector 
+#5500_ATLAS_20.3 fb-1 
+#Energy 8000 GeV 
+#G.~Aad \textit{et al.} [ATLAS] 
+#Fig12-d 
+#pp → TT →  Zt, Singlet 
+#Mass(GeV), obs(pb), exp(pb) 
+#mass (GeV) obseved (pb) expected (pb) 
+350.0 0.9137836297561519 1.4342554407501844
+400.0 0.5431749824945927 0.8234981931268052
+450.0 0.27718586789381167 0.4031082502288945
+500.0 0.18410273525622065 0.2604129939313927
+600.0 0.09794084697994447 0.12659298445180103
+700.0 0.07898560303643312 0.09137836297561548
+800.0 0.07736672565550821 0.07790516739222439
+850.0 0.06505085543980897 0.058623573646565896

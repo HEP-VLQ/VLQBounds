@@ -1,0 +1,20 @@
+#arXiv:2212.05263
+#Search for pair-produced vector-like top and bottom partners in events with large missing transverse momentum in pp collisions with the ATLAS detector
+#05263_ATLAS_139fb-1
+#Energy 13000GeV
+#G.~Aad \textit{et al.}[ATLAS]
+#Fig 7e
+#pp$\rightarrow$TT$\rightarrow$tZ, (T,B) or (X,T) Doublet
+#Mass (GeV), obs (pb), exp (pb)
+800 0.031515 0.025526
+1000 0.010791 0.009388
+1100 0.007187 0.00662
+1200 0.005261 0.005022
+1300 0.004253 0.004154
+1400 0.003349 0.003358
+1500 0.003024 0.003038
+1600 0.002767 0.002786
+1700 0.002563 0.002614
+1800 0.002134 0.002404
+2000 0.002138 0.002199
+

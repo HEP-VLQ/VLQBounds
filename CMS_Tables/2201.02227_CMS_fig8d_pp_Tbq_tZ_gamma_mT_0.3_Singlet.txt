@@ -1,0 +1,16 @@
+#arXiv:2201.02227
+#Search for single production of a vector-like T quark decaying to a top quark and a Z boson in the final state with jets and missing transverse momentum at $ \sqrt{s} $ = 13 TeV
+#02227_CMS_137fb-1
+#Energy 13000GeV
+#A.~Tumasyan\textit{et al.} [CMS]
+#Fig8d
+#pp$\rightarrow$Tbq$\rightarrow$tZ, Singlet, $\frac{\Gamma}{m_T}= 0.3$ 
+#Mass (GeV), obs (pb), exp (pb)
+600 0.27746 0.22687
+800 0.16857 0.1403
+1000 0.13615 0.08335
+1200 0.09117 0.04324
+1400 0.05551 0.02737
+1600 0.03074 0.01959
+1800 0.01866 0.01312
+
