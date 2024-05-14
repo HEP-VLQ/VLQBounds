@@ -1,3 +1,6 @@
+import numpy as np
+import os
+
 
 def r_x(m1, m2): return m1/m2
 
@@ -25,4 +28,21 @@ def check_sin(s):
             raise ValueError("Invalid sin value. It must be in the the range [-1,1]")
     elif s == 0:
         raise ValueError("Invalid sin value. It must not equal 0")
+
+
+def load_data_from_files(file_name, number_of_files, mass, expected, observed, atlas_cms_tevatron):
+    current_path = os.getcwd()
+    for i in range(number_of_files):
+        if atlas_cms_tevatron[i] == 'ATLAS':
+            file_path = os.path.join(current_path, 'ATLAS_Tables', file_name[i])
+        else:
+            file_path = os.path.join(current_path, 'CMS_Tables', file_name[i])
+
+        try:
+            data = np.loadtxt(file_path)
+            mass[i] = data[:, 0]
+            observed[i] = data[:, 1]
+            expected[i] = data[:, 2]
+        except FileNotFoundError:
+            print(f"File '{file_name[i]}' not found at path '{file_path}'")
 

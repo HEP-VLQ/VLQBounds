@@ -1,5 +1,6 @@
 import numpy as np
 import os
+from utils import load_data_from_files
 
 
 class Tables:
@@ -403,21 +404,7 @@ class Tables:
             self.energy[45] = 13
             self.luminosity[45] = 139
 
-            for i in range(len(self.key)):
-                if self.expt[i] == 'ATLAS':
-                    current_path = os.getcwd()
-                    file_path = current_path + '/ATLAS_Tables/' + self.file_name[i]
-                    data = np.loadtxt(file_path)
-                    self.MT[i] = data[:, 0]
-                    self.obs[i] = data[:, 1]
-                    self.exp[i] = data[:, 2]
-                else:
-                    current_path = os.getcwd()
-                    file_path = current_path + '/CMS_Tables/' + self.file_name[i]
-                    data = np.loadtxt(file_path)
-                    self.MT[i] = data[:, 0]
-                    self.obs[i] = data[:, 1]
-                    self.exp[i] = data[:, 2]
+            load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
 
         elif self.m.model() == 'Doublet':
    
@@ -676,25 +663,11 @@ class Tables:
             self.energy[29] = 13
             self.luminosity[29] = 139
 
-            for i in range(len(self.key)):
-                if self.expt[i] == 'ATLAS':
-                    current_path = os.getcwd()
-                    file_path = current_path + '/ATLAS_Tables/' + self.file_name[i]
-                    data = np.loadtxt(file_path)
-                    self.MT[i] = data[:, 0]
-                    self.obs[i] = data[:, 1]
-                    self.exp[i] = data[:, 2]
-                else:
-                    current_path = os.getcwd()
-                    file_path = current_path + '/CMS_Tables/' + self.file_name[i]
-                    data = np.loadtxt(file_path)
-                    self.MT[i] = data[:, 0]
-                    self.obs[i] = data[:, 1]
-                    self.exp[i] = data[:, 2]
+            load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
       
         elif self.m.model() == 'Pure':
    
-            number_of_atlas_cms_tables = 16
+            number_of_atlas_cms_tables = 17
 
             self.file_name = [None] * number_of_atlas_cms_tables
             self.key = [None] * number_of_atlas_cms_tables
@@ -835,30 +808,15 @@ class Tables:
             self.energy[15] = 7
             self.luminosity[15] = 5
 
-            #self.key[16] = '04306fa'
-            #self.label[16] = 'arXiv:1505.04306'
-            #self.expt[16] = 'ATLAS'
-            #self.file_name[16] = '1505.04306_ATLAS_Fig18-a_pp_TT_Wb+X.txt'
-            #self.process[16] = 'pp --> TT --> WbWb --> l + j'
-            #self.energy[16] = 8
-            #self.luminosity[16] = 20.3
+            self.key[16] = '04306fa'
+            self.label[16] = 'arXiv:1505.04306'
+            self.expt[16] = 'ATLAS'
+            self.file_name[16] = '1505.04306_ATLAS_Fig18-a_pp_TT_Wb+X.txt'
+            self.process[16] = 'pp --> TT --> WbWb --> l + j'
+            self.energy[16] = 8
+            self.luminosity[16] = 20.3
 
-            for i in range(len(self.key)):
-                if self.expt[i] == 'ATLAS':
-                    current_path = os.getcwd()
-                    file_path = current_path + '/ATLAS_Tables/' + self.file_name[i]
-                    data = np.loadtxt(file_path)
-                    self.MT[i] = data[:, 0]
-                    self.obs[i] = data[:, 1]
-                    self.exp[i] = data[:, 2]
-                else:
-                    current_path = os.getcwd()
-                    file_path = current_path + '/CMS_Tables/' + self.file_name[i]
-                    data = np.loadtxt(file_path)
-                    self.MT[i] = data[:, 0]
-                    self.obs[i] = data[:, 1]
-                    self.exp[i] = data[:, 2]
-
+            load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
         else:
             raise Exception("Error in model choice")
 

@@ -1,8 +1,9 @@
 from model import *
-import os
 from manip import TheoryCalc
 import sys
+from utils import load_data_from_files
 from scipy.interpolate import interp1d
+
 
 class Coupling(TheoryCalc):
     def __init__(self, m):
@@ -125,26 +126,12 @@ class Coupling(TheoryCalc):
             self.energy[1] = 13
             self.luminosity[1] = 139
 
-        for i in range(len(self.key)):
-            if self.expt[i] == 'ATLAS':
-                current_path = os.getcwd()
-                file_path = current_path + '/ATLAS_Tables/' + self.file_name[i]
-                data = np.loadtxt(file_path)
-                self.MT[i] = data[:, 0]
-                self.obs[i] = data[:, 1]
-                self.exp[i] = data[:, 2]
-            else:
-                current_path = os.getcwd()
-                file_path = current_path + '/CMS_Tables/' + self.file_name[i]
-                data = np.loadtxt(file_path)
-                self.MT[i] = data[:, 0]
-                self.obs[i] = data[:, 1]
-                self.exp[i] = data[:, 2]
+        load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
 
     def model_coupling_calc(self, i):
         if self.m.model() == 'Singlet':
             if self.key[i] in self.sin_l:
-                return -1 #self.m.sin_left()
+                return self.m.sin_left()
             elif self.key[i] in self.k:
                 return self.m.universal_coupling()
             else:
@@ -155,7 +142,7 @@ class Coupling(TheoryCalc):
             else:
                 raise Exception("Something went wrong in filling coupling tables")
         else:
-            raise Exception("There are no coupling limits for this model")
+            raise Exception(f"There are no coupling limits for the model {self.m.model}")
 
     def get_limit_from_data(self, num, index, t):
         if 0 <= num:
