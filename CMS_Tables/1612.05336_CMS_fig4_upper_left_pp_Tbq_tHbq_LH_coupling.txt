@@ -1,0 +1,17 @@
+#arXiv:1612.05336
+#title:Search for electroweak production of a vector-like quark decaying to a top quark and a Higgs boson using boosted topologies in fully hadronic final states
+#05336_CMS_2.3fb-1
+#Energy 13000 GeV
+#A.~M.~Sirunyan \textit{et al.}[CMS]
+#Fig4 upper left                                          
+#pp$\rightarrow$Tbq$\rightarrow$tH, LH coupling
+#Mass (GeV), obs(pb), exp (pb)
+1000 0.93 1.36 
+1100 0.44 0.60
+1200 0.47 0.41
+1300 0.44 0.35
+1400 0.37 0.32
+1500 0.39 0.33
+1700 0.52 0.24
+1800 0.51 0.23
+

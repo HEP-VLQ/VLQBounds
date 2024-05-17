@@ -21,7 +21,7 @@ class Tables:
         """" fills experimental data from files """
         if self.m.model() == 'Singlet':
 
-            number_of_atlas_cms_tables = 46
+            number_of_atlas_cms_tables = 47
 
             self.file_name = [None] * number_of_atlas_cms_tables
             self.key = [None] * number_of_atlas_cms_tables
@@ -402,11 +402,19 @@ class Tables:
             self.energy[45] = 13
             self.luminosity[45] = 139
 
+            self.key[46] = '05336f4ul'
+            self.label[46] = 'arXiv:1612.05336'
+            self.expt[46] = 'CMS'
+            self.file_name[46] = '1612.05336_CMS_fig4_upper_left_pp_Tbq_tHbq_LH_coupling.txt'
+            self.process[46] = "pp --> Tbq --> tHbq --> j"
+            self.energy[46] = 13
+            self.luminosity[46] = 2.3
+
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
 
         elif self.m.model() == 'Doublet':
    
-            number_of_atlas_cms_tables = 30
+            number_of_atlas_cms_tables = 31
 
             self.file_name = [None] * number_of_atlas_cms_tables
             self.key = [None] * number_of_atlas_cms_tables
@@ -661,11 +669,19 @@ class Tables:
             self.energy[29] = 13
             self.luminosity[29] = 139
 
+            self.key[30] = '05336f4lr'
+            self.label[30] = 'arXiv:1612.05336'
+            self.expt[30] = 'CMS'
+            self.file_name[30] = '1612.05336_CMS_fig4_lower_right_pp_Tbq_tHbq_RH_coupling.txt'
+            self.process[30] = "pp --> Tbq --> tHbq --> j"
+            self.energy[30] = 13
+            self.luminosity[30] = 2.3
+
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
       
         elif self.m.model() == 'Pure':
    
-            number_of_atlas_cms_tables = 17
+            number_of_atlas_cms_tables = 19
 
             self.file_name = [None] * number_of_atlas_cms_tables
             self.key = [None] * number_of_atlas_cms_tables
@@ -821,6 +837,15 @@ class Tables:
             self.process[17] = 'pp --> TT --> WbWb --> e + E_T + j'
             self.energy[17] = 7
             self.luminosity[17] = 4.7
+
+            self.key[18] = '01539'
+            self.label[18] = 'arXiv:1710.01539'
+            self.expt[18] = 'CMS'
+            self.file_name[18] = '1710.01539_CMS_Fig4_upper_pp_TT_bW.txt'
+            self.process[18] = 'pp --> TT --> WbWb --> e + E_T + j'
+            self.energy[18] = 13
+            self.luminosity[18] = 35.8
+
 
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
         else:
