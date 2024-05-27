@@ -5,24 +5,25 @@ from utils import *
 
 
 class Singlet:
-    def __init__(self, mv=None, pp_vv=None, pp_vbq=None, pp_vtq=None, sin=None):
+    def __init__(self, mv=None, pp_vv=None, pp_vbq=None, pp_vtq=None, sin_l=None):
         self.mv_theo = mv
         self.cs_pp_vv = pp_vv
         self.cs_pp_vbq = pp_vbq
         self.cs_pp_vtq = pp_vtq
         self.__model = 'Singlet'
-        self.sin_l = sin
+        self.sin_l = sin_l
 
     def decay_to_wb(self):
         s_l = self.sin_l
+        c_l = np.sqrt(1 - s_l ** 2)
 
         constant = c.G**2 / (64 * c.PI)
 
         gamma = (constant * self.mv_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mv_theo, c.Mb, c.MW))
-                 * s_l ** 2 * (1 + r_x(c.MW, self.mv_theo) ** 2 - 2 * r_x(c.Mb, self.mv_theo) ** 2 -
-                 2 * r_x(c.MW, self.mv_theo) ** 4 + r_x(c.Mb, self.mv_theo) ** 4
+                 * (s_l / np.sqrt(2)) ** 2 * (1 + r_x(c.MW, self.mv_theo) ** 2 - 2 * r_x(c.Mb, self.mv_theo) ** 2
+                 - 2 * r_x(c.MW, self.mv_theo) ** 4 + r_x(c.Mb, self.mv_theo) ** 4
                  + r_x(c.Mb, self.mv_theo) ** 2 * r_x(c.MW, self.mv_theo) ** 2))
-        return gamma, gamma / self.mv_theo
+        return gamma
 
     def decay_to_zt(self):
         s_l = self.sin_l
@@ -35,7 +36,7 @@ class Singlet:
                  - 2 * r_x(c.MZ, self.mv_theo) ** 4 + r_x(c.Mt, self.mv_theo) ** 4
                  + r_x(c.Mt, self.mv_theo) ** 2 * r_x(c.MZ, self.mv_theo) ** 2))
 
-        return gamma, gamma / self.mv_theo
+        return gamma
 
     def decay_to_ht(self):
         s_l = self.sin_l
@@ -43,24 +44,13 @@ class Singlet:
 
         constant = c.G ** 2 / (128 * c.PI)
 
-        gamma = (constant * self.mv_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mv_theo, c.Mt, c.MZ))
+        gamma = (constant * self.mv_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mv_theo, c.Mt, c.Mh))
                  * (s_l * c_l) ** 2 * (1 + 6 * r_x(c.Mt, self.mv_theo) ** 2
                  - r_x(c.Mh, self.mv_theo) ** 2 + r_x(c.Mt, self.mv_theo) ** 4
-                 - r_x(c.Mt, self.mv_theo) ** 2 * r_x(c.Mh, self.mv_theo) ** 2))
+                                       - r_x(c.Mt, self.mv_theo) ** 2 * r_x(c.Mh, self.mv_theo) ** 2))
 
-        return gamma, gamma / self.mv_theo
 
-    def get_width_mass_ratio_from_wb(self):
-        g, r = self.decay_to_wb()
-        return r
-
-    def get_width_mass_ratio_from_zt(self):
-        g, r = self.decay_to_zt()
-        return r
-
-    def get_width_mass_ratio_from_ht(self):
-        g, r = self.decay_to_ht()
-        return r
+        return gamma
 
     def mv(self):
         return self.mv_theo
@@ -75,28 +65,39 @@ class Singlet:
         return self.cs_pp_vtq
 
     def br_vbw(self):
-        gamma_wb, r1 = self.decay_to_wb()
-        gamma_zt, r2 = self.decay_to_zt()
-        gamma_ht, r3 = self.decay_to_ht()
+        gamma_wb = self.decay_to_wb()
+        gamma_zt = self.decay_to_zt()
+        gamma_ht = self.decay_to_ht()
         br_to_wb = gamma_wb / (gamma_ht + gamma_wb + gamma_zt)
         return br_to_wb
 
     def br_vzt(self):
-        gamma_wb, r1 = self.decay_to_wb()
-        gamma_zt, r2 = self.decay_to_zt()
-        gamma_ht, r3 = self.decay_to_ht()
+        gamma_wb = self.decay_to_wb()
+        gamma_zt = self.decay_to_zt()
+        gamma_ht = self.decay_to_ht()
         br_to_zt = gamma_zt / (gamma_ht + gamma_wb + gamma_zt)
         return br_to_zt
 
     def br_vht(self):
-        gamma_wb, r1 = self.decay_to_wb()
-        gamma_zt, r2 = self.decay_to_zt()
-        gamma_ht, r3 = self.decay_to_ht()
+        gamma_wb = self.decay_to_wb()
+        gamma_zt = self.decay_to_zt()
+        gamma_ht = self.decay_to_ht()
         br_to_ht = gamma_ht / (gamma_ht + gamma_wb + gamma_zt)
         return br_to_ht
 
+    def get_width_mass_ratio(self):
+        g1 = self.decay_to_wb()
+        g2 = self.decay_to_ht()
+        g3 = self.decay_to_zt()
+        gamma_mv_ratio = (g1 + g2 + g3) / self.mv_theo
+        return gamma_mv_ratio
+
     def sin_left(self):
         return abs(self.sin_l)
+
+    def get_coupling_to_zt_or_ht(self):
+        c_l = np.sqrt(1 - self.sin_l ** 2)
+        return self.sin_l * c_l
 
     def universal_coupling(self):
         return self.sin_left()
@@ -106,12 +107,12 @@ class Singlet:
 
 
 class Doublet:
-    def __init__(self, mv=None, pp_vv=None, pp_vtq=None, sin_l=None):
+    def __init__(self, mv=None, pp_vv=None, pp_vtq=None, sin_r=None):
         self.mv_theo = mv
         self.cs_pp_vv = pp_vv
         self.cs_pp_vtq = pp_vtq
         self.__model = 'Doublet'
-        self.sin_l = sin_l
+        self.sin_r = sin_r
         self.sin_u_r = None
         self.sin_d_r = None
 
@@ -128,7 +129,7 @@ class Doublet:
         return self.sin_d_r
 
     def decay_to_wb(self):
-        s_l = self.sin_l
+        s_l = self.sin_left()
 
         constant = c.G**2 / (64 * c.PI)
 
@@ -136,10 +137,10 @@ class Doublet:
                  * s_l ** 2 * (1 + r_x(c.MW, self.mv_theo) ** 2 - 2 * r_x(c.Mb, self.mv_theo) ** 2 -
                  2 * r_x(c.MW, self.mv_theo) ** 4 + r_x(c.Mb, self.mv_theo) ** 4
                  + r_x(c.Mb, self.mv_theo) ** 2 * r_x(c.MW, self.mv_theo) ** 2))
-        return gamma, gamma / self.mv_theo
+        return gamma
 
     def decay_to_zt(self):
-        s_l = self.sin_l
+        s_l = self.sin_left()
         c_l = np.sqrt(1 - s_l ** 2)
         s_r = self.sin_right()
         c_r = np.sqrt(1 - s_r ** 2)
@@ -147,21 +148,22 @@ class Doublet:
         constant = c.G ** 2 / (128 * c.PI * c.C_W ** 2)
 
         gamma = (constant * self.mv_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mv_theo, c.Mt, c.MZ))
-                 * ((2 * s_l * c_l) ** 2 + (s_r * c_r) ** 2) * ((1 + r_x(c.MZ, self.mv_theo) ** 2
-                                                                 - 2 * r_x(c.Mt, self.mv_theo) ** 2
-                                                                 - 2 * r_x(c.MZ, self.mv_theo) ** 4
-                                                                 + r_x(c.Mt, self.mv_theo) ** 4
-                                                                 + r_x(c.Mt, self.mv_theo) ** 2
-                                                                 * r_x(c.MZ, self.mv_theo) ** 2)
-                                                                 - 12 * r_x(c.MZ, self.mv_theo) ** 2
-                                                                 * r_x(c.Mt, self.mv_theo) * 2
-                                                                 * s_l * c_l * s_r * c_r))
+                 * ((2 * s_l * c_l) ** 2 + (s_r * c_r)**2) * ((1 + r_x(c.MZ, self.mv_theo) ** 2
+                                                               - 2 * r_x(c.Mt, self.mv_theo) ** 2
+                                                               - 2 * r_x(c.MZ, self.mv_theo) ** 4
+                                                               + r_x(c.Mt, self.mv_theo) ** 4
+                                                               + r_x(c.Mt, self.mv_theo) ** 2
+                                                               * r_x(c.MZ, self.mv_theo) ** 2)
+                                                              - 12 * r_x(c.MZ, self.mv_theo) ** 2
+                                                              * r_x(c.Mt, self.mv_theo) * 2
+                                                              * s_l * c_l * s_r * c_r))
 
-        return gamma, gamma / self.mv_theo
+        return gamma
 
     def decay_to_ht(self):
         s_r = self.sin_right()
         c_r = np.sqrt(1 - s_r ** 2)
+        s_l = self.sin_left()
 
         constant = c.G ** 2 / (128 * c.PI)
 
@@ -170,7 +172,7 @@ class Doublet:
                  - r_x(c.Mh, self.mv_theo) ** 2 + r_x(c.Mt, self.mv_theo) ** 4
                  - r_x(c.Mt, self.mv_theo) ** 2 * r_x(c.Mh, self.mv_theo) ** 2))
 
-        return gamma, gamma / self.mv_theo
+        return gamma
 
     def decay_to_wb_tb_doublet(self):
         s_u_r = self.get_sin_up_right()
@@ -184,7 +186,7 @@ class Doublet:
                  * (c_u_r * s_d_r) ** 2 * (1 + r_x(c.MW, self.mv_theo) ** 2 - 2 * r_x(c.Mb, self.mv_theo) ** 2 -
                  2 * r_x(c.MW, self.mv_theo) ** 4 + r_x(c.Mb, self.mv_theo) ** 4
                  + r_x(c.Mb, self.mv_theo) ** 2 * r_x(c.MW, self.mv_theo) ** 2))
-        return gamma, gamma / self.mv_theo
+        return gamma
 
     def decay_to_zt_tb_doublet(self):
         s_u_r = self.get_sin_up_right()
@@ -195,12 +197,12 @@ class Doublet:
         constant = c.G ** 2 / (128 * c.PI * c.C_W ** 2)
 
         gamma = (constant * self.mv_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mv_theo, c.Mt, c.MZ))
-                 * (s_u_r * c_u_r) ** 2 * ((1 + r_x(c.MZ, self.mv_theo) ** 2 -
-                                          2 * r_x(c.Mt, self.mv_theo) ** 2 - 2 * r_x(c.MZ, self.mv_theo) ** 4 +
-                                          r_x(c.Mt, self.mv_theo) ** 4 + r_x(c.Mt, self.mv_theo) ** 2
-                                          * r_x(c.MZ, self.mv_theo) ** 2)))
+                 * (s_u_r * c_u_r) ** 2 * ((1 + r_x(c.MZ, self.mv_theo) ** 2
+                                            - 2 * r_x(c.Mt, self.mv_theo) ** 2 - 2 * r_x(c.MZ, self.mv_theo) ** 4
+                                            + r_x(c.Mt, self.mv_theo) ** 4 + r_x(c.Mt, self.mv_theo) ** 2
+                                            * r_x(c.MZ, self.mv_theo) ** 2)))
 
-        return gamma, gamma / self.mv_theo
+        return gamma
 
     def decay_to_ht_tb_doublet(self):
         s_u_r = self.get_sin_up_right()
@@ -216,19 +218,14 @@ class Doublet:
                  - r_x(c.Mh, self.mv_theo) ** 2 + r_x(c.Mt, self.mv_theo) ** 4
                  - r_x(c.Mt, self.mv_theo) ** 2 * r_x(c.Mh, self.mv_theo) ** 2))
 
-        return gamma, gamma / self.mv_theo
+        return gamma
 
-    def get_width_mass_ratio_from_wb(self):
-        g, r = self.decay_to_wb()
-        return r
-
-    def get_width_mass_ratio_from_zt(self):
-        g, r = self.decay_to_zt()
-        return r
-
-    def get_width_mass_ratio_from_ht(self):
-        g, r = self.decay_to_ht()
-        return r
+    def get_width_mass_ratio(self):
+        g1 = self.decay_to_wb()
+        g2 = self.decay_to_ht()
+        g3 = self.decay_to_zt()
+        gamma_mv_ratio = (g2 + g3) / self.mv_theo
+        return gamma_mv_ratio
 
     def mv(self):
         return self.mv_theo
@@ -247,63 +244,63 @@ class Doublet:
         return br_to_wb
 
     def br_vzt(self):
-        gamma_wb, r1 = self.decay_to_wb()
-        gamma_zt, r2 = self.decay_to_zt()
-        gamma_ht, r3 = self.decay_to_ht()
+        gamma_wb = self.decay_to_wb()
+        gamma_zt = self.decay_to_zt()
+        gamma_ht = self.decay_to_ht()
         br_to_zt = gamma_zt / (gamma_ht + gamma_wb + gamma_zt)
         return br_to_zt
 
     def br_vht(self):
-        gamma_wb, r1 = self.decay_to_wb()
-        gamma_zt, r2 = self.decay_to_zt()
-        gamma_ht, r3 = self.decay_to_ht()
+        gamma_wb = self.decay_to_wb()
+        gamma_zt = self.decay_to_zt()
+        gamma_ht = self.decay_to_ht()
         br_to_ht = gamma_ht / (gamma_ht + gamma_wb + gamma_zt)
         return br_to_ht
 
     def br_vbw_tb_doublet(self):
-        gamma_wb, r1 = self.decay_to_wb_tb_doublet()
-        gamma_zt, r2 = self.decay_to_zt_tb_doublet()
-        gamma_ht, r3 = self.decay_to_ht_tb_doublet()
+        gamma_wb = self.decay_to_wb_tb_doublet()
+        gamma_zt = self.decay_to_zt_tb_doublet()
+        gamma_ht = self.decay_to_ht_tb_doublet()
         br_to_wb = gamma_wb / (gamma_ht + gamma_wb + gamma_zt)
         return br_to_wb
 
     def br_vzt_tb_doublet(self):
-        gamma_wb, r1 = self.decay_to_wb_tb_doublet()
-        gamma_zt, r2 = self.decay_to_zt_tb_doublet()
-        gamma_ht, r3 = self.decay_to_ht_tb_doublet()
+        gamma_wb = self.decay_to_wb_tb_doublet()
+        gamma_zt = self.decay_to_zt_tb_doublet()
+        gamma_ht = self.decay_to_ht_tb_doublet()
         br_to_zt = gamma_zt / (gamma_ht + gamma_wb + gamma_zt)
         return br_to_zt
 
     def br_vht_tb_doublet(self):
-        gamma_wb, r1 = self.decay_to_wb_tb_doublet()
-        gamma_zt, r2 = self.decay_to_zt_tb_doublet()
-        gamma_ht, r3 = self.decay_to_ht_tb_doublet()
+        gamma_wb = self.decay_to_wb_tb_doublet()
+        gamma_zt = self.decay_to_zt_tb_doublet()
+        gamma_ht = self.decay_to_ht_tb_doublet()
         br_to_ht = gamma_ht / (gamma_ht + gamma_wb + gamma_zt)
         return br_to_ht
 
-    def sin_left(self):
-        return abs(self.sin_l)
-
     def sin_right(self):
-        s_l = self.sin_l
-        c_l = np.sqrt(1 - s_l ** 2)
-        tg_l = s_l / c_l
-        s_r = np.sqrt((r_x(c.Mt, self.mv_theo) * tg_l) ** 2 / (1 + (r_x(c.Mt, self.mv_theo) * tg_l) ** 2))
-        return s_r
+        return abs(self.sin_r)
+
+    def sin_left(self):
+        s_r = self.sin_r
+        c_r = np.sqrt(1 - s_r ** 2)
+        tg_r = s_r / c_r
+        s_l = np.sqrt((r_x(c.Mt, self.mv_theo) * tg_r) ** 2 / (1 + ((r_x(c.Mt, self.mv_theo) * tg_r) ** 2)))
+        return s_l
 
     def universal_coupling(self):
-        return  abs(self.sin_l)
+        c_r = np.sqrt(1 - self.sin_r ** 2)
+        return abs(self.sin_r * c_r)
 
     def model(self):
         return self.__model
 
 
 class PureDecay:
-    def __init__(self, mv=None, pp_vv=None, pp_vbq=None, pp_vtq=None):
+    def __init__(self, mv=None, pp_vv=None, pp_vbq=None):
         self.mv_theo = mv
         self.cs_pp_vv = pp_vv
         self.cs_pp_vbq = pp_vbq
-        self.cs_pp_vtq = pp_vtq
         self.br_v_bW = 1
         self.br_v_tz = 1
         self.br_v_th = 1
@@ -319,16 +316,16 @@ class PureDecay:
         return self.cs_pp_vbq
 
     def vtq(self):
-        return self.cs_pp_vtq
+        return self.cs_pp_vbq
 
     def br_vbw(self):
         return self.br_v_bW
 
-    def br_vzt(self):
-        return self.br_v_tz
-
     def br_vht(self):
         return self.br_v_th
+
+    def br_vzt(self):
+        return self.br_v_tz
 
     def model(self):
         return self.__model

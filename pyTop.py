@@ -62,8 +62,8 @@ class PyTop(Coupling):
             raise Exception('Invalid model. Must be a doublet')
         self.check_channel()
         if self.m.get_sin_up_right() is None:
-            print("Warning (T, B) coupling are not set, "
-                  "doublet (T, B) pair and single production cross sections will not be checked")
+            print("Warning: (T, B) couplings are not set. Doublet (T, B) "
+                  "single production cross sections will not be checked.")
         print(self)
 
     def check_doublet_limit_with_TB_doublet(self, m, pp_vv, pp_vtq, sin_l, sin_u_r, sin_d_r):
@@ -92,24 +92,21 @@ class PyTop(Coupling):
                   "doublet (T, B) pair and single production cross sections will not be checked")
         print(self)
 
-    def check_pure_limit(self, m, pp_vv, pp_vbq, pp_vtq):
+    def check_pure_limit(self, m, pp_vv, pp_vbq):
         if isinstance(self.m, PureDecay):
             check_mass_range(m)
             try:
                 validate_cross_section_value(pp_vv)
                 validate_cross_section_value(pp_vbq)
-                validate_cross_section_value(pp_vtq)
             except Exception as e:
                 print(e)
                 if pp_vbq < 0:
                     pp_vbq = -1
-                if pp_vtq < 0:
-                    pp_vbq = -1
-                if pp_vv < 0:
+                elif pp_vv < 0:
                     pp_vv = -1
-            self.m = PureDecay(m, pp_vv, pp_vbq, pp_vtq)
+            self.m = PureDecay(m, pp_vv, pp_vbq)
         else:
-            raise Exception('Invalid model. Must be a PureDecay')
+            raise Exception('Invalid model. Must be PureDecay class')
         self.check_channel()
         print(self)
 

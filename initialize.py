@@ -21,7 +21,7 @@ class Tables:
         """" fills experimental data from files """
         if self.m.model() == 'Singlet':
 
-            number_of_atlas_cms_tables = 47
+            number_of_atlas_cms_tables = 49
 
             self.file_name = [None] * number_of_atlas_cms_tables
             self.key = [None] * number_of_atlas_cms_tables
@@ -410,11 +410,27 @@ class Tables:
             self.energy[46] = 13
             self.luminosity[46] = 2.3
 
+            self.key[47] = '032f6b'
+            self.label[47] = 'ATLAS-CONF-2016-032'
+            self.expt[47] = 'ATLAS'
+            self.file_name[47] = 'ATLAS-CONF-2016-032_ATLAS_Fig6b_pp_TT_Wb_Zt_Ht_Singlet.txt'
+            self.process[47] = 'pp --> TT --> l+l+ + j'
+            self.energy[47] = 13
+            self.luminosity[47] = 3.2
+
+            self.key[48] = '104f16a'
+            self.label[48] = 'ATLAS-CONF-2016-104'
+            self.expt[48] = 'ATLAS'
+            self.file_name[48] = 'ATLAS-CONF-2016-104_ATLAS_Fig16b_pp_TT_HtX_singlet.txt'
+            self.process[48] = 'pp --> TT --> ZtZt + HtHt --> l+ + E_T + j'
+            self.energy[48] = 13
+            self.luminosity[48] = 13.2
+
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
 
         elif self.m.model() == 'Doublet':
    
-            number_of_atlas_cms_tables = 31
+            number_of_atlas_cms_tables = 32
 
             self.file_name = [None] * number_of_atlas_cms_tables
             self.key = [None] * number_of_atlas_cms_tables
@@ -673,15 +689,23 @@ class Tables:
             self.label[30] = 'arXiv:1612.05336'
             self.expt[30] = 'CMS'
             self.file_name[30] = '1612.05336_CMS_fig4_lower_right_pp_Tbq_tHbq_RH_coupling.txt'
-            self.process[30] = "pp --> Tbq --> tHbq --> j"
+            self.process[30] = "pp --> Ttq --> tHtq --> j"
             self.energy[30] = 13
             self.luminosity[30] = 2.3
+
+            self.key[31] = '104f16a'
+            self.label[31] = 'ATLAS-CONF-2016-104'
+            self.expt[31] = 'ATLAS'
+            self.file_name[31] = 'ATLAS-CONF-2016-104_ATLAS_Fig16a_pp_TT_HtX_doublet.txt'
+            self.process[31] = 'pp --> TT --> ZtZt + HtHt --> l+ + E_T + j'
+            self.energy[31] = 13
+            self.luminosity[31] = 13.2
 
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
       
         elif self.m.model() == 'Pure':
    
-            number_of_atlas_cms_tables = 19
+            number_of_atlas_cms_tables = 25
 
             self.file_name = [None] * number_of_atlas_cms_tables
             self.key = [None] * number_of_atlas_cms_tables
@@ -846,6 +870,53 @@ class Tables:
             self.energy[18] = 13
             self.luminosity[18] = 35.8
 
+            self.key[19] = '072f8'
+            self.label[19] = 'ATLAS-CONF-2016-072'
+            self.expt[19] = 'ATLAS'
+            self.file_name[19] = 'ATLAS-CONF-2016-072_ATLAS_Fig8_pp_Tbq_Wb.txt'
+            self.process[19] = 'pp --> Tbq --> bWbq --> l+ + E_T + j'
+            self.energy[19] = 13
+            self.luminosity[19] = 3.2
+
+            self.key[20] = '104f15a'
+            self.label[20] = 'ATLAS-CONF-2016-104'
+            self.expt[20] = 'ATLAS'
+            self.file_name[20] = 'ATLAS-CONF-2016-104_ATLAS_Fig15a_pp_TT_tH.txt'
+            self.process[20] = 'pp --> TT --> tHtH --> l+'
+            self.energy[20] = 13
+            self.luminosity[20] = 13.2
+
+            self.key[21] = '104f15b'
+            self.label[21] = 'ATLAS-CONF-2016-104'
+            self.expt[21] = 'ATLAS'
+            self.file_name[21] = 'ATLAS-CONF-2016-104_ATLAS_Fig15b_pp_TT_tZ.txt'
+            self.process[21] = 'pp --> TT --> tZtZ --> E_T + j'
+            self.energy[21] = 13
+            self.luminosity[21] = 13.2
+
+            self.key[22] = '11903fa'
+            self.label[22] = 'arXiv:1906.11903'
+            self.expt[22] = 'CMS'
+            self.file_name[22] = '1906.11903_CMS_Fig6_lower_left_pp_TT_bW.txt'
+            self.process[22] = 'pp --> TT --> WbWb --> j'
+            self.energy[22] = 13
+            self.luminosity[22] = 35.9
+
+            self.key[23] = '11903fc'
+            self.label[23] = 'arXiv:1906.11903'
+            self.expt[23] = 'CMS'
+            self.file_name[23] = '1906.11903_CMS_Fig6_upper_left_pp_TT_tZ.txt'
+            self.process[23] = 'pp --> TT --> tZtZ -->  j'
+            self.energy[23] = 13
+            self.luminosity[23] = 35.9
+
+            self.key[24] = '11903ff'
+            self.label[24] = 'arXiv:1906.11903'
+            self.expt[24] = 'CMS'
+            self.file_name[24] = '1906.11903_CMS_Fig6_middle_left_pp_TT_tH.txt'
+            self.process[24] = 'pp --> TT --> tHtH -->  j'
+            self.energy[24] = 13
+            self.luminosity[24] = 35.9
 
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
         else:

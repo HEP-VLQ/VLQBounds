@@ -1,47 +1,33 @@
 process energy experiment  process_number identifier
 pp --> TT --> Zt + X -> l+ + E_T + j 13 ATLAS arXiv:1705.10751 0
 pp --> TT --> l+ + l+l+ + l+l+l- 13 CMS arXiv:2209.07327 1
-pp --> TT --> Wb + X --> l+ + E_T + j 13 ATLAS arXiv:1707.03347 2
-pp --> TT --> Zt + X -> l+ + E_T + j 13 ATLAS arXiv:2212.05263 3
-pp --> TT --> Zt + X -> l+l- + l+l+l- 13 ATLAS arXiv:1806.10555 4
-pp --> TT --> l+ + l+l+ + l+l+l- 13 CMS arXiv:1805.04758 5
-pp --> TT --> l+l+ + j 13 ATLAS arXiv:1807.11883 6
-pp --> TT --> l+ + E_T + j 13 CMS arXiv:1706.03408 7
-pp --> TT --> Zt + X -> l+l- + l+l+l- 8 ATLAS arXiv:1409.5500 8
-pp --> TT --> Wb + X + Ht + X --> l+ + E_T + j 8 ATLAS arXiv:1505.04306 9
-pp --> Tbq --> tZbq --> E_T + j 13 CMS arXiv:2201.02227 10
-pp --> Tbq --> tZbq --> E_T + j 13 CMS arXiv:2201.02227 11
-pp --> Tbq --> tZbq --> E_T + j 13 CMS arXiv:2201.02227 12
-pp --> Tbq --> tZbq --> E_T + j 13 CMS arXiv:2201.02227 13
-pp --> Tbq --> tZbq --> l+l- + j 13 CMS arXiv:1708.01062 14
-pp --> Tbq --> tZbq --> l+l- + j 8 ATLAS arXiv:1409.5500 15
-pp --> Tbq --> tHbq --> l+ + gamma + E_T + j 13 CMS arXiv:2302.12802 16
-pp --> Tbq --> tHbq --> l+ + E_T + j 13 CMS arXiv:1612.00999 17
-pp --> Tbq --> tHbq --> j 13 CMS arXiv:1909.04721 18
-pp --> Tbq --> tHbq --> j 13 CMS arXiv:1909.04721 19
-pp --> Tbq --> tZbq --> j 13 CMS arXiv:1909.04721 20
-pp --> Tbq --> tZbq --> j 13 CMS arXiv:1909.04721 21
-pp --> Tbq --> (tZ + tH)bq --> j 13 CMS arXiv:1909.04721 22
-pp --> Tbq --> (tZ + tH)bq --> j 13 CMS arXiv:1909.04721 23
-pp --> Tbq --> tHbq --> j 13 CMS arXiv:1909.04721 24
-pp --> Tbq --> tHbq --> j 13 CMS arXiv:1909.04721 25
-pp --> Tbq --> tZbq --> j 13 CMS arXiv:1909.04721 26
-pp --> Tbq --> tZbq --> j 13 CMS arXiv:1909.04721 27
-pp --> Tbq --> tHbq --> j 13 CMS arXiv:1909.04721 28
-pp --> Tbq --> tHbq --> j 13 CMS arXiv:1909.04721 29
-pp --> Tbq --> bWbq --> l+ + E_T + j 8 ATLAS arXiv:1602.05606 30
-pp --> Tbq --> tZbq --> l+l- + j 13 CMS arXiv:1701.07409 31
-pp --> Tbq --> tZ(H)bq --> l+ + E_T + j 13 ATLAS arXiv:2305.03401 32
-pp --> Tbq --> tZ(H)bq --> l+ + E_T + j 13 ATLAS arXiv:2305.03401 33
-pp --> Tbq --> tZ(H)bq --> l+ + E_T + j 13 ATLAS arXiv:2305.03401 34
-pp --> Tbq --> tZbq --> E_T + j 13 ATLAS arXiv:2402.16561 35
-pp --> Tbq --> tZbq --> E_T + j 13 ATLAS arXiv:1812.09743 36
-pp --> Tbq --> tHbq --> j 13 ATLAS arXiv:2201.07045 37
-pp --> Tbq --> tHbq --> j 13 ATLAS arXiv:2201.07045 38
-pp --> Tbq --> tHbq --> j 13 ATLAS arXiv:2201.07045 39
-pp --> Tbq --> tHbq --> j 13 ATLAS arXiv:2201.07045 40
-pp --> Tbq --> tHbq --> j 13 ATLAS arXiv:2201.07045 41
-pp --> Tbq --> tHbq --> j 13 ATLAS arXiv:2201.07045 42
-pp --> Tb(t)q --> tZbq --> l+l- + l+l+l- 13 ATLAS arXiv:2307.07584 43
-pp --> Tb(t)q --> tZbq --> l+l- + l+l+l- 13 ATLAS arXiv:2307.07584 44
-pp --> Tb(t)q --> tZbq --> l+l- + l+l+l- 13 ATLAS arXiv:2307.07584 45
+pp --> TT --> Zt + X -> l+ + E_T + j 13 ATLAS arXiv:2212.05263 2
+pp --> TT --> Zt + X -> l+l- + l+l+l- 13 ATLAS arXiv:1806.10555 3
+pp --> TT --> l+ + l+l+ + l+l+l- 13 CMS arXiv:1805.04758 4
+pp --> Ttq --> tHtq --> l+ + E_T + j 13 CMS arXiv:1612.00999 5
+pp --> TT --> l+ + E_T + j 13 CMS arXiv:1706.03408 6
+pp --> Ttq --> tZtq --> l+l- + j 13 CMS arXiv:1708.01062 7
+pp --> TT --> l+ + l+l+ + l+l+l- 13 CMS arXiv:1805.04758 8
+pp --> TT --> Zt + X -> l+l- + l+l+l- 8 ATLAS arXiv:1409.5500 9
+pp --> Ttq --> tHtq --> j 13 CMS arXiv:1909.04721 10
+pp --> Ttq --> tHtq --> j 13 CMS arXiv:1909.04721 11
+pp --> Ttq --> tZtq --> j 13 CMS arXiv:1909.04721 12
+pp --> Ttq --> tZtq --> j 13 CMS arXiv:1909.04721 13
+pp --> Ttq --> (tZ + tH)tq --> j 13 CMS arXiv:1909.04721 14
+pp --> Ttq --> (tZ + tH)tq --> j 13 CMS arXiv:1909.04721 15
+pp --> Ttq --> tHtq --> j 13 CMS arXiv:1909.04721 16
+pp --> Ttq --> tHtq --> j 13 CMS arXiv:1909.04721 17
+pp --> Ttq --> tZtq --> j 13 CMS arXiv:1909.04721 18
+pp --> Ttq --> tZtq --> j 13 CMS arXiv:1909.04721 19
+pp --> Ttq --> (tZ + tH)tq --> j 13 CMS arXiv:1909.04721 20
+pp --> Ttq --> (tZ + tH)tq --> j 13 CMS arXiv:1909.04721 21
+pp --> Ttq --> tZtq --> l+l- + j 13 CMS arXiv:1701.07409 22
+pp --> TT --> Ht + X --> l+ + E_T + j 8 ATLAS arXiv:1505.04306 23
+pp --> Ttq --> tZ(H)tq --> l+ + E_T + j 13 ATLAS arXiv:2305.03401 24
+pp --> Ttq --> tZ(H)tq --> l+ + E_T + j 13 ATLAS arXiv:2305.03401 25
+pp --> Ttq --> tZ(H)tq --> l+ + E_T + j 13 ATLAS arXiv:2305.03401 26
+pp --> Ttq --> tZtq --> l+l- + l+l-l 13 ATLAS arXiv:2307.07584 27
+pp --> Ttq --> tZtq --> l+l- + l+l-l 13 ATLAS arXiv:2307.07584 28
+pp --> Ttq --> tZtq --> l+l- + l+l-l 13 ATLAS arXiv:2307.07584 29
+pp --> Ttq --> tHtq --> j 13 CMS arXiv:1612.05336 30
+pp --> TT --> ZtZt + HtHt --> l+ + E_T + j 13 ATLAS ATLAS-CONF-2016-104 31

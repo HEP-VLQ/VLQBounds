@@ -189,30 +189,31 @@ pt = PyTop(s)
 pt.filling_couplings_data()
 
 sin_left = np.linspace(0, 1, 500)
-mass = np.linspace(1000, 2400, 500)
-with open("data/coupling_2.dat", "w") as f:
+mass = np.linspace(600, 2000, 500)
+with open("data/sin_l.dat", "w") as f:
     f.write("mass sin_l res ratio channel width\n")
-    for i in range(60000):
+    for i in range(300000):
         m = rd.choice(mass)
         s_l = rd.choice(sin_left)
         if s_l == 0:
             continue
         print("---------------")
+        print("i = ", i)
         print(f"mass: {m}")
         print(f"sin_left: {s_l}")
         pt.check_coupling_limit(m, s_l)
-        f.write(f"{m} {pt.m.universal_coupling()} {pt.allowed_or_excluded} {pt.model_observed_ratio} {pt.channel} {pt.m.get_width_mass_ratio_from_wb()}\n")
+        f.write(f"{m} {pt.m.universal_coupling()} {pt.allowed_or_excluded} {pt.model_observed_ratio} {pt.channel} {pt.m.get_width_mass_ratio()}\n")
 '''
-
+'''
 d = Doublet()
 pt = PyTop(d)
 pt.filling_couplings_data()
 
 sin_left = np.linspace(0, 1, 500)
 mass = np.linspace(1000, 2400, 500)
-with open("data/test.dat", "w") as f:
+with open("data/coupling_limit_from_class_doublet.dat", "w") as f:
     f.write("mass sin_l res ratio channel width\n")
-    for i in range(60000):
+    for i in range(300000):
         m = rd.choice(mass)
         s_l = rd.choice(sin_left)
         if s_l == 0:
@@ -221,25 +222,65 @@ with open("data/test.dat", "w") as f:
         print(f"mass: {m}")
         print(f"sin_left: {s_l}")
         pt.check_coupling_limit(m, s_l)
-        f.write(f"{m} {pt.m.universal_coupling()} {pt.allowed_or_excluded} {pt.model_observed_ratio} {pt.channel} {pt.m.get_width_mass_ratio_from_wb()}\n")
+        f.write(f"{m} {pt.m.universal_coupling()} {pt.allowed_or_excluded} {pt.model_observed_ratio} {pt.channel} {pt.m.get_width_mass_ratio()}\n")
 
+'''
 
-
-"""
+'''
 s = Singlet()
 
 pt = PyTop(s)
 pt.filling_channels_data()
-pt.check_singlet_limit(800, 10, 10, 0.1, 0.23)
-"""
+pt.check_singlet_limit(800, 1, 1, 0.1, 0.23)
+'''
 
 '''
 d = Doublet()
 pt = PyTop(d)
 pt.filling_channels_data()
 pt.check_doublet_limit_with_TB_doublet(1000, 10, 1, 0.2, 0.1, 0.2)
+pt.check_doublet_limit(1000, 0.9, 0.6, 0.2)
+'''
+'''
+p = PureDecay()
+
+pt = PyTop(p)
+
+pt.filling_channels_data()
+
+pt.check_pure_limit(600, 0.1, 0.2)
 '''
 
+pair_prod = [455, 196, 90.3, 44, 22.4, 11.8, 6.39, 3.54, 2, 1.148, 0.666, 0.391]
+mass = np.arange(700, 1900, 100)
+
+mass_interp = np.arange(700, 1800.5, 0.5)
 
 
+pair_prod_interp = interp1d(mass, pair_prod, 'linear')
 
+s = Singlet()
+pt = PyTop(s)
+pt.filling_channels_data()
+with open("data/pair_prod.dat", "w") as f:
+    f.write("mass s_l pair_prod ratio result channel\n")
+    for s_l in np.linspace(0.0000001, 1, 20):
+        for m, p in zip(mass_interp, pair_prod_interp(mass_interp)):
+            print("m = ", m)
+            print("pair_prod = ", p / 1000)
+            pt.check_singlet_limit(m, p / 1000, -1, -1, s_l)
+            print("------------------------------------------------")
+            f.write(f"{m} {s_l} {p / 1000} {pt.model_observed_ratio} {pt.allowed_or_excluded} {pt.channel}\n")
+
+d = Doublet()
+pt = PyTop(d)
+pt.filling_channels_data()
+with open("data/pair_prod_doublet.dat", "w") as f:
+    f.write("mass s_r pair_prod ratio result channel\n")
+    for s_r in np.linspace(0.0000001, 1, 20):
+        for m, p in zip(mass_interp, pair_prod_interp(mass_interp)):
+            print("m = ", m)
+            print("pair_prod = ", p / 1000)
+            pt.check_doublet_limit(m, p / 1000, -1, s_r)
+            print("------------------------------------------------")
+            f.write(f"{m} {s_r} {p / 1000} {pt.model_observed_ratio} {pt.allowed_or_excluded} {pt.channel}\n")
