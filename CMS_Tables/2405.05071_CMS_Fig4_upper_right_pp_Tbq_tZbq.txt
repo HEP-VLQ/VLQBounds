@@ -1,0 +1,16 @@
+#arXiv:2405.05071
+#title:Search for production of a single vector-like quark decaying to $tH$ or $tZ$ in the all-hadronic final state in $pp$ collisions at $\sqrt{s}=$ 13 TeV 
+#05071_CMS_138 fb-1 
+#Energy 13 TeV 
+#A.~Hayrapetyan\textit{et al.}[CMS] 
+#Fig 4 upper right
+#pp → Tbq→tZbq →tb$ar{b}$bq 
+#mass (GeV) obseved (pb) expected (pb) 
+600.0 2.3699 1.1307
+650.0 0.7426 0.65957
+700.0 0.41568 0.52426
+800.0 0.20294 0.37806
+900.0 0.1925 0.29141
+1000.0 0.3893 0.33513
+1100.0 0.65044 0.38582
+1200.0 0.64213 0.48106

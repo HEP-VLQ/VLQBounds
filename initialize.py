@@ -21,7 +21,7 @@ class Tables:
         """" fills experimental data from files """
         if self.m.model() == 'Singlet':
 
-            number_of_atlas_cms_tables = 49
+            number_of_atlas_cms_tables = 58
 
             self.file_name = [None] * number_of_atlas_cms_tables
             self.key = [None] * number_of_atlas_cms_tables
@@ -426,11 +426,83 @@ class Tables:
             self.energy[48] = 13
             self.luminosity[48] = 13.2
 
+            self.key[49] = '7667f6'
+            self.label[49] = 'arXiv:1311.7667'
+            self.expt[49] = 'CMS'
+            self.file_name[49] = '1311.7667_CMS_Fig6_pp_TT_bW_tH_Zt.txt'
+            self.process[49] = 'pp --> TT --> l+ + E_T + j'
+            self.energy[49] = 8
+            self.luminosity[49] = 19.5
+
+            self.key[50] = '05071f4ur'
+            self.label[50] = 'arXiv:2405.05071'
+            self.expt[50] = 'CMS'
+            self.file_name[50] = '2405.05071_CMS_Fig4_upper_right_pp_Tbq_tZbq.txt'
+            self.process[50] = "pp --> Tbq --> tZbq --> bbj"
+            self.energy[50] = 13
+            self.luminosity[50] = 138
+
+            self.key[51] = '05071f4ul'
+            self.label[51] = 'arXiv:2405.05071'
+            self.expt[51] = 'CMS'
+            self.file_name[51] = '2405.05071_CMS_Fig4_upper_left_pp_Tbq_tHbq.txt'
+            self.process[51] = "pp --> Tbq --> tHbq --> bbj"
+            self.energy[51] = 13
+            self.luminosity[51] = 138
+
+            self.key[52] = '05071f4ll'
+            self.label[52] = 'arXiv:2405.05071'
+            self.expt[52] = 'CMS'
+            self.file_name[52] = '2405.05071_CMS_Fig4_lower_left_pp_Tbq_tZbq_tHbq.txt'
+            self.process[52] = "pp --> Tbq --> (tH + tZ)bq --> bbj"
+            self.energy[52] = 13
+            self.luminosity[52] = 138
+
+            self.key[53] = '05071f4lr' # \gamma/m_T == 0.01
+            self.label[53] = 'arXiv:2405.05071'
+            self.expt[53] = 'CMS'
+            self.file_name[53] = '2405.05071_CMS_Fig4_lower_right_pp_Tbq_tZbq_tHbq.txt'
+            self.process[53] = "pp --> Tbq --> (tH + tZ)bq --> bbj"
+            self.energy[53] = 13
+            self.luminosity[53] = 138
+
+            self.key[54] = '04605f7b'
+            self.label[54] = 'arXiv:1504.04605'
+            self.expt[54] = 'ATLAS'
+            self.file_name[54] = '1504.04605_ATLAS_Fig7b_pp_TT_bW_tH_Zt_singlet.txt'
+            self.process[54] = 'pp --> TT --> l+l+ + E_T + j'
+            self.energy[54] = 8
+            self.luminosity[54] = 20.3
+
+            self.key[55] = '09678f17b'
+            self.label[55] = 'arXiv:1803.09678'
+            self.expt[55] = 'ATLAS'
+            self.file_name[55] = '1803.09678_ATLAS_Fig17-b_pp_TT_Wb_Ht_Zt_Singlet.txt'
+            self.process[55] = 'pp --> TT --> l+ + E_T + j'
+            self.energy[55] = 13
+            self.luminosity[55] = 36.1
+
+            self.key[56] = '15413f7a'
+            self.label[56] = 'arXiv:2210.15413'
+            self.expt[56] = 'ATLAS'
+            self.file_name[56] = '2210.15413_ATLAS_Fig7-a_pp_TT_Wb-Zt_Ht_Singlet.txt'
+            self.process[56] = 'pp --> TT --> l+l- + l+l-l+'
+            self.energy[56] = 13
+            self.luminosity[56] = 139
+
+            self.key[57] = '072f8'
+            self.label[57] = 'ATLAS-CONF-2016-072'
+            self.expt[57] = 'ATLAS'
+            self.file_name[57] = 'ATLAS-CONF-2016-072_ATLAS_Fig8_pp_Tbq_Wb.txt'
+            self.process[57] = 'pp --> Tbq --> bWbq --> l+ + E_T + j'
+            self.energy[57] = 13
+            self.luminosity[57] = 3.2
+
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
 
         elif self.m.model() == 'Doublet':
    
-            number_of_atlas_cms_tables = 32
+            number_of_atlas_cms_tables = 34
 
             self.file_name = [None] * number_of_atlas_cms_tables
             self.key = [None] * number_of_atlas_cms_tables
@@ -701,6 +773,22 @@ class Tables:
             self.energy[31] = 13
             self.luminosity[31] = 13.2
 
+            self.key[32] = '09678f17a'
+            self.label[32] = 'arXiv:1803.09678'
+            self.expt[32] = 'ATLAS'
+            self.file_name[32] = '1803.09678_ATLAS_Fig17-a_pp_TT_Ht_Zt_Doublet.txt'
+            self.process[32] = 'pp --> TT --> l+ + E_T + j'
+            self.energy[32] = 13
+            self.luminosity[32] = 36.1
+
+            self.key[33] = '15413f7c'
+            self.label[33] = 'arXiv:2210.15413'
+            self.expt[33] = 'ATLAS'
+            self.file_name[33] = '2210.15413_ATLAS_Fig7-c_pp_TT_Zt_Ht_Doublet-X-T.txt'
+            self.process[33] = 'pp --> TT --> l+l- + l+l-l+'
+            self.energy[33] = 13
+            self.luminosity[33] = 139
+
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
       
         elif self.m.model() == 'Pure':
@@ -870,53 +958,77 @@ class Tables:
             self.energy[18] = 13
             self.luminosity[18] = 35.8
 
-            self.key[19] = '072f8'
-            self.label[19] = 'ATLAS-CONF-2016-072'
+            self.key[19] = '104f15a'
+            self.label[19] = 'ATLAS-CONF-2016-104'
             self.expt[19] = 'ATLAS'
-            self.file_name[19] = 'ATLAS-CONF-2016-072_ATLAS_Fig8_pp_Tbq_Wb.txt'
-            self.process[19] = 'pp --> Tbq --> bWbq --> l+ + E_T + j'
+            self.file_name[19] = 'ATLAS-CONF-2016-104_ATLAS_Fig15a_pp_TT_tH.txt'
+            self.process[19] = 'pp --> TT --> tHtH --> l+'
             self.energy[19] = 13
-            self.luminosity[19] = 3.2
+            self.luminosity[19] = 13.2
 
-            self.key[20] = '104f15a'
+            self.key[20] = '104f15b'
             self.label[20] = 'ATLAS-CONF-2016-104'
             self.expt[20] = 'ATLAS'
-            self.file_name[20] = 'ATLAS-CONF-2016-104_ATLAS_Fig15a_pp_TT_tH.txt'
-            self.process[20] = 'pp --> TT --> tHtH --> l+'
+            self.file_name[20] = 'ATLAS-CONF-2016-104_ATLAS_Fig15b_pp_TT_tZ.txt'
+            self.process[20] = 'pp --> TT --> tZtZ --> E_T + j'
             self.energy[20] = 13
             self.luminosity[20] = 13.2
 
-            self.key[21] = '104f15b'
-            self.label[21] = 'ATLAS-CONF-2016-104'
-            self.expt[21] = 'ATLAS'
-            self.file_name[21] = 'ATLAS-CONF-2016-104_ATLAS_Fig15b_pp_TT_tZ.txt'
-            self.process[21] = 'pp --> TT --> tZtZ --> E_T + j'
+            self.key[21] = '11903fa'
+            self.label[21] = 'arXiv:1906.11903'
+            self.expt[21] = 'CMS'
+            self.file_name[21] = '1906.11903_CMS_Fig6_lower_left_pp_TT_bW.txt'
+            self.process[21] = 'pp --> TT --> WbWb --> j'
             self.energy[21] = 13
-            self.luminosity[21] = 13.2
+            self.luminosity[21] = 35.9
 
-            self.key[22] = '11903fa'
+            self.key[22] = '11903fc'
             self.label[22] = 'arXiv:1906.11903'
             self.expt[22] = 'CMS'
-            self.file_name[22] = '1906.11903_CMS_Fig6_lower_left_pp_TT_bW.txt'
-            self.process[22] = 'pp --> TT --> WbWb --> j'
+            self.file_name[22] = '1906.11903_CMS_Fig6_upper_left_pp_TT_tZ.txt'
+            self.process[22] = 'pp --> TT --> tZtZ -->  j'
             self.energy[22] = 13
             self.luminosity[22] = 35.9
 
-            self.key[23] = '11903fc'
+            self.key[23] = '11903ff'
             self.label[23] = 'arXiv:1906.11903'
             self.expt[23] = 'CMS'
-            self.file_name[23] = '1906.11903_CMS_Fig6_upper_left_pp_TT_tZ.txt'
-            self.process[23] = 'pp --> TT --> tZtZ -->  j'
+            self.file_name[23] = '1906.11903_CMS_Fig6_middle_left_pp_TT_tH.txt'
+            self.process[23] = 'pp --> TT --> tHtH -->  j'
             self.energy[23] = 13
             self.luminosity[23] = 35.9
 
-            self.key[24] = '11903ff'
-            self.label[24] = 'arXiv:1906.11903'
+            self.key[24] = '5410f2'
+            self.label[24] = 'arXiv:1203.5410'
             self.expt[24] = 'CMS'
-            self.file_name[24] = '1906.11903_CMS_Fig6_middle_left_pp_TT_tH.txt'
-            self.process[24] = 'pp --> TT --> tHtH -->  j'
-            self.energy[24] = 13
-            self.luminosity[24] = 35.9
+            self.file_name[24] = '1203.5410_CMS_Fig2_pp_tt_bWbW.txt'
+            self.process[24] = 'pp --> TT --> WbWb --> l+l- + E_T + j'
+            self.energy[24] = 7
+            self.luminosity[24] = 5
+
+            self.key[25] = '3076f2'
+            self.label[25] = 'arXiv:1202.3076'
+            self.expt[25] = 'ATLAS'
+            self.file_name[25] = '1202.3076_ATLAS_Fig2_pp_tt_WbWb.txt'
+            self.process[25] = 'pp --> TT --> WbWb --> l+ + E_T + j'
+            self.energy[25] = 7
+            self.luminosity[25] = 1.04
+
+            self.key[26] = '03903f9'
+            self.label[26] = 'arXiv:1606.03903'
+            self.expt[26] = 'ATLAS'
+            self.file_name[26] = '1606.03903_ATLAS_Fig9_pp_TT_Zt.txt'
+            self.process[26] = 'pp --> TT --> ZtZt'
+            self.energy[26] = 13
+            self.luminosity[26] = 3.2
+
+            self.key[27] = '15413f7e'
+            self.label[27] = 'arXiv:2210.15413'
+            self.expt[27] = 'ATLAS'
+            self.file_name[27] = '2210.15413_ATLAS_Fig7-e_pp_TT_Zt.txt'
+            self.process[27] = 'pp --> TT --> l+l- + l+l-l+'
+            self.energy[27] = 13
+            self.luminosity[27] = 139
 
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
         else:

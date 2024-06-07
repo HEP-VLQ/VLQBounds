@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.interpolate import interp1d 
+from scipy.interpolate import interp1d, LinearNDInterpolator
 from initialize import Tables
 from output import Result
 import constants as c
@@ -103,66 +103,6 @@ class TheoryCalc(Tables, Result):
 
     def pair_prod_calc(self):
 
-        '''
-        # 1706.03408
-        htht_e = (self.m.vv() * self.m.br_vht() * self.m.br_vht() * c.BR_t_Wb ** 2
-                  * c.BR_h_bb * c.BR_h_bb * c.BR_W_enu * c.BR_W_qq)
-
-        htht_epep = (self.m.vv() * self.m.br_vht() * self.m.br_vht() * (c.BR_h_WW ** 2) * (c.BR_t_Wb ** 2)
-                     * c.BR_W_enu ** 2 * (c.BR_W_qq ** 4))
-        #1808 1503
-        htht_j = (self.m.vv() * self.m.br_vht() * self.m.br_vht() * c.BR_t_Wb ** 2
-                  * c.BR_h_bb ** 2 * c.BR_W_qq ** 2)
-
-        htht_gaga = (self.m.vv() * self.m.br_vht() * self.m.br_vht() * c.BR_t_Wb ** 2
-                     * c.BR_h_gaga * c.BR_h_bb * c.BR_W_qq * c.BR_W_enu)
-
-        wbht_e = self.m.vv() * self.m.br_vht() * self.m.br_vbw() * c.BR_h_bb * c.BR_t_Wb * c.BR_W_qq * c.BR_W_enu
-
-        ztzt_eee = (self.m.vv() * self.m.br_vzt() * self.m.br_vzt() * c.BR_t_Wb ** 2 * c.BR_Z_ee
-                    * c.BR_Z_qq * c.BR_W_qq * c.BR_W_enu)
-
-        combination_1 = wbht_e + htht_epep + ztzt_eee
-
-        ztzt_e = (self.m.vv() * self.m.br_vzt() * self.m.br_vzt() * c.BR_Z_nunu
-                  * c.BR_Z_qq * c.BR_t_Wb ** 2 * c.BR_W_enu * c.BR_W_qq)
-
-        ztzt_nu = (self.m.vv() * self.m.br_vzt() * self.m.br_vzt() * c.BR_Z_nunu
-                   * c.BR_Z_qq * c.BR_t_Wb ** 2 * c.BR_W_qq * c.BR_W_qq)
-        # 1706.03406
-        wbwb_e = self.m.vv() * self.m.br_vbw() * self.m.br_vbw() * c.BR_W_enu * c.BR_W_qq
-
-        wbwb_mu = self.m.vv() * self.m.br_vbw() * self.m.br_vbw() * c.BR_W_munu * c.BR_W_qq
-
-        wbwb_j = self.m.vv() * self.m.br_vbw() * self.m.br_vbw() * c.BR_W_qq ** 2
-
-        ztzt_epem = (self.m.vv() * self.m.br_vzt() * self.m.br_vzt()
-                     * c.BR_Z_ee * c.BR_t_Wb ** 2 * c.BR_W_qq ** 2 * c.BR_Z_qq)
-
-        ztht_eee = self.m.vv() * self.m.br_vzt() * self.m.br_vht() * c.BR_Z_ee * c.BR_t_Wb ** 2 * c.BR_h_bb * c.BR_W_enu
-
-        if self.m.model() == 'Doublet' and self.m.get_sin_up_right() is not None:
-            ztzt_epem_from_tb_doublet = (self.m.vv() * self.m.br_vzt_tb_doublet() * self.m.br_vzt_tb_doublet()
-                                         * c.BR_Z_ee * c.BR_t_Wb ** 2 * c.BR_W_qq ** 2 * c.BR_Z_qq)
-            ztht_eee_from_tb_doublet = (self.m.vv() * self.m.br_vzt_tb_doublet() * self.m.br_vht_tb_doublet() *
-                                        c.BR_Z_ee * c.BR_t_Wb ** 2 * c.BR_h_bb * c.BR_W_enu)
-            combination_2_tb = ztzt_epem_from_tb_doublet + ztht_eee_from_tb_doublet
-        else:
-            combination_2_tb = -1
-
-        combination_2 = ztzt_epem + ztht_eee
-
-        combination_3 = htht_e + wbwb_e
-
-        # 1509.04177
-        combination_4 = wbwb_e + ztzt_epem + htht_epep + ztzt_eee + htht_j + htht_gaga + wbwb_j
-
-        combination_5 = ztzt_nu + htht_e
-
-
-        return (ztzt_e, ztzt_eee, wbwb_e, wbwb_mu, ztzt_epem, htht_j, htht_e, ztzt_nu, combination_1,
-                combination_2, combination_2_tb, combination_3, combination_4, combination_5)
-        '''
         return self.m.vv()
 
     def get_process(self, k, r, pr, kappa):
@@ -176,54 +116,144 @@ class TheoryCalc(Tables, Result):
 
             elif k in self.cs_keys['single_prod']:
                 if kappa is not None:
-                    if k in c.kappa_keys['k=0.1']["Singlet"] and kappa == 0.1:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=0.2']["Singlet"] and kappa == 0.2:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=0.3']["Singlet"] and kappa == 0.3:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=0.4']["Singlet"] and kappa == 0.4:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=0.5']["Singlet"] and kappa == 0.5:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=0.6']["Singlet"] and kappa == 0.6:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=0.7']["Singlet"] and kappa == 0.7:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=0.9']["Singlet"] and kappa == 0.9:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=1.1']["Singlet"] and kappa == 1.1:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    else:
-                        index = self.key.index(k)
-                        return self.process[index]
+                    if k in c.kappa_keys['k=0.1']["Singlet"]:
+                        if k == '07045f8a':
+                            if 0.1 <= kappa <= 1.1:
+                                index = self.key.index(k)
+                                return self.process[index]
+                            else:
+                                return ''
+                        else:
+                            if abs(kappa - 0.1) < c.Threshold:
+                                index = self.key.index(k)
+                                return self.process[index]
+                    elif k in c.kappa_keys['k=0.2']["Singlet"]:
+                        if abs(kappa - 0.4) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.kappa_keys['k=0.3']["Singlet"]:
+                        if k == '07045f8b':
+                            if 0.1 <= kappa <= 1.1:
+                                index = self.key.index(k)
+                                return self.process[index]
+                            else:
+                                return ''
+                        elif k == '07584f8a':
+                            if abs(kappa - 0.3) < c.Threshold:
+                                index = self.key.index(k)
+                                return self.process[index]
+                            else:
+                                return ''
+                        else:
+                            return ''
+                    elif k in c.kappa_keys['k=0.4']["Singlet"]:
+                        if abs(kappa - 0.4) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.kappa_keys['k=0.5']["Singlet"]:
+                        if k == '07045f8c':
+                            if 0.1 <= kappa <= 1.1:
+                                index = self.key.index(k)
+                                return self.process[index]
+                            else:
+                                return ''
+                        else:
+                            if abs(kappa - 0.5) < c.Threshold:
+                                index = self.key.index(k)
+                                return self.process[index]
+                            else:
+                                return ''
+                    elif k in c.kappa_keys['k=0.6']["Singlet"]:
+                        if abs(kappa - 0.6) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.kappa_keys['k=0.7']["Singlet"]:
+                        if k == '07045f8d':
+                            if 0.1 <= kappa <= 1.1:
+                                index = self.key.index(k)
+                                return self.process[index]
+                            else:
+                                return ''
+                        else:
+                            if abs(kappa - 0.7) < c.Threshold:
+                                index = self.key.index(k)
+                                return self.process[index]
+                            else:
+                                return ''
+                    elif k in c.kappa_keys['k=0.9']["Singlet"]:
+                        if k == '07045f8e':
+                            if 0.1 <= kappa <= 1.1:
+                                index = self.key.index(k)
+                                return self.process[index]
+                            else:
+                                return ''
+                        else:
+                            if abs(kappa - 0.9) < c.Threshold:
+                                index = self.key.index(k)
+                                return self.process[index]
+                    elif k in c.kappa_keys['k=1.1']["Singlet"]:
+                        if k == '07045f8f':
+                            if 0.1 <= kappa <= 1.1:
+                                index = self.key.index(k)
+                                return self.process[index]
+                            else:
+                                return ''
+                        else:
+                            if abs(kappa - 1.1) < c.Threshold:
+                                index = self.key.index(k)
+                                return self.process[index]
                 else:
                     print("universal coupling is None")
                 if r is not None:
-                    if k in c.ratio_keys['r<=0.05']["Singlet"] and r <= 0.05:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.ratio_keys['r=0.1']["Singlet"] and r == 0.1:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.ratio_keys['r<=0.1']["Singlet"] and r <= 0.1:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.ratio_keys['r=0.2']["Singlet"] and r == 0.2:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.ratio_keys['r=0.3']["Singlet"] and r == 0.3:
-                        index = self.key.index(k)
-                        return self.process[index]
+                    if k in c.ratio_keys['r<=0.05']["Singlet"]:
+                        if r <= 0.05:
+                            if k[:5] == "05071":
+                                if abs(r - 0.01) < c.Threshold:
+                                    index = self.key.index(k)
+                                    return self.process[index]
+                                else:
+                                    return ''
+                            else:
+                                index = self.key.index(k)
+                                return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.ratio_keys['r=0.1']["Singlet"]:
+                        if abs(r - 0.1) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.ratio_keys['r<=0.1']["Singlet"]:
+                        if r <= 0.1:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.ratio_keys['r=0.2']["Singlet"]:
+                        if abs(r - 0.2) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.ratio_keys['r=0.3']["Singlet"]:
+                        if abs(r - 0.3) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k == '072f8':
+                        if self.m.br_vbw() >= 0.99:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
                     else:
                         index = self.key.index(k)
                         return self.process[index]
@@ -240,24 +270,42 @@ class TheoryCalc(Tables, Result):
 
             elif k in self.cs_keys['single_prod']:
                 if kappa is not None:
-                    if k in c.kappa_keys['k=0.2']["Doublet"] and kappa == 0.2:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=0.3']["Doublet"] and kappa == 0.3:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=0.4']["Doublet"] and kappa == 0.4:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=0.5']["Doublet"] and kappa == 0.5:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=0.6']["Doublet"] and kappa == 0.6:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.kappa_keys['k=0.7']["Doublet"] and kappa == 0.7:
-                        index = self.key.index(k)
-                        return self.process[index]
+                    if k in c.kappa_keys['k=0.2']["Doublet"]:
+                        if abs(kappa - 0.2) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.kappa_keys['k=0.3']["Doublet"]:
+                        if abs(kappa - 0.3) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.kappa_keys['k=0.4']["Doublet"]:
+                        if abs(kappa - 0.4) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.kappa_keys['k=0.5']["Doublet"]:
+                        if abs(kappa - 0.5) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.kappa_keys['k=0.6']["Doublet"]:
+                        if abs(kappa - 0.6) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.kappa_keys['k=0.7']["Doublet"]:
+                        if abs(kappa - 0.7) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
                     else:
                         index = self.key.index(k)
                         return self.process[index]
@@ -265,21 +313,36 @@ class TheoryCalc(Tables, Result):
                     print("universal coupling is None")
 
                 if r is not None:
-                    if k in c.ratio_keys['r<=0.05']["Doublet"] and r <= 0.05:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.ratio_keys['r=0.1']["Doublet"] and r == 0.1:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.ratio_keys['r<=0.1']["Doublet"] and r <= 0.1:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.ratio_keys['r=0.2']["Doublet"] and r == 0.2:
-                        index = self.key.index(k)
-                        return self.process[index]
-                    elif k in c.ratio_keys['r=0.3']["Doublet"] and r == 0.3:
-                        index = self.key.index(k)
-                        return self.process[index]
+                    if k in c.ratio_keys['r<=0.05']["Doublet"]:
+                        if r <= 0.05:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.ratio_keys['r=0.1']["Doublet"]:
+                        if abs(r - 0.1) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.ratio_keys['r<=0.1']["Doublet"]:
+                        if r <= 0.1:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.ratio_keys['r=0.2']["Doublet"]:
+                        if abs(r - 0.2) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
+                    elif k in c.ratio_keys['r=0.3']["Doublet"]:
+                        if abs(r - 0.3) < c.Threshold:
+                            index = self.key.index(k)
+                            return self.process[index]
+                        else:
+                            return ''
                     else:
                         index = self.key.index(k)
                         return self.process[index]
@@ -303,44 +366,46 @@ class TheoryCalc(Tables, Result):
 
     def numerator(self, i):
 
-        #(ztzt_e, ztzt_eee, wbwb_e, wbwb_mu, ztzt_epem, htht_j, htht_e,
-         #ztzt_nu, c1, c2, c_from_tb, c3, c4, c5) = self.pair_prod_calc()
-
-        pp_vvbar = self.pair_prod_calc() #should be removed
-
-
+        pp_vvbar = self.pair_prod_calc()
 
         r, kappa = self.get_ratio_and_universal_coupling()
 
         if self.m.model() == 'Singlet':
-            cs_pp_vb_bwj, cs_pp_vb_tzj, cs_pp_vb_thj, tz_th_combined, vb_vt_combined = self.singlet_single_prod_calc()
             if self.get_process(self.key[i], r, self.process[i], kappa) == "pp --> Tbq --> tZbq --> E_T + j":
-                return cs_pp_vb_tzj
+                return self.m.vbq() * self.m.br_vzt()
             elif self.get_process(self.key[i], r, self.process[i], kappa) == 'pp --> Tbq --> tZbq --> l+l- + j':
-                return cs_pp_vb_tzj
+                return self.m.vbq() * self.m.br_vzt()
             elif self.get_process(self.key[i], r, self.process[i], kappa) == "pp --> Tbq --> tHbq --> j":
-                return cs_pp_vb_thj
+                return self.m.vbq() * self.m.br_vht()
             elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
                   'pp --> Tbq --> tHbq --> l+ + E_T + j'):
-                return cs_pp_vb_thj
+                return self.m.vbq() * self.m.br_vht()
             elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
                   'pp --> Tbq --> tHbq --> l+ + gamma + E_T + j'):
-                return cs_pp_vb_thj
+                return self.m.vbq() * self.m.br_vht()
             elif self.get_process(self.key[i], r, self.process[i], kappa) == 'pp --> Tbq --> tZbq --> j':
-                return cs_pp_vb_tzj
+                return self.m.vbq() * self.m.br_vzt()
+            elif self.get_process(self.key[i], r, self.process[i], kappa) == "pp --> Tbq --> tZbq --> bbj":
+                return self.m.vbq() * self.m.br_vzt() * c.BR_Z_bb
+            elif self.get_process(self.key[i], r, self.process[i], kappa) == "pp --> Tbq --> tHbq --> bbj":
+                return self.m.vbq() * self.m.br_vht() * c.BR_h_bb
             elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
                   'pp --> Tbq --> bWbq --> l+ + E_T + j'):
-                return cs_pp_vb_bwj
+                return self.m.vbq() * self.m.br_vbw()
             elif self.get_process(self.key[i], r, self.process[i], kappa) == 'pp --> Tbq --> (tZ + tH)bq --> j':
-                return tz_th_combined
+                return self.m.vbq() * self.m.br_vzt() + self.m.vbq() * self.m.br_vht()
+            elif self.get_process(self.key[i], r, self.process[i], kappa) == "pp --> Tbq --> (tH + tZ)bq --> bbj":
+                return self.m.vbq() * self.m.br_vzt() * c.BR_Z_bb + self.m.vbq() * self.m.br_vht() * c.BR_h_bb
             elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
                   'pp --> Tbq --> tZ(H)bq --> l+ + E_T + j'):
-                return cs_pp_vb_thj
+                return self.m.vbq() * self.m.br_vht()
             elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
                   "pp --> Tb(t)q --> tZbq --> l+l- + l+l+l-"):
-                return vb_vt_combined
+                return self.m.vbq() * self.m.br_vzt() + self.m.vtq() * self.m.br_vzt()
             elif self.get_process(self.key[i], r, self.process[i], kappa)[:9] == 'pp --> TT':
                 return pp_vvbar
+            elif self.get_process(self.key[i], r, self.process[i], kappa) == '':
+                return -1
 
         elif self.m.model() == 'Doublet':
             #vt_th_lnub, vt_z_l, vt_h_b, vt_z_q, combined3, combined4 = self.doublet_single_prod_calc()
@@ -378,6 +443,8 @@ class TheoryCalc(Tables, Result):
             elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
                   "pp --> Ttq --> tZtq --> l+l- + l+l-l"):
                 return cs_pp_vtq_tztq
+            elif self.get_process(self.key[i], r, self.process[i], kappa) == '':
+                return -1
             elif self.get_process(self.key[i], r, self.process[i], kappa)[:9] == 'pp --> TT':
                 return pp_vvbar
 
@@ -389,72 +456,51 @@ class TheoryCalc(Tables, Result):
         else:
             raise Exception("Error in model name")
 
-            '''
-            elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
-                  'pp --> TT --> Wb + X --> l+ + E_T + j'):
-                return pp_vvbar
-            elif self.get_process(self.key[i], r, self.process[i], kappa) == 'pp --> TT --> l+ + E_T + j':
-                return pp_vvbar
-            elif self.get_process(self.key[i], r, self.process[i], kappa) == 'pp --> TT --> l+ + l+l+ + l+l+l-':
-                return pp_vvbar
-            elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
-                  'pp --> TT --> Zt + X -> l+l- + l+l+l-'):
-                if self.key[i] in c.Doublet_TB:
-                    return pp_vvbar
-                else:
-                    return pp_vvbar
-            elif self.get_process(self.key[i], r, self.process[i], kappa) == 'pp --> TT --> l+l+ + j':
-                return pp_vvbar
-            elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
-                  'pp --> TT --> Wb + X + Ht + X --> l+ + E_T + j'):
-                return pp_vvbar
-            elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
-                  'pp --> TT --> Ht + X --> l+ + E_T + j'):
-                return pp_vvbar
-            elif self.get_process(self.key[i], r, self.process[i], kappa) == 'pp --> TT --> tHtH --> j':
-                return pp_vvbar
-            elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
-                  'pp --> TT --> WbWb --> l+ + l+l+ + l+l+l- + l+l- + j'):
-                return pp_vvbar
-            elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
-                  'pp --> TT --> tHtH --> l+ + l+l+ + l+l+l- + gamma + j'):
-                return pp_vvbar
-            elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
-                  'pp --> TT --> tZtZ --> l+ + l+l- + l+l+ + l+l+l- + j'):
-                return pp_vvbar
-            elif self.get_process(self.key[i], r, self.process[i], kappa) == 'pp --> TT --> WbWb --> l+':
-                return pp_vvbar
-            elif self.get_process(self.key[i], r, self.process[i], kappa) == 'pp --> TT --> WbWb --> e + j':
-                return pp_vvbar
-            elif self.get_process(self.key[i], r, self.process[i], kappa) == 'pp --> TT --> WbWb --> mu + j':
-                return pp_vvbar
-            elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
-                  'pp --> TT --> WbWb --> e + mu + j'):
-                return pp_vvbar
-            elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
-                  'pp --> TT --> tZtZ --> E_T + j'):
-                return pp_vvbar
+    def two_dim_interpolation(self, index, coupling, mass, obs_exp):
+        k1 = 0.1 * np.ones(len(self.MT[index]))
+        k2 = 0.3 * np.ones(len(self.MT[index + 1]))
+        k3 = 0.5 * np.ones(len(self.MT[index + 2]))
+        k4 = 0.7 * np.ones(len(self.MT[index + 3]))
+        k5 = 0.9 * np.ones(len(self.MT[index + 4]))
+        k6 = 1.1 * np.ones(len(self.MT[index + 5]))
 
-            elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
-                  'pp --> TT --> ZtZt + HtHt --> l+ + E_T + j'):
-                return pp_vvbar
+        t1 = obs_exp[index]
+        t2 = obs_exp[index + 1]
+        t3 = obs_exp[index + 2]
+        t4 = obs_exp[index + 3]
+        t5 = obs_exp[index + 4]
+        t6 = obs_exp[index + 5]
 
-            elif self.get_process(self.key[i], r, self.process[i], kappa) == '':
-                return -1
-            '''
+        m1 = self.MT[index]
+        m2 = self.MT[index + 1]
+        m3 = self.MT[index + 2]
+        m4 = self.MT[index + 3]
+        m5 = self.MT[index + 4]
+        m6 = self.MT[index + 5]
+
+        m = np.concatenate([m1, m2, m3, m4, m5, m6], axis=None)
+        t_tot = np.concatenate([t1, t2, t3, t4, t5, t6], axis=None)
+        k = np.concatenate([k1, k2, k3, k4, k5, k6], axis=None)
+
+        interp = LinearNDInterpolator(list(zip(m, k)), t_tot)
+        return interp(mass, coupling)
+
     def denominator(self, num, index, t):
-        #print(index, num)
         if 0 <= num:
             if min(self.MT[index]) <= self.m.mv() <= max(self.MT[index]):
-                expected_or_observed = interp1d(self.MT[index], t[index], 'linear')
-                # donne l'observed limit qui correspont à la masse théorique entrée par l'utilisateur
-                denom = expected_or_observed(self.m.mv())
-                return denom
+                if index in [37, 38, 39, 40, 41, 42]:
+                    denom = self.two_dim_interpolation(37, self.m.universal_coupling(), self.m.mv(), t)
+                    return denom
+                else:
+                    expected_or_observed = interp1d(self.MT[index], t[index], 'linear')
+                    denom = expected_or_observed(self.m.mv())
+                    return denom
+
             else:
                 d = -1
                 return d
         else:
-            d = -1
+            d = 1
             return d
 
     def expected_ratio_calc(self):
@@ -463,13 +509,17 @@ class TheoryCalc(Tables, Result):
             pos = -1
             for index, k in enumerate(self.key):
                 n = self.numerator(index)
-                d = self.denominator(n, index, self.exp)
-                if d == -1 or n == -1:
+                d = self.denominator(n, index, self.obs)
+                if d == -1:
                     continue
-                rat = n/d
-                if rat > maximum:
-                    maximum = rat
-                    pos = index
+                elif n == -1:
+                    continue
+                elif n != -1 and d != -1:
+                    rat = n/d
+                    if rat >= maximum:
+                        maximum = rat
+                        pos = index
+
             return pos
         except UnboundLocalError:
             sys.exit(f"The mass {self.m.MT()} is not in the range of included experiment files")

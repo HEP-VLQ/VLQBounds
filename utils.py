@@ -1,5 +1,6 @@
 import numpy as np
 import os
+from scipy import interpolate
 
 
 def r_x(m1, m2): return m1/m2
@@ -23,7 +24,7 @@ def validate_cross_section_value(cross_section_value):
 
 def check_sin(s):
     if s != 0:
-        if s < -1 or s > 1:
+        if s < -1 or s > 1.1: #should be 1
             raise ValueError("Invalid sin value. It must be in the the range [-1,1]")
     elif s == 0:
         raise ValueError("Invalid sin value. It must not equal 0")
@@ -45,3 +46,8 @@ def load_data_from_files(file_name, number_of_files, mass, expected, observed, a
         except FileNotFoundError:
             print(f"File '{file_name[i]}' not found at path '{file_path}'")
 
+def two_dimensional_interp(index, mass, coupling):
+    if index in [37,38,39,40,41,42]:
+        m = np.linspace(1000,2300,100)
+        k = np.linspace(0.1,1.1,100)
+        

@@ -34,7 +34,7 @@ class PyTop(Coupling):
                 if vbq < 0:
                     vbq = -1
                 if vtq < 0:
-                    vbq = -1
+                    vtq = -1
                 if vv < 0:
                     vv = -1
             self.m = Singlet(m, vv, vbq, vtq, sin_l)

@@ -1,3 +1,9 @@
 coupling energy experiment  process_number identifier(channel)
-kappa 13 ATLAS arXiv:2305.03401 0
-kappa 13 ATLAS arXiv:2307.07584 1
+|sin_left| 8 ATLAS arXiv:1602.05606 0
+|sin_left| 13 ATLAS arXiv:1812.07343 1
+|sin_left| 13 ATLAS arXiv:1812.09743 2
+|sin_left| 13 ATLAS arXiv:1806.10555 3
+kappa 13 ATLAS arXiv:2402.16561 4
+kappa 13 ATLAS arXiv:2201.07045 5
+kappa 13 ATLAS arXiv:2305.03401 6
+kappa 13 ATLAS arXiv:2307.07584 7

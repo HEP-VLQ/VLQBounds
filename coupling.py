@@ -17,7 +17,7 @@ class Coupling(TheoryCalc):
         self.k = []
 
         if self.m.model() == 'Singlet':
-            number_of_atlas_cms_tables = 10
+            number_of_atlas_cms_tables = 8
             self.file_name = [None] * number_of_atlas_cms_tables
             self.key = [None] * number_of_atlas_cms_tables
             self.label = [None] * number_of_atlas_cms_tables
@@ -77,6 +77,7 @@ class Coupling(TheoryCalc):
             self.energy[3] = 13
             self.luminosity[3] = 36.1
 
+            '''
             self.key[4] = '072f10b'
             self.label[4] = 'arXiv:ATLAS-CONF-2016-072'
             self.expt[4] = 'ATLAS'
@@ -84,7 +85,7 @@ class Coupling(TheoryCalc):
             self.process[4] = "|sin_left|"
             self.energy[4] = 13
             self.luminosity[4] = 36.1
-
+            
             self.key[5] = '12802f5'
             self.label[5] = 'arXiv:2302.12802'
             self.expt[5] = 'CMS'
@@ -92,38 +93,38 @@ class Coupling(TheoryCalc):
             self.process[5] = "|Tth_coupling|"
             self.energy[5] = 13
             self.luminosity[5] = 36.1
+            '''
+            self.key[4] = '16561f12a_k_T'
+            self.label[4] = 'arXiv:2402.16561'
+            self.expt[4] = 'ATLAS'
+            self.file_name[4] = '2402.16561_ATLAS_Fig12a_pp_T_Ht_Zt_singlet.txt'
+            self.process[4] = 'kappa'
+            self.energy[4] = 13
+            self.luminosity[4] = 139
 
-            self.key[6] = '16561f12a_k_T'
-            self.label[6] = 'arXiv:2402.16561'
+            self.key[5] = '07045f9_k_T'
+            self.label[5] = 'arXiv:2201.07045'
+            self.expt[5] = 'ATLAS'
+            self.file_name[5] = '2201.07045_ATLAS_Fig9_pp_Tbq_Wb_Ht_Zt_singlet.txt'
+            self.process[5] = 'kappa'
+            self.energy[5] = 13
+            self.luminosity[5] = 139
+
+            self.key[6] = '03401f13a'
+            self.label[6] = 'arXiv:2305.03401'
             self.expt[6] = 'ATLAS'
-            self.file_name[6] = '2402.16561_ATLAS_Fig12a_pp_T_Ht_Zt_singlet.txt'
+            self.file_name[6] = '2305.03401_ATLAS_Fig13a_pp_Tqt_Wb_Zt_Ht_singlet_kT.txt'
             self.process[6] = 'kappa'
             self.energy[6] = 13
             self.luminosity[6] = 139
 
-            self.key[7] = '07045f9_k_T'
-            self.label[7] = 'arXiv:2201.07045'
+            self.key[7] = '07584f9a'
+            self.label[7] = 'arXiv:2307.07584'
             self.expt[7] = 'ATLAS'
-            self.file_name[7] = '2201.07045_ATLAS_Fig9_pp_Tbq_Wb_Ht_Zt_singlet.txt'
             self.process[7] = 'kappa'
+            self.file_name[7] = '2307.07584_ATLAS_Fig9a_pp_T_Wb_Ht_Zt_singlet.txt'
             self.energy[7] = 13
             self.luminosity[7] = 139
-
-            self.key[8] = '03401f13a'
-            self.label[8] = 'arXiv:2305.03401'
-            self.expt[8] = 'ATLAS'
-            self.file_name[8] = '2305.03401_ATLAS_Fig13a_pp_Tqt_Wb_Zt_Ht_singlet.txt'
-            self.process[8] = 'kappa'
-            self.energy[8] = 13
-            self.luminosity[8] = 139
-
-            self.key[9] = '07584f9a'
-            self.label[9] = 'arXiv:2307.07584'
-            self.expt[9] = 'ATLAS'
-            self.process[9] = 'kappa'
-            self.file_name[9] = '2307.07584_ATLAS_Fig9a_pp_T_Wb_Ht_Zt_singlet.txt'
-            self.energy[9] = 13
-            self.luminosity[9] = 139
 
         elif self.m.model() == 'Doublet':
             self.key[0] = '03401f13b'
@@ -147,12 +148,12 @@ class Coupling(TheoryCalc):
     def model_coupling_calc(self, i):
         if self.m.model() == 'Singlet':
             if self.key[i] in self.sin_l:
-                return self.m.sin_left()
+                return -1#self.m.sin_left()
             elif self.key[i] in self.k:
                 return self.m.universal_coupling()
             elif self.key[i] in self.k:
                 if self.process[i] == "|Tth_coupling|":
-                    return self.m.get_coupling_to_zt_or_ht()
+                    return -1 #self.m.get_coupling_to_zt_or_ht()
             else:
                 raise Exception("Something went wrong in filling coupling tables")
         elif self.m.model() == 'Doublet':

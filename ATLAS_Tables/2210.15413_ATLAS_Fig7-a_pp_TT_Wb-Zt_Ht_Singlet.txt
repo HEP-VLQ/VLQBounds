@@ -1,0 +1,15 @@
+#arXiv:2210.15413
+#title: Search for pair-production of vector-like quarks in $pp$ collision events at $\sqrt{s}=13$ TeV with at least one leptonically decaying $Z$ boson and a third-generation quark with the ATLAS detector 
+#15413_ATLAS_139 fb-1 
+#Energy 13000 GeV 
+#G.~Aad \textit{et al.} [ATLAS] 
+#Fig7-a 
+#pp → TT→bW_Zt_Ht, Singlet  
+#Mass(GeV), obs(pb), exp(pb) 
+#mass (GeV) obseved (pb) expected (pb) 
+800.0 0.019376670401362314 0.025344686627755544
+1000.0 0.01027213639484541 0.010786044079964419
+1200.0 0.006728452554590769 0.006728452554590763
+1400.0 0.004898983842154629 0.0048989838421546385
+1600.0 0.0038677271618870806 0.004096071143451864
+1700.0 0.003538044173371383 0.0037759984044971207

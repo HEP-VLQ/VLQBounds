@@ -15,7 +15,7 @@ class Singlet:
 
     def decay_to_wb(self):
         s_l = self.sin_l
-        c_l = np.sqrt(1 - s_l ** 2)
+        #c_l = np.sqrt(1 - s_l ** 2)
 
         constant = c.G**2 / (64 * c.PI)
 
@@ -27,12 +27,12 @@ class Singlet:
 
     def decay_to_zt(self):
         s_l = self.sin_l
-        c_l = np.sqrt(1 - s_l ** 2)
+        #c_l = np.sqrt(1 - s_l ** 2)
 
         constant = c.G ** 2 / (128 * c.PI * c.C_W ** 2)
 
         gamma = (constant * self.mv_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mv_theo, c.Mt, c.MZ))
-                 * (s_l * c_l) ** 2 * (1 + r_x(c.MZ, self.mv_theo) ** 2 - 2 * r_x(c.Mt, self.mv_theo) ** 2
+                 * (s_l / np.sqrt(2)) ** 2 * (1 + r_x(c.MZ, self.mv_theo) ** 2 - 2 * r_x(c.Mt, self.mv_theo) ** 2
                  - 2 * r_x(c.MZ, self.mv_theo) ** 4 + r_x(c.Mt, self.mv_theo) ** 4
                  + r_x(c.Mt, self.mv_theo) ** 2 * r_x(c.MZ, self.mv_theo) ** 2))
 
@@ -40,15 +40,51 @@ class Singlet:
 
     def decay_to_ht(self):
         s_l = self.sin_l
-        c_l = np.sqrt(1 - s_l ** 2)
+        #c_l = np.sqrt(1 - s_l ** 2) 6 *
 
         constant = c.G ** 2 / (128 * c.PI)
 
         gamma = (constant * self.mv_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mv_theo, c.Mt, c.Mh))
-                 * (s_l * c_l) ** 2 * (1 + 6 * r_x(c.Mt, self.mv_theo) ** 2
-                 - r_x(c.Mh, self.mv_theo) ** 2 + r_x(c.Mt, self.mv_theo) ** 4
-                                       - r_x(c.Mt, self.mv_theo) ** 2 * r_x(c.Mh, self.mv_theo) ** 2))
+                 * (s_l / np.sqrt(2)) ** 2 * (1 + r_x(c.Mt, self.mv_theo) ** 2
+                 - r_x(c.Mh, self.mv_theo) ** 2)) #+ r_x(c.Mt, self.mv_theo) ** 4
+                                       #- r_x(c.Mt, self.mv_theo) ** 2 * r_x(c.Mh, self.mv_theo) ** 2))
 
+        return gamma
+
+    def decay_to_wb_k_t(self):
+        s_l = self.sin_l
+        #c_l = np.sqrt(1 - s_l ** 2)
+
+        constant = c.G**2 / (64 * c.PI)
+
+        gamma = (constant * self.mv_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mv_theo, c.Mb, c.MW))
+                 * (s_l/np.sqrt(2)) ** 2 * (1 + r_x(c.MW, self.mv_theo) ** 2 - 2 * r_x(c.Mb, self.mv_theo) ** 2
+                 - 2 * r_x(c.MW, self.mv_theo) ** 4 + r_x(c.Mb, self.mv_theo) ** 4
+                 + r_x(c.Mb, self.mv_theo) ** 2 * r_x(c.MW, self.mv_theo) ** 2))
+        return gamma
+
+    def decay_to_zt_k_t(self):
+        s_l = self.sin_l
+        #c_l = np.sqrt(1 - s_l ** 2)
+
+        constant = c.G ** 2 / (128 * c.PI * c.C_W ** 2)
+
+        gamma = (constant * self.mv_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mv_theo, c.Mt, c.MZ))
+                 * (s_l/np.sqrt(2)) ** 2 * (1 + r_x(c.MZ, self.mv_theo) ** 2 - 2 * r_x(c.Mt, self.mv_theo) ** 2
+                 - 2 * r_x(c.MZ, self.mv_theo) ** 4 + r_x(c.Mt, self.mv_theo) ** 4
+                 + r_x(c.Mt, self.mv_theo) ** 2 * r_x(c.MZ, self.mv_theo) ** 2))
+
+        return gamma
+
+    def decay_to_ht_k_t(self):
+        s_l = self.sin_l
+        #c_l = np.sqrt(1 - s_l ** 2)
+
+        constant = c.G ** 2 / (128 * c.PI)
+
+        gamma = (constant * self.mv_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mv_theo, c.Mt, c.Mh))
+                 * (s_l/np.sqrt(2)) ** 2 * (1 + r_x(c.Mt, self.mv_theo) ** 2
+                 - r_x(c.Mh, self.mv_theo) ** 2))
 
         return gamma
 
@@ -86,9 +122,9 @@ class Singlet:
         return br_to_ht
 
     def get_width_mass_ratio(self):
-        g1 = self.decay_to_wb()
-        g2 = self.decay_to_ht()
-        g3 = self.decay_to_zt()
+        g1 = self.decay_to_wb_k_t()
+        g2 = self.decay_to_ht_k_t()
+        g3 = self.decay_to_zt_k_t()
         gamma_mv_ratio = (g1 + g2 + g3) / self.mv_theo
         return gamma_mv_ratio
 
@@ -237,9 +273,9 @@ class Doublet:
         return self.cs_pp_vtq
 
     def br_vbw(self):
-        gamma_wb, r1 = self.decay_to_wb()
-        gamma_zt, r2 = self.decay_to_zt()
-        gamma_ht, r3 = self.decay_to_ht()
+        gamma_wb = self.decay_to_wb()
+        gamma_zt = self.decay_to_zt()
+        gamma_ht = self.decay_to_ht()
         br_to_wb = gamma_wb / (gamma_ht + gamma_wb + gamma_zt)
         return br_to_wb
 
