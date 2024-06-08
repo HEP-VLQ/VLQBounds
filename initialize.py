@@ -14,7 +14,9 @@ class Tables:
         self.process = None
         self.energy = None
         self.luminosity = None
+        self.which_doublet = None
         self.cs_keys = {}
+        self.TB_XT_keys = {}
         self.m = m
 
     def initialize_tables_cms_and_atlas(self):
@@ -513,6 +515,7 @@ class Tables:
             self.process = [None] * number_of_atlas_cms_tables
             self.energy = [None] * number_of_atlas_cms_tables
             self.luminosity = [None] * number_of_atlas_cms_tables
+            self.which_doublet = [None] * number_of_atlas_cms_tables
 
             #doublet (X, T) or (T, B)
             self.key[0] = '10751'
@@ -522,6 +525,7 @@ class Tables:
             self.process[0] = 'pp --> TT'
             self.energy[0] = 13
             self.luminosity[0] = 36.1
+            self.which_doublet[0] = 'XTorTB'
 
             #Doublet (X, T) or (T, B)
             self.key[1] = '07327'
@@ -531,6 +535,8 @@ class Tables:
             self.process[1] = 'pp --> TT'
             self.energy[1] = 13
             self.luminosity[1] = 138
+            self.which_doublet[1] = 'XTorTB'
+
             #Doublet (X, T) or (T, B)
             self.key[2] = '05263'
             self.label[2] = 'arXiv:2212.05263'
@@ -539,6 +545,8 @@ class Tables:
             self.process[2] = 'pp --> TT'
             self.energy[2] = 13
             self.luminosity[2] = 36.1
+            self.which_doublet[2] = 'XTorTB'
+
             #Doublet (X, T)
             self.key[3] = '10555'
             self.label[3] = 'arXiv:1806.10555'
@@ -547,6 +555,7 @@ class Tables:
             self.process[3] = 'pp --> TT'
             self.energy[3] = 13
             self.luminosity[3] = 139
+            self.which_doublet[3] = 'XT'
 
             #Doublet(X, T) or (T, B)
             self.key[4] = '04758'
@@ -556,6 +565,7 @@ class Tables:
             self.process[4] = 'pp --> TT'
             self.energy[4] = 13
             self.luminosity[4] = 35.9
+            self.which_doublet[4] = 'XTorTB'
 
             # Doublet(X, T) or (T, B)
             self.key[5] = '00999f10b'
@@ -565,6 +575,7 @@ class Tables:
             self.process[5] = 'pp --> Ttq --> tHtq'
             self.energy[5] = 13
             self.luminosity[5] = 2.3
+            self.which_doublet[5] = 'XTorTB'
 
             # Doublet(X, T) or (T, B)
             self.key[6] = '03408'
@@ -574,6 +585,7 @@ class Tables:
             self.process[6] = 'pp --> TT'
             self.energy[6] = 13
             self.luminosity[6] = 2.6
+            self.which_doublet[6] = 'XTorTB'
 
             #Tt exist and narrow width Doublet(X, T) or (T, B)
             self.key[7] = '01062f5b'
@@ -583,6 +595,7 @@ class Tables:
             self.process[7] = 'pp --> Ttq --> tZtq'
             self.energy[7] = 13
             self.luminosity[7] = 35.9
+            self.which_doublet[7] = 'XTorTB'
 
             #doublet (T, B)
             self.key[8] = '5500fd'
@@ -592,6 +605,7 @@ class Tables:
             self.process[8] = 'pp --> TT'
             self.energy[8] = 8
             self.luminosity[8] = 20.3
+            self.which_doublet[8] = 'TB'
 
             self.key[9] = '04721f10b'
             self.label[9] = 'arXiv:1909.04721'
@@ -600,6 +614,7 @@ class Tables:
             self.process[9] = 'pp --> Ttq --> tHtq'
             self.energy[9] = 13
             self.luminosity[9] = 35.9
+            self.which_doublet[9] = 'TB'
 
             self.key[10] = '04721f10a'
             self.label[10] = 'arXiv:1909.04721'
@@ -608,6 +623,7 @@ class Tables:
             self.process[10] = 'pp --> Ttq --> tHtq'
             self.energy[10] = 13
             self.luminosity[10] = 35.9
+            self.which_doublet[10] = 'TB'
 
             self.key[11] = '04721f10d'
             self.label[11] = 'arXiv:1909.04721'
@@ -616,6 +632,7 @@ class Tables:
             self.process[11] = 'pp --> Ttq --> tZtq'
             self.energy[11] = 13
             self.luminosity[11] = 35.9
+            self.which_doublet[11] = 'TB'
 
             self.key[12] = '04721f10c'
             self.label[12] = 'arXiv:1909.04721'
@@ -624,6 +641,7 @@ class Tables:
             self.process[12] = 'pp --> Ttq --> tZtq'
             self.energy[12] = 13
             self.luminosity[12] = 35.9
+            self.which_doublet[12] = 'TB'
 
             self.key[13] = '04721f10f'
             self.label[13] = 'arXiv:1909.04721'
@@ -632,6 +650,7 @@ class Tables:
             self.process[13] = 'pp --> Ttq --> (tZ + tH)tq'
             self.energy[13] = 13
             self.luminosity[13] = 35.9
+            self.which_doublet[13] = 'TB'
 
             self.key[14] = '04721f10e'
             self.label[14] = 'arXiv:1909.04721'
@@ -640,6 +659,7 @@ class Tables:
             self.process[14] = 'pp --> Ttq --> (tZ + tH)tq'
             self.energy[14] = 13
             self.luminosity[14] = 35.9
+            self.which_doublet[14] = 'TB'
 
             self.key[15] = '04721f11b'
             self.label[15] = 'arXiv:1909.04721'
@@ -648,6 +668,7 @@ class Tables:
             self.process[15] = 'pp --> Ttq --> tHtq'
             self.energy[15] = 13
             self.luminosity[15] = 35.9
+            self.which_doublet[15] = 'TB'
 
             self.key[16] = '04721f11a'
             self.label[16] = 'arXiv:1909.04721'
@@ -656,6 +677,7 @@ class Tables:
             self.process[16] = 'pp --> Ttq --> tHtq'
             self.energy[16] = 13
             self.luminosity[16] = 35.9
+            self.which_doublet[16] = 'TB'
 
             self.key[17] = '04721f11d'
             self.label[17] = 'arXiv:1909.04721'
@@ -664,6 +686,7 @@ class Tables:
             self.process[17] = 'pp --> Ttq --> tZtq'
             self.energy[17] = 13
             self.luminosity[17] = 35.9
+            self.which_doublet[17] = 'TB'
 
             self.key[18] = '04721f11c'
             self.label[18] = 'arXiv:1909.04721'
@@ -672,6 +695,7 @@ class Tables:
             self.process[18] = 'pp --> Ttq --> tZtq'
             self.energy[18] = 13
             self.luminosity[18] = 35.9
+            self.which_doublet[18] = 'TB'
 
             self.key[19] = '04721f11e'
             self.label[19] = 'arXiv:1909.04721'
@@ -680,6 +704,7 @@ class Tables:
             self.process[19] = 'pp --> Ttq --> (tZ + tH)tq'
             self.energy[19] = 13
             self.luminosity[19] = 35.9
+            self.which_doublet[19] = 'TB'
 
             self.key[20] = '04721f11f'
             self.label[20] = 'arXiv:1909.04721'
@@ -688,6 +713,7 @@ class Tables:
             self.process[20] = 'pp --> Ttq --> (tZ + tH)tq'
             self.energy[20] = 13
             self.luminosity[20] = 35.9
+            self.which_doublet[20] = 'TB'
 
             #Tt (T,B) or (X,T)
             self.key[21] = '07409f4b'
@@ -697,6 +723,7 @@ class Tables:
             self.process[21] = 'pp --> Ttq --> tZtq'
             self.energy[21] = 13
             self.luminosity[21] = 2.3
+            self.which_doublet[21] = 'XTorTB'
 
             #(T, B) or (X, T)
             self.key[22] = '04306fc'
@@ -706,6 +733,7 @@ class Tables:
             self.process[22] = 'pp --> TT'
             self.energy[22] = 8
             self.luminosity[22] = 20.3
+            self.which_doublet[22] = 'XTorTB'
 
             #doublet (T, B)
             self.key[23] = '03401f12a'
@@ -715,6 +743,7 @@ class Tables:
             self.process[23] = 'pp --> Ttq --> tZ(H)tq'
             self.energy[23] = 13
             self.luminosity[23] = 139
+            self.which_doublet[23] = 'TB'
 
             self.key[24] = '03401f12b'
             self.label[24] = 'arXiv:2305.03401'
@@ -723,6 +752,7 @@ class Tables:
             self.process[24] = 'pp --> Ttq --> tZ(H)tq'
             self.energy[24] = 13
             self.luminosity[24] = 139
+            self.which_doublet[24] = 'TB'
 
             self.key[25] = '03401f12c'
             self.label[25] = 'arXiv:2305.03401'
@@ -731,6 +761,7 @@ class Tables:
             self.process[25] = 'pp --> Ttq --> tZ(H)tq'
             self.energy[25] = 13
             self.luminosity[25] = 139
+            self.which_doublet[25] = 'TB'
 
             # doublet (T, B) or doublet (X,T)
             self.key[26] = '07584f8b'
@@ -740,6 +771,7 @@ class Tables:
             self.process[26] = "pp --> Ttq --> tZtq"
             self.energy[26] = 13
             self.luminosity[26] = 139
+            self.which_doublet[26] = 'XTorTB'
 
             self.key[27] = '07584f8d'
             self.label[27] = 'arXiv:2307.07584'
@@ -748,6 +780,7 @@ class Tables:
             self.process[27] = "pp --> Ttq --> tZtq"
             self.energy[27] = 13
             self.luminosity[27] = 139
+            self.which_doublet[27] = 'XTorTB'
 
             self.key[28] = '07584f8f'
             self.label[28] = 'arXiv:2307.07584'
@@ -756,6 +789,7 @@ class Tables:
             self.process[28] = "pp --> Ttq --> tZtq"
             self.energy[28] = 13
             self.luminosity[28] = 139
+            self.which_doublet[28] = 'XTorTB'
 
             # doublet (T, B) or doublet (X,T)
             self.key[29] = '05336f4lr'
@@ -765,6 +799,7 @@ class Tables:
             self.process[29] = "pp --> Ttq --> tHtq"
             self.energy[29] = 13
             self.luminosity[29] = 2.3
+            self.which_doublet[29] = 'XTorTB'
 
             # doublet (T, B) or doublet (X,T)
             self.key[30] = '104f16a'
@@ -774,6 +809,7 @@ class Tables:
             self.process[30] = 'pp --> TT'
             self.energy[30] = 13
             self.luminosity[30] = 13.2
+            self.which_doublet[30] = 'XTorTB'
 
             # doublet (T, B) or doublet (X,T)
             self.key[31] = '09678f17a'
@@ -783,6 +819,7 @@ class Tables:
             self.process[31] = 'pp --> TT'
             self.energy[31] = 13
             self.luminosity[31] = 36.1
+            self.which_doublet[31] = 'XTorTB'
 
             #(X,T)
             self.key[32] = '15413f7c'
@@ -792,6 +829,7 @@ class Tables:
             self.process[32] = 'pp --> TT'
             self.energy[32] = 13
             self.luminosity[32] = 139
+            self.which_doublet[32] = 'XT'
 
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
       
@@ -1057,3 +1095,17 @@ class Tables:
             'pair_prod': pair_prod,
             'single_prod': single_prod
         }
+
+    def tb_xt_dict(self):
+        if self.m.model() == 'Singlet' or self.m.model() == 'Pure':
+            self.TB_XT_keys = {}
+        elif self.m.model() == 'Doublet':
+            XT_doublet_keys = [self.key[j] for j in range(len(self.key)) if self.which_doublet[j][:2] == 'XT']
+            TB_doublet_keys = [self.key[j] for j in range(len(self.key)) if self.which_doublet[j][-2:] == 'TB']
+            self.TB_XT_keys = {
+                '(T,B)': TB_doublet_keys,
+                '(X,T)': XT_doublet_keys
+            }
+
+        else:
+            raise Exception(f"Error, this model {self.m.model()} is not included")

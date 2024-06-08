@@ -15,6 +15,7 @@ class PyTop(Coupling):
         self.initialize_tables_cms_and_atlas()
         self.all_processes()
         self.cs_dict()
+        self.tb_xt_dict()
 
     def filling_couplings_data(self):
         self.fill_coupling_tables()

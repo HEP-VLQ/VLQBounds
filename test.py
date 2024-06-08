@@ -273,7 +273,7 @@ pt.filling_channels_data()
 
 pt.check_pure_limit(600, 0.1, 0.2)
 '''
-
+'''
 pair_prod = [455, 196, 90.3, 44, 22.4, 11.8, 6.39, 3.54, 2, 1.148, 0.666, 0.391]
 mass = np.arange(700, 1900, 100)
 
@@ -310,7 +310,7 @@ with open("data/pair_prod_doublet.dat", "w") as f:
             print("------------------------------------------------")
             f.write(f"{m} {s_r} {p / 1000} {pt.model_observed_ratio} {pt.allowed_or_excluded} {pt.channel}\n")
 
-
+'''
 '''
 with open("data/branching_ratio_s.dat", "w") as f:
     f.write("mass br_wb br_zt br_ht s_l\n")
@@ -395,5 +395,7 @@ with open("data/220107045/res.dat", "w") as f:
             f.write(f"{m} {k} {interp(m,k)} {pt.model_observed_ratio} {pt.allowed_or_excluded} {chan} {pt.expt[chan]}\n")
 '''
 
-
+d = Doublet()
+pt = PyTop(d)
+pt.filling_channels_data()
 

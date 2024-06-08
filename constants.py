@@ -1,4 +1,6 @@
 import numpy as np
+from initialize import Tables
+
 Mt = 172.52
 MW = 80.377
 MZ = 91.1876
@@ -97,3 +99,5 @@ kappa_keys = {
 
 Doublet_TB = ['03401f12a', '03401f12b', '03401f12c', '5500fd', '04721f10b', '04721f10a', '04721f10d',
               '04721f10c', '04721f10f', '04721f10e', '04721f11b', '04721f11d', '04721f11c', '04721f11e', '04721f11f']
+
+

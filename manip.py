@@ -29,28 +29,7 @@ class TheoryCalc(Tables, Result):
         pp_vbq_thbq = self.m.vbq() * self.m.br_vht()
 
         pp_vtq_tztq = self.m.vtq() * self.m.br_vzt()
-        '''
-        # 2201.02227 2402.16561 1812.09743
-        #vb_z_nu = pp_vbq_tzbq * c.BR_Z_nunu * c.BR_t_Wb * c.BR_W_qq
-        # 1708.01062  1409.5500 1701.07409
-        #vb_z_ll = pp_vbq_tzbq * c.BR_Z_ee * c.BR_t_Wb * c.BR_W_qq
-        # 2302.12802
-        #vb_h_ga = pp_vbq_thbq * c.BR_h_gaga * c.BR_t_Wb * c.BR_W_enu
-        # 1612.00999 2305.03401
-        #vb_th_lnub = pp_vbq_thbq * c.BR_t_Wb * c.BR_W_enu * c.BR_h_bb
-        # 1909.04721_upper 2201.07045
-        #vb_h_b = pp_vbq_thbq * c.BR_t_Wb * c.BR_W_qq * c.BR_h_bb
-        # 1909.04721_middle
-        #vb_z_q = pp_vbq_tzbq * c.BR_Z_qq * c.BR_t_Wb * c.BR_W_qq
-        # 1909.04721_lower
-        combined_1 = vb_z_q + vb_h_b
-        # 1602
-        #vb_v_wb = pp_vbq_bwbq * c.BR_W_enu
-        # 2307.07584
-        vt_z_ll = pp_vtq_tztq * c.BR_Z_ee * c.BR_t_Wb * c.BR_W_qq
-        vb_z_lll = pp_vbq_tzbq * c.BR_Z_ee * c.BR_t_Wb * c.BR_W_enu
-        vt_z_lll = pp_vtq_tztq * c.BR_Z_ee * c.BR_t_Wb * c.BR_W_enu
-        '''
+
         combination_1 = pp_vbq_tzbq + pp_vbq_thbq
         combination_2 = pp_vbq_tzbq + pp_vtq_tztq
 
@@ -60,23 +39,6 @@ class TheoryCalc(Tables, Result):
         # single production of T associated with tq (pp->Ttq)
         pp_vtq_tztq = self.m.vtq() * self.m.br_vzt()
         pp_vtq_thtq = self.m.vtq() * self.m.br_vht()
-
-        '''
-        # 1612.00999 2305.03401
-        #vt_th_lnub = pp_vtq_thtq * c.BR_t_Wb * c.BR_W_enu * c.BR_h_bb
-        # 1708.01062 1701.07409
-        #vt_z_l = pp_vtq_tztq * c.BR_Z_ee * c.BR_t_Wb * c.BR_W_qq
-        # 1909.04721 upper
-        #vt_h_b = pp_vtq_thtq * c.BR_t_Wb * c.BR_W_qq * c.BR_h_bb
-        # 1909.04721 middle
-        #vt_z_q = pp_vtq_tztq * c.BR_Z_qq * c.BR_t_Wb * c.BR_W_qq
-        # 1909.04721 lower
-        combined_3 = pp_vtq_thtq + pp_vtq_tztq
-        # 2307.07584
-        
-        vt_z_lll = pp_vtq_tztq * c.BR_Z_ee * c.BR_t_Wb * c.BR_W_enu
-        combined_4 = vt_z_l + vt_z_lll
-        '''
         combination = pp_vtq_thtq + pp_vtq_tztq
 
         return pp_vtq_tztq, pp_vtq_thtq, combination
@@ -85,16 +47,6 @@ class TheoryCalc(Tables, Result):
         if self.m.get_sin_up_right() is not None:
             pp_vtq_tztq = self.m.vtq() * self.m.br_vzt_tb_doublet()
             pp_vtq_thtq = self.m.vtq() * self.m.br_vht_tb_doublet()
-            ''''
-            # 1909.04721 upper
-            #vt_h_b = pp_vtq_thtq * c.BR_t_Wb * c.BR_W_qq * c.BR_h_bb
-            # 1909.04721 middle
-            #vt_z_q = pp_vtq_tztq * c.BR_Z_qq * c.BR_t_Wb * c.BR_W_qq
-            # 1909.04721 lower
-            
-            # 2305
-            vt_th_lnub = pp_vtq_thtq * c.BR_t_Wb * c.BR_W_enu * c.BR_h_bb
-            '''
             combination = pp_vtq_tztq + pp_vtq_thtq
 
             return pp_vtq_tztq, pp_vtq_thtq, combination
@@ -102,7 +54,6 @@ class TheoryCalc(Tables, Result):
             return -1, -1, -1
 
     def pair_prod_calc(self):
-
         return self.m.vv()
 
     def get_process(self, k, r, pr, kappa):
