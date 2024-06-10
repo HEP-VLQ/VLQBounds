@@ -45,10 +45,10 @@ class PyTop(Coupling):
         self.check_channel()
         print(self)
 
-    def check_doublet_limit(self, m, pp_vv, pp_vtq, sin_l):
+    def check_doublet_limit(self, m, pp_vv, pp_vtq, sin_r):
         if isinstance(self.m, Doublet):
             check_mass_range(m)
-            check_sin(sin_l)
+            check_sin(sin_r)
             try:
                 validate_cross_section_value(pp_vv)
                 validate_cross_section_value(pp_vtq)
@@ -58,7 +58,7 @@ class PyTop(Coupling):
                     pp_vtq = -1
                 if pp_vv < 0:
                     pp_vv = -1
-            self.m = Doublet(m, pp_vv, pp_vtq, sin_l)
+            self.m = Doublet(m, pp_vv, pp_vtq, sin_r)
         else:
             raise Exception('Invalid model. Must be a doublet')
         self.check_channel()
@@ -67,10 +67,10 @@ class PyTop(Coupling):
                   "single production cross sections will not be checked.")
         print(self)
 
-    def check_doublet_limit_with_TB_doublet(self, m, pp_vv, pp_vtq, sin_l, sin_u_r, sin_d_r):
+    def check_TB_doublet_limit(self, m, pp_vv, pp_vtq, sin_r, sin_u_r, sin_d_r):
         if isinstance(self.m, Doublet):
             check_mass_range(m)
-            check_sin(sin_l)
+            check_sin(sin_r)
             check_sin(sin_u_r)
             check_sin(sin_d_r)
             try:
@@ -82,9 +82,10 @@ class PyTop(Coupling):
                     pp_vtq = -1
                 if pp_vv < 0:
                     pp_vv = -1
-            self.m = Doublet(m, pp_vv, pp_vtq, sin_l)
+            self.m = Doublet(m, pp_vv, pp_vtq, sin_r)
             self.m.set_sin_up_right(sin_u_r)
             self.m.set_sin_down_right(sin_d_r)
+            self.m.change_to_tb_doublet()
         else:
             raise Exception('Invalid model. Must be a doublet')
         self.check_channel()

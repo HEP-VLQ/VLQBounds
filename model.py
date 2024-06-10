@@ -151,12 +151,19 @@ class Doublet:
         self.sin_r = sin_r
         self.sin_u_r = None
         self.sin_d_r = None
+        self.which_d = 'XT'
 
     def set_sin_up_right(self, sin_u_r):
         self.sin_u_r = sin_u_r
 
     def set_sin_down_right(self, sin_d_r):
         self.sin_d_r = sin_d_r
+
+    def change_to_tb_doublet(self):
+        self.which_d = 'TB'
+
+    def get_which_doublet(self):
+        return self.which_d
 
     def get_sin_up_right(self):
         return self.sin_u_r

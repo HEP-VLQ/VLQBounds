@@ -398,4 +398,4 @@ with open("data/220107045/res.dat", "w") as f:
 d = Doublet()
 pt = PyTop(d)
 pt.filling_channels_data()
-
+pt.check_TB_doublet_limit(1000, 0.01, 0.1, 0.2, 0.1, 0.01)

@@ -179,99 +179,99 @@ class Tables:
             self.energy[17] = 13
             self.luminosity[17] = 2.3
 
-            self.key[18] = '04721f8b'
+            self.key[18] = '04721f8a'
             self.label[18] = 'arXiv:1909.04721'
             self.expt[18] = 'CMS'
-            self.file_name[18] = '1909.04721_CMS_Fig8_upper-row-right_pp_Tbq_tHbq.txt'
+            self.file_name[18] = '1909.04721_CMS_Fig8_upper-row-left_pp_Tbq_tHbq.txt'
             self.process[18] = 'pp --> Tbq --> tHbq'
             self.energy[18] = 13
             self.luminosity[18] = 35.9
 
-            self.key[19] = '04721f8a'
+            self.key[19] = '04721f8b'
             self.label[19] = 'arXiv:1909.04721'
             self.expt[19] = 'CMS'
-            self.file_name[19] = '1909.04721_CMS_Fig8_upper-row-left_pp_Tbq_tHbq.txt'
+            self.file_name[19] = '1909.04721_CMS_Fig8_upper-row-right_pp_Tbq_tHbq.txt'
             self.process[19] = 'pp --> Tbq --> tHbq'
             self.energy[19] = 13
             self.luminosity[19] = 35.9
 
-            self.key[20] = '04721f8d'
+            self.key[20] = '04721f8c'
             self.label[20] = 'arXiv:1909.04721'
             self.expt[20] = 'CMS'
-            self.file_name[20] = '1909.04721_CMS_Fig8_middle-row-right_pp_Tbq_tZbq.txt'
+            self.file_name[20] = '1909.04721_CMS_Fig8_middle-row-left_pp_Tbq_tZbq.txt'
             self.process[20] = 'pp --> Tbq --> tZbq'
             self.energy[20] = 13
             self.luminosity[20] = 35.9
 
-            self.key[21] = '04721f8c'
+            self.key[21] = '04721f8d'
             self.label[21] = 'arXiv:1909.04721'
             self.expt[21] = 'CMS'
-            self.file_name[21] = '1909.04721_CMS_Fig8_middle-row-left_pp_Tbq_tZbq.txt'
+            self.file_name[21] = '1909.04721_CMS_Fig8_middle-row-right_pp_Tbq_tZbq.txt'
             self.process[21] = 'pp --> Tbq --> tZbq'
             self.energy[21] = 13
             self.luminosity[21] = 35.9
 
-            self.key[22] = '04721f8f'
+            self.key[22] = '04721f8e'
             self.label[22] = 'arXiv:1909.04721'
             self.expt[22] = 'CMS'
-            self.file_name[22] = '1909.04721_CMS_Fig8_lower-row-right_pp_Tbq_tH+tZ_bq.txt'
+            self.file_name[22] = '1909.04721_CMS_Fig8_lower-row-left_pp_Tbq_tH+tZ_bq.txt'
             self.process[22] = 'pp --> Tbq --> (tZ + tH)bq'
             self.energy[22] = 13
             self.luminosity[22] = 35.9
 
-            self.key[23] = '04721f8e'
+            self.key[23] = '04721f8f'
             self.label[23] = 'arXiv:1909.04721'
             self.expt[23] = 'CMS'
-            self.file_name[23] = '1909.04721_CMS_Fig8_lower-row-left_pp_Tbq_tH+tZ_bq.txt'
+            self.file_name[23] = '1909.04721_CMS_Fig8_lower-row-right_pp_Tbq_tH+tZ_bq.txt'
             self.process[23] = 'pp --> Tbq --> (tZ + tH)bq'
             self.energy[23] = 13
             self.luminosity[23] = 35.9
 
-            self.key[24] = '04721f9b'
+            self.key[24] = '04721f9a'
             self.label[24] = 'arXiv:1909.04721'
             self.expt[24] = 'CMS'
-            self.file_name[24] = '1909.04721_CMS_Fig9_upper-row-right_pp_Tbq_tHbq.txt'
+            self.file_name[24] = '1909.04721_CMS_Fig9_upper-row-left_pp_Tbq_tHbq.txt'
             self.process[24] = 'pp --> Tbq --> tHbq'
             self.energy[24] = 13
             self.luminosity[24] = 35.9
 
-            self.key[25] = '04721f9a'
+            self.key[25] = '04721f9b'
             self.label[25] = 'arXiv:1909.04721'
             self.expt[25] = 'CMS'
-            self.file_name[25] = '1909.04721_CMS_Fig9_upper-row-left_pp_Tbq_tHbq.txt'
+            self.file_name[25] = '1909.04721_CMS_Fig9_upper-row-right_pp_Tbq_tHbq.txt'
             self.process[25] = 'pp --> Tbq --> tHbq'
             self.energy[25] = 13
             self.luminosity[25] = 35.9
 
-            self.key[26] = '04721f9d'
+            self.key[26] = '04721f9c'
             self.label[26] = 'arXiv:1909.04721'
             self.expt[26] = 'CMS'
-            self.file_name[26] = '1909.04721_CMS_Fig9_middle-row-right_pp_Tbq_tZbq.txt'
+            self.file_name[26] = '1909.04721_CMS_Fig9_middle-row-left_pp_Tbq_tZbq.txt'
             self.process[26] = 'pp --> Tbq --> tZbq'
             self.energy[26] = 13
             self.luminosity[26] = 35.9
 
-            self.key[27] = '04721f9c'
+            self.key[27] = '04721f9d'
             self.label[27] = 'arXiv:1909.04721'
             self.expt[27] = 'CMS'
-            self.file_name[27] = '1909.04721_CMS_Fig9_middle-row-left_pp_Tbq_tZbq.txt'
+            self.file_name[27] = '1909.04721_CMS_Fig9_middle-row-right_pp_Tbq_tZbq.txt'
             self.process[27] = 'pp --> Tbq --> tZbq'
             self.energy[27] = 13
             self.luminosity[27] = 35.9
 
-            self.key[28] = '04721f9f'
+            self.key[28] = '04721f9e'
             self.label[28] = 'arXiv:1909.04721'
             self.expt[28] = 'CMS'
-            self.file_name[28] = '1909.04721_CMS_Fig9_lower-row-right_pp_Tbq_tHbq_tZbq.txt'
-            self.process[28] = 'pp --> Tbq --> tHbq'
+            self.file_name[28] = '1909.04721_CMS_Fig9_lower-row-left_pp_Tbq_tHbq_tZbq.txt'
+            self.process[28] = 'pp --> Tbq --> (tZ + tH)bq'
             self.energy[28] = 13
             self.luminosity[28] = 35.9
 
-            self.key[29] = '04721f9e'
+            self.key[29] = '04721f9f'
             self.label[29] = 'arXiv:1909.04721'
             self.expt[29] = 'CMS'
-            self.file_name[29] = '1909.04721_CMS_Fig9_lower-row-left_pp_Tbq_tHbq_tZbq.txt'
-            self.process[29] = 'pp --> Tbq --> tHbq'
+            self.file_name[29] = '1909.04721_CMS_Fig9_lower-row-right_pp_Tbq_tHbq_tZbq.txt'
+            self.process[29] = 'pp --> Tbq --> (tZ + tH)bq'
             self.energy[29] = 13
             self.luminosity[29] = 35.9
 
@@ -607,91 +607,91 @@ class Tables:
             self.luminosity[8] = 20.3
             self.which_doublet[8] = 'TB'
 
-            self.key[9] = '04721f10b'
+            self.key[9] = '04721f10a'
             self.label[9] = 'arXiv:1909.04721'
             self.expt[9] = 'CMS'
-            self.file_name[9] = '1909.04721_CMS_Fig10_upper-row-right_pp_Ttq_tHtq.txt'
+            self.file_name[9] = '1909.04721_CMS_Fig10_upper-row-left_pp_Ttq_tHtq.txt'
             self.process[9] = 'pp --> Ttq --> tHtq'
             self.energy[9] = 13
             self.luminosity[9] = 35.9
             self.which_doublet[9] = 'TB'
 
-            self.key[10] = '04721f10a'
+            self.key[10] = '04721f10b'
             self.label[10] = 'arXiv:1909.04721'
             self.expt[10] = 'CMS'
-            self.file_name[10] = '1909.04721_CMS_Fig10_upper-row-left_pp_Ttq_tHtq.txt'
+            self.file_name[10] = '1909.04721_CMS_Fig10_upper-row-right_pp_Ttq_tHtq.txt'
             self.process[10] = 'pp --> Ttq --> tHtq'
             self.energy[10] = 13
             self.luminosity[10] = 35.9
             self.which_doublet[10] = 'TB'
 
-            self.key[11] = '04721f10d'
+            self.key[11] = '04721f10c'
             self.label[11] = 'arXiv:1909.04721'
             self.expt[11] = 'CMS'
-            self.file_name[11] = '1909.04721_CMS_Fig10_middle-row-right_pp_Ttq_tZtq.txt'
+            self.file_name[11] = '1909.04721_CMS_Fig10_middle-row-left_pp_Ttq_tZtq.txt'
             self.process[11] = 'pp --> Ttq --> tZtq'
             self.energy[11] = 13
             self.luminosity[11] = 35.9
             self.which_doublet[11] = 'TB'
 
-            self.key[12] = '04721f10c'
+            self.key[12] = '04721f10d'
             self.label[12] = 'arXiv:1909.04721'
             self.expt[12] = 'CMS'
-            self.file_name[12] = '1909.04721_CMS_Fig10_middle-row-left_pp_Ttq_tZtq.txt'
+            self.file_name[12] = '1909.04721_CMS_Fig10_middle-row-right_pp_Ttq_tZtq.txt'
             self.process[12] = 'pp --> Ttq --> tZtq'
             self.energy[12] = 13
             self.luminosity[12] = 35.9
             self.which_doublet[12] = 'TB'
 
-            self.key[13] = '04721f10f'
+            self.key[13] = '04721f10e'
             self.label[13] = 'arXiv:1909.04721'
             self.expt[13] = 'CMS'
-            self.file_name[13] = '1909.04721_CMS_Fig10_lower-row-right_pp_Ttq_tH-tZ_tq.txt'
+            self.file_name[13] = '1909.04721_CMS_Fig10_lower-row-left_pp_Ttq_tH-tZ_tq.txt'
             self.process[13] = 'pp --> Ttq --> (tZ + tH)tq'
             self.energy[13] = 13
             self.luminosity[13] = 35.9
             self.which_doublet[13] = 'TB'
 
-            self.key[14] = '04721f10e'
+            self.key[14] = '04721f10f'
             self.label[14] = 'arXiv:1909.04721'
             self.expt[14] = 'CMS'
-            self.file_name[14] = '1909.04721_CMS_Fig10_lower-row-left_pp_Ttq_tH-tZ_tq.txt'
+            self.file_name[14] = '1909.04721_CMS_Fig10_lower-row-right_pp_Ttq_tH-tZ_tq.txt'
             self.process[14] = 'pp --> Ttq --> (tZ + tH)tq'
             self.energy[14] = 13
             self.luminosity[14] = 35.9
             self.which_doublet[14] = 'TB'
 
-            self.key[15] = '04721f11b'
+            self.key[15] = '04721f11a'
             self.label[15] = 'arXiv:1909.04721'
             self.expt[15] = 'CMS'
-            self.file_name[15] = '1909.04721_CMS_Fig11_upper-row-right_pp_Ttq_tHtq.txt'
+            self.file_name[15] = '1909.04721_CMS_Fig11_upper-row-left_pp_Ttq_tHtq.txt'
             self.process[15] = 'pp --> Ttq --> tHtq'
             self.energy[15] = 13
             self.luminosity[15] = 35.9
             self.which_doublet[15] = 'TB'
 
-            self.key[16] = '04721f11a'
+            self.key[16] = '04721f11b'
             self.label[16] = 'arXiv:1909.04721'
             self.expt[16] = 'CMS'
-            self.file_name[16] = '1909.04721_CMS_Fig11_upper-row-left_pp_Ttq_tHtq.txt'
+            self.file_name[16] = '1909.04721_CMS_Fig11_upper-row-right_pp_Ttq_tHtq.txt'
             self.process[16] = 'pp --> Ttq --> tHtq'
             self.energy[16] = 13
             self.luminosity[16] = 35.9
             self.which_doublet[16] = 'TB'
 
-            self.key[17] = '04721f11d'
+            self.key[17] = '04721f11c'
             self.label[17] = 'arXiv:1909.04721'
             self.expt[17] = 'CMS'
-            self.file_name[17] = '1909.04721_CMS_Fig11_middle-row-right_pp_Ttq_tZtq.txt'
+            self.file_name[17] = '1909.04721_CMS_Fig11_middle-row-left_pp_Ttq_tZtq.txt'
             self.process[17] = 'pp --> Ttq --> tZtq'
             self.energy[17] = 13
             self.luminosity[17] = 35.9
             self.which_doublet[17] = 'TB'
 
-            self.key[18] = '04721f11c'
+            self.key[18] = '04721f11d'
             self.label[18] = 'arXiv:1909.04721'
             self.expt[18] = 'CMS'
-            self.file_name[18] = '1909.04721_CMS_Fig11_middle-row-left_pp_Ttq_tZtq.txt'
+            self.file_name[18] = '1909.04721_CMS_Fig11_middle-row-right_pp_Ttq_tZtq.txt'
             self.process[18] = 'pp --> Ttq --> tZtq'
             self.energy[18] = 13
             self.luminosity[18] = 35.9
@@ -1106,6 +1106,8 @@ class Tables:
                 '(T,B)': TB_doublet_keys,
                 '(X,T)': XT_doublet_keys
             }
+            print(self.TB_XT_keys['(T,B)'])
+            print(self.TB_XT_keys['(X,T)'])
 
         else:
             raise Exception(f"Error, this model {self.m.model()} is not included")
