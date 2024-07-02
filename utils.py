@@ -1,6 +1,7 @@
 import numpy as np
 import os
-from scipy import interpolate
+import pandas as pd
+import constants as c
 
 
 def r_x(m1, m2): return m1/m2
@@ -47,4 +48,7 @@ def load_data_from_files(file_name, number_of_files, mass, expected, observed, a
             print(f"File '{file_name[i]}' not found at path '{file_path}'")
 
 
-        
+def df_making(df, **kwargs):
+    data = pd.DataFrame(kwargs, index=[0])
+    df = pd.concat([df, data], ignore_index=True)
+    return df

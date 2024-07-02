@@ -1,7 +1,6 @@
 from output import Result
 from scipy import interpolate
 import numpy as np
-import matplotlib.pyplot as plt
 import random as rd
 from model import check_mass_range
 from pyTop import *
@@ -333,7 +332,7 @@ with open("data/branching_ratio_d_xt.dat", "w") as f:
         f.write(f"{d.mv_theo} {d.br_vbw()} {d.br_vzt()} {d.br_vht()} {d.sin_right()}\n")
 '''
 
-'''
+
 data1 = np.loadtxt("data/220107045/2201.07045_ATLAS_fig8a_KT_01.txt")
 mass1 = data1[:, 0]
 cs_ht1 = data1[:, 1] / 1000
@@ -374,8 +373,8 @@ print(cs_ht)
 
 interp = interpolate.LinearNDInterpolator(list(zip(mass, k_t)), cs_ht)
 
-mass = np.linspace(1000, 2300, 1000)
-k_t = np.linspace(0.1, 1.1, 200)
+mass = np.linspace(1000, 2300, 650)
+k_t = np.linspace(0.1, 1.1, 300)
 
 cs_vbq = cs_ht / 0.25
 
@@ -383,7 +382,7 @@ s = Singlet()
 pt = PyTop(s)
 pt.filling_channels_data()
 with open("data/220107045/res.dat", "w") as f:
-    f.write("mass k_t sing_prod ratio result channel label\n")
+    f.write("mass k_t sing_prod ratio result channel label gamma arXiv luminosity\n")
     for k in k_t:
         for m in mass:
             print("m = ", m)
@@ -392,10 +391,180 @@ with open("data/220107045/res.dat", "w") as f:
             print("------------------------------------------------")
             print("Singlet")
             chan = pt.channel
-            f.write(f"{m} {k} {interp(m,k)} {pt.model_observed_ratio} {pt.allowed_or_excluded} {chan} {pt.expt[chan]}\n")
+            f.write(f"{m} {k} {interp(m,k)} {pt.model_observed_ratio} {pt.allowed_or_excluded} {chan} {pt.expt[chan]} {pt.m.get_width_mass_ratio()} {pt.label[chan]} {pt.luminosity[chan]}\n")
+
 '''
+data1 = np.loadtxt("../../Downloads/2307.07584_ATLAS_Fig8b_K03_Doublet.txt")
+m1 = data1[:, 0]
+cs_k03 = data1[:, 1]
+data2 = np.loadtxt("../../Downloads/2307.07584_ATLAS_Fig8d_K05_Doublet.txt")
+m2 = data2[:, 0]
+cs_k05 = data2[:, 1]
+data3 = np.loadtxt("../../Downloads/2307.07584_ATLAS_Fig8f_K07_Doublet.txt")
+m3 = data3[:, 0]
+cs_k07 = data3[:, 1]
+
+
+
+#cs_k03_1 = interpolate.interp1d(m1, cs_k03, kind = 'linear')
+#cs_k05_1 = interpolate.interp1d(m2, cs_k05, kind = 'linear')
+#cs_k07_1 = interpolate.interp1d(m3, cs_k07, kind = 'linear')
+
+
+k_03 = 0.3 * np.ones(len(m1))
+k_05 = 0.5 * np.ones(len(m2))
+k_07 = 0.7 * np.ones(len(m3))
+
+mass = np.concatenate([m1, m2, m3], axis=None)
+cs_zt = np.concatenate([cs_k03, cs_k05, cs_k07], axis=None) / 0.5
+k_t = np.concatenate([k_03, k_05, k_07], axis=None)
+
+
+interp = interpolate.LinearNDInterpolator(list(zip(mass, k_t)), cs_zt)
+
+mass = np.linspace(1000, 1700, 400)
+k_t = np.linspace(0.3, 0.7, 300)
+
+cs_vbq = cs_zt / 0.5
 
 d = Doublet()
 pt = PyTop(d)
 pt.filling_channels_data()
-pt.check_TB_doublet_limit(1000, 0.01, 0.1, 0.2, 0.1, 0.01)
+with open("data/doub.dat", "w") as f:
+    f.write("mass k_t sing_prod ratio result channel label gamma arXiv luminosity\n")
+    for k in k_t:
+        for m in mass:
+            print("m = ", m)
+            print("kappa = ", k)
+            pt.check_doublet_limit(m, -1, interp(m, k), k)
+            print("------------------------------------------------")
+            print("gamma/m_T = ", pt.m.get_width_mass_ratio())
+            print("Doublet")
+            chan = pt.channel
+            f.write(f"{m} {k} {interp(m,k)} {pt.model_observed_ratio} {pt.allowed_or_excluded} {chan} {pt.expt[chan]} {pt.m.get_width_mass_ratio()} {pt.label[chan]} {pt.luminosity[chan]}\n")
+'''
+'''
+data1 = np.loadtxt("/home/mohamed/Downloads/2305.03401_ATLAS_Fig12a_pp_Tqt_Ht_Zt_doublet-k02_theo.txt")
+m1 = data1[:, 0]
+cs1 = data1[:, 1] / (1000 * 0.5)
+data2 = np.loadtxt("/home/mohamed/Downloads/2305.03401_ATLAS_Fig12b_pp_Tqt_Ht_Zt_doublet-k04_theo.txt")
+m2 = data2[:, 0]
+cs2 = data2[:, 1] / (1000 * 0.5)
+data3 = np.loadtxt("/home/mohamed/Downloads/2305.03401_ATLAS_Fig12c_pp_Tqt_Ht_Zt_doublet-k06_theo.txt")
+m3 = data3[:, 0]
+cs3 = data3[:, 1] / (1000 * 0.5)
+
+
+k_02 = 0.2 * np.ones(len(m1))
+k_04 = 0.4 * np.ones(len(m2))
+k_06 = 0.6 * np.ones(len(m3))
+
+mass = np.concatenate([m1, m2, m3], axis=None)
+k_t = np.concatenate([k_02, k_04, k_06], axis=None)
+cs_zt = np.concatenate([cs1, cs2, cs3], axis=None)
+
+interp = interpolate.LinearNDInterpolator(list(zip(mass, k_t)), cs_zt)
+
+mass = np.linspace(1000, 2100, 300)
+k_t = np.linspace(0.2, 0.6, 200)
+
+d = Doublet()
+pt = PyTop(d)
+pt.filling_channels_data()
+
+with open("data/doub_tb_2.dat", "w") as f:
+    f.write("mass k_t sing_prod ratio result channel label gamma arXiv luminosity\n")
+    for k in k_t:
+        for m in mass:
+            print("m = ", m)
+            print("kappa = ", k)
+            pt.check_TB_doublet_limit(m, -1, interp(m, k), -1, k,-1)
+            print(pt.m.universal_coupling())
+            print(pt.m.get_width_mass_ratio())
+            print("------------------------------------------------")
+            print("Doublet")
+            chan = pt.channel
+            f.write(f"{m} {k} {interp(m,k)} {pt.model_observed_ratio} {pt.allowed_or_excluded} {chan} {pt.expt[chan]} {pt.m.get_width_mass_ratio()} {pt.label[chan]} {pt.luminosity[chan]}\n")
+'''
+'''
+data1 = np.loadtxt("../../Downloads/2307.07584_ATLAS_Fig8b_K03_Doublet.txt")
+m1 = data1[:,0]
+cs_k03 = data1[:,1]
+data2 = np.loadtxt("../../Downloads/2307.07584_ATLAS_Fig8d_K05_Doublet.txt")
+m2 = data2[:,0]
+cs_k05 = data2[:,1]
+data3 = np.loadtxt("../../Downloads/2307.07584_ATLAS_Fig8f_K07_Doublet.txt")
+m3 = data3[:,0]
+cs_k07 = data3[:,1]
+
+
+k_03 = 0.3 * np.ones(len(m1))
+k_05 = 0.5 * np.ones(len(m2))
+k_07 = 0.7 * np.ones(len(m3))
+
+mass = np.concatenate([m1, m2, m3], axis=None)
+cs_zt = np.concatenate([cs_k03, cs_k05, cs_k07], axis=None) / 0.5
+k_t = np.concatenate([k_03, k_05, k_07], axis=None)
+
+interp = interpolate.CloughTocher2DInterpolator(list(zip(mass, k_t)), cs_zt)
+
+mass = np.linspace(1000, 1700, 200)
+k_t = np.linspace(0.3, 0.7, 100)
+
+cs_vbq = cs_zt / 0.5
+
+d = Doublet()
+pt = PyTop(d)
+pt.filling_channels_data()
+
+with open("data/doub_tb_2_0307.dat", "w") as f:
+    f.write("mass k_t sing_prod ratio result channel label gamma arXiv limunosity\n")
+    for k in k_t:
+        for m in mass:
+            print("m = ", m)
+            print("kappa = ", k)
+            pt.check_TB_doublet_limit(m, -1, interp(m, k), -1, k,-1)
+            print(pt.m.universal_coupling())
+            print(pt.m.get_width_mass_ratio())
+            print("------------------------------------------------")
+            print("Doublet")
+            chan = pt.channel
+            f.write(f"{m} {k} {interp(m,k)} {pt.model_observed_ratio} {pt.allowed_or_excluded} {chan} {pt.expt[chan]} {pt.m.get_width_mass_ratio()} {pt.label[chan]} {pt.luminosity[chan]}\n")
+'''
+'''
+data = np.loadtxt('data/Tbq.txt')
+mass = data[:, 0]
+vbq_005 = data[:, 1]
+vbq_01 = data[:, 2]
+vbq_02 = data[:, 3]
+vbq_03 = data[:, 4]
+
+width_to_mass = 0.05 * np.ones(len(mass))
+width_to_mass2 = 0.1 * np.ones(len(mass))
+width_to_mass3 = 0.2 * np.ones(len(mass))
+width_to_mass4 = 0.3 * np.ones(len(mass))
+
+t1 = vbq_005
+t2 = vbq_01
+t3 = vbq_02
+t4 = vbq_03
+
+m1 = mass
+m2 = mass
+m3 = mass
+m4 = mass
+
+m = np.concatenate([m1, m2, m3, m4], axis=None)
+t_tot = np.concatenate([t1, t2, t3, t4], axis=None)
+w = np.concatenate([width_to_mass, width_to_mass2, width_to_mass3, width_to_mass4], axis=None)
+
+interp = interpolate.LinearNDInterpolator(list(zip(m, w)), t_tot)
+
+s = Singlet()
+pt = PyTop(s)
+pt.filling_channels_data()
+for w in [0.05, 0.1, 0.2,0.3]:
+        for m in np.linspace(600,1800,800) :
+                pt.check_singlet_limit(m, -1, interp(m,w) / 0.25, -1, 0.1, w)
+pt.df.to_csv("../../vbq.txt", sep='\t')
+'''

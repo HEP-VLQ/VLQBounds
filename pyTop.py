@@ -2,6 +2,7 @@ from manip import TheoryCalc
 from model import *
 from utils import *
 from coupling import Coupling
+import pandas as pd
 
 
 class PyTop(Coupling):
@@ -10,6 +11,7 @@ class PyTop(Coupling):
             TheoryCalc.__init__(self, m)
             Coupling.__init__(self, m)
             self.m = m
+            self.df = c.df
 
     def filling_channels_data(self):
         self.initialize_tables_cms_and_atlas()
@@ -22,7 +24,7 @@ class PyTop(Coupling):
         self.all_couplings()
         self.fill_sin_and_kappa()
 
-    def check_singlet_limit(self, m, vv, vbq, vtq, sin_l):
+    def check_singlet_limit(self, m, vv, vbq, vtq, sin_l, r=None):
         if isinstance(self.m, Singlet):
             check_mass_range(m)
             check_sin(sin_l)
@@ -38,12 +40,20 @@ class PyTop(Coupling):
                     vtq = -1
                 if vv < 0:
                     vv = -1
-            self.m = Singlet(m, vv, vbq, vtq, sin_l)
+            self.m = Singlet(m, vv, vbq, vtq, sin_l, r)
         else:
             raise Exception('Invalid model. Must be a singlet')
 
         self.check_channel()
         print(self)
+        i = self.channel
+        pred_cs = self.numerator(i)
+        obs_cs = (1 / self.model_observed_ratio) * self.numerator(i)
+        self.df = df_making(self.df, mass=self.m.mv(), coupling=self.m.universal_coupling(), predicted_cs=pred_cs,
+                            observed_cs=obs_cs, width=self.m.get_width_mass_ratio(), result=self.allowed_or_excluded,
+                            channel=i, obs_ratio=self.model_observed_ratio, process=self.process[i],
+                            luminosity=self.luminosity[i], energy=self.energy[i], label=self.label[i],
+                            model=self.m.model())
 
     def check_doublet_limit(self, m, pp_vv, pp_vtq, sin_r):
         if isinstance(self.m, Doublet):
@@ -66,13 +76,19 @@ class PyTop(Coupling):
             print("Warning: (T, B) couplings are not set. Doublet (T, B) "
                   "single production cross sections will not be checked.")
         print(self)
+        i = self.channel
+        self.df = df_making(self.df, mass=self.m.mv(), coupling=self.m.universal_coupling(),
+                            width=self.m.get_width_mass_ratio(), result=self.allowed_or_excluded, channel=i,
+                            obs_ratio=self.model_observed_ratio, process=self.process[i],
+                            luminosity=self.luminosity[i], energy=self.energy[i],
+                            label=self.label[i], model=self.m.model(), which_doublet=self.m.which_d)
 
     def check_TB_doublet_limit(self, m, pp_vv, pp_vtq, sin_r, sin_u_r, sin_d_r):
         if isinstance(self.m, Doublet):
             check_mass_range(m)
-            check_sin(sin_r)
+            #check_sin(sin_r)
             check_sin(sin_u_r)
-            check_sin(sin_d_r)
+            #check_sin(sin_d_r)
             try:
                 validate_cross_section_value(pp_vv)
                 validate_cross_section_value(pp_vtq)
@@ -93,6 +109,12 @@ class PyTop(Coupling):
             print("Warning (T, B) coupling are not set, "
                   "doublet (T, B) pair and single production cross sections will not be checked")
         print(self)
+        i = self.channel
+        self.df = df_making(self.df, mass=self.m.mv(), coupling=self.m.universal_coupling(),
+                            width=self.m.get_width_mass_ratio(), result=self.allowed_or_excluded, channel=i,
+                            obs_ratio=self.model_observed_ratio, process=self.process[i],
+                            luminosity=self.luminosity[i], energy=self.energy[i],
+                            label=self.label[i], model=self.m.model(), which_doublet=self.m.which_d)
 
     def check_pure_limit(self, m, pp_vv, pp_vbq):
         if isinstance(self.m, PureDecay):
@@ -111,6 +133,11 @@ class PyTop(Coupling):
             raise Exception('Invalid model. Must be PureDecay class')
         self.check_channel()
         print(self)
+        i = self.channel
+        self.df = df_making(self.df, mass=self.m.mv(), result=self.allowed_or_excluded, channel=i,
+                            obs_ratio=self.model_observed_ratio, process=self.process[i],
+                            luminosity=self.luminosity[i], energy=self.energy[i],
+                            label=self.label[i], model=self.m.model())
 
     def check_coupling_limit(self, m, sin_l):
         if isinstance(self.m, Doublet) or isinstance(self.m, Singlet):

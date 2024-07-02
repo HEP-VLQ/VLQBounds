@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from initialize import Tables
 
 Mt = 172.52
@@ -20,7 +21,9 @@ BR_Z_ee = 0.035
 BR_Z_nunu = 0.2
 BR_Z_qq = 0.7
 BR_Z_bb = 0.1512
-Threshold = 0.0000001
+Threshold = 0.00001
+df = pd.DataFrame(columns=["mass", "coupling", "predicted_cs", "observed_cs", "width", "result", "channel", "obs_ratio",
+                           "process", "luminosity", "energy", "label", "model", "which_doublet"])
 
 ratio_keys = {
 

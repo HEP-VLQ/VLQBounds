@@ -735,7 +735,6 @@ class Tables:
             self.luminosity[22] = 20.3
             self.which_doublet[22] = 'XTorTB'
 
-            #doublet (T, B)
             self.key[23] = '03401f12a'
             self.label[23] = 'arXiv:2305.03401'
             self.expt[23] = 'ATLAS'

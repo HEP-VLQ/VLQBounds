@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.interpolate import interp1d, LinearNDInterpolator
+from scipy.interpolate import interp1d, LinearNDInterpolator, CloughTocher2DInterpolator
 from initialize import Tables
 from output import Result
 import constants as c
@@ -194,9 +194,7 @@ class TheoryCalc(Tables, Result):
             raise Exception("Error in model name")
 
     def numerator(self, i):
-
         pp_vvbar = self.pair_prod_calc()
-
         r, kappa = self.get_ratio_and_universal_coupling()
 
         if self.m.model() == 'Singlet':
@@ -214,16 +212,16 @@ class TheoryCalc(Tables, Result):
                 return self.m.vbq() * self.m.br_vht()
             elif self.get_process(self.key[i], r, self.process[i], kappa) == 'pp --> Tbq --> tZbq':
                 return self.m.vbq() * self.m.br_vzt()
-            elif self.get_process(self.key[i], r, self.process[i], kappa) == "pp --> Tbq --> tZbq --> bbj":
+            elif self.get_process(self.key[i], r, self.process[i], kappa) == "pp --> Tbq --> tZbq --> tbbbq":
                 return self.m.vbq() * self.m.br_vzt() * c.BR_Z_bb
-            elif self.get_process(self.key[i], r, self.process[i], kappa) == "pp --> Tbq --> tHbq --> bbj":
+            elif self.get_process(self.key[i], r, self.process[i], kappa) == "pp --> Tbq --> tHbq --> tbbbq":
                 return self.m.vbq() * self.m.br_vht() * c.BR_h_bb
             elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
                   'pp --> Tbq --> bWbq'):
                 return self.m.vbq() * self.m.br_vbw()
             elif self.get_process(self.key[i], r, self.process[i], kappa) == 'pp --> Tbq --> (tZ + tH)bq':
                 return self.m.vbq() * self.m.br_vzt() + self.m.vbq() * self.m.br_vht()
-            elif self.get_process(self.key[i], r, self.process[i], kappa) == "pp --> Tbq --> (tH + tZ)bq --> bbj":
+            elif self.get_process(self.key[i], r, self.process[i], kappa) == "pp --> Tbq --> (tH + tZ)bq --> tbbbq":
                 return self.m.vbq() * self.m.br_vzt() * c.BR_Z_bb + self.m.vbq() * self.m.br_vht() * c.BR_h_bb
             elif (self.get_process(self.key[i], r, self.process[i], kappa) ==
                   'pp --> Tbq --> tZ(H)bq'):
@@ -303,6 +301,11 @@ class TheoryCalc(Tables, Result):
         else:
             raise Exception("Error in model name")
 
+
+    def one_dim_interp(self, mass, interpoled):
+        interp = interp1d(mass, interpoled, "linear")
+        m_array = np.linspace(np.min(mass), np.max(mass),100)
+        return interp(m_array)
     def two_dim_interpolation_2201_07(self, index, coupling, mass, obs_exp):
         k1 = 0.1 * np.ones(len(self.MT[index]))
         k2 = 0.3 * np.ones(len(self.MT[index + 1]))
@@ -372,56 +375,67 @@ class TheoryCalc(Tables, Result):
         interp = LinearNDInterpolator(list(zip(m, k)), t_tot)
         return interp(mass, coupling)
 
-    def two_dim_interpolation_1909(self, index, widht_mass_ratio, mass, obs_exp):
+    def two_dim_interpolation_1909(self, index, width_mass_ratio, mass, obs_exp):
+        if width_mass_ratio >= 0.05:
+            width_to_mass = 0.05 * np.ones(len(self.MT[index]))
+            width_to_mass2 = 0.1 * np.ones(len(self.MT[index + 1]))
+            width_to_mass3 = 0.2 * np.ones(len(self.MT[index + 6]))
+            width_to_mass4 = 0.3 * np.ones(len(self.MT[index + 7]))
 
-        width_to_mass = 0.05 * np.ones(len(self.MT[index]))
-        width_to_mass2 = 0.1 * np.ones(len(self.MT[index + 1]))
-        width_to_mass3 = 0.2 * np.ones(len(self.MT[index + 6]))
-        width_to_mass4 = 0.3 * np.ones(len(self.MT[index + 7]))
+            t1 = obs_exp[index]
+            t2 = obs_exp[index + 1]
+            t3 = obs_exp[index + 6]
+            t4 = obs_exp[index + 7]
 
-        t1 = obs_exp[index]
-        t2 = obs_exp[index + 1]
-        t3 = obs_exp[index + 6]
-        t4 = obs_exp[index + 7]
+            m1 = self.MT[index]
+            m2 = self.MT[index + 1]
+            m3 = self.MT[index + 6]
+            m4 = self.MT[index + 7]
 
-        m1 = self.MT[index]
-        m2 = self.MT[index + 1]
-        m3 = self.MT[index + 6]
-        m4 = self.MT[index + 7]
+            m = np.concatenate([m1, m2, m3, m4], axis=None)
+            t_tot = np.concatenate([t1, t2, t3, t4], axis=None)
+            k = np.concatenate([width_to_mass, width_to_mass2, width_to_mass3, width_to_mass4], axis=None)
 
-        m = np.concatenate([m1, m2, m3, m4], axis=None)
-        t_tot = np.concatenate([t1, t2, t3, t4], axis=None)
-        k = np.concatenate([width_to_mass, width_to_mass2, width_to_mass3, width_to_mass4], axis=None)
+            interp = LinearNDInterpolator(list(zip(m, k)), t_tot)
+            return interp(mass, width_mass_ratio)
+        else:
+            expected_or_observed = interp1d(self.MT[index], obs_exp[index], 'linear')
+            denom = expected_or_observed(self.m.mv())
+            return denom
 
-        interp = LinearNDInterpolator(list(zip(m, k)), t_tot)
-        return interp(mass, widht_mass_ratio)
+    def two_dim_interpolation_2201_02(self, index, width_mass_ratio, mass, obs_exp):
+        if width_mass_ratio >= 0.05:
+            width_to_mass = 0.05 * np.ones(len(np.linspace(np.min(self.MT[index]), np.max(self.MT[index]), 100)))
+            width_to_mass2 = 0.1 * np.ones(len(np.linspace(np.min(self.MT[index+1]), np.max(self.MT[index+1]), 100)))
+            width_to_mass3 = 0.2 * np.ones(len(np.linspace(np.min(self.MT[index+2]), np.max(self.MT[index+2]), 100)))
+            width_to_mass4 = 0.3 * np.ones(len(np.linspace(np.min(self.MT[index+3]), np.max(self.MT[index+3]), 100)))
 
-    def two_dim_interpolation_2201_02(self, index, widht_mass_ratio, mass, obs_exp):
+            t1 = obs_exp[index]
+            t2 = obs_exp[index + 1]
+            t3 = obs_exp[index + 2]
+            t4 = obs_exp[index + 3]
+            t1 = self.one_dim_interp(self.MT[index], t1)
+            t2 = self.one_dim_interp(self.MT[index+1], t2)
+            t3 = self.one_dim_interp(self.MT[index+2], t3)
+            t4 = self.one_dim_interp(self.MT[index+3], t4)
 
-        width_to_mass = 0.05 * np.ones(len(self.MT[index]))
-        width_to_mass2 = 0.1 * np.ones(len(self.MT[index + 1]))
-        width_to_mass3 = 0.2 * np.ones(len(self.MT[index + 2]))
-        width_to_mass4 = 0.3 * np.ones(len(self.MT[index + 3]))
+            m1 = np.linspace(np.min(self.MT[index]), np.max(self.MT[index]), 100)
+            m2 = np.linspace(np.min(self.MT[index+1]), np.max(self.MT[index+1]), 100)
+            m3 = np.linspace(np.min(self.MT[index+2]), np.max(self.MT[index+2]), 100)
+            m4 = np.linspace(np.min(self.MT[index+3]), np.max(self.MT[index+3]), 100)
 
-        t1 = obs_exp[index]
-        t2 = obs_exp[index + 1]
-        t3 = obs_exp[index + 2]
-        t4 = obs_exp[index + 3]
+            m = np.concatenate([m1, m2, m3, m4], axis=None)
+            t_tot = np.concatenate([t1, t2, t3, t4], axis=None)
+            w = np.concatenate([width_to_mass, width_to_mass2, width_to_mass3, width_to_mass4], axis=None)
 
-        m1 = self.MT[index]
-        m2 = self.MT[index + 1]
-        m3 = self.MT[index + 2]
-        m4 = self.MT[index + 3]
-
-        m = np.concatenate([m1, m2, m3, m4], axis=None)
-        t_tot = np.concatenate([t1, t2, t3, t4], axis=None)
-        k = np.concatenate([width_to_mass, width_to_mass2, width_to_mass3, width_to_mass4], axis=None)
-
-        interp = LinearNDInterpolator(list(zip(m, k)), t_tot)
-        return interp(mass, widht_mass_ratio)
+            interp = LinearNDInterpolator(list(zip(m, w)), t_tot)
+            return interp(mass, width_mass_ratio)
+        else:
+            expected_or_observed = interp1d(self.MT[index], obs_exp[index], 'linear')
+            denom = expected_or_observed(self.m.mv())
+            return denom
 
     def denominator(self, num, index, t):
-        print(num, self.key[index])
         if 0 <= num:
             if min(self.MT[index]) <= self.m.mv() <= max(self.MT[index]):
                 if self.m.model() == 'Singlet':
