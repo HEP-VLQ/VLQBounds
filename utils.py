@@ -52,3 +52,8 @@ def df_making(df, **kwargs):
     data = pd.DataFrame(kwargs, index=[0])
     df = pd.concat([df, data], ignore_index=True)
     return df
+
+
+def check_width_to_mass_input(w):
+    if w < 0:
+        raise ValueError("Width-to-mass ratio has to be positive.")
