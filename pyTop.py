@@ -59,13 +59,16 @@ class PyTop(Coupling):
 
         if "k_T" in kwargs:
             self.m.set_coupling_strength(kwargs["k_T"])
+
         elif "w_m" in kwargs:
             if kwargs["w_m"] <= 0:
                 raise ValueError("Error, width-to-mass ratio (w_m) must be greater than 0")
             self.m.set_width_mass_ratio(kwargs["w_m"])
+
         elif "s_u_r" in kwargs:
             check_sin(kwargs["s_u_r"])
             self.m.set_sin_u_r(kwargs["s_u_r"])
+
         else:
             raise ValueError("Error, input must contain 'k_T', 'w_m', or 's_u_r' besides 'mT'")
 

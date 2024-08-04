@@ -1,5 +1,3 @@
-import math
-import numpy as np
 import constants as c
 from initialize import Tables
 from utils import *
@@ -10,7 +8,6 @@ class Singlet:
     def __init__(self):
         self.__model = 'Singlet'
         self.mT_theo = None
-        self.mB_theo = None
         self.sin_l = None
         self.kappa = None
         self.width_ratio = None
@@ -18,8 +15,6 @@ class Singlet:
     def set_mT(self, mT):
         self.mT_theo = mT
 
-    def set_mB(self, mB):
-        self.mB_theo = mB
 
     def set_sin_l(self, s_l):
         self.sin_l = s_l
@@ -36,10 +31,7 @@ class Singlet:
     def get_mT(self):
         return self.mT_theo
 
-    def get_mB(self):
-        return self.mB_theo
-
-    def get_sin_left(self, from_B_width=False):
+    def get_sin_left(self):
         if self.sin_l is not None:
             return self.sin_l
         else:
@@ -47,27 +39,16 @@ class Singlet:
                 return self.kappa / np.sqrt(2)
             else:
                 if self.width_ratio is not None:
-                    if from_B_width:
-                        kappa = self.kappa_coupling_from_width(from_B_width=True, mB=self.get_mB())
-                        return kappa / np.sqrt(2)
-                    else:
-                        kappa = self.kappa_coupling_from_width()
-                        return kappa / np.sqrt(2)
+                    kappa = self.kappa_coupling_from_width()
+                    return kappa / np.sqrt(2)
 
-    def get_width_mass_ratio(self, return_B=False):
+    def get_width_mass_ratio(self):
         if self.width_ratio is None:
-            if return_B:
-                g1 = self.B_decay_to_wt()
-                g2 = self.B_decay_to_hb()
-                g3 = self.B_decay_to_zb()
-                gamma_mv_ratio = (g1 + g2 + g3) / self.mT_theo
-                return gamma_mv_ratio
-            else:
-                g1 = self.T_decay_to_wb()
-                g2 = self.T_decay_to_ht()
-                g3 = self.T_decay_to_zt()
-                gamma_mv_ratio = (g1 + g2 + g3) / self.mT_theo
-                return gamma_mv_ratio
+            g1 = self.T_decay_to_wb()
+            g2 = self.T_decay_to_ht()
+            g3 = self.T_decay_to_zt()
+            gamma_mv_ratio = (g1 + g2 + g3) / self.mT_theo
+            return gamma_mv_ratio
         else:
             return self.width_ratio
 
@@ -298,103 +279,6 @@ class Singlet:
                                                     - r_x(c.Mh, self.mT_theo) ** 2))
             return gamma
 
-    def B_decay_to_wt(self):
-        constant = c.G ** 2 / (64 * c.PI)
-        if self.width_ratio is None:
-            if self.kappa is None:
-                if self.sin_l is not None:
-                    s_l = self.sin_l
-
-                    gamma = (constant * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mt, c.MW))
-                             * s_l ** 2 * (1 + r_x(c.MW, self.mB_theo) ** 2 - 2 * r_x(c.Mt, self.mB_theo) ** 2
-                             - 2 * r_x(c.MW, self.mB_theo) ** 4 + r_x(c.Mt, self.mB_theo) ** 4
-                             + r_x(c.Mt, self.mB_theo) ** 2 * r_x(c.MW, self.mB_theo) ** 2))
-                    return gamma
-                else:
-                    raise Exception("Calculation error: Width, universal coupling and mixing are all None.")
-            else:
-                gamma = (constant * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mt, c.MW))
-                         * (self.kappa / np.sqrt(2)) ** 2 * (1 + r_x(c.MW, self.mB_theo) ** 2
-                                                             - 2 * r_x(c.Mt, self.mB_theo) ** 2
-                                                             - 2 * r_x(c.MW, self.mB_theo) ** 4
-                                                             + r_x(c.Mt, self.mB_theo) ** 4
-                                                             + r_x(c.Mt, self.mB_theo) ** 2
-                                                             * r_x(c.MW, self.mB_theo) ** 2))
-                return gamma
-        else:
-            kappa = self.kappa_coupling_from_width()
-            gamma = (constant * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mt, c.MW))
-                     * (kappa / np.sqrt(2)) ** 2 * (1 + r_x(c.MW, self.mB_theo) ** 2
-                                                    - 2 * r_x(c.Mt, self.mB_theo) ** 2
-                                                    - 2 * r_x(c.MW, self.mB_theo) ** 4
-                                                    + r_x(c.Mt, self.mB_theo) ** 4
-                                                    + r_x(c.Mt, self.mB_theo) ** 2
-                                                    * r_x(c.MW, self.mB_theo) ** 2))
-            return gamma
-
-    def B_decay_to_zb(self):
-        constant = c.G ** 2 / (128 * c.PI * c.C_W ** 2)
-        if self.width_ratio is None:
-            if self.kappa is None:
-                if self.sin_l is not None:
-                    s_l = self.sin_l
-                    c_l = np.sqrt(1 - s_l ** 2)
-
-                    gamma = (constant * self.mB_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.MZ))
-                             * (s_l * c_l) ** 2 * (1 + r_x(c.MZ, self.mB_theo) ** 2 - 2 * r_x(c.Mb, self.mB_theo) ** 2
-                             - 2 * r_x(c.MZ, self.mB_theo) ** 4 + r_x(c.Mb, self.mB_theo) ** 4
-                             + r_x(c.Mb, self.mB_theo) ** 2 * r_x(c.MZ, self.mB_theo) ** 2))
-
-                    return gamma
-                else:
-                    raise Exception("Calculation error: Width, universal coupling and mixing are all None.")
-            else:
-                gamma = (constant * self.mB_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.MZ))
-                         * (self.kappa / np.sqrt(2)) ** 2 * (1 + r_x(c.MZ, self.mB_theo) ** 2
-                                                             - 2 * r_x(c.Mb, self.mB_theo) ** 2
-                                                             - 2 * r_x(c.MZ, self.mB_theo) ** 4
-                                                             + r_x(c.Mb, self.mB_theo) ** 4
-                                                             + r_x(c.Mb, self.mB_theo) ** 2
-                                                             * r_x(c.MZ, self.mB_theo) ** 2))
-                return gamma
-        else:
-            kappa = self.kappa_coupling_from_width()
-            gamma = (constant * self.mB_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.MZ))
-                     * (kappa / np.sqrt(2)) ** 2 * (1 + r_x(c.MZ, self.mB_theo) ** 2
-                                                    - 2 * r_x(c.Mb, self.mB_theo) ** 2
-                                                    - 2 * r_x(c.MZ, self.mB_theo) ** 4
-                                                    + r_x(c.Mb, self.mB_theo) ** 4
-                                                    + r_x(c.Mb, self.mB_theo) ** 2
-                                                    * r_x(c.MZ, self.mB_theo) ** 2))
-            return gamma
-
-    def B_decay_to_hb(self):
-        constant = c.G ** 2 / (128 * c.PI)
-        if self.width_ratio is None:
-            if self.kappa is None:
-                if self.sin_l is not None:
-                    s_l = self.sin_l
-                    c_l = np.sqrt(1 - s_l ** 2)
-                    gamma = (constant * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.Mh))
-                             * (s_l * c_l) ** 2 * (1 + 6 * r_x(c.Mb, self.mB_theo) ** 2
-                             - r_x(c.Mh, self.mB_theo) ** 2 + r_x(c.Mb, self.mB_theo) ** 4
-                             - r_x(c.Mb, self.mB_theo) ** 2 * r_x(c.Mh, self.mB_theo) ** 2))
-
-                    return gamma
-                else:
-                    raise Exception("Calculation error: Width, universal coupling and mixing are all None.")
-            else:
-                gamma = (constant * self.mT_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.Mh))
-                         * (self.kappa / np.sqrt(2)) ** 2 * (1 + r_x(c.Mb, self.mB_theo) ** 2
-                                                             - r_x(c.Mh, self.mT_theo) ** 2))
-                return gamma
-        else:
-            kappa = self.kappa_coupling_from_width()
-            gamma = (constant * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.Mh))
-                     * (kappa / np.sqrt(2)) ** 2 * (1 + r_x(c.Mb, self.mB_theo) ** 2
-                                                    - r_x(c.Mh, self.mB_theo) ** 2))
-            return gamma
-
     def get_brTbw(self):
         gamma_wb = self.T_decay_to_wb()
         gamma_zt = self.T_decay_to_zt()
@@ -416,27 +300,6 @@ class Singlet:
         br_to_ht = gamma_ht / (gamma_ht + gamma_wb + gamma_zt)
         return br_to_ht
 
-    def get_brBwt(self):
-        gamma_wb = self.B_decay_to_wt()
-        gamma_zt = self.B_decay_to_zb()
-        gamma_ht = self.B_decay_to_hb()
-        br_to_wb = gamma_wb / (gamma_ht + gamma_wb + gamma_zt)
-        return br_to_wb
-
-    def get_brBzb(self):
-        gamma_wb = self.B_decay_to_wt()
-        gamma_zt = self.B_decay_to_zb()
-        gamma_ht = self.B_decay_to_hb()
-        br_to_zt = gamma_zt / (gamma_ht + gamma_wb + gamma_zt)
-        return br_to_zt
-
-    def get_brBhb(self):
-        gamma_wb = self.B_decay_to_wt()
-        gamma_zt = self.B_decay_to_zb()
-        gamma_ht = self.B_decay_to_hb()
-        br_to_ht = gamma_ht / (gamma_ht + gamma_wb + gamma_zt)
-        return br_to_ht
-
     def get_coupling_to_zt_or_ht(self):
         c_l = np.sqrt(1 - self.sin_l ** 2)
         if self.width_ratio is None:
@@ -450,61 +313,33 @@ class Singlet:
         else:
             return self.kappa_coupling_from_width() / np.sqrt(2)
 
-    def kappa_coupling_from_width(self, mT=None, wr=None, from_B_width=False, mB=None):
-        if from_B_width:
-            if wr is None:
-                width_ratio = self.width_ratio
-            else:
-                width_ratio = wr
-
-            if mB is None:
-                MB = self.get_mB()
-            else:
-                MB = mB
-
-            kappa = np.sqrt(2) * np.sqrt(width_ratio * MB / ((c.Cst1 * MB / (c.MW ** 2) * np.sqrt(
-                lambda_func(MB, c.Mt, c.MW)) * (1 + r_x(c.MW, MB) ** 2 - 2 * r_x(c.Mt, MB) ** 2
-                                                - 2 * r_x(c.MW, MB) ** 4 + r_x(c.Mt, MB) ** 4
-                                                + r_x(c.Mt, MB) ** 2 * r_x(c.MW, MB) ** 2))
-                                                      + (c.Cst2 * MB / (c.MZ ** 2)
-                                                         * np.sqrt(lambda_func(MB, c.Mb, c.MZ))
-                                                         * (1 + r_x(c.MZ, MB) ** 2
-                                                            - 2 * r_x(c.Mb, MB) ** 2
-                                                            - 2 * r_x(c.MZ, MB) ** 4
-                                                            + r_x(c.Mb, MB) ** 4 + r_x(c.Mb, MB) ** 2
-                                                            * r_x(c.MZ, MB) ** 2))
-                                                      + (c.Cst3 * MB / (c.MW ** 2)
-                                                         * np.sqrt(lambda_func(MB, c.Mb, c.Mh))
-                                                         * (1 + r_x(c.Mb, MB) ** 2
-                                                            - r_x(c.Mh, MB) ** 2))))
-            return kappa
+    def kappa_coupling_from_width(self, mT=None, wr=None):
+        if wr is None:
+            width_ratio = self.width_ratio
         else:
-            if wr is None:
-                width_ratio = self.width_ratio
-            else:
-                width_ratio = wr
-            if mT is None:
-                MT = self.get_mT()
-            else:
-                MT = mT
+            width_ratio = wr
+        if mT is None:
+            MT = self.get_mT()
+        else:
+            MT = mT
 
-            kappa = np.sqrt(2) * np.sqrt(width_ratio * MT / ((c.Cst1 * MT / (c.MW ** 2) * np.sqrt(
-                lambda_func(self.mT_theo, c.Mb, c.MW)) * (1 + r_x(c.MW, MT) ** 2
-                                                          - 2 * r_x(c.Mb, MT) ** 2
-                                                          - 2 * r_x(c.MW, MT) ** 4 + r_x(c.Mb, MT) ** 4
-                                                          + r_x(c.Mb, MT) ** 2 * r_x(c.MW, MT) ** 2))
-                                                      + (c.Cst2 * MT / (c.MZ ** 2)
-                                                         * np.sqrt(lambda_func(MT, c.Mt, c.MZ))
-                                                         * (1 + r_x(c.MZ, MT) ** 2
-                                                            - 2 * r_x(c.Mt, MT) ** 2
-                                                            - 2 * r_x(c.MZ, MT) ** 4
-                                                            + r_x(c.Mt, MT) ** 4 + r_x(c.Mt, MT) ** 2
-                                                            * r_x(c.MZ, MT) ** 2))
-                                                      + (c.Cst3 * MT / (c.MW ** 2)
-                                                         * np.sqrt(lambda_func(MT, c.Mt, c.Mh))
-                                                         * (1 + r_x(c.Mt, MT) ** 2
-                                                            - r_x(c.Mh, MT) ** 2))))
-            return kappa
+        kappa = np.sqrt(2) * np.sqrt(width_ratio * MT / ((c.Cst1 * MT / (c.MW ** 2) * np.sqrt(
+            lambda_func(self.mT_theo, c.Mb, c.MW)) * (1 + r_x(c.MW, MT) ** 2
+                                                      - 2 * r_x(c.Mb, MT) ** 2
+                                                      - 2 * r_x(c.MW, MT) ** 4 + r_x(c.Mb, MT) ** 4
+                                                      + r_x(c.Mb, MT) ** 2 * r_x(c.MW, MT) ** 2))
+                                                         + (c.Cst2 * MT / (c.MZ ** 2)
+                                                            * np.sqrt(lambda_func(MT, c.Mt, c.MZ))
+                                                            * (1 + r_x(c.MZ, MT) ** 2
+                                                               - 2 * r_x(c.Mt, MT) ** 2
+                                                               - 2 * r_x(c.MZ, MT) ** 4
+                                                               + r_x(c.Mt, MT) ** 4 + r_x(c.Mt, MT) ** 2
+                                                               * r_x(c.MZ, MT) ** 2))
+                                                         + (c.Cst3 * MT / (c.MW ** 2)
+                                                            * np.sqrt(lambda_func(MT, c.Mt, c.Mh))
+                                                            * (1 + r_x(c.Mt, MT) ** 2
+                                                               - r_x(c.Mh, MT) ** 2))))
+        return kappa
 
 
 class Doublet:
@@ -512,10 +347,8 @@ class Doublet:
     def __init__(self):
         self.__model = 'Doublet'
         self.mT_theo = None
-        self.mB_theo = None
         self.sin_r = None
         self.sin_u_r = None
-        self.sin_d_r = None
         self.kappa = None
         self.width_ratio = None
         self.which_d = 'XT'
@@ -523,17 +356,12 @@ class Doublet:
     def set_mT(self, mT):
         self.mT_theo = mT
 
-    def set_mB(self, mB):
-        self.mT_theo = mB
-
     def set_sin_r(self, s_r):
         self.sin_r = s_r
 
     def set_sin_u_r(self, s_u_r):
         self.sin_u_r = s_u_r
 
-    def set_sin_d_r(self, s_d_r):
-        self.sin_d_r = s_d_r
 
     def set_coupling_strength(self, k):
         self.kappa = k
@@ -547,9 +375,6 @@ class Doublet:
     def get_mT(self):
         return self.mT_theo
 
-    def get_mB(self):
-        return self.mB_theo
-
     def get_which_doublet(self):
         return self.which_d
 
@@ -561,9 +386,6 @@ class Doublet:
             return self.sin_u_r
         else:
             return
-
-    def get_sin_down_right(self):
-        return self.sin_d_r
 
     def get_width_mass_ratio(self):
         if self.width_ratio is None:
@@ -655,32 +477,6 @@ class Doublet:
                                      + r_x(c.Mb, self.mT_theo) ** 2 * r_x(c.MW, self.mT_theo) ** 2))
             return gamma
 
-    def B_decay_to_wt_BY(self):
-        if self.width_ratio is None:
-            if self.kappa is None:
-                if self.sin_r is not None:
-                    s_l = self.sin_left_calc(self.sin_r)
-                    gamma = (c.Cst1 * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mt, c.MW))
-                             * s_l ** 2 * (1 + r_x(c.MW, self.mB_theo) ** 2 - 2 * r_x(c.Mt, self.mB_theo) ** 2 -
-                                           2 * r_x(c.MW, self.mB_theo) ** 4 + r_x(c.Mt, self.mB_theo) ** 4
-                                           + r_x(c.Mt, self.mB_theo) ** 2 * r_x(c.MW, self.mB_theo) ** 2))
-                    return gamma
-                else:
-                    raise Exception("Calculation error: Width, universal coupling and mixing are all None.")
-            else:
-                gamma = (c.Cst1 * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mt, c.MW))
-                         * self.kappa ** 2 * (1 + r_x(c.MW, self.mB_theo) ** 2 - 2 * r_x(c.Mt, self.mB_theo) ** 2
-                                              - 2 * r_x(c.MW, self.mB_theo) ** 4 + r_x(c.Mt, self.mB_theo) ** 4
-                                              + r_x(c.Mt, self.mB_theo) ** 2 * r_x(c.MW, self.mB_theo) ** 2))
-                return gamma
-        else:
-            kappa = self.kappa_coupling_from_width(from_Bwidth=True, mB=self.get_mB())
-            gamma = (c.Cst1 * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mt, c.MW))
-                     * kappa ** 2 * (1 + r_x(c.MW, self.mB_theo) ** 2 - 2 * r_x(c.Mt, self.mB_theo) ** 2
-                                     - 2 * r_x(c.MW, self.mB_theo) ** 4 + r_x(c.Mt, self.mB_theo) ** 4
-                                     + r_x(c.Mt, self.mB_theo) ** 2 * r_x(c.MW, self.mB_theo) ** 2))
-            return gamma
-
     def T_decay_to_zt_TX(self):
         if self.width_ratio is None:
             if self.kappa is None:
@@ -717,41 +513,6 @@ class Doublet:
                                              + r_x(c.Mt, self.mT_theo) ** 2 * r_x(c.MZ, self.mT_theo) ** 2)))
             return gamma
 
-    def B_decay_to_zb_BY(self):
-        if self.width_ratio is None:
-            if self.kappa is None:
-                if self.sin_r is not None:
-                    s_l = self.sin_left_calc(self.sin_r)
-                    c_l = np.sqrt(1 - s_l ** 2)
-                    s_r = self.get_sin_right()
-                    c_r = np.sqrt(1 - s_r ** 2)
-
-                    gamma = (c.Cst2 * self.mB_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.MZ))
-                             * ((s_r * c_r) ** 2 + (2 * s_l * c_l) ** 2) * ((1 + r_x(c.MZ, self.mB_theo) ** 2
-                                                                             - 2 * r_x(c.Mb, self.mB_theo) ** 2
-                                                                             - 2 * r_x(c.MZ, self.mB_theo) ** 4
-                                                                             + r_x(c.Mb, self.mB_theo) ** 4
-                                                                             + r_x(c.Mb, self.mB_theo) ** 2
-                                                                             * r_x(c.MZ, self.mB_theo) ** 2)
-                                                                            - 12 * r_x(c.MZ, self.mB_theo) ** 2
-                                                                            * r_x(c.Mb, self.mB_theo) * 2
-                                                                            * s_l * c_l * s_r * c_r))
-                    return gamma
-                else:
-                    raise Exception("Calculation error: Width, universal coupling and mixing are all None.")
-            else:
-                gamma = (c.Cst2 * self.mB_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.MZ))
-                         * (self.kappa ** 2) * ((1 + r_x(c.MZ, self.mB_theo) ** 2 - 2 * r_x(c.Mb, self.mB_theo) ** 2
-                                                - 2 * r_x(c.MZ, self.mB_theo) ** 4 + r_x(c.Mb, self.mB_theo) ** 4
-                                                + r_x(c.Mb, self.mB_theo) ** 2 * r_x(c.MZ, self.mB_theo) ** 2)))
-                return gamma
-        else:
-            kappa = self.kappa_coupling_from_width(from_Bwidth=True, mB=self.get_mB())
-            gamma = (c.Cst2 * self.mB_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mT_theo, c.Mt, c.MZ))
-                     * (kappa ** 2) * ((1 + r_x(c.MZ, self.mB_theo) ** 2 - 2 * r_x(c.Mb, self.mB_theo) ** 2
-                                        - 2 * r_x(c.MZ, self.mB_theo) ** 4 + r_x(c.Mb, self.mB_theo) ** 4
-                                        + r_x(c.Mb, self.mB_theo) ** 2 * r_x(c.MZ, self.mB_theo) ** 2)))
-            return gamma
 
     def T_decay_to_ht_TX(self):
         if self.width_ratio is None:
@@ -776,31 +537,6 @@ class Doublet:
             kappa = self.kappa_coupling_from_width()
             gamma = (c.Cst3 * self.mT_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mT_theo, c.Mt, c.Mh))
                      * kappa ** 2 * (1 + r_x(c.Mt, self.mT_theo) ** 2 - r_x(c.Mh, self.mT_theo) ** 2))
-            return gamma
-
-    def B_decay_to_hb_BY(self):
-        if self.width_ratio is None:
-            if self.kappa is None:
-                if self.sin_u_r is not None:
-                    s_r = self.get_sin_right()
-                    c_r = np.sqrt(1 - s_r ** 2)
-
-                    gamma = (c.Cst3 * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.Mh))
-                             * (s_r * c_r) ** 2 * (1 + 6 * r_x(c.Mb, self.mB_theo) ** 2
-                             - r_x(c.Mh, self.mB_theo) ** 2 + r_x(c.Mb, self.mB_theo) ** 4
-                             - r_x(c.Mb, self.mB_theo) ** 2 * r_x(c.Mh, self.mB_theo) ** 2))
-
-                    return gamma
-                else:
-                    raise Exception("Calculation error: Width, universal coupling and mixing are all None.")
-            else:
-                gamma = (c.Cst3 * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.Mh))
-                         * self.kappa ** 2 * (1 + r_x(c.Mb, self.mB_theo) ** 2 - r_x(c.Mh, self.mB_theo) ** 2))
-                return gamma
-        else:
-            kappa = self.kappa_coupling_from_width(from_Bwidth=True, mB=self.get_mB())
-            gamma = (c.Cst3 * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.Mh))
-                     * kappa ** 2 * (1 + r_x(c.Mb, self.mB_theo) ** 2 - r_x(c.Mh, self.mB_theo) ** 2))
             return gamma
 
     def T_decay_to_zt_TB(self):
@@ -838,41 +574,6 @@ class Doublet:
                                       + r_x(c.Mt, self.mT_theo) ** 2 * r_x(c.MZ, self.mT_theo) ** 2)))
 
             return gamma
-    def B_decay_to_zb_TB(self):
-        constant = c.G ** 2 / (128 * c.PI * c.C_W ** 2)
-        if self.width_ratio is None:
-            if self.kappa is None:
-                if self.sin_d_r is not None:
-                    s_d_r = self.get_sin_down_right()
-                    c_d_r = np.sqrt(1 - s_d_r ** 2)
-
-                    gamma = (constant * self.mB_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.MZ))
-                             * (s_d_r * c_d_r) ** 2 * ((1 + r_x(c.MZ, self.mB_theo) ** 2
-                                                       - 2 * r_x(c.Mb, self.mB_theo) ** 2
-                                                        - 2 * r_x(c.MZ, self.mB_theo) ** 4
-                                                        + r_x(c.Mb, self.mB_theo) ** 4 + r_x(c.Mb, self.mB_theo) ** 2
-                                                        * r_x(c.MZ, self.mB_theo) ** 2)))
-
-                    return gamma
-                else:
-                    raise Exception("Calculation error: Width, universal coupling and mixing are all None.")
-
-            else:
-                gamma = (constant * self.mT_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.MZ))
-                         * self.kappa ** 2 * ((1 + r_x(c.MZ, self.mB_theo) ** 2
-                                              - 2 * r_x(c.Mb, self.mB_theo) ** 2 - 2 * r_x(c.MZ, self.mB_theo) ** 4
-                                              + r_x(c.Mt, self.mB_theo) ** 4 + r_x(c.Mt, self.mB_theo) ** 2
-                                              * r_x(c.MZ, self.mB_theo) ** 2)))
-
-                return gamma
-        else:
-            kappa = self.kappa_coupling_from_width(from_Bwidth=True, mB=self.get_mB())
-            gamma = (constant * self.mB_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.MZ))
-                     * kappa ** 2 * ((1 + r_x(c.MZ, self.mB_theo) ** 2 - 2 * r_x(c.Mb, self.mB_theo) ** 2
-                                      - 2 * r_x(c.MZ, self.mB_theo) ** 4 + r_x(c.Mb, self.mB_theo) ** 4
-                                      + r_x(c.Mb, self.mB_theo) ** 2 * r_x(c.MZ, self.mB_theo) ** 2)))
-
-            return gamma
 
     def T_decay_to_ht_TB(self):
         constant = c.G ** 2 / (128 * c.PI)
@@ -900,75 +601,28 @@ class Doublet:
                      * kappa ** 2 * (1 + r_x(c.Mt, self.mT_theo) ** 2 - r_x(c.Mh, self.mT_theo) ** 2))
             return gamma
 
-    def B_decay_to_hb_TB(self):
-        if self.width_ratio is None:
-            if self.kappa is None:
-                if self.sin_d_r is not None:
-                    s_d_r = self.get_sin_down_right()
-                    c_d_r = np.sqrt(1 - s_d_r ** 2)
-
-                    gamma = (c.Cst3 * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.Mh))
-                             * (s_d_r * c_d_r ** 2) * (1 + 6 * r_x(c.Mb, self.mB_theo) ** 2
-                             - r_x(c.Mh, self.mB_theo) ** 2 + r_x(c.Mb, self.mB_theo) ** 4
-                             - r_x(c.Mb, self.mB_theo) ** 2 * r_x(c.Mh, self.mB_theo) ** 2))
-
-                    return gamma
-                else:
-                    raise Exception("Calculation error: Width, universal coupling and mixing are all None.")
-            else:
-                gamma = (c.Cst3 * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.Mh))
-                         * self.kappa ** 2 * (1 + r_x(c.Mb, self.mB_theo) ** 2 - r_x(c.Mh, self.mB_theo) ** 2))
-                return gamma
+    def kappa_coupling_from_width(self, mT=None, wr=None):
+        if wr is None:
+            width_ratio = self.width_ratio
         else:
-            kappa = self.kappa_coupling_from_width()
-            gamma = (c.Cst3 * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.Mh))
-                     * kappa ** 2 * (1 + r_x(c.Mb, self.mB_theo) ** 2 - r_x(c.Mh, self.mB_theo) ** 2))
-            return gamma
-
-    def kappa_coupling_from_width(self, mT=None, wr=None, from_Bwidth=False, mB=None):
-        if from_Bwidth:
-            if wr is None:
-                width_ratio = self.width_ratio
-            else:
-                width_ratio = wr
-            if mT is None:
-                MB = self.get_mB()
-            else:
-                MB = mB
-
-            kappa = np.sqrt(width_ratio * MB / ((c.Cst2 * MB / (c.MZ ** 2)
-                                                 * np.sqrt(lambda_func(MB, c.Mb, c.MZ))
-                                                 * (1 + r_x(c.MZ, MB) ** 2 - 2 * r_x(c.Mb, MB) ** 2
-                                                    - 2 * r_x(c.MZ, MB) ** 4 + r_x(c.Mb, MB) ** 4
-                                                    + r_x(c.Mb, MB) ** 2 * r_x(c.MZ, MB) ** 2))
-                                                + (c.Cst3 * MB / (c.MW ** 2)
-                                                    * np.sqrt(lambda_func(MB, c.Mb, c.Mh))
-                                                    * (1 + r_x(c.Mb, MB) ** 2 - r_x(c.Mh, MB) ** 2))))
-            return kappa
+            width_ratio = wr
+        if mT is None:
+            MT = self.get_mT()
         else:
-            if wr is None:
-                width_ratio = self.width_ratio
-            else:
-                width_ratio = wr
-            if mT is None:
-                MT = self.get_mT()
-            else:
-                MT = mT
+            MT = mT
 
-            kappa = np.sqrt(width_ratio * MT / ((c.Cst2 * MT / (c.MZ ** 2)
-                                                 * np.sqrt(lambda_func(MT, c.Mt, c.MZ))
-                                                 * (1 + r_x(c.MZ, MT) ** 2
-                                                    - 2 * r_x(c.Mt, MT) ** 2
-                                                    - 2 * r_x(c.MZ, MT) ** 4 + r_x(c.Mt, MT) ** 4
-                                                    + r_x(c.Mt, MT) ** 2 * r_x(c.MZ, MT) ** 2))
-                                                + (c.Cst3 * MT / (c.MW ** 2)
-                                                * np.sqrt(lambda_func(MT, c.Mt, c.Mh))
-                                                * (1 + r_x(c.Mt, MT) ** 2 - r_x(c.Mh, MT) ** 2))))
-            return kappa
+        kappa = np.sqrt(width_ratio * MT / ((c.Cst2 * MT / (c.MZ ** 2)
+                                             * np.sqrt(lambda_func(MT, c.Mt, c.MZ))
+                                             * (1 + r_x(c.MZ, MT) ** 2
+                                                - 2 * r_x(c.Mt, MT) ** 2
+                                                - 2 * r_x(c.MZ, MT) ** 4 + r_x(c.Mt, MT) ** 4
+                                                + r_x(c.Mt, MT) ** 2 * r_x(c.MZ, MT) ** 2))
+                                            + (c.Cst3 * MT / (c.MW ** 2)
+                                               * np.sqrt(lambda_func(MT, c.Mt, c.Mh))
+                                               * (1 + r_x(c.Mt, MT) ** 2 - r_x(c.Mh, MT) ** 2))))
+        return kappa
 
-
-
-    def get_xs_pp_TT(self):
+    def get_xs_pp_QQ(self):
         mT = self.get_mT()
         xs_pp_TT = xsec_pp_TT_from_pred(mT)
         return xs_pp_TT
@@ -980,24 +634,10 @@ class Doublet:
         br_to_wb = gamma_wb / (gamma_ht + gamma_wb + gamma_zt)
         return br_to_wb
 
-    def get_brBwt_BY(self):
-        gamma_wb = self.B_decay_to_wb_BY()
-        gamma_zt = self.B_decay_to_zt_BY()
-        gamma_ht = self.B_decay_to_ht_BY()
-        br_to_wb = gamma_wb / (gamma_ht + gamma_wb + gamma_zt)
-        return br_to_wb
-
     def get_brTzt_XT(self):
         gamma_wb = self.T_decay_to_wb_TX()
         gamma_zt = self.T_decay_to_zt_TX()
         gamma_ht = self.T_decay_to_ht_TX()
-        br_to_zt = gamma_zt / (gamma_ht + gamma_wb + gamma_zt) # + gamma_wb
-        return br_to_zt
-
-    def get_brBzb_BY(self):
-        gamma_wb = self.B_decay_to_wt_BY()
-        gamma_zt = self.B_decay_to_zb_BY()
-        gamma_ht = self.B_decay_to_hb_BY()
         br_to_zt = gamma_zt / (gamma_ht + gamma_wb + gamma_zt) # + gamma_wb
         return br_to_zt
 
@@ -1008,34 +648,15 @@ class Doublet:
         br_to_ht = gamma_ht / (gamma_ht + gamma_wb + gamma_zt)
         return br_to_ht
 
-    def get_brBhb_BY(self):
-        gamma_wb = self.B_decay_to_wt_BY()
-        gamma_zt = self.B_decay_to_zb_BY()
-        gamma_ht = self.B_decay_to_hb_BY()
-        br_to_ht = gamma_ht / (gamma_ht + gamma_wb + gamma_zt)
-        return br_to_ht
-
     def get_brTzt_TB(self):
         gamma_zt = self.T_decay_to_zt_TB()
         gamma_ht = self.T_decay_to_ht_TB()
         br_to_zt = gamma_zt / (gamma_ht + gamma_zt)
         return br_to_zt
 
-    def get_brBzb_TB(self):
-        gamma_zt = self.B_decay_to_zb_TB()
-        gamma_ht = self.B_decay_to_hb_TB()
-        br_to_zt = gamma_zt / (gamma_ht + gamma_zt)
-        return br_to_zt
-
     def get_brTht_TB(self):
         gamma_zt = self.T_decay_to_zt_TB()
         gamma_ht = self.T_decay_to_ht_TB()
-        br_to_ht = gamma_ht / (gamma_ht + gamma_zt)
-        return br_to_ht
-
-    def get_brBhb_TB(self):
-        gamma_zt = self.B_decay_to_zb_TB()
-        gamma_ht = self.B_decay_to_hb_TB()
         br_to_ht = gamma_ht / (gamma_ht + gamma_zt)
         return br_to_ht
 
