@@ -1,0 +1,19 @@
+#arXiv:1612.05336
+#title:Search for electroweak production of a vector-like quark decaying to a top quark and a Higgs boson using boosted topologies in fully hadronic final states
+#luminosity 2.3 fb-1
+#Energy 13000 GeV
+#A.M.~Sirunyan and al. CMS Collaborations 
+#Fig4 upper left
+#pp→Tbq→tHbq, singlet LH 
+#Mass(GeV), C(bW), \sigma_{theorie}(pb)
+1000 0.5 0.12264574404700293
+1100 0.5 0.08562963907122491
+1200 0.5 0.06177036133899538
+1300 0.5 0.04492439834714388
+1400 0.5 0.03375738480474735
+1500 0.5 0.025366194557578096
+1600 0.5 0.01906083157965516
+1700 0.5 0.014090816855117316
+1800 0.5 0.010588213627610157
+
+

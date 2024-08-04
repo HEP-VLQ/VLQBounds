@@ -9,6 +9,12 @@ class Tables:
         self.MT = None
         self.exp = None
         self.obs = None
+        self.MT_obs = None
+        self.MT_exp = None
+        self.obs_upper = None
+        self.exp_upper = None
+        self.obs_lower = None
+        self.exp_lower = None
         self.file_name = None
         self.model = None
         self.process = None
@@ -17,12 +23,14 @@ class Tables:
         self.which_doublet = None
         self.cs_keys = {}
         self.TB_XT_keys = {}
+        self.nwa = None
+        self.VLB = False
         self.m = m
 
     def initialize_tables_cms_and_atlas(self):
         """" fills experimental data from files """
         if self.m.model() == 'Singlet':
-            number_of_atlas_cms_tables = 58
+            number_of_atlas_cms_tables = 60
 
             self.file_name = [None] * number_of_atlas_cms_tables
             self.key = [None] * number_of_atlas_cms_tables
@@ -155,13 +163,13 @@ class Tables:
             self.energy[14] = 13
             self.luminosity[14] = 35.9
 
-            self.key[15] = '5500'
-            self.label[15] = 'arXiv:1409.5500'
-            self.expt[15] = 'ATLAS'
-            self.file_name[15] = '1409.5500_ATLAS_Fig-15-b_pp_Tbq_Zt.txt'
-            self.process[15] = 'pp --> Tbq --> tZbq'
-            self.energy[15] = 8
-            self.luminosity[15] = 20.3
+            self.key[15] = '17605f35'
+            self.label[15] = 'arXiv:2405.17605'
+            self.expt[15] = 'CMS'
+            self.file_name[15] = '2405.17605_CMS_fig35_pp_Tbq_singlet.dat'
+            self.process[15] = 'pp --> Tbq'
+            self.energy[15] = 13
+            self.luminosity[15] = 138
 
             self.key[16] = '12802'
             self.label[16] = 'arXiv:2302.12802'
@@ -295,7 +303,7 @@ class Tables:
             self.label[32] = 'arXiv:2305.03401'
             self.expt[32] = 'ATLAS'
             self.file_name[32] = '2305.03401_ATLAS_Fig11a_pp_Tqt_Wb_Ht_Zt_singlet-k02.txt'
-            self.process[32] = 'pp --> Tbq --> tZ(H)bq'
+            self.process[32] = 'pp --> Tb(t)q --> tZ(H)b(t)q'
             self.energy[32] = 13
             self.luminosity[32] = 139
 
@@ -303,7 +311,7 @@ class Tables:
             self.label[33] = 'arXiv:2305.03401'
             self.expt[33] = 'ATLAS'
             self.file_name[33] = '2305.03401_ATLAS_Fig11b_pp_Tqt_Wb_Ht_Zt_singlet-k04.txt'
-            self.process[33] = 'pp --> Tbq --> tZ(H)bq'
+            self.process[33] = 'pp --> Tb(t)q --> tZ(H)b(t)q'
             self.energy[33] = 13
             self.luminosity[33] = 139
 
@@ -311,7 +319,7 @@ class Tables:
             self.label[34] = 'arXiv:2305.03401'
             self.expt[34] = 'ATLAS'
             self.file_name[34] = '2305.03401_ATLAS_Fig11c_pp_Tqt_Wb_Ht_Zt_singlet-k06.txt'
-            self.process[34] = 'pp --> Tbq --> tZ(H)bq'
+            self.process[34] = 'pp --> Tb(t)q --> tZ(H)b(t)q'
             self.energy[34] = 13
             self.luminosity[34] = 139
 
@@ -319,7 +327,7 @@ class Tables:
             self.label[35] = 'arXiv:2402.16561'
             self.expt[35] = 'ATLAS'
             self.file_name[35] = '2402.16561_ATLAS_Fig9c_pp_T_Ht_Zt_singlet.txt'
-            self.process[35] = "pp --> Tbq --> tZbq"
+            self.process[35] = "pp --> Tb(t)q --> tZb(t)q"
             self.energy[35] = 13
             self.luminosity[35] = 139
 
@@ -383,7 +391,7 @@ class Tables:
             self.label[43] = 'arXiv:2307.07584'
             self.expt[43] = 'ATLAS'
             self.file_name[43] = '2307.07584_ATLAS_Fig8a_pp_T_Wb_Ht_Zt_singlet_k03.txt'
-            self.process[43] = "pp --> Tb(t)q --> tZbq"
+            self.process[43] = "pp --> Tb(t)q --> tZb(t)q"
             self.energy[43] = 13
             self.luminosity[43] = 139
 
@@ -391,7 +399,7 @@ class Tables:
             self.label[44] = 'arXiv:2307.07584'
             self.expt[44] = 'ATLAS'
             self.file_name[44] = '2307.07584_ATLAS_Fig8c_pp_T_Wb_Ht_Zt_singlet_k05.txt'
-            self.process[44] = "pp --> Tb(t)q --> tZbq"
+            self.process[44] = "pp --> Tb(t)q --> tZb(t)q"
             self.energy[44] = 13
             self.luminosity[44] = 139
 
@@ -399,7 +407,7 @@ class Tables:
             self.label[45] = 'arXiv:2307.07584'
             self.expt[45] = 'ATLAS'
             self.file_name[45] = '2307.07584_ATLAS_Fig8e_pp_T_Wb_Ht_Zt_singlet_k07.txt'
-            self.process[45] = "pp --> Tb(t)q --> tZbq"
+            self.process[45] = "pp --> Tb(t)q --> tZb(t)q"
             self.energy[45] = 13
             self.luminosity[45] = 139
 
@@ -438,7 +446,7 @@ class Tables:
             self.key[50] = '05071f4ur'
             self.label[50] = 'arXiv:2405.05071'
             self.expt[50] = 'CMS'
-            self.file_name[50] = '2405.05071_CMS_Fig4_upper_right_pp_Tbq_tZbq.txt'
+            self.file_name[50] = '2405.05071_CMS_Fig7_upper_right_pp_Tbq_tZbq.txt'
             self.process[50] = "pp --> Tbq --> tZbq --> tbbbq"
             self.energy[50] = 13
             self.luminosity[50] = 138
@@ -446,7 +454,7 @@ class Tables:
             self.key[51] = '05071f4ul'
             self.label[51] = 'arXiv:2405.05071'
             self.expt[51] = 'CMS'
-            self.file_name[51] = '2405.05071_CMS_Fig4_upper_left_pp_Tbq_tHbq.txt'
+            self.file_name[51] = '2405.05071_CMS_Fig7_upper_left_pp_Tbq_tHbq.txt'
             self.process[51] = "pp --> Tbq --> tHbq --> tbbbq"
             self.energy[51] = 13
             self.luminosity[51] = 138
@@ -454,15 +462,15 @@ class Tables:
             self.key[52] = '05071f4ll'
             self.label[52] = 'arXiv:2405.05071'
             self.expt[52] = 'CMS'
-            self.file_name[52] = '2405.05071_CMS_Fig4_lower_left_pp_Tbq_tZbq_tHbq.txt'
+            self.file_name[52] = '2405.05071_CMS_Fig7_lower_left_pp_Tbq_tZbq_tHbq.txt'
             self.process[52] = "pp --> Tbq --> (tH + tZ)bq --> tbbbq"
             self.energy[52] = 13
             self.luminosity[52] = 138
 
-            self.key[53] = '05071f4lr' # \gamma/m_T == 0.01
+            self.key[53] = '05071f4lr'
             self.label[53] = 'arXiv:2405.05071'
             self.expt[53] = 'CMS'
-            self.file_name[53] = '2405.05071_CMS_Fig4_lower_right_pp_Tbq_tZbq_tHbq.txt'
+            self.file_name[53] = '2405.05071_CMS_Fig7_lower_right_pp_Tbq_tZbq_tHbq.txt'
             self.process[53] = "pp --> Tbq --> (tH + tZ)bq --> tbbbq"
             self.energy[53] = 13
             self.luminosity[53] = 138
@@ -499,6 +507,22 @@ class Tables:
             self.energy[57] = 13
             self.luminosity[57] = 3.2
 
+            self.key[58] = '10555f15'
+            self.label[58] = 'arXiv:1806.10555'
+            self.expt[58] = 'ATLAS'
+            self.file_name[58] = '1806.10555_ATLAS_Fig15_pp_T_Zt_Singlet.txt'
+            self.process[58] = "pp --> Tbq --> tZbq"
+            self.energy[58] = 13
+            self.luminosity[58] = 36.1
+
+            self.key[59] = '08328'
+            self.label[59] = 'arXiv:1701.08328'
+            self.expt[59] = 'CMS'
+            self.file_name[59] = '1701.08328_CMS_fig5_pp_Tbq_or_Ybq_bW.txt'
+            self.process[59] = 'pp --> Tbq --> bWbq'
+            self.energy[59] = 13
+            self.luminosity[59] = 2.3
+
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
 
         elif self.m.model() == 'Doublet':
@@ -516,8 +540,8 @@ class Tables:
             self.energy = [None] * number_of_atlas_cms_tables
             self.luminosity = [None] * number_of_atlas_cms_tables
             self.which_doublet = [None] * number_of_atlas_cms_tables
+            self.nwa = [None] * number_of_atlas_cms_tables
 
-            #doublet (X, T) or (T, B)
             self.key[0] = '10751'
             self.label[0] = 'arXiv:1705.10751'
             self.expt[0] = 'ATLAS'
@@ -527,7 +551,6 @@ class Tables:
             self.luminosity[0] = 36.1
             self.which_doublet[0] = 'XTorTB'
 
-            #Doublet (X, T) or (T, B)
             self.key[1] = '07327'
             self.label[1] = 'arXiv:2209.07327'
             self.expt[1] = 'CMS'
@@ -537,7 +560,6 @@ class Tables:
             self.luminosity[1] = 138
             self.which_doublet[1] = 'XTorTB'
 
-            #Doublet (X, T) or (T, B)
             self.key[2] = '05263'
             self.label[2] = 'arXiv:2212.05263'
             self.expt[2] = 'ATLAS'
@@ -547,7 +569,7 @@ class Tables:
             self.luminosity[2] = 36.1
             self.which_doublet[2] = 'XTorTB'
 
-            #Doublet (X, T)
+
             self.key[3] = '10555'
             self.label[3] = 'arXiv:1806.10555'
             self.expt[3] = 'ATLAS'
@@ -557,7 +579,6 @@ class Tables:
             self.luminosity[3] = 139
             self.which_doublet[3] = 'XT'
 
-            #Doublet(X, T) or (T, B)
             self.key[4] = '04758'
             self.label[4] = 'arXiv:1805.04758'
             self.expt[4] = 'CMS'
@@ -567,7 +588,6 @@ class Tables:
             self.luminosity[4] = 35.9
             self.which_doublet[4] = 'XTorTB'
 
-            # Doublet(X, T) or (T, B)
             self.key[5] = '00999f10b'
             self.label[5] = 'arXiv:1612.00999'
             self.expt[5] = 'CMS'
@@ -576,8 +596,9 @@ class Tables:
             self.energy[5] = 13
             self.luminosity[5] = 2.3
             self.which_doublet[5] = 'XTorTB'
+            self.nwa[5] = True
 
-            # Doublet(X, T) or (T, B)
+
             self.key[6] = '03408'
             self.label[6] = 'arXiv:1706.03408'
             self.expt[6] = 'CMS'
@@ -587,7 +608,6 @@ class Tables:
             self.luminosity[6] = 2.6
             self.which_doublet[6] = 'XTorTB'
 
-            #Tt exist and narrow width Doublet(X, T) or (T, B)
             self.key[7] = '01062f5b'
             self.label[7] = 'arXiv:1708.01062'
             self.expt[7] = 'CMS'
@@ -596,8 +616,9 @@ class Tables:
             self.energy[7] = 13
             self.luminosity[7] = 35.9
             self.which_doublet[7] = 'XTorTB'
+            self.nwa[7] = True
 
-            #doublet (T, B)
+
             self.key[8] = '5500fd'
             self.label[8] = 'arXiv:1409.5500'
             self.expt[8] = 'ATLAS'
@@ -606,6 +627,7 @@ class Tables:
             self.energy[8] = 8
             self.luminosity[8] = 20.3
             self.which_doublet[8] = 'TB'
+            self.nwa[8] = True
 
             self.key[9] = '04721f10a'
             self.label[9] = 'arXiv:1909.04721'
@@ -615,6 +637,7 @@ class Tables:
             self.energy[9] = 13
             self.luminosity[9] = 35.9
             self.which_doublet[9] = 'TB'
+            self.nwa[9] = True
 
             self.key[10] = '04721f10b'
             self.label[10] = 'arXiv:1909.04721'
@@ -624,6 +647,7 @@ class Tables:
             self.energy[10] = 13
             self.luminosity[10] = 35.9
             self.which_doublet[10] = 'TB'
+            self.nwa[10] = True
 
             self.key[11] = '04721f10c'
             self.label[11] = 'arXiv:1909.04721'
@@ -633,6 +657,7 @@ class Tables:
             self.energy[11] = 13
             self.luminosity[11] = 35.9
             self.which_doublet[11] = 'TB'
+            self.nwa[11] = True
 
             self.key[12] = '04721f10d'
             self.label[12] = 'arXiv:1909.04721'
@@ -642,6 +667,7 @@ class Tables:
             self.energy[12] = 13
             self.luminosity[12] = 35.9
             self.which_doublet[12] = 'TB'
+            self.nwa[12] = True
 
             self.key[13] = '04721f10e'
             self.label[13] = 'arXiv:1909.04721'
@@ -651,6 +677,7 @@ class Tables:
             self.energy[13] = 13
             self.luminosity[13] = 35.9
             self.which_doublet[13] = 'TB'
+            self.nwa[13] = True
 
             self.key[14] = '04721f10f'
             self.label[14] = 'arXiv:1909.04721'
@@ -660,6 +687,7 @@ class Tables:
             self.energy[14] = 13
             self.luminosity[14] = 35.9
             self.which_doublet[14] = 'TB'
+            self.nwa[14] = True
 
             self.key[15] = '04721f11a'
             self.label[15] = 'arXiv:1909.04721'
@@ -669,6 +697,7 @@ class Tables:
             self.energy[15] = 13
             self.luminosity[15] = 35.9
             self.which_doublet[15] = 'TB'
+            self.nwa[15] = False
 
             self.key[16] = '04721f11b'
             self.label[16] = 'arXiv:1909.04721'
@@ -678,6 +707,7 @@ class Tables:
             self.energy[16] = 13
             self.luminosity[16] = 35.9
             self.which_doublet[16] = 'TB'
+            self.nwa[16] = False
 
             self.key[17] = '04721f11c'
             self.label[17] = 'arXiv:1909.04721'
@@ -687,6 +717,7 @@ class Tables:
             self.energy[17] = 13
             self.luminosity[17] = 35.9
             self.which_doublet[17] = 'TB'
+            self.nwa[17] = False
 
             self.key[18] = '04721f11d'
             self.label[18] = 'arXiv:1909.04721'
@@ -696,6 +727,7 @@ class Tables:
             self.energy[18] = 13
             self.luminosity[18] = 35.9
             self.which_doublet[18] = 'TB'
+            self.nwa[18] = False
 
             self.key[19] = '04721f11e'
             self.label[19] = 'arXiv:1909.04721'
@@ -705,6 +737,7 @@ class Tables:
             self.energy[19] = 13
             self.luminosity[19] = 35.9
             self.which_doublet[19] = 'TB'
+            self.nwa[19] = False
 
             self.key[20] = '04721f11f'
             self.label[20] = 'arXiv:1909.04721'
@@ -714,8 +747,8 @@ class Tables:
             self.energy[20] = 13
             self.luminosity[20] = 35.9
             self.which_doublet[20] = 'TB'
+            self.nwa[20] = False
 
-            #Tt (T,B) or (X,T)
             self.key[21] = '07409f4b'
             self.label[21] = 'arXiv:1701.07409'
             self.expt[21] = 'CMS'
@@ -724,8 +757,8 @@ class Tables:
             self.energy[21] = 13
             self.luminosity[21] = 2.3
             self.which_doublet[21] = 'XTorTB'
+            self.nwa[21] = True
 
-            #(T, B) or (X, T)
             self.key[22] = '04306fc'
             self.label[22] = 'arXiv:1505.04306'
             self.expt[22] = 'ATLAS'
@@ -739,30 +772,32 @@ class Tables:
             self.label[23] = 'arXiv:2305.03401'
             self.expt[23] = 'ATLAS'
             self.file_name[23] = '2305.03401_ATLAS_Fig12a_pp_Tqt_Ht_Zt_doublet-k02.txt'
-            self.process[23] = 'pp --> Ttq --> tZ(H)tq'
+            self.process[23] = 'pp --> Tb(t)q --> tZ(H)b(t)q'
             self.energy[23] = 13
             self.luminosity[23] = 139
             self.which_doublet[23] = 'TB'
+            self.nwa[23] = True
 
             self.key[24] = '03401f12b'
             self.label[24] = 'arXiv:2305.03401'
             self.expt[24] = 'ATLAS'
             self.file_name[24] = '2305.03401_ATLAS_Fig12b_pp_Tqt_Ht_Zt_doublet-k04.txt'
-            self.process[24] = 'pp --> Ttq --> tZ(H)tq'
+            self.process[24] = 'pp --> Tb(t)q --> tZ(H)b(t)q'
             self.energy[24] = 13
             self.luminosity[24] = 139
             self.which_doublet[24] = 'TB'
+            self.nwa[24] = True
 
             self.key[25] = '03401f12c'
             self.label[25] = 'arXiv:2305.03401'
             self.expt[25] = 'ATLAS'
             self.file_name[25] = '2305.03401_ATLAS_Fig12c_pp_Tqt_Ht_Zt_doublet-k06.txt'
-            self.process[25] = 'pp --> Ttq --> tZ(H)tq'
+            self.process[25] = 'pp --> Tb(t)q --> tZ(H)b(t)q'
             self.energy[25] = 13
             self.luminosity[25] = 139
             self.which_doublet[25] = 'TB'
+            self.nwa[25] = False
 
-            # doublet (T, B) or doublet (X,T)
             self.key[26] = '07584f8b'
             self.label[26] = 'arXiv:2307.07584'
             self.expt[26] = 'ATLAS'
@@ -771,6 +806,7 @@ class Tables:
             self.energy[26] = 13
             self.luminosity[26] = 139
             self.which_doublet[26] = 'XTorTB'
+            self.nwa[26] = True
 
             self.key[27] = '07584f8d'
             self.label[27] = 'arXiv:2307.07584'
@@ -780,6 +816,7 @@ class Tables:
             self.energy[27] = 13
             self.luminosity[27] = 139
             self.which_doublet[27] = 'XTorTB'
+            self.nwa[27] = True
 
             self.key[28] = '07584f8f'
             self.label[28] = 'arXiv:2307.07584'
@@ -789,8 +826,8 @@ class Tables:
             self.energy[28] = 13
             self.luminosity[28] = 139
             self.which_doublet[28] = 'XTorTB'
+            self.nwa[28] = False
 
-            # doublet (T, B) or doublet (X,T)
             self.key[29] = '05336f4lr'
             self.label[29] = 'arXiv:1612.05336'
             self.expt[29] = 'CMS'
@@ -799,8 +836,8 @@ class Tables:
             self.energy[29] = 13
             self.luminosity[29] = 2.3
             self.which_doublet[29] = 'XTorTB'
+            self.nwa[29] = True
 
-            # doublet (T, B) or doublet (X,T)
             self.key[30] = '104f16a'
             self.label[30] = 'ATLAS-CONF-2016-104'
             self.expt[30] = 'ATLAS'
@@ -810,7 +847,6 @@ class Tables:
             self.luminosity[30] = 13.2
             self.which_doublet[30] = 'XTorTB'
 
-            # doublet (T, B) or doublet (X,T)
             self.key[31] = '09678f17a'
             self.label[31] = 'arXiv:1803.09678'
             self.expt[31] = 'ATLAS'
@@ -820,7 +856,6 @@ class Tables:
             self.luminosity[31] = 36.1
             self.which_doublet[31] = 'XTorTB'
 
-            #(X,T)
             self.key[32] = '15413f7c'
             self.label[32] = 'arXiv:2210.15413'
             self.expt[32] = 'ATLAS'
@@ -903,18 +938,18 @@ class Tables:
             self.energy[6] = 13
             self.luminosity[6] = 36.1
 
-            self.key[7] = '08328'
-            self.label[7] = 'arXiv:1701.08328'
+            self.key[7] = '04177'
+            self.label[7] = 'arXiv:1509.04177'
             self.expt[7] = 'CMS'
-            self.file_name[7] = '1701.08328_CMS_fig5_pp_Tbq_or_Ybq_bW.txt'
-            self.process[7] = 'pp --> Tbq --> bWbq'
-            self.energy[7] = 13
-            self.luminosity[7] = 2.3
+            self.file_name[7] = '1509.04177_CMS_fig8_pp_TT_bW.txt'
+            self.process[7] = 'pp --> TT'
+            self.energy[7] = 8
+            self.luminosity[7] = 19.7
 
             self.key[8] = '04177'
             self.label[8] = 'arXiv:1509.04177'
             self.expt[8] = 'CMS'
-            self.file_name[8] = '1509.04177_CMS_fig8_pp_TT_bW.txt'
+            self.file_name[8] = '1509.04177_CMS_fig8_pp_TT_tH.txt'
             self.process[8] = 'pp --> TT'
             self.energy[8] = 8
             self.luminosity[8] = 19.7
@@ -922,164 +957,161 @@ class Tables:
             self.key[9] = '04177'
             self.label[9] = 'arXiv:1509.04177'
             self.expt[9] = 'CMS'
-            self.file_name[9] = '1509.04177_CMS_fig8_pp_TT_tH.txt'
+            self.file_name[9] = '1509.04177_CMS_fig8_pp_TT_tZ.txt'
             self.process[9] = 'pp --> TT'
             self.energy[9] = 8
             self.luminosity[9] = 19.7
 
-            self.key[10] = '04177'
-            self.label[10] = 'arXiv:1509.04177'
+            self.key[10] = '03408'
+            self.label[10] = 'arXiv:1706.03408'
             self.expt[10] = 'CMS'
-            self.file_name[10] = '1509.04177_CMS_fig8_pp_TT_tZ.txt'
+            self.file_name[10] = '1706.03408_CMS_Fig-11-left_pp_TT_bW.txt'
             self.process[10] = 'pp --> TT'
-            self.energy[10] = 8
-            self.luminosity[10] = 19.7
+            self.energy[10] = 13
+            self.luminosity[10] = 2.6
 
             self.key[11] = '03408'
             self.label[11] = 'arXiv:1706.03408'
             self.expt[11] = 'CMS'
-            self.file_name[11] = '1706.03408_CMS_Fig-11-left_pp_TT_bW.txt'
+            self.file_name[11] = '1706.03408_CMS_Fig-11-right_pp_TT_tH.txt'
             self.process[11] = 'pp --> TT'
             self.energy[11] = 13
             self.luminosity[11] = 2.6
 
-            self.key[12] = '03408'
-            self.label[12] = 'arXiv:1706.03408'
+            self.key[12] = '0471fa'
+            self.label[12] = 'arXiv:1209.0471'
             self.expt[12] = 'CMS'
-            self.file_name[12] = '1706.03408_CMS_Fig-11-right_pp_TT_tH.txt'
+            self.file_name[12] = '1209.0471_CMS_Fig6_upper_pp_TT_bW.txt'
             self.process[12] = 'pp --> TT'
             self.energy[12] = 13
             self.luminosity[12] = 2.6
 
-            self.key[13] = '0471fa'
+            self.key[13] = '0471fb'
             self.label[13] = 'arXiv:1209.0471'
             self.expt[13] = 'CMS'
-            self.file_name[13] = '1209.0471_CMS_Fig6_upper_pp_TT_bW.txt'
+            self.file_name[13] = '1209.0471_CMS_Fig6_middle_pp_TT_bW.txt'
             self.process[13] = 'pp --> TT'
-            self.energy[13] = 13
-            self.luminosity[13] = 2.6
+            self.energy[13] = 7
+            self.luminosity[13] = 5
 
-            self.key[14] = '0471fb'
+            self.key[14] = '0471fc'
             self.label[14] = 'arXiv:1209.0471'
             self.expt[14] = 'CMS'
-            self.file_name[14] = '1209.0471_CMS_Fig6_middle_pp_TT_bW.txt'
+            self.file_name[14] = '1209.0471_CMS_Fig6_lower_pp_TT_bW.txt'
             self.process[14] = 'pp --> TT'
             self.energy[14] = 7
             self.luminosity[14] = 5
 
-            self.key[15] = '0471fc'
-            self.label[15] = 'arXiv:1209.0471'
-            self.expt[15] = 'CMS'
-            self.file_name[15] = '1209.0471_CMS_Fig6_lower_pp_TT_bW.txt'
+            self.key[15] = '04306fa'
+            self.label[15] = 'arXiv:1505.04306'
+            self.expt[15] = 'ATLAS'
+            self.file_name[15] = '1505.04306_ATLAS_Fig18-a_pp_TT_Wb+X.txt'
             self.process[15] = 'pp --> TT'
-            self.energy[15] = 7
-            self.luminosity[15] = 5
+            self.energy[15] = 8
+            self.luminosity[15] = 20.3
 
-            self.key[16] = '04306fa'
-            self.label[16] = 'arXiv:1505.04306'
+            self.key[16] = '5468'
+            self.label[16] = 'arXiv:1210.5468'
             self.expt[16] = 'ATLAS'
-            self.file_name[16] = '1505.04306_ATLAS_Fig18-a_pp_TT_Wb+X.txt'
+            self.file_name[16] = '1210.5468_ATLAS_Fig-3_pp_tt_Wb.txt'
             self.process[16] = 'pp --> TT'
-            self.energy[16] = 8
-            self.luminosity[16] = 20.3
+            self.energy[16] = 7
+            self.luminosity[16] = 4.7
 
-            self.key[17] = '5468'
-            self.label[17] = 'arXiv:1210.5468'
-            self.expt[17] = 'ATLAS'
-            self.file_name[17] = '1210.5468_ATLAS_Fig-3_pp_tt_Wb.txt'
+            self.key[17] = '01539'
+            self.label[17] = 'arXiv:1710.01539'
+            self.expt[17] = 'CMS'
+            self.file_name[17] = '1710.01539_CMS_Fig4_upper_pp_TT_bW.txt'
             self.process[17] = 'pp --> TT'
-            self.energy[17] = 7
-            self.luminosity[17] = 4.7
+            self.energy[17] = 13
+            self.luminosity[17] = 35.8
 
-            self.key[18] = '01539'
-            self.label[18] = 'arXiv:1710.01539'
-            self.expt[18] = 'CMS'
-            self.file_name[18] = '1710.01539_CMS_Fig4_upper_pp_TT_bW.txt'
+            self.key[18] = '104f15a'
+            self.label[18] = 'ATLAS-CONF-2016-104'
+            self.expt[18] = 'ATLAS'
+            self.file_name[18] = 'ATLAS-CONF-2016-104_ATLAS_Fig15a_pp_TT_tH.txt'
             self.process[18] = 'pp --> TT'
             self.energy[18] = 13
-            self.luminosity[18] = 35.8
+            self.luminosity[18] = 13.2
 
-            self.key[19] = '104f15a'
+            self.key[19] = '104f15b'
             self.label[19] = 'ATLAS-CONF-2016-104'
             self.expt[19] = 'ATLAS'
-            self.file_name[19] = 'ATLAS-CONF-2016-104_ATLAS_Fig15a_pp_TT_tH.txt'
+            self.file_name[19] = 'ATLAS-CONF-2016-104_ATLAS_Fig15b_pp_TT_tZ.txt'
             self.process[19] = 'pp --> TT'
             self.energy[19] = 13
             self.luminosity[19] = 13.2
 
-            self.key[20] = '104f15b'
-            self.label[20] = 'ATLAS-CONF-2016-104'
-            self.expt[20] = 'ATLAS'
-            self.file_name[20] = 'ATLAS-CONF-2016-104_ATLAS_Fig15b_pp_TT_tZ.txt'
+            self.key[20] = '11903fa'
+            self.label[20] = 'arXiv:1906.11903'
+            self.expt[20] = 'CMS'
+            self.file_name[20] = '1906.11903_CMS_Fig6_lower_left_pp_TT_bW.txt'
             self.process[20] = 'pp --> TT'
             self.energy[20] = 13
-            self.luminosity[20] = 13.2
+            self.luminosity[20] = 35.9
 
-            self.key[21] = '11903fa'
+            self.key[21] = '11903fc'
             self.label[21] = 'arXiv:1906.11903'
             self.expt[21] = 'CMS'
-            self.file_name[21] = '1906.11903_CMS_Fig6_lower_left_pp_TT_bW.txt'
+            self.file_name[21] = '1906.11903_CMS_Fig6_upper_left_pp_TT_tZ.txt'
             self.process[21] = 'pp --> TT'
             self.energy[21] = 13
             self.luminosity[21] = 35.9
 
-            self.key[22] = '11903fc'
+            self.key[22] = '11903ff'
             self.label[22] = 'arXiv:1906.11903'
             self.expt[22] = 'CMS'
-            self.file_name[22] = '1906.11903_CMS_Fig6_upper_left_pp_TT_tZ.txt'
+            self.file_name[22] = '1906.11903_CMS_Fig6_middle_left_pp_TT_tH.txt'
             self.process[22] = 'pp --> TT'
             self.energy[22] = 13
             self.luminosity[22] = 35.9
 
-            self.key[23] = '11903ff'
-            self.label[23] = 'arXiv:1906.11903'
+            self.key[23] = '5410f2'
+            self.label[23] = 'arXiv:1203.5410'
             self.expt[23] = 'CMS'
-            self.file_name[23] = '1906.11903_CMS_Fig6_middle_left_pp_TT_tH.txt'
+            self.file_name[23] = '1203.5410_CMS_Fig2_pp_tt_bWbW.txt'
             self.process[23] = 'pp --> TT'
-            self.energy[23] = 13
-            self.luminosity[23] = 35.9
+            self.energy[23] = 7
+            self.luminosity[23] = 5
 
-            self.key[24] = '5410f2'
-            self.label[24] = 'arXiv:1203.5410'
-            self.expt[24] = 'CMS'
-            self.file_name[24] = '1203.5410_CMS_Fig2_pp_tt_bWbW.txt'
+            self.key[24] = '3076f2'
+            self.label[24] = 'arXiv:1202.3076'
+            self.expt[24] = 'ATLAS'
+            self.file_name[24] = '1202.3076_ATLAS_Fig2_pp_tt_WbWb.txt'
             self.process[24] = 'pp --> TT'
             self.energy[24] = 7
-            self.luminosity[24] = 5
+            self.luminosity[24] = 1.04
 
-            self.key[25] = '3076f2'
-            self.label[25] = 'arXiv:1202.3076'
+            self.key[25] = '03903f9'
+            self.label[25] = 'arXiv:1606.03903'
             self.expt[25] = 'ATLAS'
-            self.file_name[25] = '1202.3076_ATLAS_Fig2_pp_tt_WbWb.txt'
+            self.file_name[25] = '1606.03903_ATLAS_Fig9_pp_TT_Zt.txt'
             self.process[25] = 'pp --> TT'
-            self.energy[25] = 7
-            self.luminosity[25] = 1.04
+            self.energy[25] = 13
+            self.luminosity[25] = 3.2
 
-            self.key[26] = '03903f9'
-            self.label[26] = 'arXiv:1606.03903'
+            self.key[26] = '15413f7e'
+            self.label[26] = 'arXiv:2210.15413'
             self.expt[26] = 'ATLAS'
-            self.file_name[26] = '1606.03903_ATLAS_Fig9_pp_TT_Zt.txt'
+            self.file_name[26] = '2210.15413_ATLAS_Fig7-e_pp_TT_Zt.txt'
             self.process[26] = 'pp --> TT'
             self.energy[26] = 13
-            self.luminosity[26] = 3.2
-
-            self.key[27] = '15413f7e'
-            self.label[27] = 'arXiv:2210.15413'
-            self.expt[27] = 'ATLAS'
-            self.file_name[27] = '2210.15413_ATLAS_Fig7-e_pp_TT_Zt.txt'
-            self.process[27] = 'pp --> TT'
-            self.energy[27] = 13
-            self.luminosity[27] = 139
+            self.luminosity[26] = 139
 
             load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
         else:
             raise Exception("Error in model choice")
 
     def all_processes(self):
-        with open("processes.dat", "w") as f:
-            f.write("process energy experiment  process_number identifier\n")
-            for i in range(len(self.key)):
-                f.write(f"{self.process[i]} {self.energy[i]} {self.expt[i]} {self.label[i]} {i}\n")
+        with open("processes_info.dat", "w") as f:
+            f.write("************* File for each cross section limit information*****************\n")
+            f.write("This File has been generated with PyTop version 0.1\n")
+            f.write(f"With the T quark in the {self.m.model()} scenario\n")
+            for i, proc in enumerate(self.process):
+                f.write("***********************************************************************\n")
+                f.write(f"channel {i}:\n")
+                f.write(f"{proc} \t\t {self.label[i]} ({self.expt[i]}) "
+                        f"\t sqrt(s) = {self.energy[i]} \t luminosity = {self.luminosity[i]}\n")
 
     def cs_dict(self):
         pair_prod = [self.key[j] for j in range(len(self.process)) if self.process[j][:9] == 'pp --> TT']
@@ -1105,8 +1137,6 @@ class Tables:
                 '(T,B)': TB_doublet_keys,
                 '(X,T)': XT_doublet_keys
             }
-            print(self.TB_XT_keys['(T,B)'])
-            print(self.TB_XT_keys['(X,T)'])
 
         else:
             raise Exception(f"Error, this model {self.m.model()} is not included")

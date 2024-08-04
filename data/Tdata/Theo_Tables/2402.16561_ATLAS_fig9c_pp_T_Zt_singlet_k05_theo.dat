@@ -1,0 +1,19 @@
+#arXiv:2402.16561
+#title:Search for invisible particles produced in association with single top quarks in proton–proton collisions at $\sqrt{s} =$ 13 TeV with the ATLAS detector
+#Luminosity 139 fb-1 
+#Energy 13000 GeV 
+#ATLAS Collaborations 
+#fig 9c
+#pp→ Tqb→ Ztqb
+#Mass(GeV), k, \sigma_theorie (fb)
+1100 0.5 96.79413800721602
+1200 0.5 70.6409618164559
+1400 0.5 37.624583246755
+1600 0.5 20.479566274518493
+1800 0.5 11.392099607392682
+2000 0.5 6.476207491984759
+2200 0.5 3.6024982090870843
+2400 0.5 2.0039495897155573
+2600 0.5 1.1147303135339532
+2700 0.5 0.9369105152559922
+

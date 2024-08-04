@@ -1,0 +1,20 @@
+#arXiv:2307.07584 
+#title:Search for singly produced vector-like top partners in multilepton final states with 139 fb$^{-1}$ of $pp$ collision data at $\sqrt{s}=$ 13 TeV with the ATLAS detector  
+#Luminosity 139 fb-1 
+#Energy 13000 GeV 
+#G.~Aad et al. ATLAS Collaborations 
+#Fig 9b 
+#pp → Tbq→ Ztbq, k_T, doublet 
+#Mass_obs(GeV), Mass_exp(GeV),  obs(pb), exp(pb) 
+1000.0 1000.0 0.5441945606694562 0.5042105263157897
+1100.0 1100.0 0.5400889121338912 0.5142105263157897
+1200.0 1200.0 0.6000784518828453 0.5526315789473687
+1300.0 1300.0 0.6624738493723851 0.6042105263157898
+1350.0 1400.0 0.7671548117154812 0.7163157894736849
+1410.0 1450.0 0.8879707112970712 0.7968421052631586
+NaN 1480.0 NaN 0.8368421052631582
+
+ 
+
+
+

@@ -1,0 +1,19 @@
+#arXiv:1708.01062 
+#title:Search for single production of a vector-like T quark decaying to #a Z boson and a top quark in proton-proton collisions at $\sqrt{s}$ = 13 #TeV 
+#luminosity 35.9 fb-1 
+#Energy 13000 GeV 
+#A.~M.~Sirunyan et al. CMS Collaborations  
+#Fig 5 left   
+#pp → Ttq →tZtq, C(bW)=0.5, singlet LH 
+#Mass(GeV), C(bW), xs(pb)
+700 0.5 0.3790108872073055
+800 0.5 0.28885118749227545
+900 0.5 0.2023856776531267
+1000 0.5 0.1399804598013949
+1100 0.5 0.09373679761027824
+1200 0.5 0.06916520053425439
+1300 0.5 0.04846109895433208
+1400 0.5 0.03598982834573301
+1500 0.5 0.026727989507129016
+1600 0.5 0.019594529126209976
+1700 0.5 0.014741420201106241

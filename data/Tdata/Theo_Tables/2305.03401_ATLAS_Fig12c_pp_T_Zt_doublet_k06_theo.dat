@@ -1,0 +1,21 @@
+#arXiv:2305.03401 
+#title:Search for single production of vector-like T quarks decaying into Ht or Zt in $pp$ collision at $\sqrt{s}=$ 13 TeV with the ATLAS detector 
+#03401_ATLAS_139 fb-1 
+#Energy 13000 GeV 
+#G.~ Aad \textit{et al.} [CMS] 
+#Fig 12c 
+#pp → Tqt→Zt, Ht, doublet, k=0.6 
+#Mass(GeV), \sigma_theo(pb)
+1000 0.6 110.86031784226944
+1100 0.6 86.16351015797535
+1200 0.6 67.353196085034
+1300 0.6 54.80320657994877
+1400 0.6 44.08375772812707
+1500 0.6 36.49127642074113
+1600 0.6 31.262584285642784
+1700 0.6 27.091672745497203
+1800 0.6 23.884131450734618
+1900 0.6 20.816511952267742
+2000 0.6 18.457341779020936
+2100 0.6 16.365540313802583
+

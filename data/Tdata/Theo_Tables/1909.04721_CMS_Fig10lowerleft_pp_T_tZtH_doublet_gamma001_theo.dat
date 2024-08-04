@@ -1,0 +1,14 @@
+#arXiv:1909.04721 
+#title:Search for electroweak production of a vector-like T quark using fully hadronic final states 
+#luminosity 35.9 fb-1 
+#Energy 13000 GeV 
+#A.~M.~Sirunyan and al. CMS Collaborations 
+#Fig 10 lower row left 
+#pp → Ttq → (tH+tZ)tq, doublet, $\frac{\Gamma}{m_T} \leg 0.05 $
+#Mass(GeV), $\frac{\Gamma}{m_T}$, \sigma_{theorie}(pb)
+690 0.01 0.046686564745964436
+800 0.01 0.021796353277791225
+900 0.01 0.012185927384710884
+1000 0.01 0.007220809018385479
+1070 0.01 0.005123844717380758
+

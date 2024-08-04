@@ -1,0 +1,17 @@
+#arXiv:1812.09743 
+#title:Search for large missing transverse momentum in association with one top-quark in proton–proton collisions at $\sqrt{s}=$ 13 TeV with the ATLAS detector  
+#Luminosity 36.1 fb-1 
+#Energy 13000 GeV 
+#M.~Aaboud and al. ATLAS Collaborations 
+#Fig 4c
+#pp → Tbq→ tZbq,  singlet 
+#Mass(GeV), \sigma_{theorie}(pb)
+700 0.286215344538927
+800 0.18691904062318343
+1000 0.09300449458481393
+1200 0.04422514763163053
+1400 0.024312340619997912
+1600 0.012889504440725404
+1800 0.006833538873292317
+2000 0.004188391254457492
+

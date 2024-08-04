@@ -4,6 +4,7 @@ import numpy as np
 import random as rd
 from model import check_mass_range
 from pyTop import *
+import matplotlib.pyplot as plt
 
 #with open("data/coupling_results_2channels.txt","w") as f:
   #f.write("mass s_L res ratio channel\n")
@@ -332,7 +333,7 @@ with open("data/branching_ratio_d_xt.dat", "w") as f:
         f.write(f"{d.mv_theo} {d.br_vbw()} {d.br_vzt()} {d.br_vht()} {d.sin_right()}\n")
 '''
 
-
+'''
 data1 = np.loadtxt("data/220107045/2201.07045_ATLAS_fig8a_KT_01.txt")
 mass1 = data1[:, 0]
 cs_ht1 = data1[:, 1] / 1000
@@ -392,7 +393,7 @@ with open("data/220107045/res.dat", "w") as f:
             print("Singlet")
             chan = pt.channel
             f.write(f"{m} {k} {interp(m,k)} {pt.model_observed_ratio} {pt.allowed_or_excluded} {chan} {pt.expt[chan]} {pt.m.get_width_mass_ratio()} {pt.label[chan]} {pt.luminosity[chan]}\n")
-
+'''
 '''
 data1 = np.loadtxt("../../Downloads/2307.07584_ATLAS_Fig8b_K03_Doublet.txt")
 m1 = data1[:, 0]
@@ -568,3 +569,498 @@ for w in [0.05, 0.1, 0.2,0.3]:
                 pt.check_singlet_limit(m, -1, interp(m,w) / 0.25, -1, 0.1, w)
 pt.df.to_csv("../../vbq.txt", sep='\t')
 '''
+'''
+gamma = []
+kappa = []
+mass = []
+d = Doublet()
+pt = PyTop(d)
+pt.filling_channels_data()
+for m in np.linspace(1000, 2000, 100):
+    pt.doublet_width_ratio_inputs(m, 0.1, 0.1, 0.2)
+    pt.check_sm_plus_tb_doublet_limit()
+    kappa.append(pt.m.universal_coupling())
+    mass.append(m)
+
+plt.scatter(mass,kappa)
+plt.show()
+'''
+'''
+pair_prod = [196, 44, 11.8, 3.54, 1.148, 0.391]
+
+
+data = np.loadtxt('data/Tbq.txt')
+mass = data[:, 0]
+vbq_005 = data[:, 1]
+vbq_01 = data[:, 2]
+vbq_02 = data[:, 3]
+vbq_03 = data[:, 4]
+
+mass = np.delete(mass, 0)
+vbq_005 = np.delete(vbq_005, 0)
+vbq_01 = np.delete(vbq_01, 0)
+vbq_02 = np.delete(vbq_02, 0)
+vbq_03 = np.delete(vbq_03, 0)
+
+
+
+gamma_05 = 0.05 * np.ones(len(mass))
+gamma_01 = 0.1 * np.ones(len(mass))
+gamma_02 = 0.2 * np.ones(len(mass))
+gamma_03 = 0.3 * np.ones(len(mass))
+
+gamma = np.concatenate([gamma_05, gamma_01, gamma_02, gamma_03], axis=None)
+vbq = np.concatenate([vbq_005, vbq_01, vbq_02, vbq_03], axis=None)
+mass = np.concatenate([mass]*4, axis=None)
+pair_prod = np.tile(pair_prod, 4) / 1000
+
+s = Singlet()
+pt = PyTop(s)
+pt.filling_channels_data()
+for g,v,m in zip(gamma,vbq,mass):
+    pt.singlet_width_ratio_inputs(m, -1, v, -1, g)
+    pt.check_singlet_limit()
+    print("mass:",m)
+pt.df.to_csv("../../example.txt", sep='\t')
+'''
+'''
+data1 = np.loadtxt("data/220107045/2201.07045_ATLAS_fig8a_KT_01.txt")
+mass1 = data1[:, 0]
+cs_ht1 = data1[:, 1] / 1000
+k_t1 = np.ones(len(mass1)) * 0.1
+
+data2 = np.loadtxt("data/220107045/2201.07045_ATLAS_fig8b_KT_03.txt")
+mass2 = data2[:, 0]
+cs_ht2 = data2[:, 1] / 1000
+k_t2 = np.ones(len(mass2)) * 0.3
+
+data3 = np.loadtxt("data/220107045/2201.07045_ATLAS_fig8c_KT_05.txt")
+mass3 = data3[:, 0]
+cs_ht3 = data3[:, 1] / 1000
+k_t3 = np.ones(len(mass3)) * 0.5
+
+
+data4 = np.loadtxt("data/220107045/2201.07045_ATLAS_fig8d_KT_07.txt")
+mass4 = data4[:, 0]
+cs_ht4 = data4[:, 1] / 1000
+k_t4 = np.ones(len(mass4)) * 0.7
+
+data5 = np.loadtxt("data/220107045/2201.07045_ATLAS_fig8e_KT_09.txt")
+mass5 = data5[:, 0]
+cs_ht5 = data5[:, 1] / 1000
+k_t5 = np.ones(len(mass5)) * 0.9
+
+
+data6 = np.loadtxt("data/220107045/2201.07045_ATLAS_fig8f_KT_11.txt")
+mass6 = data6[:, 0]
+cs_ht6 = data6[:, 1] / 1000
+k_t6 = np.ones(len(mass6)) * 1.1
+
+mass = np.concatenate([mass1, mass2, mass3, mass4, mass5, mass6], axis=None)
+cs_ht = np.concatenate([cs_ht1, cs_ht2, cs_ht3, cs_ht4, cs_ht5, cs_ht6], axis=None)
+k_t = np.concatenate([k_t1, k_t2, k_t3, k_t4, k_t5, k_t6], axis=None)
+
+print(cs_ht)
+
+interp = interpolate.LinearNDInterpolator(list(zip(mass, k_t)), cs_ht)
+
+mass = np.linspace(1000, 2300, 200)
+k_t = np.linspace(0.1, 1.1, 100)
+
+cs_vbq = cs_ht / 0.25
+
+s = Singlet()
+pt = PyTop(s)
+pt.filling_channels_data()
+for k in k_t:
+    for m in mass:
+        print("m = ", m)
+        print("kappa = ", k)
+        pt.singlet_simplified_model_inputs(m, -1, interp(m, k) / 0.25, 0, k)
+        pt.check_singlet_limit()
+        print("------------------------------------------------")
+        print("Singlet")
+        chan = pt.channel
+pt.df.to_csv("../../sing.txt", sep='\t')
+
+
+
+data = np.loadtxt('data/Tbq.txt')
+mass = data[:, 0]
+vbq_005 = data[:, 1]
+vbq_01 = data[:, 2]
+vbq_02 = data[:, 3]
+vbq_03 = data[:, 4]
+
+
+
+m = np.linspace(600,1800,100)
+
+interp_005 = interpolate.interp1d(mass,vbq_005,"linear")
+interp_01 = interpolate.interp1d(mass,vbq_01,"linear")
+interp_02 = interpolate.interp1d(mass,vbq_02,"linear")
+interp_03 = interpolate.interp1d(mass,vbq_03,"linear")
+
+vbq_005 = interp_005(m)
+vbq_01 = interp_01(m)
+vbq_02 = interp_02(m)
+vbq_03 = interp_03(m)
+
+
+
+
+
+
+gamma_05 = 0.05 * np.ones(len(m))
+gamma_01 = 0.1 * np.ones(len(m))
+gamma_02 = 0.2 * np.ones(len(m))
+gamma_03 = 0.3 * np.ones(len(m))
+
+gamma = np.concatenate([gamma_05, gamma_01, gamma_02, gamma_03], axis=None)
+vbq = np.concatenate([vbq_005, vbq_01, vbq_02, vbq_03], axis=None)
+mass2 = np.concatenate([m, m, m, m], axis=None)
+
+
+vbq_final = interpolate.LinearNDInterpolator(list(zip(mass2, gamma)), vbq)
+
+
+mass = np.linspace(600, 1800,200)
+gamma = np.linspace(0.05, 0.3,100)
+
+
+
+
+
+s = Singlet()
+pt = PyTop(s)
+pt.filling_channels_data()
+for g in gamma:
+    for m in mass:
+        pt.singlet_width_ratio_inputs(m, -1, vbq_final(m, g) / 0.25, 0, g)
+        pt.check_singlet_limit()
+        print("mass:", m)
+        print("gamma:", g)
+        print("vbq:", vbq_final(m, g))
+pt.df.to_csv("../../sing_with_width_input.txt", sep='\t')
+
+data1 = np.loadtxt("../../Downloads/2307.07584_ATLAS_Fig8b_K03_Doublet.txt")
+m1 = data1[:,0]
+cs_k03 = data1[:,1]
+data2 = np.loadtxt("../../Downloads/2307.07584_ATLAS_Fig8d_K05_Doublet.txt")
+m2 = data2[:,0]
+cs_k05 = data2[:,1]
+data3 = np.loadtxt("../../Downloads/2307.07584_ATLAS_Fig8f_K07_Doublet.txt")
+m3 = data3[:,0]
+cs_k07 = data3[:,1]
+
+
+k_03 = 0.3 * np.ones(len(m1))
+k_05 = 0.5 * np.ones(len(m2))
+k_07 = 0.7 * np.ones(len(m3))
+
+mass = np.concatenate([m1, m2, m3], axis=None)
+cs_zt = np.concatenate([cs_k03, cs_k05, cs_k07], axis=None) / 0.5
+k_t = np.concatenate([k_03, k_05, k_07], axis=None)
+
+interp = interpolate.LinearNDInterpolator(list(zip(mass, k_t)), cs_zt)
+
+mass = np.linspace(1000, 1700, 200)
+k_t = np.linspace(0.3, 0.7, 100)
+
+cs_vbq = cs_zt / 0.5
+
+d = Doublet()
+pt = PyTop(d)
+pt.filling_channels_data()
+
+for k in k_t:
+    for m in mass:
+        print("m = ", m)
+        print("kappa = ", k)
+        pt.doublet_simplified_model_inputs(m, -1, interp(m, k), k)
+        pt.check_sm_plus_tb_doublet_limit()
+pt.df.to_csv("../../doublet_03_07.dat",sep='\t')
+'''
+'''
+data = np.loadtxt('data/Ttq.txt')
+mass = data[:, 0]
+vtq_005 = data[:, 1]
+vtq_01 = data[:, 2]
+vtq_02 = data[:, 3]
+vtq_03 = data[:, 4]
+
+
+
+m = np.linspace(800, 1600, 100)
+
+interp_005 = interpolate.interp1d(mass, vtq_005, "linear")
+interp_01 = interpolate.interp1d(mass,vtq_01,"linear")
+interp_02 = interpolate.interp1d(mass,vtq_02,"linear")
+interp_03 = interpolate.interp1d(mass,vtq_03,"linear")
+
+vtq_005 = interp_005(m)
+vtq_01 = interp_01(m)
+vtq_02 = interp_02(m)
+vtq_03 = interp_03(m)
+
+
+
+
+
+
+gamma_05 = 0.05 * np.ones(len(m))
+gamma_01 = 0.1 * np.ones(len(m))
+gamma_02 = 0.2 * np.ones(len(m))
+gamma_03 = 0.3 * np.ones(len(m))
+
+gamma = np.concatenate([gamma_05, gamma_01, gamma_02, gamma_03], axis=None)
+vtq = np.concatenate([vtq_005, vtq_01, vtq_02, vtq_03], axis=None)
+mass2 = np.concatenate([m]*4, axis=None)
+
+
+vtq_final = interpolate.LinearNDInterpolator(list(zip(mass2, gamma)), vtq)
+
+
+mass = np.linspace(800, 1600,200)
+gamma = np.linspace(0.05, 0.3,100)
+
+d = Doublet()
+pt = PyTop(d)
+pt.filling_channels_data()
+for g in gamma:
+    for m in mass:
+        pt.doublet_width_ratio_inputs(m, -1, vtq_final(m, g) / 0.5, g)
+        pt.check_sm_plus_tb_doublet_limit()
+        print("mass:", m)
+        print("gamma:", g)
+        print("vbq:", vtq_final(m, g))
+pt.df.to_csv("../../doublet_with_width_input.dat", sep='\t')
+'''
+# initializing and preparing the tables
+#s = Singlet()
+#pt = PyTop(s)
+#pt.filling_channels_data()
+
+
+
+
+
+#inputs = {
+#    "mT": [800, 1000, 1200, 1400, 1600],
+#    "cs_pp_TT": np.array([0.196, 0.04, 0.118, 0.00354, 0.00148]),
+#    "cs_pp_Tbq": np.array([[], [], [], []]),
+#    "cs_pp_Ttq": np.array([[], [], [], []]),
+#    "k": [0.05, 0.1, 0.2, 0.3]
+#}
+
+#method performs the necessary calculations
+#pt.singlet_simplified_inputs(**inputs)
+
+#checking the bounds
+#pt.check_singlet_limit()
+'''
+inputs = {
+    "mT": 1000,
+    "cs_pp_TT": 0.01,
+    "cs_Tbq": 0.01,
+    "cs_pp_Ztbq": 2,
+    "cs_pp_Htbq": 2,
+    "cs_pp_Zttq": 2,
+    "k": 0.6
+}
+pt.singlet_simplified_inputs(**inputs)
+pt.check_singlet_limit()
+
+d = Doublet()
+pt = PyTop(d)
+pt.filling_channels_data()
+
+inputs = {
+    "mT": 1000,
+    "cs_pp_TT": 0.01,
+    "cs_Ttq": 0.01,
+    "cs_pp_Zttq": 2,
+    "cs_pp_Httq": 2,
+    "k": 0.6
+}
+pt.doublet_simplified_inputs(**inputs)
+pt.check_sm_plus_tb_doublet_limit()
+'''
+
+'''
+data = np.loadtxt("data/Tbq.dat")
+mT = data[:, 0]
+Tbq_005 = data[:, 1] / 0.25
+Tbq_01 = data[:, 2] / 0.25
+Tbq_02 = data[:, 3]
+Tbq_03 = data[:, 4]
+
+s = Singlet()
+pt = PyTop(s)
+pt.filling_channels_data()
+
+mT2 = np.concatenate([mT]*2, axis=None)
+Tbq_nwa = np.concatenate([Tbq_005, Tbq_01], axis=None)
+wr = np.array([0.05, 0.1])
+
+Tbq_interp = linear_interp2d(mT2, wr, Tbq_nwa)
+
+
+wr = np.linspace(0.05, 0.1, 20)
+
+mT2 = np.linspace(700, 1800, 100)
+
+
+for w in wr:
+    for m in mT2:
+        inputs = {
+            "mT": m,
+            "xs_pp_Tbq": Tbq_interp(m, w),
+            "xs_pp_Ttq": 0,
+            "wr": w
+            }
+        pt.singlet_width_inputs(**inputs)
+        pt.check_singlet_limit()
+
+pt.df.to_csv("data/NWA_input.dat", sep=' ')
+'''
+#-------------------------------------- Beyond narrow width inputs --------------------------------
+'''
+Tbq_01 = Tbq_01 * 0.25
+
+wr = np.array([0.1, 0.2, 0.3])
+mT3 = np.concatenate([mT]*3, axis=None)
+Tbq_bnw = np.concatenate([Tbq_01, Tbq_02, Tbq_03], axis=None)
+
+Tbq_interp_bnw = linear_interp2d(mT3, wr, Tbq_bnw)
+
+wr = np.linspace(0.10001, 0.3, 30)
+
+for w in wr:
+    for m in mT2:
+        inputs = {
+            "mT": m,
+            "xs_pp_Ztbq": Tbq_interp_bnw(m, w),
+            "xs_pp_Htbq": 0,
+            "xs_pp_Zttq": 0,
+            "wr": w
+            }
+        pt.singlet_width_inputs(**inputs)
+        pt.check_singlet_limit()
+
+pt.df.to_csv("data/BNWA_input.dat", sep=' ')
+'''
+'''
+s = Singlet()
+pt = PyTop(s)
+pt.filling_couplings_data()
+for k in np.linspace(0.01,1,20):
+    for m in range(600, 1800, 2):
+        pt.check_coupling_limit(m, k)
+
+pt.df.to_csv("res.dat", sep=' ')
+df = pd.read_table("res.dat",delimiter=' ')
+plt.scatter(df.loc[df["obs_ratio"]>1, "mass"], df.loc[df["obs_ratio"]>1, "coupling"], color='red')
+plt.show()
+'''
+'''
+d = Doublet()
+pt = PyTop(d)
+pt.filling_channels_data()
+data = np.loadtxt("data/Tbq.dat")
+mT = data[:, 0]
+Tbq_005 = data[:, 1] / 0.25
+Tbq_01 = data[:, 2] / 0.25
+Tbq_02 = data[:, 3]
+Tbq_03 = data[:, 4]
+
+mT2 = np.concatenate([mT]*2, axis=None)
+Tbq_nwa = np.concatenate([Tbq_005, Tbq_01], axis=None)
+wr = np.array([0.05, 0.1])
+
+Tbq_interp = linear_interp2d(mT2, wr, Tbq_nwa)
+
+wr = np.linspace(0.05, 0.1, 20)
+
+mT2 = np.linspace(700, 1800, 100)
+
+for w in wr:
+    for m in mT2:
+        inputs = {
+            "mT": m,
+            "xs_pp_Ttq": Tbq_interp(m, w),
+            "wr": w
+            }
+        pt.doublet_width_ratio_inputs(**inputs)
+        pt.check_singlet_limit()
+'''
+'''
+s = Singlet()
+pt = PyTop(s)
+pt.filling_channels_data()
+for k in np.linspace(0.3, 0.7, 20):
+    for m in np.arange(1000, 2400, 2):
+        params = {
+            "mT": m,
+            "k_T": k
+        }
+        pt.singlet_params(**params)
+        pt.check_singlet_limit()
+
+#pt.df.to_csv("~/res_2307.dat", sep=' ')
+'''
+'''
+d = Doublet()
+pt = PyTop(d)
+pt.filling_channels_data()
+for k in np.linspace(0.001, 0.7, 20):
+    for m in np.arange(600, 2100, 2):
+        pt.check_SM_plus_TB_doublet_limit(m, k)
+
+pt.df.to_csv("~/res_coupling_TB.dat", sep=' ')
+'''
+'''
+s = Singlet()
+pt = PyTop(s)
+pt.filling_channels_data()
+for w in np.linspace(0.05, 0.3, 20):
+    for m in np.arange(600, 1800, 1):
+        params = {
+            "mT": m,
+            "w_m": w
+        }
+        pt.singlet_params(**params)
+        pt.check_singlet_limit()
+pt.df.to_csv("~/expected_2201.dat", sep=" ")
+'''
+'''
+s = Singlet()
+pt = PyTop(s)
+pt.filling_couplings_data()
+w_range = np.linspace(0.05, 0.3, 60)
+m_range = np.arange(600, 1801, 1)
+for w in w_range:
+    for m in m_range:
+        params = {
+            "mT": m,
+            "w_m": w
+        }
+        pt.singlet_params(**params)
+        pt.check_coupling_limit()
+pt.df.to_csv("~/test_width_mass.dat", sep=" ")
+'''
+d = Doublet()
+pt = PyTop(d)
+pt.filling_couplings_data()
+w_range = np.linspace(0.05, 0.3, 6)
+m_range = np.arange(600, 1801, 1)
+for w in w_range:
+    for m in m_range:
+        params = {
+            "mT": m,
+            "w_m": w
+        }
+        pt.doublet_TB_params(**params)
+        pt.check_coupling_limit()
+
+

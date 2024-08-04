@@ -1,0 +1,17 @@
+#arXiv:2201.07045
+#title:Search for single production of a vector-like T quark decaying into a Higgs boson and top quark with fully hadronic final states using the ATLAS detector 
+#Luminosity 139 fb-1 
+#Energy 13000 GeV 
+#A.~Georges and al. ATLAS Collaborations 
+#Fig8d 
+#pp → Tbq→ Htbq, Singlet 
+#Mass(GeV), k, \sigma_theorie(fb)
+1000 0.7 346.5130747205715
+1200 0.7 207.85334084218402
+1400 0.7 133.71133481247637
+1600 0.7 92.74483216258683
+1800 0.7 66.44004325811319
+2000 0.7 49.689163114923794
+2200 0.7 34.46538844187053
+2300 0.7 29.64576193907459
+

@@ -1,0 +1,19 @@
+#ATLAS-CONF-2016-072 
+#title:Search for single production of vector-like quarks decaying into Wb in $pp$ collisions at $\sqrt{s}=$13 TeV with the ATLAS detector 
+#Luminosity 3.2 fb-1 
+#Energy 13000 GeV 
+#ATLAS Collaboration 
+#Fig 8
+#pp → Tbq→ Wbbq
+#Mass(GeV), \sigma_{theorie}(pb)
+700 2.8902639100224503
+800 1.8434229924091106
+900 1.3097472643005899
+1000 0.930572040929699
+1100 0.6378043838892178
+1200 0.47828581416537913
+1300 0.34598916608699326
+1400 0.26416483203860924
+1500 0.19809567785503387
+1600 0.15399265260594966
+

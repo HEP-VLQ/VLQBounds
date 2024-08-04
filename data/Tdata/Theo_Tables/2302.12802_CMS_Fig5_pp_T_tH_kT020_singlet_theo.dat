@@ -1,0 +1,17 @@
+#arXiv:2302.12802
+#title: Search for a vector-like quark T→ tH via the diphoton decay mode of the Higgs boson in proton-proton collisions at $\sqrt{s}$ = 13 TeV 
+#Luminosity 138 fb-1 
+#Energy 13000 GeV 
+#A.~Tumasyan et al. CMS Collaboration 
+#Fig5 
+#pp → Tbq→tHbq, Singlet, $\Gamma/M_T'\leg 0.5$  
+#Mass (GeV), kT, $\sigma_{theorie}(fb)
+600 0.20 144.469
+650 0.20 118.91
+700 0.20 106.992
+800 0.20 73.5459
+900 0.20 51.2245
+1000 0.20 37.12
+1100 0.20 27.1595
+1200 0.20 19.8225
+

@@ -1,0 +1,14 @@
+#arXiv:1612.00999 
+#title:Search for single production of a heavy vector-like T quark decaying to a Higgs boson and a top quark with a lepton and jets in the final state 
+#luminosity 2.3 fb-1 
+#Energy 13000 GeV 
+#V.~Khachatryan and al. CMS collaborations 
+#Fig10 right
+#pp → T →  tH, doublet RH
+#Mass(GeV),C(tZ), \sigma_{theorie}(pb)
+700 0.5 0.06232840170085142
+800 0.5 0.045142891380002395
+900 0.5 0.033431401965735026
+1000 0.5 0.025174808959825733
+1080 0.5 0.019930440990393483
+
