@@ -1,0 +1,36 @@
+************* File for each coupling limit information*****************
+This File has been generated with PyTop version 0.1
+With the T quark in the Singlet scenario
+***********************************************************************
+channel 0:
+pp --> Tbq --> Wbbq 		 arXiv:1602.05606 (ATLAS) 	 sqrt(s) = 8 TeV	 luminosity = 20.3 fb-1
+***********************************************************************
+channel 1:
+pp --> Tbq --> Wbbq 		 arXiv:1812.07343 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
+***********************************************************************
+channel 2:
+pp --> Tbq --> tZbq 		 arXiv:1812.09743 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
+***********************************************************************
+channel 3:
+pp --> Tbq --> tZbq 		 arXiv:1806.10555 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
+***********************************************************************
+channel 4:
+pp --> Tbq --> Wbbq 		 arXiv:ATLAS-CONF-2016-072 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
+***********************************************************************
+channel 5:
+pp --> Tbq --> tHbq 		 arXiv:2302.12802 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
+***********************************************************************
+channel 6:
+pp --> Tbq --> tZbq 		 arXiv:2402.16561 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 139 fb-1
+***********************************************************************
+channel 7:
+pp --> Tbq --> tHbq 		 arXiv:2201.07045 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 139 fb-1
+***********************************************************************
+channel 8:
+pp --> Tbq --> tZ(H)bq 		 arXiv:2305.03401 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 139 fb-1
+***********************************************************************
+channel 9:
+pp --> Tbq --> tZbq 		 arXiv:2307.07584 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 139 fb-1
+***********************************************************************
+channel 10:
+pp --> Tbq --> tZbq 		 arXiv:2201.02227 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 137 fb-1

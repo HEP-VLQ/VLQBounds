@@ -1,0 +1,15 @@
+#arXiv:1507.07129
+#title:Search for pair-produced vectorlike B quarks in proton-proton collisions at $\sqrt{s}$=8 TeV
+#luminosity 19.7 fb-1 
+#Energy 8000 GeV 
+#V.~Khachatryan and al. CMS Collaborations 
+#Fig 13 middle 
+#pp → BB→ bZ
+#Mass(GeV), obs(pb), exp(pb)
+500 0.090 0.112
+600 0.037 0.066
+700 0.036 0.043
+800 0.029 0.030
+900 0.096 0.094
+1000 0.083 0.065
+

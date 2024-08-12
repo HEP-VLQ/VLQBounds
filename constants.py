@@ -25,11 +25,13 @@ BR_Z_nunu = 0.2
 BR_Z_qq = 0.7
 BR_Z_bb = 0.1512
 Threshold = 0.01
-df = pd.DataFrame(columns=["mass", "coupling", "predicted_xs", "observed_xs", "expected_xs", "width_ratio", "result",
-                           "channel",  "obs_ratio", "exp_ratio", "process", "experiment", "luminosity", "energy",
+df = pd.DataFrame(columns=["mass", "mixing", "coupling", "predicted_xs", "observed_xs",
+                           "expected_xs", "width_ratio", "result",
+                           "channel",  "obs_ratio", "exp_ratio", "process",
+                           "experiment", "luminosity", "energy",
                            "label", "model", "which_doublet"])
 
-Ratio_keys = {
+T_width_mass_ratio_keys = {
     'r==0.01': {
         "Singlet": ['05071f4ur', '05071f4ul', '05071f4ll', '05071f4lr']
     },
@@ -54,7 +56,7 @@ Ratio_keys = {
     }
 }
 
-Kappa_keys = {
+T_kappa_keys = {
     '0.2<=k<=0.6': {
         "Singlet": ['03401f11a', '03401f11b', '03401f11c'],
         "Doublet": ['03401f12a', '03401f12b', '03401f12c']
@@ -75,3 +77,22 @@ Kappa_keys = {
     }
 }
 
+B_kappa_keys = {
+    '0.3<=k<=0.5': {
+        "Singlet": ['02595f8a', '02595f8c', '02595f8e'],
+        "Doublet": ['02595f8b', '02595f8d', '02595f8f']
+    }
+}
+
+B_width_mass_ratio_keys = {
+
+    '0.05<r<=0.3': {
+        "Singlet": ['01486Fig6a', '01486Fig6b', '01486Fig6c', '01486Fig6d'],
+        "Doublet": ['01486Fig6a', '01486Fig6b', '01486Fig6c', '01486Fig6d']
+    },
+
+    'r<=0.1': {
+        "Singlet": ['07409f5r', '10216f4l', '10216f4r', '07409f5l', ],
+        "Doublet": ['10216f4ld', '10216f4rd']
+    }
+}

@@ -1,0 +1,19 @@
+#arXiv:1812.09768 
+#title:Search for vector-like quarks in events with two oppositely charged leptons and jets in proton-proton collisions at $\sqrt{s} =$ 13 TeV 
+#Luminosity 35.9 fb-1 
+#Energy 13000 GeV 
+#A.~M.~Sirunyan et al. CMS Collaborations
+#Fig 7 upper left 
+#pp → BB→ bZ  
+#Mass(GeV), obs(fb), exp(fb) 
+800 0.047165 0.027756
+900 0.033457 0.020733
+1000 0.025921 0.01694
+1100 0.02 0.01447
+1200 0.016367 0.01179
+1300 0.012994 0.010701
+1400 0.011723 0.010437
+1500 0.011005 0.0099459
+1700 0.010311 0.010091
+1800 0.010242 0.0098464
+

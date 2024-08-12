@@ -9,11 +9,6 @@ import matplotlib.pyplot as plt
 #with open("data/coupling_results_2channels.txt","w") as f:
   #f.write("mass s_L res ratio channel\n")
 
-s_l = np.linspace(0.01 ,1, 500)
-
-#mass = np.linspace(1000,2200,500)
-
-cs = np.linspace(10, 0.01, 500)
 '''
 with open("data/kappa_test_5.txt","w") as f:
  for k in kappa:
@@ -1037,8 +1032,8 @@ pt.df.to_csv("~/expected_2201.dat", sep=" ")
 s = Singlet()
 pt = PyTop(s)
 pt.filling_couplings_data()
-w_range = np.linspace(0.05, 0.3, 60)
-m_range = np.arange(600, 1801, 1)
+w_range = np.linspace(0.01, 0.3, 50)
+m_range = np.arange(600, 1802, 2)
 for w in w_range:
     for m in m_range:
         params = {
@@ -1047,7 +1042,8 @@ for w in w_range:
         }
         pt.singlet_params(**params)
         pt.check_coupling_limit()
-pt.df.to_csv("~/test_width_mass.dat", sep=" ")
+pt.df.to_csv("~/test_2201.dat", sep=" ")
+'''
 '''
 d = Doublet()
 pt = PyTop(d)
@@ -1062,5 +1058,48 @@ for w in w_range:
         }
         pt.doublet_TB_params(**params)
         pt.check_coupling_limit()
+'''
+'''
+s = Singlet()
+pt = PyTop(s)
+pt.filling_couplings_and_xs_limits()
+w_range = np.linspace(0.05, 0.3, 70)
+m_range = np.arange(1900, 2000, 2)
+for w in w_range:
+    for m in m_range:
+        params = {
+            "mT": m,
+            "w_m": w
+        }
+        pt.singlet_params(**params)
+        pt.check_against_xs_and_coupling_limits()
 
 
+s = SingletB()
+pt = PyTop(s)
+pt.set_VLQ_type('B')
+pt.filling_couplings_and_xs_limits()
+for k in np.linspace(0.00001, 1.2, 50):
+    for m in np.arange(700, 2000, 2):
+        params = {
+            "mB": m,
+            "k_B": k
+        }
+        pt.B_singlet_params(**params)
+        pt.check_against_xs_and_coupling_limits()
+pt.df.to_csv("~/vlb.dat", sep=" ")
+'''
+
+d = DoubletB()
+pt = PyTop(d)
+pt.set_VLQ_type('B')
+pt.filling_couplings_and_xs_limits()
+for k in np.linspace(0.00001, 1.2, 50):
+    for m in np.arange(700, 2000, 2):
+        params = {
+            "mB": m,
+            "k_B": k
+        }
+        pt.B_singlet_params(**params)
+        pt.check_against_xs_and_coupling_limits()
+pt.df.to_csv("~/vlb_d.dat", sep=" ")

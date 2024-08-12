@@ -1,0 +1,24 @@
+#arXiv:1806.10555
+#title:Search for pair and single production of vectorlike quarks in final states with at least one Z boson decaying into a pair of electrons or muons in $pp$ collision data collected with the ATLAS detector at $\sqrt{s}=$13 TeV 
+#Luminosity 36.1 fb-1
+#Energy 13000 GeV 
+#G.~Aad and al. ATLAS Collaborations 
+#Fig 13b
+#pp → BB→Zt, Singlet
+#Mass(GeV), obs(pb), exp(pb)
+500 0.141358022 0.183063166
+600 0.089098324 0.109221656
+700 0.068298685 0.07271537
+750 0.05870323 0.06174173
+800 0.05590572	0.0557505
+850 0.053965032 0.046284612
+900 0.05183892	0.04358952
+950 0.0439684128 0.0389219376
+1000 0.0417715782 0.0371303112
+1050 0.036512022 0.034228349
+1100 0.032371349 0.031181198
+1150 0.03131772 0.031222569
+1200 0.027633645 0.029386071
+1300 0.0243176406 0.0283879206
+1400 0.02052365 0.025622275
+

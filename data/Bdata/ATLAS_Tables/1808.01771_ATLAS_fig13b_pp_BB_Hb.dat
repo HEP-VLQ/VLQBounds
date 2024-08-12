@@ -1,0 +1,24 @@
+#arXiv:1808.01771
+#title:Search for pair production of heavy vector-like quarks decaying into hadronic final states in collisions at TeV with the ATLAS detector
+#luminosity 36.1b-1
+#Energy 13000GeV
+# M.~Aaboud and al. ATLAS Collaborations 
+#Fig13b
+#pp→BB→Hb 
+#Mass(GeV), obs(pb), exp(pb)
+500 0.528662 0.529761
+600 0.47554 0.259181
+700 0.185892 0.148363
+750 0.116131 0.117748
+800 0.084338 0.0890295
+850 0.0548208 0.0731517
+900 0.034485 0.0591493
+950 0.031425 0.05357
+1000 0.0355462 0.0548979
+1050 0.0450383 0.0610551
+1100 0.0554571 0.0704156
+1150 0.0614464 0.0685585
+1200 0.0787865	0.0796397
+1300 0.0907143	0.0837597
+1400 0.0947462 0.0896343
+

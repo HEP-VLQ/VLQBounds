@@ -1,8 +1,9 @@
 import constants as c
 from utils import *
+from theory_XS import *
 
 
-class Singlet:
+class SingletB:
 
     def __init__(self):
         self.__model = 'Singlet'
@@ -10,6 +11,7 @@ class Singlet:
         self.sin_l = None
         self.kappa = None
         self.width_ratio = None
+
     def set_mB(self, mB):
         self.mB_theo = mB
 
@@ -44,7 +46,7 @@ class Singlet:
             g1 = self.B_decay_to_wt()
             g2 = self.B_decay_to_hb()
             g3 = self.B_decay_to_zb()
-            gamma_mv_ratio = (g1 + g2 + g3) / self.mT_theo
+            gamma_mv_ratio = (g1 + g2 + g3) / self.mB_theo
             return gamma_mv_ratio
         else:
             return self.width_ratio
@@ -61,123 +63,47 @@ class Singlet:
 
     def get_xs_pp_QQ(self):
         mB = self.get_mB()
-        xsec_pp_TT = xsec_pp_TT_from_pred(mB)
-        return xsec_pp_TT
+        xs_pp_BB = xs_pp_QQ_theo(mB)
+        return xs_pp_BB
 
-    def get_xs_pp_Tbq_Wbbq(self, i):
-        if i == 57:
-            mT = self.get_mT()
-            xsec_pp_TbW = xsec_pp_Tbq_bWbq(mT, 'ATLAS-CONF-2016-072_fig8_pp_T_Wb_singlet_theo.dat')
-            return xsec_pp_TbW * 1000
-        elif i == 30:
-            mT = self.get_mT()
-            linear_interp = interp2d_xs_theo('1602.05606', 'singlet', mT, 1)
-            return linear_interp * 1000
-        elif i == 59:
-            mT = self.get_mT()
-            linear_interp = interp2d_xs_theo('1701.08328', 'singlet', mT, 0.5)
-            return linear_interp * 1000
+    def get_xs_pp_Bbq_tWbq(self, i):
+        if i  == 21:
+            mT = self.get_mB()
+            xs_pp_BtW = xs_pp_Vb_qWb(mT, '2111.10216_Fig4_left_pp_B_Wt_singlet_theo.dat', vlq='B')
+            return xs_pp_BtW * 1000
 
-    def get_xs_pp_Tj_Ztj_ts_channels(self, i):
-        if i in [32, 33, 34]:
-            mT = self.get_mT()
+    def get_xs_pp_Btq_tWtq(self, i):
+        if i == 22:
+            mT = self.get_mB()
+            xs_pp_BtW = xs_pp_Vb_qWb(mT, '2111.10216_Fig4_right_pp_Bt_Wt_singlet_theo.dat', vlq='B')
+            return xs_pp_BtW * 1000
+
+    def get_xs_pp_Bj_bHj_ts_channels(self, i):
+        if i in [15, 16, 17]:
+            mT = self.get_mB()
             k = self.get_coupling_strength()
-            linear_interp = interp2d_xs_theo('2305.03401', 'singlet', mT, k)
-            return linear_interp
-        elif i in [43, 44, 45]:
-            mT = self.get_mT()
-            k = self.get_coupling_strength()
-            linear_interp = interp2d_xs_theo('2307.07584', 'singlet', mT, k)
+            linear_interp = interp2d_xs_theo('2308.02595', 'singlet', mT, k, vlq='B')
             return linear_interp * 1000
-        elif i == 35:
-            mT = self.get_mT()
-            linear_interp = interp2d_xs_theo('2402.16561', 'singlet', mT, 0.5)
-            return linear_interp
 
-    def get_xs_pp_Tbq_tHbq(self, i):
-        if i in [37, 38, 39, 40, 41, 42]:
-            mT = self.get_mT()
-            k = self.get_coupling_strength()
-            interp = interp2d_xs_theo('2201.07045', 'Singlet', mT, k)
-            return interp
-        elif i == 17:
-            mT = self.get_mT()
-            interp = interp2d_xs_theo('1612.00999', 'singlet', mT, 0.5)
-            return interp * 1000
-        elif i == 46:
-            mT = self.get_mT()
-            interp = interp2d_xs_theo('1612.05336', 'singlet', mT, 0.5)
-            return interp * 1000
-        elif i == 16:
-            mT = self.get_mT()
-            k = self.get_coupling_strength() / np.sqrt(2)
-            interp = interp2d_xs_theo('2302.12802', 'singlet', mT, k)
-            return interp
-        elif i in [18, 19, 24, 25]:
-            mT = self.get_mT()
+
+    def get_xs_pp_Bbq_bHbq(self, i):
+        if i in [4, 5, 6, 7]:
+            mB = self.get_mB()
             w = self.get_width_mass_ratio()
-            interp = interp2d_xs_theo('2201.02227', 'Singlet', mT, w)
+            interp = interp2d_xs_theo('1802.01486', 'singlet', mB, w, vlq='B')
             return interp * 1000
 
-    def get_xs_pp_Tbq_tZbq(self, i):
-        if i == 58:
-            mT = self.get_mT()
-            interp = interp2d_xs_theo('1806.10555', 'Singlet', mT, 0.5)
-            return interp * 1000
-        elif i == 31:
-            mT = self.get_mT()
-            interp = interp2d_xs_theo('1701.07409', 'singlet', mT, 0.5)
-            return interp * 1000
-        elif i == 14:
-            mT = self.get_mT()
-            interp = interp2d_xs_theo('1708.01062', 'singlet', mT, 0.5)
-            return interp * 1000
-        elif i == 36:
-            mT = self.get_mT()
-            interp = xsec_pp_Tbq_Ztbq(mT, '1812.09743_ATLAS_Fig4c_pp_T_tZ_Singlet_theo.dat')#interp2d_xs_theo('1812.09743', 'Singlet', mT, 0.5)
-            return interp * 1000
-        elif i in [10, 11, 12, 13]:
-            mT = self.get_mT()
-            w = self.get_width_mass_ratio()
-            interp = interp2d_xs_theo('2201.02227', 'Singlet', mT, w)
-            return interp * 1000
-        elif i in [50, 51]:
-            if i == 50:
-                mT = self.get_mT()
-                interp = interp2d_xs_theo('2405.05071_CMS_Fig4ur', 'singlet', mT, 0.01)
-                return interp * 1000
-            else:
-                mT = self.get_mT()
-                interp = interp2d_xs_theo('2405.05071_CMS_Fig4ul', 'singlet', mT, 0.01)
-                return interp * 1000
-        elif i in [20, 21, 26, 27]:
-            mT = self.get_mT()
-            w = self.get_width_mass_ratio()
-            interp = interp2d_xs_theo('2201.02227', 'Singlet', mT, w)
+    def get_xs_pp_Bbq_bZbq(self, i):
+        if i == 19:
+            mB = self.get_mB()
+            interp = interp2d_xs_theo('1701.07409_Fig5_right', 'singlet', mB, 0.5, vlq='B')
             return interp * 1000
 
-    def get_xs_pp_Tbq_tZ_plus_TH(self, i):
-        if i in [52, 53]:
-            if i == 52:
-                mT = self.get_mT()
-                interp = interp2d_xs_theo('2405.05071_CMS_Fig4ll', 'singlet', mT, 0.01)
-                return interp * 1000
-            else:
-                mT = self.get_mT()
-                interp = interp2d_xs_theo('2405.05071_CMS_Fig4lr', 'singlet', mT, 0.01)
-                return interp * 1000
-        elif i in [22, 23, 28, 29]:
-            mT = self.get_mT()
-            w = self.get_width_mass_ratio()
-            interp = interp2d_xs_theo('2201.02227', 'Singlet', mT, w)
-            return interp * 1000 * 2
-
-    def get_xs_pp_Tbq(self, i):
-        if i == 15:
-            mT = self.get_mT()
-            w = self.get_width_mass_ratio()
-            interp = interp2d_xs_theo('2201.02227', 'Singlet', mT, w)
-            return (interp * 1000) / 0.25
+    def get_xs_pp_Btq_bZtq(self, i):
+        if i == 18:
+            mB = self.get_mB()
+            interp = interp2d_xs_theo('1701.07409_Fig5_left', 'singlet', mB, 0.5, vlq='B')
+            return interp * 1000
 
     def B_decay_to_wt(self):
         constant = c.G ** 2 / (64 * c.PI)
@@ -265,9 +191,9 @@ class Singlet:
                 else:
                     raise Exception("Calculation error: Width, universal coupling and mixing are all None.")
             else:
-                gamma = (constant * self.mT_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.Mh))
+                gamma = (constant * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.Mh))
                          * (self.kappa / np.sqrt(2)) ** 2 * (1 + r_x(c.Mb, self.mB_theo) ** 2
-                                                             - r_x(c.Mh, self.mT_theo) ** 2))
+                                                             - r_x(c.Mh, self.mB_theo) ** 2))
                 return gamma
         else:
             kappa = self.kappa_coupling_from_width()
@@ -339,7 +265,7 @@ class Singlet:
         return kappa
 
 
-class Doublet:
+class DoubletB:
 
     def __init__(self):
         self.__model = 'Doublet'
@@ -351,7 +277,7 @@ class Doublet:
         self.which_d = 'BY'
 
     def set_mB(self, mB):
-        self.mT_theo = mB
+        self.mB_theo = mB
 
     def set_sin_r(self, s_r):
         self.sin_r = s_r
@@ -396,19 +322,16 @@ class Doublet:
         else:
             return self.width_ratio
 
-    def get_xs_pp_Tj_Ztj_ts_channels(self, i):
-        if i in [23, 24, 25]:
-            mT = self.get_mT()
-            k = self.get_coupling_strength()
-            linear_interp = interp2d_xs_theo('2305.03401', 'doublet', mT, k)
-            return linear_interp
-        elif i in [26, 27, 28]:
-            mT = self.get_mT()
-            k = self.get_coupling_strength()
-            linear_interp = interp2d_xs_theo('2307.07584', 'doublet', mT, k)
-            return linear_interp * 1000
 
-    def get_xs_pp_Ttq_tZtq(self, i):
+    def get_xs_pp_Bbq_bHbq(self, i):
+        if i in [5, 6, 7, 8]:
+            mB = self.get_mB()
+            w = self.get_width_mass_ratio()
+            interp = interp2d_xs_theo('1802.01486', 'doublet', mB, w, vlq='B')
+            return interp * 1000
+
+
+    def get_xs_pp_Btq_bZtq(self, i):
         if i == 21:
             mT = self.get_mT()
             interp = interp2d_xs_theo('1701.07409', 'doublet', mT, 0.5)
@@ -423,27 +346,24 @@ class Doublet:
             interp = interp2d_xs_theo('1909.04721', 'doublet', mT, w)
             return (interp * 1000) / 2
 
-    def get_xs_pp_Ttq_tHtq(self, i):
-        if i == 5:
-            mT = self.get_mT()
-            interp = interp2d_xs_theo('1701.07409', 'doublet', mT, 0.5)
-            return interp * 1000
-        elif i == 29:
-            mT = self.get_mT()
-            interp = interp2d_xs_theo('1612.05336', 'doublet', mT, 0.5)
-            return interp * 1000
-        elif i in [9, 10, 15, 16]:
-            mT = self.get_mT()
-            w = self.get_width_mass_ratio()
-            interp = interp2d_xs_theo('1909.04721', 'doublet', mT, w)
-            return (interp * 1000) / 2
+    def get_xs_pp_Bj_bHj_ts_channels(self, i):
+        if i in [15, 16, 17]:
+            mT = self.get_mB()
+            k = self.get_coupling_strength()
+            linear_interp = interp2d_xs_theo('2308.02595', 'doublet', mT, k, vlq='B')
+            return linear_interp * 1000
 
-    def get_xs_pp_Ttq_tZ_plus_TH(self, i):
-        if i in [13, 14, 19, 20]:
-            mT = self.get_mT()
-            w = self.get_width_mass_ratio()
-            interp = interp2d_xs_theo('1909.04721', 'doublet', mT, w)
-            return interp * 1000
+    def get_xs_pp_Bbq_tWbq(self, i):
+        if i  == 20:
+            mT = self.get_mB()
+            xs_pp_BtW = xs_pp_Vb_qWb(mT, '2111.10216_CMS_Fig4_left_pp_B_Wt_singlet_doublet.dat', vlq='B')
+            return xs_pp_BtW * 1000
+
+    def get_xs_pp_Btq_tWtq(self, i):
+        if i == 21:
+            mT = self.get_mB()
+            xs_pp_BtW = xs_pp_Vb_qWb(mT, '2111.10216_CMS_Fig4_right_pp_B_Wt_singlet_doublet.dat', vlq='B')
+            return xs_pp_BtW * 1000
 
     def B_decay_to_wt_BY(self):
         if self.width_ratio is None:
@@ -501,7 +421,7 @@ class Doublet:
                 return gamma
         else:
             kappa = self.kappa_coupling_from_width(from_Bwidth=True, mB=self.get_mB())
-            gamma = (c.Cst2 * self.mB_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mT_theo, c.Mt, c.MZ))
+            gamma = (c.Cst2 * self.mB_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mt, c.MZ))
                      * (kappa ** 2) * ((1 + r_x(c.MZ, self.mB_theo) ** 2 - 2 * r_x(c.Mb, self.mB_theo) ** 2
                                         - 2 * r_x(c.MZ, self.mB_theo) ** 4 + r_x(c.Mb, self.mB_theo) ** 4
                                         + r_x(c.Mb, self.mB_theo) ** 2 * r_x(c.MZ, self.mB_theo) ** 2)))
@@ -531,6 +451,7 @@ class Doublet:
             gamma = (c.Cst3 * self.mB_theo / (c.MW ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.Mh))
                      * kappa ** 2 * (1 + r_x(c.Mb, self.mB_theo) ** 2 - r_x(c.Mh, self.mB_theo) ** 2))
             return gamma
+
     def B_decay_to_zb_TB(self):
         if self.width_ratio is None:
             if self.kappa is None:
@@ -550,7 +471,7 @@ class Doublet:
                     raise Exception("Calculation error: Width, universal coupling and mixing are all None.")
 
             else:
-                gamma = (c.Cst2 * self.mT_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.MZ))
+                gamma = (c.Cst2 * self.mB_theo / (c.MZ ** 2) * np.sqrt(lambda_func(self.mB_theo, c.Mb, c.MZ))
                          * self.kappa ** 2 * ((1 + r_x(c.MZ, self.mB_theo) ** 2
                                               - 2 * r_x(c.Mb, self.mB_theo) ** 2 - 2 * r_x(c.MZ, self.mB_theo) ** 4
                                               + r_x(c.Mt, self.mB_theo) ** 4 + r_x(c.Mt, self.mB_theo) ** 2
@@ -596,7 +517,7 @@ class Doublet:
             width_ratio = self.width_ratio
         else:
             width_ratio = wr
-        if mT is None:
+        if mB is None:
             MB = self.get_mB()
         else:
             MB = mB
@@ -611,10 +532,10 @@ class Doublet:
                                                * (1 + r_x(c.Mb, MB) ** 2 - r_x(c.Mh, MB) ** 2))))
         return kappa
 
-    def get_xs_pp_TT(self):
-        mT = self.get_mT()
-        xs_pp_TT = xsec_pp_TT_from_pred(mT)
-        return xs_pp_TT
+    def get_xs_pp_QQ(self):
+        mB = self.get_mB()
+        xs_pp_BB = xs_pp_QQ_theo(mB)
+        return xs_pp_BB
 
     def get_brBwt_BY(self):
         gamma_wb = self.B_decay_to_wb_BY()
@@ -663,7 +584,7 @@ class Doublet:
     def sin_left_calc(self, s_r):
         c_r = np.sqrt(1 - s_r ** 2)
         tg_r = s_r / c_r
-        s_l = np.sqrt((r_x(c.Mt, self.mT_theo) * tg_r) ** 2 / (1 + ((r_x(c.Mt, self.mT_theo) * tg_r) ** 2)))
+        s_l = np.sqrt((r_x(c.Mt, self.mB_theo) * tg_r) ** 2 / (1 + ((r_x(c.Mt, self.mB_theo) * tg_r) ** 2)))
         return s_l
 
     def get_coupling_strength(self):
@@ -685,21 +606,19 @@ class Doublet:
 class PureDecay:
 
     def __init__(self):
-        self.mT_theo = None
-        self.xs_pp_TT = None
+        self.mB_theo = None
         self.__model = 'Pure'
 
-    def set_mT(self, mv):
-        self.mT_theo = mv
+    def set_mB(self, mB):
+        self.mB_theo = mB
 
-    def set_xsec_pp_TT(self, cs_pp_TT):
-        self.xs_pp_TT = cs_pp_TT
+    def get_mB(self):
+        return self.mB_theo
 
-    def get_mT(self):
-        return self.mT_theo
-
-    def get_xs_pp_TT(self):
-        return self.xs_pp_TT
+    def get_xs_pp_BB(self):
+        mB = self.get_mB()
+        xs_pp_BB = xs_pp_QQ_theo(mB)
+        return xs_pp_BB
 
     def model(self):
         return self.__model

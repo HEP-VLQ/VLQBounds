@@ -39,13 +39,13 @@ def check_sin(s):
         raise ValueError("Invalid sin value. It must not equal 0")
 
 
-def load_data_from_files(file_name, number_of_files, mass, expected, observed, atlas_cms):
+def load_data_from_files(file_name, number_of_files, mass, expected, observed, atlas_cms, vlq='T'):
     current_path = os.getcwd()
     for i in range(number_of_files):
         if atlas_cms[i] == 'ATLAS':
-            file_path = os.path.join(current_path, 'data/Tdata/ATLAS_Tables', file_name[i])
+            file_path = os.path.join(current_path, 'data/' + vlq + 'data/ATLAS_Tables', file_name[i])
         else:
-            file_path = os.path.join(current_path, 'data/Tdata/CMS_Tables', file_name[i])
+            file_path = os.path.join(current_path, 'data/' + vlq + 'data/CMS_Tables', file_name[i])
 
         try:
             data = np.loadtxt(file_path)
@@ -56,37 +56,76 @@ def load_data_from_files(file_name, number_of_files, mass, expected, observed, a
             print(f"File '{file_name[i]}' not found at path '{file_path}'")
 
 
-def coupling_data_loading(file_name, number_of_files, mass, expected, observed, atlas_cms, model):
+def coupling_data_loading(file_name, number_of_files, mass, expected, observed, atlas_cms, model, vlq='T'):
     current_path = os.getcwd()
     for i in range(number_of_files):
         if atlas_cms[i] == 'ATLAS':
-            file_path = os.path.join(current_path, 'data/Tdata/ATLAS_Tables', file_name[i])
+            file_path = os.path.join(current_path, 'data/' + vlq + 'data/ATLAS_Tables', file_name[i])
         else:
-            file_path = os.path.join(current_path, 'data/Tdata/CMS_Tables', file_name[i])
+            file_path = os.path.join(current_path, 'data/' + vlq + 'data/CMS_Tables', file_name[i])
 
-        try:
-            data = pd.read_table(file_path, comment='#', delim_whitespace=True, header=None)
-            if model == 'Singlet':
-                two_masses_index = [2, 3, 6, 8, 9, 10, 12]
-                if i in two_masses_index:
-                    if i == 2:
-                        data.columns = ["MT_of_obs", "MT_of_exp", "obs(lower)", "obs(upper)", "exp(lower)",
-                                        "exp(upper)"]
-                        mass[0][i] = data["MT_of_obs"]
-                        mass[1][i] = data["MT_of_exp"]
-                        observed[0][i] = data["obs(lower)"]
-                        observed[1][i] = data["obs(upper)"]
-                        expected[0][i] = data["exp(lower)"]
-                        expected[1][i] = data["exp(upper)"]
-                    elif i == 3:
-                        data.columns = ["MT", "obs(lower)", "obs(upper)", "exp(lower)",
-                                        "exp(upper)"]
+        if vlq == 'T':
+            try:
+                data = pd.read_table(file_path, comment='#', delim_whitespace=True, header=None)
+                if model == 'Singlet':
+                    two_masses_index = [2, 3, 6, 8, 9, 10, 12]
+                    if i in two_masses_index:
+                        if i == 2:
+                            data.columns = ["MT_of_obs", "MT_of_exp", "obs(lower)", "obs(upper)", "exp(lower)",
+                                            "exp(upper)"]
+                            mass[0][i] = data["MT_of_obs"]
+                            mass[1][i] = data["MT_of_exp"]
+                            observed[0][i] = data["obs(lower)"]
+                            observed[1][i] = data["obs(upper)"]
+                            expected[0][i] = data["exp(lower)"]
+                            expected[1][i] = data["exp(upper)"]
+                        elif i == 3:
+                            data.columns = ["MT", "obs(lower)", "obs(upper)", "exp(lower)",
+                                            "exp(upper)"]
+                            mass[0][i] = data["MT"]
+                            mass[1][i] = mass[0][i]
+                            observed[0][i] = data["obs(lower)"]
+                            observed[1][i] = data["obs(upper)"]
+                            expected[0][i] = data["exp(lower)"]
+                            expected[1][i] = data["exp(upper)"]
+                        else:
+                            data.columns = ["MT_of_obs", "MT_of_exp", "obs", "exp"]
+                            mass[0][i] = data["MT_of_obs"].dropna().to_numpy()
+                            mass[1][i] = data["MT_of_exp"].dropna().to_numpy()
+                            observed[0][i] = data["obs"].dropna().to_numpy()
+                            observed[1][i] = observed[0][i]
+                            expected[0][i] = data["exp"].dropna().to_numpy()
+                            expected[1][i] = expected[0][i]
+                    else:
+                        data.columns = ["MT", "obs", "exp"]
                         mass[0][i] = data["MT"]
                         mass[1][i] = mass[0][i]
-                        observed[0][i] = data["obs(lower)"]
-                        observed[1][i] = data["obs(upper)"]
-                        expected[0][i] = data["exp(lower)"]
-                        expected[1][i] = data["exp(upper)"]
+                        observed[0][i] = data["obs"]
+                        observed[1][i] = observed[0][i]
+                        expected[0][i] = data["exp"]
+                        expected[1][i] = observed[0][i]
+                else:
+                    data.columns = ["MT_of_obs", "MT_of_exp", "obs", "exp"]
+                    mass[0][i] = data["MT_of_obs"].dropna().to_numpy()
+                    mass[1][i] = data["MT_of_exp"].dropna().to_numpy()
+                    observed[0][i] = data["obs"].dropna().to_numpy()
+                    observed[1][i] = observed[0][i]
+                    expected[0][i] = data["exp"].dropna().to_numpy()
+                    expected[1][i] = expected[0][i]
+            except FileNotFoundError:
+                print(f"File '{file_name[i]}' not found at path '{file_path}'")
+        else:
+            try:
+                data = pd.read_table(file_path, comment='#', delim_whitespace=True, header=None)
+                if model == 'Singlet':
+                    if i in range(1, 6):
+                        data.columns = ["MT", "obs", "exp"]
+                        mass[0][i] = data["MT"].dropna().to_numpy()
+                        mass[1][i] = mass[0][i]
+                        observed[0][i] = data["obs"].dropna().to_numpy()
+                        observed[1][i] = observed[0][i]
+                        expected[0][i] = data["exp"]
+                        expected[1][i] = expected[0][i].dropna().to_numpy()
                     else:
                         data.columns = ["MT_of_obs", "MT_of_exp", "obs", "exp"]
                         mass[0][i] = data["MT_of_obs"].dropna().to_numpy()
@@ -97,33 +136,20 @@ def coupling_data_loading(file_name, number_of_files, mass, expected, observed, 
                         expected[1][i] = expected[0][i]
                 else:
                     data.columns = ["MT", "obs", "exp"]
-                    mass[0][i] = data["MT"]
+                    mass[0][i] = data["MT"].dropna().to_numpy()
                     mass[1][i] = mass[0][i]
-                    observed[0][i] = data["obs"]
+                    observed[0][i] = data["obs"].dropna().to_numpy()
                     observed[1][i] = observed[0][i]
                     expected[0][i] = data["exp"]
-                    expected[1][i] = observed[0][i]
-            else:
-                data.columns = ["MT_of_obs", "MT_of_exp", "obs", "exp"]
-                mass[0][i] = data["MT_of_obs"]
-                mass[1][i] = data["MT_of_exp"]
-                observed[0][i] = data["obs"]
-                observed[1][i] = observed[0][i]
-                expected[0][i] = data["exp"]
-                expected[1][i] = expected[0][i]
-        except FileNotFoundError:
-            print(f"File '{file_name[i]}' not found at path '{file_path}'")
+                    expected[1][i] = expected[0][i].dropna().to_numpy()
+            except FileNotFoundError:
+                print(f"File '{file_name[i]}' not found at path '{file_path}'")
 
 
 def df_making(df, **kwargs):
     data = pd.DataFrame(kwargs, index=[0])
     df = pd.concat([df, data], ignore_index=True)
     return df
-
-
-def check_keys_exist(my_dict, keys):
-    for key in keys:
-        assert key in my_dict, f"KeyError: '{key}' does not exist in the dictionary"
 
 
 def linear_interp2d(mass_arr, width_or_kappa_arr, cs_arr):
@@ -143,6 +169,20 @@ def linear_interp2d(mass_arr, width_or_kappa_arr, cs_arr):
 def linear1d_interp(x, y, x_extended):
     interp = interpolate.interp1d(x, y, "linear")
     return interp(x_extended)
+
+
+def interpolate2d(indexes, kappa, width_ratio, m_expt, m_theo, obs_exp, width_ratio_array, coupling_array):
+    if coupling_array is None:
+        if width_ratio >= 0.05:
+            interp = create_2d_interpolator(m_expt, width_ratio_array, obs_exp, indexes)
+            return interp(m_theo, width_ratio)
+        else:
+            expected_or_observed = interpolate.interp1d(m_expt[indexes[0]], obs_exp[indexes[0]], 'linear')
+            denominator = expected_or_observed(m_theo)  # mB
+            return denominator
+    else:
+        interp = create_2d_interpolator(m_expt, coupling_array, obs_exp, indexes)
+        return interp(m_theo, kappa)
 
 
 def create_2d_interpolator(x_array, y_array, interpolated, indexes):
@@ -166,7 +206,7 @@ def create_2d_interpolator(x_array, y_array, interpolated, indexes):
     return interpolate.LinearNDInterpolator(list(zip(appended_x.flatten(), appended_y.flatten())), interp.flatten())
 
 
-def xsec_pp_TT_from_pred(mT):
+def xs_pp_QQ_theo(mT):
     current_path = os.getcwd()
     path_to_table = 'data/Tdata/Theo_Tables/pp_TT_pred_NNLO.dat'
     full_path = os.path.join(current_path, path_to_table)
@@ -183,38 +223,68 @@ def xsec_pp_TT_from_pred(mT):
         print(f"File 'pp_TT_pred_NNLO.dat' not found at path '{full_path}'")
 
 
-def xsec_pp_Tbq_bWbq(mT, filename):
+def xs_pp_Vb_qWb(mT, filename, vlq='T'):
     current_path = os.getcwd()
-    path_to_table = 'data/Tdata/Theo_Tables/' + str(filename)
-    full_path = os.path.join(current_path, path_to_table)
-    try:
-        table = np.loadtxt(full_path)
-        MT = table[:, 0]
-        xsec_pp_T_bW = table[:, 1]
-        if np.min(MT) <= mT <= np.max(MT):
-            xs_Tbq_wbbq = interpolate.interp1d(MT, xsec_pp_T_bW, 'linear')
-            return xs_Tbq_wbbq(mT)
-        else:
-            return -1
-    except FileNotFoundError:
-        print(f"File '{filename}' not found at path '{full_path}'")
+    if vlq == 'T':
+        path_to_table = 'data/Tdata/Theo_Tables/' + str(filename)
+        full_path = os.path.join(current_path, path_to_table)
+        try:
+            table = np.loadtxt(full_path)
+            MT = table[:, 0]
+            xsec_pp_T_bW = table[:, 1]
+            if np.min(MT) <= mT <= np.max(MT):
+                xs_Tbq_wbbq = interpolate.interp1d(MT, xsec_pp_T_bW, 'linear')
+                return xs_Tbq_wbbq(mT)
+            else:
+                return -1
+        except FileNotFoundError:
+            print(f"File '{filename}' not found at path '{full_path}'")
+    else:
+        path_to_table = 'data/Bdata/Theo_Tables/' + str(filename)
+        full_path = os.path.join(current_path, path_to_table)
+        try:
+            table = np.loadtxt(full_path)
+            MT = table[:, 0]
+            xs_pp_B_tW = table[:, 1]
+            if np.min(MT) <= mT <= np.max(MT):
+                xs_B_tW = interpolate.interp1d(MT, xs_pp_B_tW, 'linear')
+                return xs_B_tW(mT)
+            else:
+                return -1
+        except FileNotFoundError:
+            print(f"File '{filename}' not found at path '{full_path}'")
 
 
-def xsec_pp_Tbq_Ztbq(mT, filename):
+def xs_pp_Vb_qZb(mT, filename, vlq='T'):
     current_path = os.getcwd()
-    path_to_table = 'data/Tdata/Theo_Tables/' + str(filename)
-    full_path = os.path.join(current_path, path_to_table)
-    try:
-        table = np.loadtxt(full_path)
-        MT = table[:, 0]
-        xsec_pp_T_Zt = table[:, 1]
-        if np.min(MT) <= mT <= np.max(MT):
-            xs_Tbq_Ztbq = interpolate.interp1d(MT, xsec_pp_T_Zt, 'linear')
-            return xs_Tbq_Ztbq(mT)
-        else:
-            return -1
-    except FileNotFoundError:
-        print(f"File '{filename}' not found at path '{full_path}'")
+    if vlq == 'T':
+        path_to_table = 'data/Tdata/Theo_Tables/' + str(filename)
+        full_path = os.path.join(current_path, path_to_table)
+        try:
+            table = np.loadtxt(full_path)
+            MT = table[:, 0]
+            xsec_pp_T_Zt = table[:, 1]
+            if np.min(MT) <= mT <= np.max(MT):
+                xs_Tbq_Ztbq = interpolate.interp1d(MT, xsec_pp_T_Zt, 'linear')
+                return xs_Tbq_Ztbq(mT)
+            else:
+                return -1
+        except FileNotFoundError:
+            print(f"File '{filename}' not found at path '{full_path}'")
+    else:
+        path_to_table = 'data/Bdata/Theo_Tables/' + str(filename)
+        full_path = os.path.join(current_path, path_to_table)
+        try:
+            table = np.loadtxt(full_path)
+            MT = table[:, 0]
+            xs_pp_B_Zb = table[:, 1]
+            if np.min(MT) <= mT <= np.max(MT):
+                xs_Bbq_bZbq = interpolate.interp1d(MT, xs_pp_B_Zb, 'linear')
+                return xs_Bbq_bZbq(mT)
+            else:
+                return -1
+        except FileNotFoundError:
+            print(f"File '{filename}' not found at path '{full_path}'")
 
 
 def read_table(which_files):
@@ -271,3 +341,11 @@ def max_min_mass_from_width_files(mass, index_width_tables):
         if min(m_table) < mini:
             mini = min(m_table)
     return maxi, mini
+
+
+def biggest_ratio(coupling_ratio, xs_ratio):
+    xs_bigger = False
+    if coupling_ratio >= xs_ratio:
+        return xs_bigger
+    else:
+        return not xs_bigger

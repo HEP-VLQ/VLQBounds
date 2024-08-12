@@ -1,6 +1,7 @@
 import constants as c
 from initialize import Tables
 from utils import *
+from theory_XS import *
 
 
 class Singlet:
@@ -64,14 +65,14 @@ class Singlet:
 
     def get_xs_pp_QQ(self):
         mT = self.get_mT()
-        xsec_pp_TT = xsec_pp_TT_from_pred(mT)
-        return xsec_pp_TT
+        xs_pp_TT = xs_pp_QQ_theo(mT)
+        return xs_pp_TT
 
     def get_xs_pp_Tbq_Wbbq(self, i):
         if i == 57:
             mT = self.get_mT()
-            xsec_pp_TbW = xsec_pp_Tbq_bWbq(mT, 'ATLAS-CONF-2016-072_fig8_pp_T_Wb_singlet_theo.dat')
-            return xsec_pp_TbW * 1000
+            xs_pp_TbW = xs_pp_Vb_qWb(mT, 'ATLAS-CONF-2016-072_fig8_pp_T_Wb_singlet_theo.dat')
+            return xs_pp_TbW * 1000
         elif i == 30:
             mT = self.get_mT()
             linear_interp = interp2d_xs_theo('1602.05606', 'singlet', mT, 1)
@@ -137,7 +138,7 @@ class Singlet:
             return interp * 1000
         elif i == 36:
             mT = self.get_mT()
-            interp = xsec_pp_Tbq_Ztbq(mT, '1812.09743_ATLAS_Fig4c_pp_T_tZ_Singlet_theo.dat')#interp2d_xs_theo('1812.09743', 'Singlet', mT, 0.5)
+            interp = xs_pp_Vb_qZb(mT, '1812.09743_ATLAS_Fig4c_pp_T_tZ_Singlet_theo.dat')#interp2d_xs_theo('1812.09743', 'Singlet', mT, 0.5)
             return interp * 1000
         elif i in [10, 11, 12, 13]:
             mT = self.get_mT()
@@ -624,7 +625,7 @@ class Doublet:
 
     def get_xs_pp_QQ(self):
         mT = self.get_mT()
-        xs_pp_TT = xsec_pp_TT_from_pred(mT)
+        xs_pp_TT = xs_pp_QQ_theo(mT)
         return xs_pp_TT
 
     def get_brTbw_XT(self):
@@ -705,9 +706,6 @@ class PureDecay:
 
     def set_mT(self, mv):
         self.mT_theo = mv
-
-    def set_xsec_pp_TT(self, cs_pp_TT):
-        self.xs_pp_TT = cs_pp_TT
 
     def get_mT(self):
         return self.mT_theo

@@ -1,0 +1,18 @@
+#arXiv:2402.13808
+#title:A search for bottom-type vector-like quark pair production in dileptonic and fully hadronic final states in proton-proton collisions at $\sqrt{s}=$ 13 TeV 
+#luminosity 138 fb-1 
+#Energy 13000 GeV 
+#A.~Hayrapetyan and al. CMS Collaborations 
+#Fig 18 upper right 
+#pp → BB → bZ  
+#Mass(GeV), obs(fb), exp(fb)
+1000 6.5428 4.1888
+1100 5.4029 2.9971
+1200 4.4368 2.2821
+1300 2.5132 1.747
+1400 1.6365 1.4103
+1500 1.2066 1.1446
+1600 1.5284 0.96868
+1700 1.653 0.86374
+1800 1.6825 0.77895
+

@@ -1,0 +1,16 @@
+#arXiv:1802.01486
+#title:Search for single production of vector-like quarks decaying to a b quark and a Higgs boson 
+#luminosity 35.9 fb-1 
+#Energy 13000 GeV 
+#A.~M.~Sirunyan and al. CMS Collaborations 
+#Fig8 lower right 
+#pp → Bbq → Hbbq  , Γ/M= 30% 
+#Mass(GeV), obs(pb), exp(pb)
+800 1.2681616133864966 0.7066532313287154
+1000 0.5779692884153314 0.28338767124544284
+1200 0.26826957952797276 0.17621048479375057
+1400 0.17946024402973182 0.1762104847937504
+1600 0.16082338776670405 0.1608233877667042
+1800 0.09641108804907501 0.1315369050436379
+
+

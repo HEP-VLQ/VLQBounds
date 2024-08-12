@@ -1,0 +1,18 @@
+#arXiv:2209.07327
+#title: Search for pair production of vector-like quarks in leptonic final states in proton-proton collisions at $\sqrt{s}$ = 13 TeV
+#luminosity 138 fb-1
+#Energy 1300GeV
+#A.~Tumasyan and al. CMS
+#Fig 9c
+#pp → BB →Wt, singlet
+#Mass (GeV), obs (pb), exp (pb)  
+900 0.0096921 0.010656
+1100 0.0041615	0.0063125
+1200 0.0034558	0.00525
+1300 0.0028719	0.0045937
+1400 0.0026081	0.0041719
+1500 0.0023805	0.0038594
+1600 0.002188 0.0036094
+1700 0.0020495	0.0033906
+1800 0.0019127	0.0032344
+

@@ -1,0 +1,20 @@
+#arXiv:2308.02595 
+#title:Search for single vector-like B quark production and decay via B→bH(bb) in $pp$ collisions at $\sqrt{s}=$ 13 TeV with the ATLAS detector
+#luminosity 139 fb-1
+#Energy 13000 GeV
+#G.~Aad and al. ATLAS Collaborations
+#Fig 8e
+#pp→B→ bH, k=0.5, singlet
+#Mass (GeV), k, \sigma_theo(pb)
+1000 0.5 0.1040702823112885
+1100 0.5 0.08573700664723173
+1200 0.5 0.07693759629911362
+1300 0.5 0.06484570079997888
+1400 0.5 0.0568788091357307
+1500 0.5 0.05046267831325156
+1600 0.5 0.046592587736184646
+1700 0.5 0.04351248247593498
+1800 0.5 0.0408682591489102
+1900 0.5 0.03926986478874693
+2000 0.5 0.03838472343622822
+

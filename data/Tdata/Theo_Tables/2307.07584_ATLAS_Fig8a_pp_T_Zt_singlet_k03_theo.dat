@@ -4,8 +4,8 @@
 #Energy 13000 GeV 
 #ATLAS Collaborations 
 #Fig 8a
-#pp→ Tbq→Ztbq, Singlet
-#Mass(GeV), k, \sigma_theo(pb) 
+#pp→ T→Zt, Singlet
+#Mass(GeV), k, sigma_theo(pb) 
 1000 0.3 0.05011872336272735
 1200 0.3 0.027122725793320323
 1400 0.3 0.01536974515935274
