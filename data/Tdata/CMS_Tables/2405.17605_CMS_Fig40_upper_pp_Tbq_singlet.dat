@@ -1,0 +1,16 @@
+#arXiv:2405.17605
+#title:Review of searches for vector-like quarks, vector-like leptons, and heavy neutral leptons in proton-proton collisions at $\sqrt{s} =$ 13 TeV at the CMS experiment
+#luminosity 138 fb-1 
+#Energy 13000 GeV 
+#A.~Tumasyan and al. CMS Collaborations 
+#Fig 40 upper
+#pp → Tbq → Wt, Zb, Hb, singlet
+#Mass(GeV), obs(pb), exp(pb)
+600 0.44859233834376366 0.6150195042752207
+700 0.23065504755640526 0.3750369637922689
+800 0.1711328304161782 0.29286445646252374
+900 0.11077568505097092 0.20644996558525577
+1000 0.1242923629151316 0.16681005372000599
+1100 0.09380418666398149 0.12482348288165204
+1200 0.08218921166001307 0.10259143654700102
+

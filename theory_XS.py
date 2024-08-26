@@ -1,89 +1,32 @@
 import os
 from scipy import interpolate
 import numpy as np
-import pandas as pd
 from glob import glob
 
 
-def xs_pp_QQ_theo(mT):
-    current_path = os.getcwd()
-    path_to_table = 'data/Tdata/Theo_Tables/pp_QQ_NNLO.dat'
-    full_path = os.path.join(current_path, path_to_table)
+def interpolate_xs(MT_exp, mT_theo, xs_theo):
+    if np.min(MT_exp) <= mT_theo <= np.max(MT_exp):
+        xs_QQ = interpolate.interp1d(MT_exp, xs_theo, 'linear')
+        return xs_QQ(mT_theo)
+    else:
+        return -1
+
+
+def get_xs_from_tables(path, mT, file_name):
     try:
-        table = np.loadtxt(full_path)
+        table = np.loadtxt(path)
         MT = table[:, 0]
-        xsec_pp_TT = table[:, 1]
-        if np.min(MT) <= mT <= np.max(MT):
-            xsec_TT = interpolate.interp1d(MT, xsec_pp_TT, 'linear')
-            return xsec_TT(mT)
-        else:
-            return -1
+        xs_pp_QQ = table[:, 1]
+        return interpolate_xs(MT, mT, xs_pp_QQ)
     except FileNotFoundError:
-        print(f"File 'pp_QQ_NNLO.dat' not found at path '{full_path}'")
+        print(f"File '{file_name}' not found at path '{path}'")
 
 
-def xs_pp_Vb_qWb(mT, filename, vlq='T'):
+def get_theo_xs_from_tables(mT, filename, vlq='T'):
     current_path = os.getcwd()
-    if vlq == 'T':
-        path_to_table = 'data/Tdata/Theo_Tables/' + str(filename)
-        full_path = os.path.join(current_path, path_to_table)
-        try:
-            table = np.loadtxt(full_path)
-            MT = table[:, 0]
-            xsec_pp_T_bW = table[:, 1]
-            if np.min(MT) <= mT <= np.max(MT):
-                xs_Tbq_wbbq = interpolate.interp1d(MT, xsec_pp_T_bW, 'linear')
-                return xs_Tbq_wbbq(mT)
-            else:
-                return -1
-        except FileNotFoundError:
-            print(f"File '{filename}' not found at path '{full_path}'")
-    else:
-        path_to_table = 'data/Bdata/Theo_Tables/' + str(filename)
-        full_path = os.path.join(current_path, path_to_table)
-        try:
-            table = np.loadtxt(full_path)
-            MT = table[:, 0]
-            xs_pp_B_tW = table[:, 1]
-            if np.min(MT) <= mT <= np.max(MT):
-                xs_B_tW = interpolate.interp1d(MT, xs_pp_B_tW, 'linear')
-                return xs_B_tW(mT)
-            else:
-                return -1
-        except FileNotFoundError:
-            print(f"File '{filename}' not found at path '{full_path}'")
-
-
-def xs_pp_Vb_qZb(mT, filename, vlq='T'):
-    current_path = os.getcwd()
-    if vlq == 'T':
-        path_to_table = 'data/Tdata/Theo_Tables/' + str(filename)
-        full_path = os.path.join(current_path, path_to_table)
-        try:
-            table = np.loadtxt(full_path)
-            MT = table[:, 0]
-            xsec_pp_T_Zt = table[:, 1]
-            if np.min(MT) <= mT <= np.max(MT):
-                xs_Tbq_Ztbq = interpolate.interp1d(MT, xsec_pp_T_Zt, 'linear')
-                return xs_Tbq_Ztbq(mT)
-            else:
-                return -1
-        except FileNotFoundError:
-            print(f"File '{filename}' not found at path '{full_path}'")
-    else:
-        path_to_table = 'data/Bdata/Theo_Tables/' + str(filename)
-        full_path = os.path.join(current_path, path_to_table)
-        try:
-            table = np.loadtxt(full_path)
-            MT = table[:, 0]
-            xs_pp_B_Zb = table[:, 1]
-            if np.min(MT) <= mT <= np.max(MT):
-                xs_Bbq_bZbq = interpolate.interp1d(MT, xs_pp_B_Zb, 'linear')
-                return xs_Bbq_bZbq(mT)
-            else:
-                return -1
-        except FileNotFoundError:
-            print(f"File '{filename}' not found at path '{full_path}'")
+    path_to_table = 'data/' + vlq + 'data/Theo_Tables/' + str(filename)
+    full_path = os.path.join(current_path, path_to_table)
+    return get_xs_from_tables(full_path, mT, filename)
 
 
 def read_table(which_files):
@@ -105,27 +48,18 @@ def read_table(which_files):
 
 
 def interp2d_xs_theo(file_key, model, mT, kT_or_wr, vlq='T'):
+    "must be revisited and combined with interpolate 2d"
     current_path = os.getcwd()
     table = 'data/' + vlq + 'data/Theo_Tables'
     full_path = os.path.join(current_path, table)
     which_files = glob(f"{full_path}/*{file_key}*{model}*")
-    if len(which_files) == 1:
-        data = pd.read_table(which_files[0], comment='#', delim_whitespace=True, header=None)
-        data.columns = ['Mass', 'C', 'xs']
-        MT = data['Mass']
-        xs = data['xs']
-        if np.min(MT) <= mT <= np.max(MT):
-            linear_interp = interpolate.interp1d(MT, xs)
-            return linear_interp(mT)
-        else:
-            return -1
+
+    MT, k_or_w, xsec = read_table(which_files)
+    if np.min(MT) <= mT <= np.max(MT):
+        linear_interp = interpolate.LinearNDInterpolator(list(zip(MT, k_or_w)), xsec)
+        return linear_interp(mT, kT_or_wr)
     else:
-        MT, k_or_w, xsec = read_table(which_files)
-        if np.min(MT) <= mT <= np.max(MT) and np.min(k_or_w) <= kT_or_wr <= np.max(k_or_w):
-            linear_interp = interpolate.LinearNDInterpolator(list(zip(MT, k_or_w)), xsec)
-            return linear_interp(mT, kT_or_wr)
-        else:
-            return -1
+        return -1
 
 
 def linear1d_interp(x, y, x_extended):
@@ -154,15 +88,37 @@ def create_2d_interpolator(x_array, y_array, interpolated, indexes):
     return interpolate.LinearNDInterpolator(list(zip(appended_x.flatten(), appended_y.flatten())), interp.flatten())
 
 
-def interpolate2d(indexes, kappa, width_ratio, m_expt, m_theo, obs_exp, width_ratio_array, coupling_array):
+def interpolate2d(indexes, kappa, width_ratio, m_expt, m_theo, obs_exp, width_ratio_array,
+                  coupling_array):
     if coupling_array is None:
-        if width_ratio >= 0.01: #0.05
-            interp = create_2d_interpolator(m_expt, width_ratio_array, obs_exp, indexes)
-            return interp(m_theo, width_ratio)
-        else:
-            expected_or_observed = interpolate.interp1d(m_expt[indexes[0]], obs_exp[indexes[0]], 'linear')
-            denominator = expected_or_observed(m_theo)  # mB
-            return denominator
+        min_wr = min(width_ratio_array)
+        if min_wr == 0.05:
+            if width_ratio >= 0.05:
+                interp = create_2d_interpolator(m_expt, width_ratio_array, obs_exp, indexes)
+                return interp(m_theo, width_ratio)
+            else:
+                expected_or_observed = interpolate.interp1d(m_expt[indexes[0]], obs_exp[indexes[0]], 'linear')
+                denominator = expected_or_observed(m_theo)
+                return denominator
+        elif min_wr == 0.01:
+            if width_ratio >= 0.01:
+                interp = create_2d_interpolator(m_expt, width_ratio_array, obs_exp, indexes)
+                return interp(m_theo, width_ratio)
+            else:
+                return -1
     else:
         interp = create_2d_interpolator(m_expt, coupling_array, obs_exp, indexes)
         return interp(m_theo, kappa)
+
+
+def linear_interp2d(mass_arr, width_or_kappa_arr, cs_arr):
+    wk = []
+    length = int(len(mass_arr) / len(width_or_kappa_arr))
+    for i, wk_value in enumerate(width_or_kappa_arr):
+        w_k = wk_value * np.ones(len(mass_arr[:length]))
+        wk.append(w_k)
+    wk = np.array(wk)
+    wk_flat = wk.flatten()
+
+    interp = interpolate.LinearNDInterpolator(list(zip(mass_arr, wk_flat)), cs_arr)
+    return interp

@@ -1,45 +1,68 @@
 from utils import load_data_from_files
-from Bmodel import *
+from vector_like_T import *
+from vector_like_B import *
 
 
 class Tables:
     def __init__(self, m):
-        self.key = None
-        self.label = None
-        self.expt = None
-        self.MT = None
-        self.MB = None
-        self.exp = None
-        self.obs = None
-        self.file_name = None
-        self.model = None
-        self.process = None
-        self.energy = None
-        self.luminosity = None
-        self.which_doublet = None
         self.cs_keys = {}
         self.TB_XT_keys = {}
-        self.nwa = None
         self.VLB = False
         self.m = m
+        self.initialize_bounds_arrays()
+
+    def bounds_properties_arrays(self, number_of_atlas_cms_tables):
+        self.file_name = [None] * number_of_atlas_cms_tables
+        self.key = [None] * number_of_atlas_cms_tables
+        self.label = [None] * number_of_atlas_cms_tables
+        self.expt = [None] * number_of_atlas_cms_tables
+        self.process = [None] * number_of_atlas_cms_tables
+        self.energy = [None] * number_of_atlas_cms_tables
+        self.luminosity = [None] * number_of_atlas_cms_tables
+        self.obs = [None] * number_of_atlas_cms_tables
+        self.exp = [None] * number_of_atlas_cms_tables
+        if isinstance(self.m, (SingletT, PureTDecay)):
+            self.MT = [None] * number_of_atlas_cms_tables
+        elif isinstance(self.m, DoubletT):
+            self.which_doublet = [None] * number_of_atlas_cms_tables
+            self.MT = [None] * number_of_atlas_cms_tables
+        elif isinstance(self.m, (SingletB, PureBDecay)):
+            self.MB = [None] * number_of_atlas_cms_tables
+        elif isinstance(self.m, DoubletB):
+            self.which_doublet = [None] * number_of_atlas_cms_tables
+            self.MB = [None] * number_of_atlas_cms_tables
+
+    def get_number_of_cms_atlas_tables(self, vlq='T'):
+        if vlq == 'B':
+            if self.m.model() == 'Singlet':
+                return 24
+            elif self.m.model() == 'Doublet':
+                return 22
+            else:
+                return 17
+        else:
+            if self.m.model() == 'Singlet':
+                return 59
+            elif self.m.model() == 'Doublet':
+                return 33
+            else:
+                return 25
+
+    def initialize_bounds_arrays(self):
+        if isinstance(self.m, (SingletB, DoubletB)):
+            number_of_atlas_cms_tables = self.get_number_of_cms_atlas_tables(vlq='B')
+            if number_of_atlas_cms_tables > 0:
+                self.bounds_properties_arrays(number_of_atlas_cms_tables)
+        else:
+            number_of_atlas_cms_tables = self.get_number_of_cms_atlas_tables()
+            if number_of_atlas_cms_tables > 0:
+                self.bounds_properties_arrays(number_of_atlas_cms_tables)
+
 
     def initialize_tables_cms_and_atlas(self):
         """" fills experimental data from files """
         if self.VLB:
             if self.m.model() == 'Singlet':
-                number_of_atlas_cms_tables = 23
-                self.file_name = [None] * number_of_atlas_cms_tables
-                self.key = [None] * number_of_atlas_cms_tables
-                self.label = [None] * number_of_atlas_cms_tables
-                self.expt = [None] * number_of_atlas_cms_tables
-                self.MT = [None] * number_of_atlas_cms_tables
-                self.MB = [None] * number_of_atlas_cms_tables
-                self.obs = [None] * number_of_atlas_cms_tables
-                self.exp = [None] * number_of_atlas_cms_tables
-                self.process = [None] * number_of_atlas_cms_tables
-                self.energy = [None] * number_of_atlas_cms_tables
-                self.luminosity = [None] * number_of_atlas_cms_tables
-
                 self.key[0] = '01762fb'
                 self.label[0] = 'arXiv:1806.01762'
                 self.expt[0] = 'ATLAS'
@@ -232,23 +255,17 @@ class Tables:
                 self.energy[22] = 13
                 self.luminosity[22] = 138
 
+                self.key[23] = '17605f39ll'
+                self.label[23] = 'arXiv:2405.17605'
+                self.expt[23] = 'CMS'
+                self.file_name[23] = '2405.17605_CMS_Fig39_lower_left_pp_BB_singlet.dat'
+                self.process[23] = 'pp --> BB'
+                self.energy[23] = 13
+                self.luminosity[23] = 138
+
                 load_data_from_files(self.file_name, len(self.key), self.MB, self.exp, self.obs, self.expt, vlq='B')
 
             elif self.m.model() == 'Doublet':
-                number_of_atlas_cms_tables = 22
-                self.file_name = [None] * number_of_atlas_cms_tables
-                self.key = [None] * number_of_atlas_cms_tables
-                self.label = [None] * number_of_atlas_cms_tables
-                self.expt = [None] * number_of_atlas_cms_tables
-                self.MT = [None] * number_of_atlas_cms_tables
-                self.MB = [None] * number_of_atlas_cms_tables
-                self.obs = [None] * number_of_atlas_cms_tables
-                self.exp = [None] * number_of_atlas_cms_tables
-                self.process = [None] * number_of_atlas_cms_tables
-                self.energy = [None] * number_of_atlas_cms_tables
-                self.luminosity = [None] * number_of_atlas_cms_tables
-                self.which_doublet = [None] * number_of_atlas_cms_tables
-
                 self.key[0] = '10555f13d'
                 self.label[0] = 'arXiv:1806.10555'
                 self.expt[0] = 'ATLAS'
@@ -342,7 +359,7 @@ class Tables:
                 self.key[10] = '09768Fig7ur'
                 self.label[10] = 'arXiv:1812.09768'
                 self.expt[10] = 'CMS'
-                self.file_name[10] = '1812.09768_Fig7_upper_right_pp_BB_doublet.dat'
+                self.file_name[10] = '1812.09768_CMS_Fig7_upper_right_pp_BB_doublet.dat'
                 self.process[10] = 'pp --> BB'
                 self.energy[10] = 13
                 self.luminosity[10] = 35.9
@@ -438,31 +455,17 @@ class Tables:
                 self.luminosity[20] = 138
                 self.which_doublet[20] = 'BYorTB'
 
-                self.key[21] = '10216f4rd'
-                self.label[21] = 'arXiv:2111.10216'
+                self.key[21] = '17605f39lr'
+                self.label[21] = 'arXiv:2405.17605'
                 self.expt[21] = 'CMS'
-                self.file_name[21] = '2111.10216_CMS_Fig4_right_pp_B_Wt_singlet_doublet.dat'
-                self.process[21] = 'pp --> Btq --> tWtq'
+                self.file_name[21] = '2405.17605_CMS_Fig39_lower_right_pp_BB_doublet.dat'
+                self.process[21] = 'pp --> BB'
                 self.energy[21] = 13
                 self.luminosity[21] = 138
                 self.which_doublet[21] = 'BYorTB'
 
                 load_data_from_files(self.file_name, len(self.key), self.MB, self.exp, self.obs, self.expt, vlq='B')
             elif self.m.model() == 'Pure':
-                number_of_atlas_cms_tables = 16
-
-                self.file_name = [None] * number_of_atlas_cms_tables
-                self.key = [None] * number_of_atlas_cms_tables
-                self.label = [None] * number_of_atlas_cms_tables
-                self.expt = [None] * number_of_atlas_cms_tables
-                self.MT = [None] * number_of_atlas_cms_tables
-                self.MB = [None] * number_of_atlas_cms_tables
-                self.obs = [None] * number_of_atlas_cms_tables
-                self.exp = [None] * number_of_atlas_cms_tables
-                self.process = [None] * number_of_atlas_cms_tables
-                self.energy = [None] * number_of_atlas_cms_tables
-                self.luminosity = [None] * number_of_atlas_cms_tables
-
                 self.key[0] = '01762f4a'
                 self.label[0] = 'arXiv:1806.01762'
                 self.expt[0] = 'ATLAS'
@@ -591,21 +594,16 @@ class Tables:
                 self.energy[15] = 8
                 self.luminosity[15] = 19.7
 
+                self.key[16] = '17605f38l'
+                self.label[16] = 'arXiv:2405.17605'
+                self.expt[16] = 'CMS'
+                self.file_name[16] = '2405.17605_CMS_Fig38_lower_pp_BB_tW.dat'
+                self.process[16] = 'pp --> BB'
+                self.energy[16] = 8
+                self.luminosity[16] = 19.7
+
         else:
             if self.m.model() == 'Singlet':
-                number_of_atlas_cms_tables = 60
-
-                self.file_name = [None] * number_of_atlas_cms_tables
-                self.key = [None] * number_of_atlas_cms_tables
-                self.label = [None] * number_of_atlas_cms_tables
-                self.expt = [None] * number_of_atlas_cms_tables
-                self.MT = [None] * number_of_atlas_cms_tables
-                self.obs = [None] * number_of_atlas_cms_tables
-                self.exp = [None] * number_of_atlas_cms_tables
-                self.process = [None] * number_of_atlas_cms_tables
-                self.energy = [None] * number_of_atlas_cms_tables
-                self.luminosity = [None] * number_of_atlas_cms_tables
-
                 self.key[0] = '10751fig6b'
                 self.label[0] = 'arXiv:1705.10751'
                 self.expt[0] = 'ATLAS'
@@ -849,7 +847,7 @@ class Tables:
                 self.key[30] = '05606f6'
                 self.label[30] = 'arXiv:1602.05606'
                 self.expt[30] = 'ATLAS'
-                self.file_name[30] = '1602.05606_ATLAS_Fig6_pp_Tbj_Wb.txt'
+                self.file_name[30] = '1602.05606_ATLAS_Fig6_pp_Tbj_Wb_singlet.txt'
                 self.process[30] = 'pp --> Tbq --> bWbq'
                 self.energy[30] = 8
                 self.luminosity[30] = 20.3
@@ -1062,49 +1060,25 @@ class Tables:
                 self.energy[56] = 13
                 self.luminosity[56] = 139
 
-                self.key[57] = '072f8'
-                self.label[57] = 'ATLAS-CONF-2016-072'
+                self.key[57] = '10555f15'
+                self.label[57] = 'arXiv:1806.10555'
                 self.expt[57] = 'ATLAS'
-                self.file_name[57] = 'ATLAS-CONF-2016-072_ATLAS_Fig8_pp_Tbq_Wb.txt'
-                self.process[57] = 'pp --> Tbq --> bWbq'
+                self.file_name[57] = '1806.10555_ATLAS_Fig15_pp_T_Zt_Singlet.txt'
+                self.process[57] = "pp --> Tbq --> tZbq"
                 self.energy[57] = 13
-                self.luminosity[57] = 3.2
+                self.luminosity[57] = 36.1
 
-                self.key[58] = '10555f15'
-                self.label[58] = 'arXiv:1806.10555'
-                self.expt[58] = 'ATLAS'
-                self.file_name[58] = '1806.10555_ATLAS_Fig15_pp_T_Zt_Singlet.txt'
-                self.process[58] = "pp --> Tbq --> tZbq"
+                self.key[58] = '08328'
+                self.label[58] = 'arXiv:1701.08328'
+                self.expt[58] = 'CMS'
+                self.file_name[58] = '1701.08328_CMS_fig5_pp_Tbq_or_Ybq_bW.txt'
+                self.process[58] = 'pp --> Tbq --> bWbq'
                 self.energy[58] = 13
-                self.luminosity[58] = 36.1
-
-                self.key[59] = '08328'
-                self.label[59] = 'arXiv:1701.08328'
-                self.expt[59] = 'CMS'
-                self.file_name[59] = '1701.08328_CMS_fig5_pp_Tbq_or_Ybq_bW.txt'
-                self.process[59] = 'pp --> Tbq --> bWbq'
-                self.energy[59] = 13
-                self.luminosity[59] = 2.3
+                self.luminosity[58] = 2.3
 
                 load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
 
             elif self.m.model() == 'Doublet':
-
-                number_of_atlas_cms_tables = 33
-
-                self.file_name = [None] * number_of_atlas_cms_tables
-                self.key = [None] * number_of_atlas_cms_tables
-                self.label = [None] * number_of_atlas_cms_tables
-                self.expt = [None] * number_of_atlas_cms_tables
-                self.MT = [None] * number_of_atlas_cms_tables
-                self.obs = [None] * number_of_atlas_cms_tables
-                self.exp = [None] * number_of_atlas_cms_tables
-                self.process = [None] * number_of_atlas_cms_tables
-                self.energy = [None] * number_of_atlas_cms_tables
-                self.luminosity = [None] * number_of_atlas_cms_tables
-                self.which_doublet = [None] * number_of_atlas_cms_tables
-                self.nwa = [None] * number_of_atlas_cms_tables
-
                 self.key[0] = '10751'
                 self.label[0] = 'arXiv:1705.10751'
                 self.expt[0] = 'ATLAS'
@@ -1132,7 +1106,6 @@ class Tables:
                 self.luminosity[2] = 36.1
                 self.which_doublet[2] = 'XTorTB'
 
-
                 self.key[3] = '10555'
                 self.label[3] = 'arXiv:1806.10555'
                 self.expt[3] = 'ATLAS'
@@ -1159,8 +1132,6 @@ class Tables:
                 self.energy[5] = 13
                 self.luminosity[5] = 2.3
                 self.which_doublet[5] = 'XTorTB'
-                self.nwa[5] = True
-
 
                 self.key[6] = '03408'
                 self.label[6] = 'arXiv:1706.03408'
@@ -1180,7 +1151,6 @@ class Tables:
                 self.luminosity[7] = 35.9
                 self.which_doublet[7] = 'XTorTB'
 
-
                 self.key[8] = '5500fd'
                 self.label[8] = 'arXiv:1409.5500'
                 self.expt[8] = 'ATLAS'
@@ -1199,7 +1169,6 @@ class Tables:
                 self.energy[9] = 13
                 self.luminosity[9] = 35.9
                 self.which_doublet[9] = 'TB'
-                self.nwa[9] = True
 
                 self.key[10] = '04721f10b'
                 self.label[10] = 'arXiv:1909.04721'
@@ -1209,7 +1178,6 @@ class Tables:
                 self.energy[10] = 13
                 self.luminosity[10] = 35.9
                 self.which_doublet[10] = 'TB'
-                self.nwa[10] = True
 
                 self.key[11] = '04721f10c'
                 self.label[11] = 'arXiv:1909.04721'
@@ -1219,7 +1187,6 @@ class Tables:
                 self.energy[11] = 13
                 self.luminosity[11] = 35.9
                 self.which_doublet[11] = 'TB'
-                self.nwa[11] = True
 
                 self.key[12] = '04721f10d'
                 self.label[12] = 'arXiv:1909.04721'
@@ -1229,7 +1196,6 @@ class Tables:
                 self.energy[12] = 13
                 self.luminosity[12] = 35.9
                 self.which_doublet[12] = 'TB'
-                self.nwa[12] = True
 
                 self.key[13] = '04721f10e'
                 self.label[13] = 'arXiv:1909.04721'
@@ -1239,7 +1205,6 @@ class Tables:
                 self.energy[13] = 13
                 self.luminosity[13] = 35.9
                 self.which_doublet[13] = 'TB'
-                self.nwa[13] = True
 
                 self.key[14] = '04721f10f'
                 self.label[14] = 'arXiv:1909.04721'
@@ -1249,7 +1214,6 @@ class Tables:
                 self.energy[14] = 13
                 self.luminosity[14] = 35.9
                 self.which_doublet[14] = 'TB'
-                self.nwa[14] = True
 
                 self.key[15] = '04721f11a'
                 self.label[15] = 'arXiv:1909.04721'
@@ -1259,7 +1223,6 @@ class Tables:
                 self.energy[15] = 13
                 self.luminosity[15] = 35.9
                 self.which_doublet[15] = 'TB'
-                self.nwa[15] = False
 
                 self.key[16] = '04721f11b'
                 self.label[16] = 'arXiv:1909.04721'
@@ -1269,7 +1232,6 @@ class Tables:
                 self.energy[16] = 13
                 self.luminosity[16] = 35.9
                 self.which_doublet[16] = 'TB'
-                self.nwa[16] = False
 
                 self.key[17] = '04721f11c'
                 self.label[17] = 'arXiv:1909.04721'
@@ -1279,7 +1241,6 @@ class Tables:
                 self.energy[17] = 13
                 self.luminosity[17] = 35.9
                 self.which_doublet[17] = 'TB'
-                self.nwa[17] = False
 
                 self.key[18] = '04721f11d'
                 self.label[18] = 'arXiv:1909.04721'
@@ -1289,7 +1250,6 @@ class Tables:
                 self.energy[18] = 13
                 self.luminosity[18] = 35.9
                 self.which_doublet[18] = 'TB'
-                self.nwa[18] = False
 
                 self.key[19] = '04721f11e'
                 self.label[19] = 'arXiv:1909.04721'
@@ -1299,7 +1259,6 @@ class Tables:
                 self.energy[19] = 13
                 self.luminosity[19] = 35.9
                 self.which_doublet[19] = 'TB'
-                self.nwa[19] = False
 
                 self.key[20] = '04721f11f'
                 self.label[20] = 'arXiv:1909.04721'
@@ -1310,7 +1269,6 @@ class Tables:
                 self.luminosity[20] = 35.9
                 self.which_doublet[20] = 'TB'
 
-
                 self.key[21] = '07409f4b'
                 self.label[21] = 'arXiv:1701.07409'
                 self.expt[21] = 'CMS'
@@ -1319,7 +1277,6 @@ class Tables:
                 self.energy[21] = 13
                 self.luminosity[21] = 2.3
                 self.which_doublet[21] = 'XTorTB'
-                self.nwa[21] = True
 
                 self.key[22] = '04306fc'
                 self.label[22] = 'arXiv:1505.04306'
@@ -1338,7 +1295,6 @@ class Tables:
                 self.energy[23] = 13
                 self.luminosity[23] = 139
                 self.which_doublet[23] = 'TB'
-                self.nwa[23] = True
 
                 self.key[24] = '03401f12b'
                 self.label[24] = 'arXiv:2305.03401'
@@ -1348,7 +1304,6 @@ class Tables:
                 self.energy[24] = 13
                 self.luminosity[24] = 139
                 self.which_doublet[24] = 'TB'
-                self.nwa[24] = True
 
                 self.key[25] = '03401f12c'
                 self.label[25] = 'arXiv:2305.03401'
@@ -1358,7 +1313,6 @@ class Tables:
                 self.energy[25] = 13
                 self.luminosity[25] = 139
                 self.which_doublet[25] = 'TB'
-                self.nwa[25] = False
 
                 self.key[26] = '07584f8b'
                 self.label[26] = 'arXiv:2307.07584'
@@ -1368,7 +1322,6 @@ class Tables:
                 self.energy[26] = 13
                 self.luminosity[26] = 139
                 self.which_doublet[26] = 'XTorTB'
-                self.nwa[26] = True
 
                 self.key[27] = '07584f8d'
                 self.label[27] = 'arXiv:2307.07584'
@@ -1378,7 +1331,6 @@ class Tables:
                 self.energy[27] = 13
                 self.luminosity[27] = 139
                 self.which_doublet[27] = 'XTorTB'
-                self.nwa[27] = True
 
                 self.key[28] = '07584f8f'
                 self.label[28] = 'arXiv:2307.07584'
@@ -1388,7 +1340,6 @@ class Tables:
                 self.energy[28] = 13
                 self.luminosity[28] = 139
                 self.which_doublet[28] = 'XTorTB'
-                self.nwa[28] = False
 
                 self.key[29] = '05336f4lr'
                 self.label[29] = 'arXiv:1612.05336'
@@ -1398,7 +1349,6 @@ class Tables:
                 self.energy[29] = 13
                 self.luminosity[29] = 2.3
                 self.which_doublet[29] = 'XTorTB'
-                self.nwa[29] = True
 
                 self.key[30] = '104f16a'
                 self.label[30] = 'ATLAS-CONF-2016-104'
@@ -1430,20 +1380,6 @@ class Tables:
                 load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
 
             elif self.m.model() == 'Pure':
-
-                number_of_atlas_cms_tables = 25
-
-                self.file_name = [None] * number_of_atlas_cms_tables
-                self.key = [None] * number_of_atlas_cms_tables
-                self.label = [None] * number_of_atlas_cms_tables
-                self.expt = [None] * number_of_atlas_cms_tables
-                self.MT = [None] * number_of_atlas_cms_tables
-                self.obs = [None] * number_of_atlas_cms_tables
-                self.exp = [None] * number_of_atlas_cms_tables
-                self.process = [None] * number_of_atlas_cms_tables
-                self.energy = [None] * number_of_atlas_cms_tables
-                self.luminosity = [None] * number_of_atlas_cms_tables
-
                 self.key[0] = '05263'
                 self.label[0] = 'arXiv:2212.05263'
                 self.expt[0] = 'ATLAS'
@@ -1667,6 +1603,7 @@ class Tables:
     def get_T_caracteristics(self):
         if self.m.model() == 'Singlet' or self.m.model() == 'pure':
             return self.key, self.label, self.expt, self.process, self.energy, self.luminosity
+
     def all_processes(self):
         with open("processes_info.dat", "w") as f:
             f.write("************* File for each cross section limit information*****************\n")

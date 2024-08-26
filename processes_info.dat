@@ -70,3 +70,6 @@ pp --> Bbq --> tWbq 		 arXiv:2111.10216 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 1
 ***********************************************************************
 channel 22:
 pp --> Btq --> tWtq 		 arXiv:2111.10216 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 138 fb-1
+***********************************************************************
+channel 23:
+pp --> BB 		 arXiv:2405.17605 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 138 fb-1

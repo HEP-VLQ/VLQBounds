@@ -5,13 +5,13 @@
 #A.~Hayrapetyan et al. CMS Collaborations
 #Fig 4 upper right
 #pp → Tbq→tZbq →tbbbq, Singlet , $\Gamma/M_T$=0.01 
-#Mass(GeV), $\Gamma/M_T$, \sigma_{theorie}(pb)
-600 0.01 0.1765
-650 0.01 0.1213
-700 0.01 0.089
-800 0.01 0.046
-900 0.01 0.025
-1000 0.01 0.014
-1100 0.01 0.00867
-1200 0.01 0.00536
+#Mass(GeV), \sigma_{theorie}(pb)
+600 0.1765
+650 0.1213
+700 0.089
+800 0.046
+900 0.025
+1000 0.014
+1100 0.00867
+1200 0.00536
 

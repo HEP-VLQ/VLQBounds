@@ -1,0 +1,14 @@
+#arXiv:2405.17605
+#title:Search for a heavy resonance decaying into a top quark and a W boson in the lepton+jets final state at $\sqrt{s}$ = 13 TeV
+#luminosity 19.7 fb-1 
+#Energy 13000 GeV 
+#CMS Collaborations 
+#Fig 42 lower 
+#pp → Ttq→ Ht+Zt, doublet
+#Mass_obs(GeV), Mass_exp(GeV), obs_part1(pb), exp_part1(pb)
+800 700 0.76111111111111 0.9166666666666663
+760 750 0.934722222222222 0.9305555555555556 
+730 800 1.0972222222222219 0.9402777777777773
+700 NaN 1.261111111111111 NaN
+
+
