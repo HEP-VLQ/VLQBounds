@@ -1620,7 +1620,7 @@ def main():
 
 main()
 """
-
+"""
 def main():
 #pair prod
     s = SingletB()
@@ -1642,5 +1642,52 @@ def main():
             #pt.check_against_xs_and_coupling_limits()
             #pt.check_coupling_limit()
     pt.df.to_csv("~/Desktop/somefiles/vlB_s_l_cms_and_atlas_pair_prod.dat", sep=" ")
+
+main()
+"""
+"""
+def main():
+    d = DoubletB()
+    pt = PyTop(d)
+    pt.set_VLQ_type('B')
+    pt.filling_couplings_and_xs_limits()
+    #pt.filling_channels_data()
+    #pt.filling_couplings_data()
+    s_range = np.linspace(1e-3, 1, 20)
+    m_range = np.arange(700, 1800, 1) # atlas from 1000
+    for k in s_range:
+        for m in m_range:
+            params = {
+                "mB": m,
+                "k_B": k
+            }
+            pt.B_singlet_params(**params)
+            #pt.check_SM_YB_doublet_limit()
+            pt.check_against_xs_and_coupling_limits()
+            #pt.check_coupling_limit()
+    pt.df.to_csv("~/Desktop/somefiles/vlB_s_l_atlas_and_cms_single_prod_doublet.dat", sep=" ")
+
+main()
+"""
+def main():
+    d = DoubletB()
+    pt = PyTop(d)
+    pt.set_VLQ_type('B')
+    #pt.filling_couplings_and_xs_limits()
+    pt.filling_channels_data()
+    #pt.filling_couplings_data()
+    s_range = np.linspace(1e-3, 1, 20)
+    m_range = np.arange(700, 1800, 1) # atlas from 1000
+    for k in s_range:
+        for m in m_range:
+            params = {
+                "mB": m,
+                "k_B": k
+            }
+            pt.B_singlet_params(**params)
+            pt.check_SM_YB_doublet_limit()
+            #pt.check_against_xs_and_coupling_limits()
+            #pt.check_coupling_limit()
+    pt.df.to_csv("~/Desktop/somefiles/vlB_s_l_atlas_and_cms_pair_prod_doublet.dat", sep=" ")
 
 main()

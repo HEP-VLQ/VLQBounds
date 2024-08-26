@@ -355,8 +355,7 @@ class TheoryCalc(Tables, Result):
             elif self.m.model() == 'Pure':
                 if self.process[i][:9] == 'pp --> TT':
                     return self.m.get_xs_pp_QQ() / 1000
-            else:
-                raise Exception("Error in model name")
+
 
     def denominator(self, num, index, t):
         #if self.process[index][:9] == 'pp --> Bb' or self.process[index][:9] == 'pp --> Bt': #and self.expt[index] == 'CMS'):
