@@ -24,7 +24,7 @@ def validate_cross_section_value(cross_section_value, process):
     if cross_section_value is None:
         raise ValueError(f"The cross-section of the {process} cannot be None.")
 
-    if not isinstance(cross_section_value, (int, float, numpy.ndarray)):
+    if not isinstance(cross_section_value, (int, float, np.ndarray)):
         raise TypeError(f"The cross-section of the process {process} must be a numeric type.")
 
     if cross_section_value < 0:
@@ -146,7 +146,7 @@ def calculate_width(constant: float, mQ_theo: float, m_A: float, coupling: list,
 
 
 def calculate_width_to_higgs_from_k(constant: float, mQ_theo: float, coupling: float, m_q: float) -> float:
-    width = (constant * mQ_theo/ (c.Mh ** 2) * np.sqrt(lambda_func(mQ_theo, m_q, c.Mh))
+    width = (constant * mQ_theo / (c.MW ** 2) * np.sqrt(lambda_func(mQ_theo, m_q, c.Mh))
              * coupling ** 2 * (1 + r_x(m_q, mQ_theo) ** 2 - r_x(c.Mh, mQ_theo) ** 2))
 
     return width
