@@ -61,13 +61,13 @@ class Tables:
 
     def initialize_tables_cms_and_atlas(self):
         """" fills experimental data from files """
-        if self.VLB:
+        if self.VLX:
             if self.m.model() == 'Singlet':
                 self.key[0] = '01762fb'
                 self.label[0] = 'arXiv:1806.01762'
                 self.expt[0] = 'ATLAS'
                 self.file_name[0] = '1806.01762_ATLAS_fig4b_pp_BB_Wt_singlet.dat'
-                self.process[0] = 'pp --> BB'
+                self.process[0] = 'pp --> XX'
                 self.energy[0] = 13
                 self.luminosity[0] = 36.1
 
@@ -464,29 +464,29 @@ class Tables:
                 self.luminosity[21] = 138
                 self.which_doublet[21] = 'BYorTB'
 
-                load_data_from_files(self.file_name, len(self.key), self.MB, self.exp, self.obs, self.expt, vlq='B')
+                load_data_from_files(self.file_name, len(self.key), self.MX, self.exp, self.obs, self.expt, vlq='X')
             elif self.m.model() == 'Pure':
-                self.key[0] = '01762f4a'
-                self.label[0] = 'arXiv:1806.01762'
+                self.key[0] = '03347f4a'
+                self.label[0] = 'arXiv:1707.03347'
                 self.expt[0] = 'ATLAS'
-                self.file_name[0] = '1806.01762_ATLAS_fig4a_pp_BB_Wt.dat'
-                self.process[0] = 'pp --> BB'
+                self.file_name[0] = '1707.03347_ATLAS_fig4a_pp_XX_Wb.dat'
+                self.process[0] = 'pp --> XX'
                 self.energy[0] = 13
                 self.luminosity[0] = 36.1
 
-                self.key[1] = '10555f13f'
-                self.label[1] = 'arXiv:1806.10555'
+                self.key[1] = '01762f4a'
+                self.label[1] = 'arXiv:1806.01762'
                 self.expt[1] = 'ATLAS'
-                self.file_name[1] = '1806.10555_ATLAS_fig13f_pp_BB_bZ.dat'
-                self.process[1] = 'pp --> BB'
+                self.file_name[1] = '1806.01762_ATLAS_fig4a_pp_XX_Wt.dat'
+                self.process[1] = 'pp --> XX'
                 self.energy[1] = 13
                 self.luminosity[1] = 36.1
 
-                self.key[2] = '01771fig13b'
-                self.label[2] = 'arXiv:1808.01771'
+                self.key[2] = '11883fig10a'
+                self.label[2] = 'arXiv:1807.11883'
                 self.expt[2] = 'ATLAS'
-                self.file_name[2] = '1808.01771_ATLAS_fig13b_pp_BB_Hb.dat'
-                self.process[2] = 'pp --> BB'
+                self.file_name[2] = '1807.11883_ATLAS_fig10a_pp_XX_Wt.dat'
+                self.process[2] = 'pp --> XX'
                 self.energy[2] = 13
                 self.luminosity[2] = 36.1
 
