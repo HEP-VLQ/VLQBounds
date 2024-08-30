@@ -292,7 +292,7 @@ class DoubletB:
         c_r = np.sqrt(1 - s_r ** 2)
         coupling = [s_r * c_r, 2 * s_l * c_l]
         width = calculate_decay_width([mB, c.MZ, c.Mb], self.__sin_r, self.__kappa,
-                                      self.__width_ratio, coupling, c.Cst2)
+                                      self.__width_ratio, coupling, c.Cst2, model='Doublet')
         return width
 
     def B_decay_to_hb_BY(self):
@@ -301,7 +301,7 @@ class DoubletB:
         c_r = np.sqrt(1 - s_r ** 2)
         coupling = s_r * c_r
         width = calculate_decay_width([mB, c.Mh, c.Mb], self.__sin_r, self.__kappa,
-                                      self.__width_ratio, coupling, c.Cst3, to_higgs=True)
+                                      self.__width_ratio, coupling, c.Cst3, model='Doublet', to_higgs=True)
         return width
 
     def B_decay_to_zb_TB(self):
@@ -310,7 +310,7 @@ class DoubletB:
         c_d_r = np.sqrt(1 - s_d_r ** 2)
         coupling = [s_d_r * c_d_r, 0]
         width = calculate_decay_width([mB, c.MZ, c.Mb], self.__sin_d_r, self.__kappa,
-                                      self.__width_ratio, coupling, c.Cst2)
+                                      self.__width_ratio, coupling, c.Cst2,  model='Doublet')
         return width
 
     def B_decay_to_hb_TB(self):
@@ -319,7 +319,7 @@ class DoubletB:
         c_d_r = np.sqrt(1 - s_d_r ** 2)
         coupling = s_d_r * c_d_r
         width = calculate_decay_width([mB, c.Mh, c.Mb], self.__sin_d_r, self.__kappa,
-                                      self.__width_ratio, coupling, c.Cst3, to_higgs=True)
+                                      self.__width_ratio, coupling, c.Cst3,  model='Doublet', to_higgs=True)
         return width
 
     def get_brBwt_BY(self):
@@ -331,17 +331,17 @@ class DoubletB:
 
     def get_brBzb_BY(self):
         gamma_wb = self.B_decay_to_wt_BY()
-        gamma_zt = self.B_decay_to_zb_BY()
-        gamma_ht = self.B_decay_to_hb_BY()
-        br_to_zt = gamma_zt / (gamma_ht + gamma_wb + gamma_zt) # + gamma_wb
-        return br_to_zt
+        gamma_zb = self.B_decay_to_zb_BY()
+        gamma_hb = self.B_decay_to_hb_BY()
+        br_to_zb = gamma_zb / (gamma_hb + gamma_zb)
+        return br_to_zb
 
     def get_brBhb_BY(self):
         gamma_wb = self.B_decay_to_wt_BY()
-        gamma_zt = self.B_decay_to_zb_BY()
-        gamma_ht = self.B_decay_to_hb_BY()
-        br_to_ht = gamma_ht / (gamma_ht + gamma_wb + gamma_zt)
-        return br_to_ht
+        gamma_zb = self.B_decay_to_zb_BY()
+        gamma_hb = self.B_decay_to_hb_BY()
+        br_to_hb = gamma_hb / (gamma_hb + gamma_zb)
+        return br_to_hb
 
     def get_brBzb_TB(self):
         gamma_zt = self.B_decay_to_zb_TB()

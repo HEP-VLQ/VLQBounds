@@ -35,7 +35,7 @@ class Tables:
     def get_number_of_cms_atlas_tables(self, vlq='T'):
         if vlq == 'B':
             if self.m.model() == 'Singlet':
-                return 24
+                return 23
             elif self.m.model() == 'Doublet':
                 return 22
             else:
@@ -61,13 +61,13 @@ class Tables:
 
     def initialize_tables_cms_and_atlas(self):
         """" fills experimental data from files """
-        if self.VLX:
+        if self.VLB:
             if self.m.model() == 'Singlet':
                 self.key[0] = '01762fb'
                 self.label[0] = 'arXiv:1806.01762'
                 self.expt[0] = 'ATLAS'
                 self.file_name[0] = '1806.01762_ATLAS_fig4b_pp_BB_Wt_singlet.dat'
-                self.process[0] = 'pp --> XX'
+                self.process[0] = 'pp --> BB'
                 self.energy[0] = 13
                 self.luminosity[0] = 36.1
 
@@ -230,7 +230,7 @@ class Tables:
                 self.process[19] = 'pp --> Bbq --> bZbq'
                 self.energy[19] = 13
                 self.luminosity[19] = 2.3
-
+                """
                 self.key[20] = '03408f13l'
                 self.label[20] = 'arXiv:1706.03408'
                 self.expt[20] = 'CMS'
@@ -238,30 +238,30 @@ class Tables:
                 self.process[20] = 'pp --> BB'
                 self.energy[20] = 13
                 self.luminosity[20] = 2.6
+                """
+                self.key[20] = '10216f4l'
+                self.label[20] = 'arXiv:2111.10216'
+                self.expt[20] = 'CMS'
+                self.file_name[20] = '2111.10216_CMS_Fig4_left_pp_B_Wt_singlet_doublet.dat'
+                self.process[20] = 'pp --> Bbq --> tWbq'
+                self.energy[20] = 13
+                self.luminosity[20] = 138
 
-                self.key[21] = '10216f4l'
+                self.key[21] = '10216f4r'
                 self.label[21] = 'arXiv:2111.10216'
                 self.expt[21] = 'CMS'
-                self.file_name[21] = '2111.10216_CMS_Fig4_left_pp_B_Wt_singlet_doublet.dat'
-                self.process[21] = 'pp --> Bbq --> tWbq'
+                self.file_name[21] = '2111.10216_CMS_Fig4_right_pp_B_Wt_singlet_doublet.dat'
+                self.process[21] = 'pp --> Btq --> tWtq'
                 self.energy[21] = 13
                 self.luminosity[21] = 138
 
-                self.key[22] = '10216f4r'
-                self.label[22] = 'arXiv:2111.10216'
+                self.key[22] = '17605f39ll'
+                self.label[22] = 'arXiv:2405.17605'
                 self.expt[22] = 'CMS'
-                self.file_name[22] = '2111.10216_CMS_Fig4_right_pp_B_Wt_singlet_doublet.dat'
-                self.process[22] = 'pp --> Btq --> tWtq'
+                self.file_name[22] = '2405.17605_CMS_Fig39_lower_left_pp_BB_singlet.dat'
+                self.process[22] = 'pp --> BB'
                 self.energy[22] = 13
                 self.luminosity[22] = 138
-
-                self.key[23] = '17605f39ll'
-                self.label[23] = 'arXiv:2405.17605'
-                self.expt[23] = 'CMS'
-                self.file_name[23] = '2405.17605_CMS_Fig39_lower_left_pp_BB_singlet.dat'
-                self.process[23] = 'pp --> BB'
-                self.energy[23] = 13
-                self.luminosity[23] = 138
 
                 load_data_from_files(self.file_name, len(self.key), self.MB, self.exp, self.obs, self.expt, vlq='B')
 
@@ -464,13 +464,13 @@ class Tables:
                 self.luminosity[21] = 138
                 self.which_doublet[21] = 'BYorTB'
 
-                load_data_from_files(self.file_name, len(self.key), self.MX, self.exp, self.obs, self.expt, vlq='X')
+                load_data_from_files(self.file_name, len(self.key), self.MB, self.exp, self.obs, self.expt, vlq='B')
             elif self.m.model() == 'Pure':
                 self.key[0] = '03347f4a'
                 self.label[0] = 'arXiv:1707.03347'
                 self.expt[0] = 'ATLAS'
                 self.file_name[0] = '1707.03347_ATLAS_fig4a_pp_XX_Wb.dat'
-                self.process[0] = 'pp --> XX'
+                self.process[0] = 'pp --> BB'
                 self.energy[0] = 13
                 self.luminosity[0] = 36.1
 
@@ -478,7 +478,7 @@ class Tables:
                 self.label[1] = 'arXiv:1806.01762'
                 self.expt[1] = 'ATLAS'
                 self.file_name[1] = '1806.01762_ATLAS_fig4a_pp_XX_Wt.dat'
-                self.process[1] = 'pp --> XX'
+                self.process[1] = 'pp --> BB'
                 self.energy[1] = 13
                 self.luminosity[1] = 36.1
 
@@ -486,7 +486,7 @@ class Tables:
                 self.label[2] = 'arXiv:1807.11883'
                 self.expt[2] = 'ATLAS'
                 self.file_name[2] = '1807.11883_ATLAS_fig10a_pp_XX_Wt.dat'
-                self.process[2] = 'pp --> XX'
+                self.process[2] = 'pp --> BB'
                 self.energy[2] = 13
                 self.luminosity[2] = 36.1
 

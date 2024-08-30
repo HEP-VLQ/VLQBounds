@@ -2,7 +2,7 @@ from utils import *
 
 
 def calculate_decay_width(involved_masses: list, sin_angle=None, kappa=None, width_ratio=None, coupling=None,
-                          decay_constants=None, to_higgs=False):
+                          decay_constants=None, model='Singlet', to_higgs=False):
     m_vlq, m_A, m_q = involved_masses
     if to_higgs:
         if width_ratio is None:
@@ -13,11 +13,17 @@ def calculate_decay_width(involved_masses: list, sin_angle=None, kappa=None, wid
                 else:
                     raise Exception("Calculation error: Width, universal coupling, and mixing are all None.")
             else:
-                k = kappa / np.sqrt(2)
+                if model == 'Singlet':
+                    k = kappa / np.sqrt(2)
+                else:
+                    k = kappa
                 width = calculate_width_to_higgs_from_k(decay_constants, m_vlq, k, m_q)
                 return width
         else:
-            k = kappa_coupling_from_width(m_vlq, width_ratio) / np.sqrt(2)
+            if model == 'Singlet':
+                k = kappa_coupling_from_width(m_vlq, width_ratio) / np.sqrt(2)
+            else:
+                k = kappa_coupling_from_width(m_vlq, width_ratio)
             width = calculate_width_to_higgs_from_k(decay_constants, m_vlq, k, m_q)
             return width
     else:
@@ -29,11 +35,17 @@ def calculate_decay_width(involved_masses: list, sin_angle=None, kappa=None, wid
                 else:
                     raise Exception("Calculation error: Width, universal coupling, and mixing are all None.")
             else:
-                k = kappa / np.sqrt(2)
+                if model == 'Singlet':
+                    k = kappa / np.sqrt(2)
+                else:
+                    k = kappa
                 width = calculate_width(decay_constants, m_vlq, m_A, [k, 0], m_q)
                 return width
         else:
-            k = kappa_coupling_from_width(m_vlq, width_ratio) / np.sqrt(2)
+            if model == 'Singlet':
+                k = kappa_coupling_from_width(m_vlq, width_ratio) / np.sqrt(2)
+            else:
+                k = kappa_coupling_from_width(m_vlq, width_ratio)
             width = calculate_width(decay_constants, m_vlq, m_A, [k, 0], m_q)
             return width
 

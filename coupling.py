@@ -48,7 +48,7 @@ class Coupling(TheoryCalc):
                 return 0
         else:
             if self.m.model() == 'Singlet':
-                return 20
+                return 4 #20
             elif self.m.model() == 'Doublet':
                 return 5
             else:
@@ -189,7 +189,7 @@ class Coupling(TheoryCalc):
                 self.which_coupling[3] = "|sin_left|"
                 self.coupling_energy[3] = 13
                 self.coupling_luminosity[3] = 36.1
-
+                '''
                 self.coupling_key[4] = '072f10b'
                 self.coupling_label[4] = 'ATLAS-CONF-2016-072'
                 self.coupling_expt[4] = 'ATLAS'
@@ -198,7 +198,7 @@ class Coupling(TheoryCalc):
                 self.coupling_process[4] = 'pp --> Tbq --> bW -->'
                 self.coupling_energy[4] = 13
                 self.coupling_luminosity[4] = 36.1
-
+                
                 self.coupling_key[5] = '12802f5'
                 self.coupling_label[5] = 'arXiv:2302.12802'
                 self.coupling_expt[5] = 'CMS'
@@ -333,6 +333,7 @@ class Coupling(TheoryCalc):
                 self.coupling_file_name[19] = '2405.17605_CMS_Fig42_upper_pp_Tbq_tZ_tH_singlet_part2_1909.04721_cf.dat'
                 self.coupling_energy[19] = 13
                 self.coupling_luminosity[19] = 35.9
+                '''
 
                 '''
                 self.coupling_key[21] = '17605f36'
@@ -644,8 +645,7 @@ class Coupling(TheoryCalc):
             ch2_exp_upper_branch = self.get_limit_from_data(coupling, pos2, self.coupling_exp_upper,
                                                             self.coupling_MT_exp)
         else:
-            ch2_obs_upper_branch = None
-            ch2_exp_upper_branch = None
+            ch2_obs_upper_branch, ch2_exp_upper_branch = None, None
 
         if pos in [2, 3]:
             if obs_lower <= coupling <= obs_upper_branch:
@@ -658,9 +658,32 @@ class Coupling(TheoryCalc):
                 self.channel = pos
 
             elif coupling > ch2_obs_upper_branch and coupling > obs_upper_branch:
-                self.obs_ratio = max(ch2_obs_upper_branch, obs_upper_branch) / coupling
-                self.result = 1
-                self.channel = pos
+                ch0_obs_lower = self.get_limit_from_data(coupling, 0, self.coupling_obs_lower,
+                                                                self.coupling_MT_obs)
+                ch1_obs_lower = self.get_limit_from_data(coupling, 1, self.coupling_obs_lower,
+                                                                self.coupling_MT_obs)
+                #ch4_obs_lower = self.get_limit_from_data(coupling, 4, self.coupling_obs_lower, self.coupling_MT_obs)
+
+                if min(self.coupling_MT_obs[0]) <= self.m.get_mT() <= max(self.coupling_MT_obs[0]):
+                    self.obs_ratio = coupling / ch0_obs_lower
+                    self.result = 0
+                    self.channel = 0
+                elif min(self.coupling_MT_obs[1]) <= self.m.get_mT() <= max(self.coupling_MT_obs[1]):
+                    self.obs_ratio = coupling / ch1_obs_lower
+                    self.result = 0
+                    self.channel = 1
+                else:
+                    self.obs_ratio = max(ch2_obs_upper_branch, obs_upper_branch) / coupling
+                    self.result = 1
+                    self.channel = pos
+
+                """    
+                elif self.coupling_MT_obs[4] <= self.m.get_mT() <= self.coupling_MT_obs[4]:
+                    self.obs_ratio = coupling / ch4_obs_lower
+                    self.result = 0
+                    self.channel = 4
+                """
+
             else:
                 self.result = 1
                 self.channel = pos
@@ -728,7 +751,6 @@ class Coupling(TheoryCalc):
                                                                 self.coupling_exp_lower, self.coupling_MT_exp)
 
                     self.obs_ratio, self.exp_ratio = obs_exp_ratio_calc(coupling_in, obs_lower_branch, exp_lower_branch)
-
 
                     self.result_based_on_branches(position, position2, coupling_in, obs_lower_branch)
 

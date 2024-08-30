@@ -358,8 +358,8 @@ class TheoryCalc(Tables, Result):
 
 
     def denominator(self, num, index, t):
-        #if self.process[index][:9] == 'pp --> Bb' or self.process[index][:9] == 'pp --> Bt': #and self.expt[index] == 'CMS'):
-        if self.process[index][:9] == 'pp --> BB':# and self.expt[index] == 'CMS':
+        #if (self.process[index][:9] == 'pp --> Bb' or self.process[index][:9] == 'pp --> Bt') and self.expt[index] == 'ATLAS':
+        #if self.process[index][:9] == 'pp --> TT' and self.expt[index] == 'CMS':
         #if index in [10, 11, 12, 13]:
             if 0 <= num:
                 if self.VLB:
@@ -559,8 +559,8 @@ class TheoryCalc(Tables, Result):
             else:
                 d = 1
                 return d
-        else:
-            return -1
+        #else:
+        #    return -1
 
     def expected_ratio_calc(self):
         maxi = float('-inf')

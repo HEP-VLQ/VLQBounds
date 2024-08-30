@@ -1,4 +1,3 @@
-import constants as c
 from theory_XS import *
 from decay_calc import *
 
@@ -390,7 +389,7 @@ class DoubletT:
         c_l = np.sqrt(1 - s_l ** 2)
         coupling = [s_r * c_r, 2 * s_l * c_l]
         width = calculate_decay_width([mT, c.MZ, c.Mt], self.__sin_r, self.__kappa,
-                                      self.__width_ratio, coupling, c.Cst2)
+                                      self.__width_ratio, coupling, c.Cst2,  model='Doublet')
         return width
     def T_decay_to_ht_TX(self):
         mT = self.get_mT()
@@ -398,7 +397,7 @@ class DoubletT:
         c_r = np.sqrt(1 - s_r ** 2)
         coupling = [s_r * c_r, 0]
         width = calculate_decay_width([mT, c.Mh, c.Mt], self.__sin_r, self.__kappa, self.__width_ratio,
-                                      coupling, c.Cst3, to_higgs=True)
+                                      coupling, c.Cst3,  model='Doublet', to_higgs=True)
         return width
     def T_decay_to_zt_TB(self):
         mT = self.get_mT()
@@ -406,7 +405,7 @@ class DoubletT:
         c_u_r = np.sqrt(1 - s_u_r ** 2)
         coupling = [s_u_r * c_u_r, 0]
         width = calculate_decay_width([mT, c.MZ, c.Mt], self.__sin_u_r, self.__kappa, self.__width_ratio,
-                                      coupling, c.Cst2)
+                                      coupling, c.Cst2,  model='Doublet')
         return width
 
     def T_decay_to_ht_TB(self):
@@ -415,7 +414,7 @@ class DoubletT:
         c_u_r = np.sqrt(1 - s_u_r ** 2)
         coupling = [s_u_r * c_u_r, 0]
         width = calculate_decay_width([mT, c.Mh, c.Mt], self.__sin_u_r, self.__kappa, self.__width_ratio,
-                                      coupling, c.Cst3)
+                                      coupling, c.Cst3,  model='Doublet', to_higgs=True)
         return width
 
     def get_brTbw_XT(self):
