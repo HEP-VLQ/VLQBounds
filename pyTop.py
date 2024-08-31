@@ -166,95 +166,74 @@ class PyTop(Coupling):
         i = self.channel
         self.data_frame(i)
 
-    def data_frame(self, i):
-        #must be checked
-        if not is_array_full_of_none(self.coupling_key):
-            if not is_array_full_of_none(self.key):
-                if len(self.key) <= i:
-                    i -= len(self.key)
+    def set_df_attributes(self, mass, mixing, process, expt, luminosity, energy, label, which_doublet, channel):
+        self.df = df_making(
+            self.df,
+            mass=mass,
+            mixing=mixing,
+            coupling=self.m.get_coupling_strength(),
+            width_ratio=self.m.get_width_mass_ratio(),
+            result=self.result,
+            channel=channel,
+            obs_ratio=self.obs_ratio,
+            exp_ratio=self.exp_ratio,
+            process=process[channel],
+            experiment=expt[channel],
+            luminosity=luminosity[channel],
+            energy=energy[channel],
+            label=label[channel],
+            model=self.m.model(),
+            which_doublet=which_doublet
+        )
+        return self.df
 
-        mass = self.m.get_mB() if self.VLB else self.m.get_mT()
+    def data_frame(self, chan):
+        m_vlq = self.get_vlq_mass()
         mixing = self.get_mixing()
         which_doublet = self.m.get_which_doublet() if self.m.model() == 'Doublet' else None
 
         if not is_array_full_of_none(self.key) and is_array_full_of_none(self.coupling_key):
-            self.df = df_making(
-                self.df,
-                mass=mass,
-                mixing=mixing,
-                coupling=self.m.get_coupling_strength(),
-                width_ratio=self.m.get_width_mass_ratio(),
-                result=self.result,
-                channel=i,
-                obs_ratio=self.obs_ratio,
-                exp_ratio=self.exp_ratio,
-                process=self.process[i],
-                experiment=self.expt[i],
-                luminosity=self.luminosity[i],
-                energy=self.energy[i],
-                label=self.label[i],
-                model=self.m.model(),
-                which_doublet=which_doublet
-            )
+            self.df = self.set_df_attributes(m_vlq,
+                                             mixing,
+                                             self.process,
+                                             self.expt,
+                                             self.luminosity,
+                                             self.energy,
+                                             self.label,
+                                             which_doublet,
+                                             chan)
         elif is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
-            self.df = df_making(
-                self.df,
-                mass=mass,
-                mixing=mixing,
-                coupling=self.m.get_coupling_strength(),
-                width_ratio=self.m.get_width_mass_ratio(),
-                result=self.result,
-                channel=i,
-                obs_ratio=self.obs_ratio,
-                exp_ratio=self.exp_ratio,
-                process=self.coupling_process[i],
-                experiment=self.coupling_expt[i],
-                luminosity=self.coupling_luminosity[i],
-                energy=self.coupling_energy[i],
-                label=self.coupling_label[i],
-                model=self.m.model(),
-                which_doublet=which_doublet
-            )
+            self.df = self.set_df_attributes(m_vlq,
+                                             mixing,
+                                             self.coupling_process,
+                                             self.coupling_expt,
+                                             self.coupling_luminosity,
+                                             self.coupling_energy,
+                                             self.coupling_label,
+                                             which_doublet,
+                                             chan)
         elif not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
-            if len(self.key) <= i:
-                i -= len(self.key)
-                self.df = df_making(
-                    self.df,
-                    mass=mass,
-                    mixing=mixing,
-                    coupling=self.m.get_coupling_strength(),
-                    width_ratio=self.m.get_width_mass_ratio(),
-                    result=self.result,
-                    channel=i,
-                    obs_ratio=self.obs_ratio,
-                    exp_ratio=self.exp_ratio,
-                    process=self.coupling_process[i],
-                    experiment=self.coupling_expt[i],
-                    luminosity=self.coupling_luminosity[i],
-                    energy=self.coupling_energy[i],
-                    label=self.coupling_label[i],
-                    model=self.m.model(),
-                    which_doublet=which_doublet
-                )
+            if len(self.key) <= chan:
+                chan -= len(self.key)
+                self.df = self.set_df_attributes(m_vlq,
+                                                 mixing,
+                                                 self.coupling_process,
+                                                 self.coupling_expt,
+                                                 self.coupling_luminosity,
+                                                 self.coupling_energy,
+                                                 self.coupling_label,
+                                                 which_doublet,
+                                                 chan)
             else:
-                self.df = df_making(
-                    self.df,
-                    mass=mass,
-                    mixing=mixing,
-                    coupling=self.m.get_coupling_strength(),
-                    width_ratio=self.m.get_width_mass_ratio(),
-                    result=self.result,
-                    channel=i,
-                    obs_ratio=self.obs_ratio,
-                    exp_ratio=self.exp_ratio,
-                    process=self.process[i],
-                    experiment=self.expt[i],
-                    luminosity=self.luminosity[i],
-                    energy=self.energy[i],
-                    label=self.label[i],
-                    model=self.m.model(),
-                    which_doublet=which_doublet
-                )
+                self.df = self.set_df_attributes(m_vlq,
+                                                 mixing,
+                                                 self.process,
+                                                 self.expt,
+                                                 self.luminosity,
+                                                 self.energy,
+                                                 self.label,
+                                                 which_doublet,
+                                                 chan)
                 
     def get_mixing(self):
         if self.m.model() == 'Singlet':
@@ -270,6 +249,16 @@ class PyTop(Coupling):
                 return self.m.get_sin_right()
             else:
                 return self.m.get_sin_up_right()
+
+    def get_vlq_mass(self):
+        if self.VLB:
+            return self.m.get_mB()
+        elif self.VLX:
+            pass
+        elif self.VLY:
+            pass
+        else:
+            return self.m.get_mT()
 
     def print_result(self):
         print('', end='\t\t')
@@ -351,7 +340,6 @@ class PyTop(Coupling):
         mini = float("inf")
         maxi = float("-inf")
         for i, k in enumerate(key):
-            #print(i, M_vlq[i])
             if min(M_vlq[i]) < mini:
                 mini = min(M_vlq[i])
             if max(M_vlq[i]) > maxi:
