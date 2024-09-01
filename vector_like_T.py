@@ -287,22 +287,15 @@ class DoubletT:
 
     def get_sin_up_right(self):
         if self.__sin_u_r is not None:
-            return self.__sin_u_r
-        elif self.__kappa is not None:
-            return self.__kappa
-        elif self.__width_ratio is not None:
-            return kappa_coupling_from_width(self.get_mT(), self.__width_ratio)
+            return abs(self.__sin_u_r)
+        else:
+            return
 
     def get_sin_right(self):
         if self.__sin_r is not None:
             return abs(self.__sin_r)
         else:
-            if self.__kappa is not None:
-                return self.__kappa
-            else:
-                if self.__width_ratio is not None:
-                    kappa = kappa_coupling_from_width(self.get_mT(), self.__width_ratio)
-                    return kappa
+            return
 
     def get_width_mass_ratio(self):
         if self.__width_ratio is None:
@@ -326,26 +319,45 @@ class DoubletT:
 
     def get_xs_pp_Tj_Ztj_ts_channels(self, i):
         mT = self.get_mT()
-        k = self.get_coupling_strength()
+        k_T = self.get_coupling_strength()
         if i in [23, 24, 25]:
-            linear_interp = interp2d_xs_theo('2305.03401', 'doublet', mT, k)
-            return linear_interp
+            MT, kT, XS = get_data_from_files('2305.03401', 'doublet', vlq='T')
+            xs_pp_Tj_Ztj_ts_channels = interpolate2d(None,
+                                                     k_T,
+                                                     None,
+                                                     MT,
+                                                     mT,
+                                                     XS,
+                                                     None,
+                                                     kT,
+                                                     case='theo')
+            return xs_pp_Tj_Ztj_ts_channels
         elif i in [26, 27, 28]:
-            linear_interp = interp2d_xs_theo('2307.07584', 'doublet', mT, k)
-            return linear_interp * 1000
+            MT, kT, XS = get_data_from_files('2307.07584', 'doublet', vlq='T')
+            xs_pp_Tj_Ztj_ts_channels = interpolate2d(None,
+                                                     k_T,
+                                                     None,
+                                                     MT,
+                                                     mT,
+                                                     XS,
+                                                     None,
+                                                     kT,
+                                                     case='theo')
+            return xs_pp_Tj_Ztj_ts_channels * 1000
 
     def get_xs_pp_Ttq_tZtq(self, i):
         mT = self.get_mT()
-        w = self.get_width_mass_ratio()
+        w_m = self.get_width_mass_ratio()
         if i == 21:
             file = '1701.07409_CMS_Fig4right_pp_T_tZ_doublet_C05_theo.dat'
-            interp = get_theo_xs_from_tables(mT, file)
-            return interp * 1000
+            xs_pp_Ttq_tZtq = get_theo_xs_from_tables(mT, file)
+            return xs_pp_Ttq_tZtq * 1000
         elif i == 7:
             file = '1708.01062_CMS_Fig5right_pp_T_tZ_doublet_C05_theo.dat'
-            interp = get_theo_xs_from_tables(mT, file)
-            return interp * 1000
+            xs_pp_Ttq_tZtq = get_theo_xs_from_tables(mT, file)
+            return xs_pp_Ttq_tZtq * 1000
         elif i in [11, 12, 17, 18]:
+            MT, width_mass_ratio_arr, XS = get_data_from_files('1909.04721', 'doublet', vlq='T')
             interp = interp2d_xs_theo('1909.04721', 'doublet', mT, w)
             return (interp * 1000) / 2
 

@@ -1,4 +1,3 @@
-import constants as c
 from theory_XS import *
 from decay_calc import *
 

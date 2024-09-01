@@ -8,6 +8,8 @@ class Tables:
         self.cs_keys = {}
         self.TB_XT_keys = {}
         self.VLB = False
+        self.VLX = False
+        self.VLY = False
         self.m = m
         self.initialize_bounds_arrays()
 
@@ -601,7 +603,11 @@ class Tables:
                 self.process[16] = 'pp --> BB'
                 self.energy[16] = 8
                 self.luminosity[16] = 19.7
-
+                load_data_from_files(self.file_name, len(self.key), self.MB, self.exp, self.obs, self.expt, vlq='B')
+        elif self.VLX:
+            pass
+        elif self.VLY:
+            pass
         else:
             if self.m.model() == 'Singlet':
                 self.key[0] = '10751fig6b'
@@ -1160,7 +1166,6 @@ class Tables:
                 self.luminosity[8] = 20.3
                 self.which_doublet[8] = 'TB'
 
-
                 self.key[9] = '04721f10a'
                 self.label[9] = 'arXiv:1909.04721'
                 self.expt[9] = 'CMS'
@@ -1599,10 +1604,6 @@ class Tables:
                 load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
             else:
                 raise Exception("Error in model choice")
-
-    def get_T_caracteristics(self):
-        if self.m.model() == 'Singlet' or self.m.model() == 'pure':
-            return self.key, self.label, self.expt, self.process, self.energy, self.luminosity
 
     def all_processes(self):
         with open("processes_info.dat", "w") as f:

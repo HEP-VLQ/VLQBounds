@@ -33,7 +33,7 @@ def validate_cross_section_value(cross_section_value, process):
 
 def check_sin(s):
     if s != 0:
-        if s < -1 or s > 1.1:
+        if s < -1 or s > 1.0:
             raise ValueError("Invalid sin value. It must be in the the range [-1,1]")
     elif s == 0:
         raise ValueError("Invalid sin value. It must not equal 0")

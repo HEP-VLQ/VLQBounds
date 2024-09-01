@@ -47,19 +47,14 @@ def read_table(which_files):
     return mT, k_or_w, xs
 
 
-def interp2d_xs_theo(file_key, model, mT, kT_or_wr, vlq='T'):
+def get_data_from_files(file_key, model, vlq='T'):
     "must be revisited and combined with interpolate 2d"
     current_path = os.getcwd()
     table = 'data/' + vlq + 'data/Theo_Tables'
     full_path = os.path.join(current_path, table)
     which_files = glob(f"{full_path}/*{file_key}*{model}*")
-
-    MT, k_or_w, xsec = read_table(which_files)
-    if np.min(MT) <= mT <= np.max(MT):
-        linear_interp = interpolate.LinearNDInterpolator(list(zip(MT, k_or_w)), xsec)
-        return linear_interp(mT, kT_or_wr)
-    else:
-        return -1
+    X_arr, Y_arr, Z_arr = read_table(which_files)
+    return X_arr, Y_arr, Z_arr
 
 
 def linear1d_interp(x, y, x_extended):
@@ -88,27 +83,43 @@ def create_2d_interpolator(x_array, y_array, interpolated, indexes):
     return interpolate.LinearNDInterpolator(list(zip(appended_x.flatten(), appended_y.flatten())), interp.flatten())
 
 
-def interpolate2d(indexes, kappa, width_ratio, m_expt, m_theo, obs_exp, width_ratio_array,
-                  coupling_array):
-    if coupling_array is None:
-        min_wr = min(width_ratio_array)
-        if min_wr == 0.05:
-            if width_ratio >= 0.05:
-                interp = create_2d_interpolator(m_expt, width_ratio_array, obs_exp, indexes)
-                return interp(m_theo, width_ratio)
-            else:
-                expected_or_observed = interpolate.interp1d(m_expt[indexes[0]], obs_exp[indexes[0]], 'linear')
-                denominator = expected_or_observed(m_theo)
-                return denominator
-        elif min_wr == 0.01:
-            if width_ratio >= 0.01:
-                interp = create_2d_interpolator(m_expt, width_ratio_array, obs_exp, indexes)
-                return interp(m_theo, width_ratio)
-            else:
-                return -1
+def interpolate2d(indexes, kappa, width_ratio, mass_array, m_theo, obs_exp, width_ratio_array,
+                  coupling_array, case='exp'):
+    if case == 'exp':
+        if coupling_array is None:
+            min_wr = min(width_ratio_array)
+            if min_wr == 0.05:
+                if width_ratio >= 0.05:
+                    interp = create_2d_interpolator(mass_array, width_ratio_array, obs_exp, indexes)
+                    return interp(m_theo, width_ratio)
+                else:
+                    expected_or_observed = interpolate.interp1d(mass_array[indexes[0]], obs_exp[indexes[0]], 'linear')
+                    denominator = expected_or_observed(m_theo)
+                    return denominator
+            elif min_wr == 0.01:
+                if width_ratio >= 0.01:
+                    interp = create_2d_interpolator(mass_array, width_ratio_array, obs_exp, indexes)
+                    return interp(m_theo, width_ratio)
+                else:
+                    return -1
+        else:
+            interp = create_2d_interpolator(mass_array, coupling_array, obs_exp, indexes)
+            return interp(m_theo, kappa)
     else:
-        interp = create_2d_interpolator(m_expt, coupling_array, obs_exp, indexes)
-        return interp(m_theo, kappa)
+        if coupling_array is None:
+            if min(width_ratio_array) == 0.05:
+                if width_ratio >= 0.05:
+                    interp2d = interpolate.LinearNDInterpolator(list(zip(mass_array, width_ratio_array)), obs_exp)
+                    return interp2d(m_theo, width_ratio)
+                else:
+                    filtering_005_xs = width_ratio_array == 0.05
+                    expected_or_observed = interpolate.interp1d(mass_array[filtering_005_xs],
+                                                                obs_exp[filtering_005_xs],
+                                                                'linear')
+                    return expected_or_observed(m_theo)
+        else:
+            interp2d = interpolate.LinearNDInterpolator(list(zip(mass_array, coupling_array)), obs_exp)
+            return interp2d(m_theo, width_ratio_array)
 
 
 def linear_interp2d(mass_arr, width_or_kappa_arr, cs_arr):
