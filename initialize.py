@@ -1,6 +1,7 @@
-from utils import load_data_from_files
 from vector_like_T import *
 from vector_like_B import *
+from vector_like_Y import *
+from vector_like_X import *
 
 
 class Tables:
@@ -33,6 +34,10 @@ class Tables:
         elif isinstance(self.m, DoubletB):
             self.which_doublet = [None] * number_of_atlas_cms_tables
             self.MB = [None] * number_of_atlas_cms_tables
+        elif isinstance(self.m, DoubletX):
+            self.MX = [None] * number_of_atlas_cms_tables
+        elif isinstance(self.m, DoubletY):
+            self.MY = [None] * number_of_atlas_cms_tables
 
     def get_number_of_cms_atlas_tables(self, vlq='T'):
         if vlq == 'B':
@@ -42,6 +47,10 @@ class Tables:
                 return 22
             else:
                 return 17
+        elif vlq == 'X':
+            return 17
+        elif vlq == 'Y':
+            return 5
         else:
             if self.m.model() == 'Singlet':
                 return 59
@@ -53,6 +62,14 @@ class Tables:
     def initialize_bounds_arrays(self):
         if isinstance(self.m, (SingletB, DoubletB)):
             number_of_atlas_cms_tables = self.get_number_of_cms_atlas_tables(vlq='B')
+            if number_of_atlas_cms_tables > 0:
+                self.bounds_properties_arrays(number_of_atlas_cms_tables)
+        elif isinstance(self.m, DoubletX):
+            number_of_atlas_cms_tables = self.get_number_of_cms_atlas_tables(vlq='X')
+            if number_of_atlas_cms_tables > 0:
+                self.bounds_properties_arrays(number_of_atlas_cms_tables)
+        elif isinstance(self.m, DoubletY):
+            number_of_atlas_cms_tables = self.get_number_of_cms_atlas_tables(vlq='Y')
             if number_of_atlas_cms_tables > 0:
                 self.bounds_properties_arrays(number_of_atlas_cms_tables)
         else:
@@ -604,10 +621,189 @@ class Tables:
                 self.energy[16] = 8
                 self.luminosity[16] = 19.7
                 load_data_from_files(self.file_name, len(self.key), self.MB, self.exp, self.obs, self.expt, vlq='B')
+                
         elif self.VLX:
-            pass
+            self.key[0] = '08597f8ur'
+            self.label[0] = 'arXiv:1809.08597'
+            self.expt[0] = 'CMS'
+            self.file_name[0] = '1809.08597_Fig8_upper_right_pp_X_Wt_gamma_M1.dat'
+            self.process[0] = 'pp --> Xtq --> tW'
+            self.energy[0] = 13
+            self.luminosity[0] = 35.9
+
+            self.key[1] = '08597f8ll'
+            self.label[1] = 'arXiv:1809.08597'
+            self.expt[1] = 'CMS'
+            self.file_name[1] = '1809.08597_Fig8_lower_left_pp_X_Wt_gamma_M10.dat'
+            self.process[1] = 'pp --> Xtq --> tW'
+            self.energy[1] = 13
+            self.luminosity[1] = 35.9
+
+            self.key[2] = '08597f8lr20'
+            self.label[2] = 'arXiv:1809.08597'
+            self.expt[2] = 'CMS'
+            self.file_name[2] = '1809.08597_CMS_Fig8_lower_right_pp_X_Wt_M20.dat'
+            self.process[2] = 'pp --> Xtq --> tW'
+            self.energy[2] = 13
+            self.luminosity[2] = 35.9
+
+            self.key[3] = '08597f8lr30'
+            self.label[3] = 'arXiv:1809.08597'
+            self.expt[3] = 'CMS'
+            self.file_name[3] = '1809.08597_CMS_Fig8_lower_right_pp_X_Wt_M30.dat'
+            self.process[3] = 'pp --> Xtq --> tW'
+            self.energy[3] = 13
+            self.luminosity[3] = 35.9
+
+            self.key[4] = '03188f7a'
+            self.label[4] = 'arXiv:1810.03188'
+            self.expt[4] = 'CMS'
+            self.file_name[4] = '1810.03188_CMS_Fig7a_pp_XX_tW_left_handed.dat'
+            self.process[4] = 'pp --> XX'
+            self.energy[4] = 13
+            self.luminosity[4] = 35.9
+
+            self.key[5] = '03188f7b'
+            self.label[5] = 'arXiv:1810.03188'
+            self.expt[5] = 'CMS'
+            self.file_name[5] = '1810.03188_CMS_Fig7b_pp_XX_tW_right_handed.dat'
+            self.process[5] = 'pp --> XX'
+            self.energy[5] = 13
+            self.luminosity[5] = 35.9
+
+            self.key[6] = '03188f7c'
+            self.label[6] = 'arXiv:1810.03188'
+            self.expt[6] = 'CMS'
+            self.file_name[6] = '1810.03188_CMS_Fig7c_pp_XX_tW_left_handed.dat'
+            self.process[6] = 'pp --> XX'
+            self.energy[6] = 13
+            self.luminosity[6] = 35.9
+
+            self.key[7] = '03188f7d'
+            self.label[7] = 'arXiv:1810.03188'
+            self.expt[7] = 'CMS'
+            self.file_name[7] = '1810.03188_CMS_Fig7d_pp_XX_tW_right_handed.dat'
+            self.process[7] = 'pp --> XX'
+            self.energy[7] = 13
+            self.luminosity[7] = 35.9
+
+            self.key[8] = '03188f7d'
+            self.label[8] = 'arXiv:1810.03188'
+            self.expt[8] = 'CMS'
+            self.file_name[8] = '1810.03188_CMS_Fig7d_pp_XX_tW_right_handed.dat'
+            self.process[8] = 'pp --> XX'
+            self.energy[8] = 13
+            self.luminosity[8] = 35.9
+
+            self.key[9] = '03188f8a'
+            self.label[9] = 'arXiv:1810.03188'
+            self.expt[9] = 'CMS'
+            self.file_name[9] = '1810.03188_CMS_Fig8a_pp_XX_tW_left_handed_combination.dat'
+            self.process[9] = 'pp --> XX'
+            self.energy[9] = 13
+            self.luminosity[9] = 35.9
+
+            self.key[10] = '03188f8b'
+            self.label[10] = 'arXiv:1810.03188'
+            self.expt[10] = 'CMS'
+            self.file_name[10] = '1810.03188_CMS_Fig8b_pp_XX_tW_right_handed_combination.dat'
+            self.process[10] = 'pp --> XX'
+            self.energy[10] = 13
+            self.luminosity[10] = 35.9
+
+            self.key[11] = '03347f4a'
+            self.label[11] = 'arXiv:1707.03347'
+            self.expt[11] = 'ATLAS'
+            self.file_name[11] = '1707.03347_ATLAS_fig4a_pp_XX_Wb.dat'
+            self.process[11] = 'pp --> XX'
+            self.energy[11] = 13
+            self.luminosity[11] = 36.1
+
+            self.key[12] = '03347f4a'
+            self.label[12] = 'arXiv:1806.01762'
+            self.expt[12] = 'ATLAS'
+            self.file_name[12] = '1806.01762_ATLAS_Fig4a_pp_XX_Wt.dat'
+            self.process[12] = 'pp --> XX'
+            self.energy[12] = 13
+            self.luminosity[12] = 36.1
+
+            self.key[13] = '11883f4a'
+            self.label[13] = 'arXiv:1807.11883'
+            self.expt[13] = 'ATLAS'
+            self.file_name[13] = '1807.11883_ATLAS_Fig10a_pp_XX_Wt.dat'
+            self.process[13] = 'pp --> XX'
+            self.energy[13] = 13
+            self.luminosity[13] = 36.1
+
+            self.key[14] = '11883f10a'
+            self.label[14] = 'arXiv:1807.11883'
+            self.expt[14] = 'ATLAS'
+            self.file_name[14] = '1807.11883_ATLAS_Fig10a_pp_XX_Wt.dat'
+            self.process[14] = 'pp --> XX'
+            self.energy[14] = 13
+            self.luminosity[14] = 36.1
+
+            self.key[15] = '05263f7b'
+            self.label[15] = 'arXiv:2212.05263'
+            self.expt[15] = 'ATLAS'
+            self.file_name[15] = '2212.05263_ATLAS_fig7b_pp_XX_Wt_doublet.dat'
+            self.process[15] = 'pp --> XX'
+            self.energy[15] = 13
+            self.luminosity[15] = 139
+
+            self.key[16] = '05263f7f'
+            self.label[16] = 'arXiv:2212.05263'
+            self.expt[16] = 'ATLAS'
+            self.file_name[16] = '2212.05263_ATLAS_fig7f_pp_XX_Wt_doublet.dat'
+            self.process[16] = 'pp --> XX'
+            self.energy[16] = 13
+            self.luminosity[16] = 139
+
+            load_data_from_files(self.file_name, len(self.key), self.MX, self.exp, self.obs, self.expt, vlq='X')
+
         elif self.VLY:
-            pass
+            self.key[0] = '08328f5'
+            self.label[0] = 'arXiv:1701.08328'
+            self.expt[0] = 'CMS'
+            self.file_name[0] = '1701.08328_CMS_Fig5_pp_Ybq_bWbq_c05.dat'
+            self.process[0] = 'pp --> Ybq --> bW'
+            self.energy[0] = 13
+            self.luminosity[0] = 2.3
+
+            self.key[1] = '01539f4'
+            self.label[1] = 'arXiv:1710.01539'
+            self.expt[1] = 'CMS'
+            self.file_name[1] = '1710.01539_CMS_Fig4_upper_pp_YY_Wb.dat'
+            self.process[1] = 'pp --> YY'
+            self.energy[1] = 13
+            self.luminosity[1] = 35.8
+
+            self.key[2] = '03347f4a'
+            self.label[2] = 'arXiv:1707.03347'
+            self.expt[2] = 'ATLAS'
+            self.file_name[2] = '1707.03347_ATLAS_fig4a_pp_YY_Wb.dat'
+            self.process[2] = 'pp --> YY'
+            self.energy[2] = 13
+            self.luminosity[2] = 36.1
+
+            self.key[3] = '17165f5a'
+            self.label[3] = 'arXiv:2401.17165'
+            self.expt[3] = 'ATLAS'
+            self.file_name[3] = '2401.17165_ATLAS_Fig5a_pp_YY_bW.dat'
+            self.process[3] = 'pp --> YY'
+            self.energy[3] = 13
+            self.luminosity[3] = 140
+
+            self.key[4] = '05606f6'
+            self.label[4] = 'arXiv:1602.05606'
+            self.expt[4] = 'ATLAS'
+            self.file_name[4] = '1602.05606_ATLAS_Fig6_pp_Ybj_Wb.dat'
+            self.process[4] = 'pp --> Ybq --> bW'
+            self.energy[4] = 8
+            self.luminosity[4] = 20.3
+
+            load_data_from_files(self.file_name, len(self.key), self.MY, self.exp, self.obs, self.expt, vlq='Y')
+
         else:
             if self.m.model() == 'Singlet':
                 self.key[0] = '10751fig6b'
@@ -1624,7 +1820,20 @@ class Tables:
                 for j in range(len(self.process))
                 if self.process[j][:9] == 'pp --> Bb' or self.process[j][:9] == 'pp --> Bt'
             ]
-
+        elif self.VLX:
+            pair_prod = [self.key[j] for j in range(len(self.process)) if self.process[j][:9] == 'pp --> XX']
+            single_prod = [
+                self.key[j]
+                for j in range(len(self.process))
+                if self.process[j][:9] == 'pp --> Xt'
+            ]
+        elif self.VLY:
+            pair_prod = [self.key[j] for j in range(len(self.process)) if self.process[j][:9] == 'pp --> YY']
+            single_prod = [
+                self.key[j]
+                for j in range(len(self.process))
+                if self.process[j][:9] == 'pp --> Yb'
+            ]
         else:
             pair_prod = [self.key[j] for j in range(len(self.process)) if self.process[j][:9] == 'pp --> TT']
             single_prod = [
@@ -1651,6 +1860,9 @@ class Tables:
                     '(T,B)': TB_doublet_keys,
                     '(B,Y)': BY_doublet_keys
                 }
+        elif self.VLX or self.VLY:
+            self.TB_XT_keys = {}
+
         else:
             if self.m.model() == 'Singlet' or self.m.model() == 'Pure':
                 self.TB_XT_keys = {}

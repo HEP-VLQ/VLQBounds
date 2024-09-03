@@ -1,0 +1,21 @@
+#arXiv:1802.01486
+#title:Search for single production of vector-like quarks decaying to a top quark and a W boson in proton-proton collisions at $\sqrt{s}=$ 13 TeV 
+#luminosity 35.9 fb-1 
+#Energy 13000 GeV 
+#A.~M.~Sirunyan and al. CMS Collaborations 
+#Fig 8 lower left 
+#pp → Xbq → Wtbq  , Γ/M= 10% 
+#Mass(GeV), Γ/M= 10%, \sigma_theo(pb)
+700 10 1.1291265412080838
+800 10 0.5889008675281565
+900 10 0.3240026208406874
+1000 10 0.18442627085855337
+1100 10 0.11236548001387504
+1200 10 0.06846096838574658
+1300 10 0.0446466656032099
+1400 10 0.02883471158586062
+1500 10 0.019360645422928972
+1600 10 0.012811351198742191
+1700 10 0.008986415560660344
+1730 10 0.008274114356579
+

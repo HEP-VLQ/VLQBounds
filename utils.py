@@ -46,7 +46,7 @@ def load_data_from_files(file_name, number_of_files, mass, expected, observed, a
             file_path = os.path.join(current_path, 'data/' + vlq + 'data/ATLAS_Tables', file_name[i])
         else:
             file_path = os.path.join(current_path, 'data/' + vlq + 'data/CMS_Tables', file_name[i])
-
+        print(i)
         try:
             data = np.loadtxt(file_path)
             mass[i] = data[:, 0]

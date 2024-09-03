@@ -12,12 +12,12 @@ def interpolate_xs(MT_exp, mT_theo, xs_theo):
         return -1
 
 
-def get_xs_from_tables(path, mT, file_name):
+def get_xs_from_tables(path, mQ, file_name):
     try:
         table = np.loadtxt(path)
-        MT = table[:, 0]
+        MQ = table[:, 0]
         xs_pp_QQ = table[:, 1]
-        return interpolate_xs(MT, mT, xs_pp_QQ)
+        return interpolate_xs(MQ, mQ, xs_pp_QQ)
     except FileNotFoundError:
         print(f"File '{file_name}' not found at path '{path}'")
 

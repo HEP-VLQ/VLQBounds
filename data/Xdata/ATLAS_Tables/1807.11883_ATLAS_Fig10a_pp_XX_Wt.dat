@@ -1,0 +1,18 @@
+#arxiv:1807.11883
+#title:Search for new phenomena in events with same-charge leptons and b-jets in $pp$ collisions at $\sqrt{s}=$13 TeV with the ATLAS detector
+#11883_ATLAS_36.1fb-1
+#Energy 13000 GeV
+#M.~Aaboud and al.ATLAS Collaborations
+#Fig 10a
+#pp→XX→Wt
+#Mass(GeV), obs(pb), exp(pb)
+500 0.0959445 0.0663566
+700 0.0297901 0.0256551
+800 0.0208832 0.0188585
+900 0.0160971 0.0147382
+1000 0.0136586 0.0126483
+1100 0.0126284 0.0117438
+1200 0.0120327 0.0112925
+1400 0.011462 0.0108307
+
+

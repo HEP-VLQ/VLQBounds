@@ -1,21 +1,28 @@
 from vector_like_T import *
 from vector_like_B import *
+from vector_like_X import *
+from vector_like_Y import *
 from utils import *
 from coupling import Coupling
 
 
 class PyTop(Coupling):
     def __init__(self, m):
-        if isinstance(m, (SingletT, DoubletT, PureTDecay, SingletB, DoubletB, PureBDecay)):
+        if isinstance(m, (SingletT, DoubletT, PureTDecay, SingletB, DoubletB, PureBDecay, DoubletX, DoubletY)):
             super().__init__(m)
             self.m = m
             self.df = c.df
 
     def set_VLQ_type(self, vlq):
-        if vlq not in ['T', 'B']:
+        if vlq not in ['T', 'B', 'X', 'Y']:
             raise ValueError("Error, VLQ must be 'T' or 'B'")
         if vlq == 'B':
             self.VLB = True
+        elif vlq == 'X':
+            self.VLX = True
+        elif vlq == 'Y':
+            self.VLY = True
+
 
     def filling_channels_data(self):
         self.initialize_tables_cms_and_atlas()
@@ -64,12 +71,12 @@ class PyTop(Coupling):
             check_sin(kwargs[sin_key])
             if isinstance(self.m, (SingletT, SingletB)):
                 self.m.set_sin_l(kwargs[sin_key])
-            elif isinstance(self.m, DoubletT):
+            elif isinstance(self.m, (DoubletT, DoubletX)):
                 if self.m.get_which_doublet() == 'XT':
                     self.m.set_sin_r(kwargs[sin_key])
                 elif self.m.get_which_doublet() == 'TB':
                     self.m.set_sin_u_r(kwargs[sin_key])
-            elif isinstance(self.m, DoubletB):
+            elif isinstance(self.m, (DoubletB, DoubletY)):
                 if self.m.get_which_doublet() == 'YB':
                     self.m.set_sin_r(kwargs[sin_key])
                 elif self.m.get_which_doublet() == 'TB':
@@ -90,6 +97,12 @@ class PyTop(Coupling):
         elif isinstance(self.m, DoubletB):
             self.m.set_mB(kwargs[mass_key])
             self.check_mass_range(kwargs[mass_key], 'B')
+        elif isinstance(self.m, DoubletX):
+            self.m.set_mX(kwargs[mass_key])
+            self.check_mass_range(kwargs[mass_key], 'X')
+        elif isinstance(self.m, DoubletY):
+            self.m.set_mY(kwargs[mass_key])
+            self.check_mass_range(kwargs[mass_key], 'Y')
 
 
     def T_singlet_params(self, **kwargs):
@@ -106,17 +119,25 @@ class PyTop(Coupling):
         self.set_mass_and_coupling(kwargs, "mT", "k_T", "w_m", "s_u_r")
 
     def B_in_doublet_TB_params(self, **kwargs):
-        self.validate_params(kwargs, "mT", {"k_T", "w_m", "s_d_r"})
+        self.validate_params(kwargs, "mB", {"k_B", "w_m", "s_d_r"})
         self.m.change_to_TB()
-        self.set_mass_and_coupling(kwargs, "mT", "k_T", "w_m", "s_d_r")
+        self.set_mass_and_coupling(kwargs, "mB", "k_B", "w_m", "s_d_r")
 
-    def doublet_XT_params(self, **kwargs):
+    def T_in_doublet_XT_params(self, **kwargs):
         self.validate_params(kwargs, "mT", {"k_T", "w_m", "s_r"})
         self.set_mass_and_coupling(kwargs, "mT", "k_T", "w_m", "s_r")
 
-    def doublet_BY_params(self, **kwargs):
+    def X_in_doublet_XT_params(self, **kwargs):
+        self.validate_params(kwargs, "mX", {"k_X", "w_m", "s_r"})
+        self.set_mass_and_coupling(kwargs, "mX", "k_X", "w_m", "s_r")
+
+    def B_in_doublet_BY_params(self, **kwargs):
         self.validate_params(kwargs, "mB", {"k_B", "w_m", "s_r"})
         self.set_mass_and_coupling(kwargs, "mB", "k_B", "w_m", "s_r")
+
+    def Y_in_doublet_BY_params(self, **kwargs):
+        self.validate_params(kwargs, "mY", {"k_Y", "w_m", "s_r"})
+        self.set_mass_and_coupling(kwargs, "mY", "k_Y", "w_m", "s_r")
 
     def check_singlet_limit(self):
         self.check_channel()
@@ -127,18 +148,12 @@ class PyTop(Coupling):
     def check_SM_TX_doublet_limit(self):
         self.check_channel()
         self.print_result()
-        if self.m.get_sin_up_right() is None:
-            print("Warning: (T, B) couplings are not set. Doublet (T, B) "
-                  "single production cross sections will not be checked.")
         i = self.channel
         self.data_frame(i)
 
     def check_SM_YB_doublet_limit(self):
         self.check_channel()
         self.print_result()
-        if self.m.get_sin_down_right() is None:
-            print("Warning: (T, B) couplings are not set. Doublet (T, B) "
-                  "single production cross sections will not be checked.")
         i = self.channel
         self.data_frame(i)
 
@@ -244,6 +259,8 @@ class PyTop(Coupling):
                 return self.m.get_sin_right()
             else:
                 return self.m.get_sin_down_right()
+        elif self.VLY or self.VLX:
+            self.m.get_sin_right()
         else:
             if self.m.get_which_doublet() == 'TX':
                 return self.m.get_sin_right()
@@ -254,9 +271,9 @@ class PyTop(Coupling):
         if self.VLB:
             return self.m.get_mB()
         elif self.VLX:
-            pass
+            return self.m.get_mX()
         elif self.VLY:
-            pass
+            return self.m.get_mY()
         else:
             return self.m.get_mT()
 
@@ -274,6 +291,38 @@ class PyTop(Coupling):
                 print(f"sin_right:", self.m.get_sin_right())
             elif self.m.model() == 'Doublet' and self.m.get_which_doublet() == 'TB':
                 print(f"sin_down_right:", self.m.get_sin_down_right())
+            if self.channel != -1:
+                if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
+                    if self.channel < len(self.key):
+                        print(f"Experiment: {self.expt[self.channel]}")
+                    else:
+                        print(f"Experiment: {self.coupling_expt[self.channel - len(self.key)]}")
+                elif not is_array_full_of_none(self.key):
+                    print(f"Experiment: {self.expt[self.channel]}")
+                elif not is_array_full_of_none(self.coupling_key):
+                    print(f"Experiment: {self.coupling_expt[self.channel]}")
+            print(self)
+        elif self.VLX:
+            print(f"Vector-like X mass: {self.m.get_mX()}")
+            print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
+            print(f"coupling strength: {self.m.get_coupling_strength()}")
+            print(f"sin_right:", self.m.get_sin_right())
+            if self.channel != -1:
+                if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
+                    if self.channel < len(self.key):
+                        print(f"Experiment: {self.expt[self.channel]}")
+                    else:
+                        print(f"Experiment: {self.coupling_expt[self.channel - len(self.key)]}")
+                elif not is_array_full_of_none(self.key):
+                    print(f"Experiment: {self.expt[self.channel]}")
+                elif not is_array_full_of_none(self.coupling_key):
+                    print(f"Experiment: {self.coupling_expt[self.channel]}")
+            print(self)
+        elif self.VLY:
+            print(f"Vector-like Y mass: {self.m.get_mY()}")
+            print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
+            print(f"coupling strength: {self.m.get_coupling_strength()}")
+            print(f"sin_right:", self.m.get_sin_right())
             if self.channel != -1:
                 if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
                     if self.channel < len(self.key):
@@ -322,7 +371,7 @@ class PyTop(Coupling):
                 else:
                     key = self.key
                     M_vlq = self.MT
-        else:
+        elif vlq == 'B':
             if not is_array_full_of_none(self.coupling_key):
                 if is_array_full_of_none(self.key):
                     M_vlq = self.coupling_MB_obs
@@ -336,6 +385,34 @@ class PyTop(Coupling):
                 else:
                     key = self.key
                     M_vlq = self.MB
+        elif vlq == 'X':
+            if not is_array_full_of_none(self.coupling_key):
+                if is_array_full_of_none(self.key):
+                    M_vlq = self.coupling_MX_obs
+                    key = self.coupling_key
+                else:
+                    key = self.key + self.coupling_key
+                    M_vlq = self.MX + self.coupling_MX_obs
+            else:
+                if is_array_full_of_none(self.key):
+                    raise Exception("Error. Experimental data are not filled")
+                else:
+                    key = self.key
+                    M_vlq = self.MX
+        elif vlq == 'Y':
+            if not is_array_full_of_none(self.coupling_key):
+                if is_array_full_of_none(self.key):
+                    M_vlq = self.coupling_MY_obs
+                    key = self.coupling_key
+                else:
+                    key = self.key + self.coupling_key
+                    M_vlq = self.MY + self.coupling_MY_obs
+            else:
+                if is_array_full_of_none(self.key):
+                    raise Exception("Error. Experimental data are not filled")
+                else:
+                    key = self.key
+                    M_vlq = self.MY
 
         mini = float("inf")
         maxi = float("-inf")

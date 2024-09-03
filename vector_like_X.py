@@ -1,5 +1,5 @@
 from decay_calc import *
-
+from theory_XS import *
 
 class DoubletX:
 
@@ -32,8 +32,7 @@ class DoubletX:
     def get_coupling_strength(self):
         if self.__width_ratio is None:
             if self.__kappa is None:
-                c_r = np.sqrt(1 - self.__sin_r ** 2)
-                return self.__sin_r * c_r
+                return self.__sin_r
 
             else:
                 return self.__kappa
@@ -47,8 +46,11 @@ class DoubletX:
     def get_sin_right(self):
         if self.__sin_r is not None:
             return abs(self.__sin_r)
-        else:
-            return
+        elif self.__kappa is not None:
+            return self.__kappa
+        elif self.__width_ratio is not None:
+            k_x = kappa_coupling_from_width(self.get_mX(), self.__width_ratio)
+            return k_x
 
     def sin_left_calc(self, s_r):
         mx = self.get_mX()
@@ -66,12 +68,17 @@ class DoubletX:
                                       self.__width_ratio, coupling, c.Cst1, model='Doublet')
         return width
 
-    def get_width_to_mass_ratio(self):
+    def get_width_mass_ratio(self):
         mx = self.get_mX()
         if self.__width_ratio is None:
             return self.x_decay_to_wt() / mx
         else:
             return self.__width_ratio
+
+    def get_xs_pp_QQ(self):
+        mX = self.get_mX()
+        xs_pp_XX = get_theo_xs_from_tables(mX, 'pp_QQ_NNLO.dat')
+        return xs_pp_XX
 
 
 

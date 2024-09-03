@@ -2167,7 +2167,7 @@ def main():
 
 main()
 """
-
+"""
 def main():
     s = SingletT()
     pt = PyTop(s)
@@ -2185,5 +2185,113 @@ def main():
             #pt.check_against_xs_and_coupling_limits()
             pt.check_coupling_limit()
     pt.df.to_csv("~/Desktop/somefiles/s_l_beyond_branches_exclusion.dat", sep=" ")
+
+main()
+"""
+"""
+d = DoubletB
+pt = PyTop(d)
+pt.set_VLQ_type('B')
+pt.filling_couplings_data()
+"""
+"""
+def main():
+    d = DoubletX()
+    pt = PyTop(d)
+    pt.set_VLQ_type('X')
+    pt.filling_couplings_data()
+    s_range = np.linspace(1e-3, 1, 30)
+    m_range = np.arange(700, 1800, 2)
+    for k in s_range:
+        for m in m_range:
+            params = {
+                "mX": m,
+                "k_X": k
+            }
+            pt.X_in_doublet_XT_params(**params)
+            #pt.check_singlet_limit()
+            #pt.check_against_xs_and_coupling_limits()
+            pt.check_coupling_limit()
+            pt.df.to_csv("~/Desktop/somefiles/s_r_result_vlx_single_prod.dat", sep=" ")
+main()
+
+def main():
+    d = DoubletX()
+    pt = PyTop(d)
+    pt.set_VLQ_type('X')
+    pt.filling_channels_data()
+    s_range = np.linspace(1e-3, 1, 20)
+    m_range = np.arange(700, 1800, 2)
+    for k in s_range:
+        for m in m_range:
+            params = {
+                "mX": m,
+                "k_X": k
+            }
+            pt.X_in_doublet_XT_params(**params)
+            #pt.check_singlet_limit()
+            #pt.check_against_xs_and_coupling_limits()
+            pt.check_SM_TX_doublet_limit()
+            pt.df.to_csv("~/Desktop/somefiles/s_r_result_vlx_pair_prod.dat", sep=" ")
+main()
+"""
+"""
+def main():
+    d = DoubletY()
+    pt = PyTop(d)
+    pt.set_VLQ_type('Y')
+    pt.filling_couplings_data()
+    s_range = np.linspace(1e-3, 1, 30)
+    m_range = np.arange(700, 1800, 2)
+    for k in s_range:
+        for m in m_range:
+            params = {
+                "mY": m,
+                "k_Y": k
+            }
+            pt.Y_in_doublet_BY_params(**params)
+            #pt.check_singlet_limit()
+            #pt.check_against_xs_and_coupling_limits()
+            pt.check_coupling_limit()
+            pt.df.to_csv("~/Desktop/somefiles/s_r_result_vly_single_prod.dat", sep=" ")
+main()
+
+def main():
+    d = DoubletY()
+    pt = PyTop(d)
+    pt.set_VLQ_type('Y')
+    pt.filling_channels_data()
+    s_range = np.linspace(1e-3, 1, 20)
+    m_range = np.arange(700, 1800, 2)
+    for k in s_range:
+        for m in m_range:
+            params = {
+                "mY": m,
+                "k_Y": k
+            }
+            pt.Y_in_doublet_BY_params(**params)
+            #pt.check_singlet_limit()
+            #pt.check_against_xs_and_coupling_limits()
+            pt.check_SM_YB_doublet_limit()
+            pt.df.to_csv("~/Desktop/somefiles/s_r_result_vly_pair_prod.dat", sep=" ")
+main()
+"""
+def main():
+    s = SingletT()
+    pt = PyTop(s)
+    pt.filling_couplings_data()
+    s_range = np.linspace(0.1, 1, 30)
+    m_range = np.arange(700, 2100, 1)
+    for k in s_range:
+        for m in m_range:
+            params = {
+                "mT": m,
+                "s_l": k
+            }
+            pt.T_singlet_params(**params)
+            #pt.check_singlet_limit()
+            #pt.check_against_xs_and_coupling_limits()
+            pt.check_coupling_limit()
+    pt.df.to_csv("~/Desktop/somefiles/vlt_s_l_atlas_single_prod.dat", sep=" ")
 
 main()

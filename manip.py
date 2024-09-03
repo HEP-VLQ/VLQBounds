@@ -139,7 +139,12 @@ class TheoryCalc(Tables, Result):
                     else:
                         raise Exception("Error. Width-to-mass ratio is None")
                 '''
-
+        elif self.VLX:
+            channel = self.get_channels_from_limit_condition(k, r, kappa, self.m.model())
+            return channel
+        elif self.VLY:
+            channel = self.get_channels_from_limit_condition(k, r, kappa, self.m.model())
+            return channel
         else:
             if self.m.model() == 'Singlet':
                 '''
@@ -305,6 +310,16 @@ class TheoryCalc(Tables, Result):
             else:
                 if self.process[i][:9] == 'pp --> BB':
                     return self.m.get_xs_pp_QQ() / 1000
+        elif self.VLX:
+            if self.process[i][:9] == 'pp --> XX':
+                return self.m.get_xs_pp_QQ() / 1000
+            else:
+                return -1
+        elif self.VLY:
+            if self.process[i][:9] == 'pp --> YY':
+                return self.m.get_xs_pp_QQ() / 1000
+            else:
+                return -1
         else:
             if self.m.model() == 'Singlet':
                 j = self.get_channel(self.key[i], r, self.process[i], kappa)
@@ -359,7 +374,7 @@ class TheoryCalc(Tables, Result):
 
     def denominator(self, num, index, t):
         #if (self.process[index][:9] == 'pp --> Bb' or self.process[index][:9] == 'pp --> Bt') and self.expt[index] == 'ATLAS':
-        #if self.process[index][:9] == 'pp --> TT' and self.expt[index] == 'CMS':
+        #if self.process[index][:9] == 'pp --> TT':
         #if index in [10, 11, 12, 13]:
             if 0 <= num:
                 if self.VLB:
@@ -406,6 +421,20 @@ class TheoryCalc(Tables, Result):
                                 expected_or_observed = interp1d(self.MB[index], t[index], 'linear')
                                 d = expected_or_observed(self.m.get_mB())
                                 return d
+                    else:
+                        return -1
+                elif self.VLX:
+                    if min(self.MX[index]) <= self.m.get_mX() <= max(self.MX[index]):
+                        expected_or_observed = interp1d(self.MX[index], t[index], 'linear')
+                        d = expected_or_observed(self.m.get_mX())
+                        return d
+                    else:
+                        return -1
+                elif self.VLY:
+                    if min(self.MY[index]) <= self.m.get_mY() <= max(self.MY[index]):
+                        expected_or_observed = interp1d(self.MY[index], t[index], 'linear')
+                        d = expected_or_observed(self.m.get_mY())
+                        return d
                     else:
                         return -1
                 else:

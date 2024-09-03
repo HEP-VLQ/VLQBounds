@@ -1,0 +1,18 @@
+#arXiv:1602.05606  
+#title:Search for single production of vector-like quarks decaying into Wb in pp collisions at $\sqrt{s} = 8$  TeV with the ATLAS detector 
+#luminosity 20.3 fb-1 
+#Energy 8000 GeV 
+#G.~Aad show al. ATLAS Collaboration
+#Fig 6 
+#pp → Ybj→Wbbj, doublet
+#Mass(GeV), \sigma_{theorie}(pb)
+400 0.4426064098520923
+500 0.24889587505396824
+600 0.1421198914990081
+700 0.08670678779986625
+800 0.053714123773339735
+900 0.03430822345844213
+1000 0.02202522501594301
+1150 0.012385694223081008
+
+

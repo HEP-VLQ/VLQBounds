@@ -1,0 +1,17 @@
+#arxiv:1810.03188
+#title:Search for top quark partners with charge 5/3 in the same-sign dilepton and single-lepton final states in proton-proton collisions at $\sqrt{s}=$13 TeV 
+#luminosity 36.1fb-1
+#Energy 13000 GeV
+#A.M.~Sirunyan and al.CMS Collaborations
+#Fig 7b
+#pp→XX→Wt
+#Mass(GeV), obs(pb), exp(pb)
+800 0.0259 0.0204
+900 0.0196 0.0155
+1000 0.0176 0.0137
+1100 0.0162 0.0128
+1200 0.0152 0.0121
+1300 0.0151 0.0117
+1400 0.0151 0.012
+1500 0.0151 0.012
+

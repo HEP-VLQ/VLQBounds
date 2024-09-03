@@ -1,0 +1,22 @@
+#arXiv:1701.08328
+#title:Search for single production of vector-like quarks decaying into a b quark and a W boson in proton-proton collisions at $\sqrt{s} =$ 13 TeV
+#luminosity 2.3 fb-1
+#Energy 13000 GeV
+#A.~M.~Sirunyan and al. CMS
+#Fig 5
+#pp→Ybq→bWbq, C(bW)=0.5                        
+#Mass(GeV), C(bW), \sigma_{theorie}(pb)
+700 0.5 1.4599749486608784
+800 0.5 0.9684393407453129
+900 0.5 0.6762130774834747
+1000 0.5 0.48755350636265143
+1100 0.5 0.3339464877872366
+1200 0.5 0.24232661411057357
+1300 0.5 0.1758431067665786
+1400 0.5 0.13260584706813602
+1500 0.5 0.09936066390089951
+1600 0.5 0.07397428564278866
+1700 0.5 0.056144034943222086
+1700 0.5 0.05099421273151114
+
+
