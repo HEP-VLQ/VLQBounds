@@ -63,117 +63,202 @@ class SingletT:
     def get_xs_pp_QQ(self):
         mT = self.get_mT()
         xs_pp_TT = get_theo_xs_from_tables(mT, 'pp_QQ_NNLO.dat')
-        return xs_pp_TT
+        return xs_pp_TT / 1000
 
     def get_xs_pp_Tbq_Wbbq(self, i):
         mT = self.get_mT()
         if i == 30:
             file = '1602.05606_ATLAS_Fig6_pp_T_Wb_singlet_theo.dat'
             xs_Tb_Wb = get_theo_xs_from_tables(mT, file)
-            return xs_Tb_Wb * 1000
+            return xs_Tb_Wb
         elif i == 58:
             file = '1701.08328_CMS_fig5_pp_T_bW_singlet_C05_theo.dat'
             xs_Tb_Wb = get_theo_xs_from_tables(mT, file)
-            return xs_Tb_Wb * 1000
+            return xs_Tb_Wb
 
     def get_xs_pp_Tj_Ztj_ts_channels(self, i):
         mT = self.get_mT()
-        k = self.get_coupling_strength()
+        coupling_strength_value = self.get_coupling_strength()
+        relative_width_arr = relative_width_value = None
         if i in [32, 33, 34]:
-            xs_Tj_Zt = interp2d_xs_theo('2305.03401', 'singlet', mT, k)
-            return xs_Tj_Zt
+            MT_arr, coupling_strength_arr, xs_theo_arr = get_data_from_files('2305.03401', 'singlet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tj_Zt = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            return xs_Tj_Zt / 1000
+
         elif i in [43, 44, 45]:
-            xs_Tj_Zt = interp2d_xs_theo('2307.07584', 'singlet', mT, k)
-            return xs_Tj_Zt * 1000
+            MT_arr, coupling_strength_arr, xs_theo_arr = get_data_from_files('2307.07584', 'singlet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tj_Zt = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            return xs_Tj_Zt
+
         elif i == 35:
             file = '2402.16561_ATLAS_fig9c_pp_T_Zt_singlet_k05_theo.dat'
+
             xs_Tj_Zt = get_theo_xs_from_tables(mT, file)
-            return xs_Tj_Zt
+
+            return xs_Tj_Zt / 1000
 
     def get_xs_pp_Tbq_tHbq(self, i):
         mT = self.get_mT()
-        k = self.get_coupling_strength()
         s_l = self.get_sin_left()
         if i in [37, 38, 39, 40, 41, 42]:
-            xs_Tb_tH = interp2d_xs_theo('2201.07045', 'Singlet', mT, k)
-            return xs_Tb_tH
+            coupling_strength_value = self.get_coupling_strength()
+
+            relative_width_arr = relative_width_value = None
+
+            MT_arr, coupling_strength_arr, xs_theo_arr = get_data_from_files('2201.07045', 'Singlet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tb_tH = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            return xs_Tb_tH / 1000
+
         elif i == 17:
             file = '1612.00999_CMS_Fig10left_pp_T_tH_C05_singlet_theo.dat'
+
             xs_Tb_tH = get_theo_xs_from_tables(mT, file)
-            return xs_Tb_tH * 1000
+
+            return xs_Tb_tH
+
         elif i == 46:
             file = '1612.05336_CMS_fig4upperleft_pp_T_tH_c05_singlet_theo.dat'
+
             xs_Tb_tH = get_theo_xs_from_tables(mT, file)
-            return xs_Tb_tH * 1000
-        elif i == 16:
-            xs_Tb_tH = interp2d_xs_theo('2302.12802', 'singlet', mT, s_l)
-            print("theo is:", xs_Tb_tH)
+
             return xs_Tb_tH
+
+        elif i == 16:
+            relative_width_arr = relative_width_value = None
+
+            MT_arr, s_l_arr, xs_theo_arr = get_data_from_files('2302.12802', 'singlet')
+
+            theo_input = (MT_arr, relative_width_arr, s_l_arr, xs_theo_arr,
+                          mT, relative_width_value, s_l)
+
+            xs_Tb_tH = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            return xs_Tb_tH / 1000
+
         elif i in [18, 19, 24, 25]:
-            w = self.get_width_mass_ratio()
-            xs_Tb_tH = interp2d_xs_theo('2201.02227', 'Singlet', mT, w)
-            return xs_Tb_tH * 1000
+            relative_width_value = self.get_width_mass_ratio()
+
+            coupling_strength_arr = coupling_strength_value = None
+
+            MT_arr, relative_width_arr, xs_theo_arr = get_data_from_files('2201.02227', 'Singlet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tb_tH = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            return xs_Tb_tH
+
 
     def get_xs_pp_Tbq_tZbq(self, i):
         mT = self.get_mT()
-        w = self.get_width_mass_ratio()
+        relative_width_value = self.get_width_mass_ratio()
         if i == 57:
             file = '1806.10555_ATLAS_fig15_pp_T_Zt_Singlet_k05_theo.dat'
             xs_Tb_tZ = get_theo_xs_from_tables(mT, file)
-            return xs_Tb_tZ * 1000
+            return xs_Tb_tZ
         elif i == 31:
             file = '1701.07409_CMS_Fig4left_pp_T_tZ_singlet_theo.dat'
             xs_Tb_tZ = get_theo_xs_from_tables(mT, file)
-            return xs_Tb_tZ * 1000
+            return xs_Tb_tZ
         elif i == 14:
             file = '1708.01062_CMS_Fig5left_pp_T_tZ_singlet_C05_theo.dat'
             xs_Tb_tZ = get_theo_xs_from_tables(mT, file)
-            return xs_Tb_tZ * 1000
+            return xs_Tb_tZ
         elif i == 36:
             file = '1812.09743_ATLAS_Fig4c_pp_T_tZ_Singlet_theo.dat'
             xs_Tb_tZ = get_theo_xs_from_tables(mT, file)
-            return xs_Tb_tZ * 1000
+            return xs_Tb_tZ
         elif i in [10, 11, 12, 13]:
-            xs_Tb_tZ = interp2d_xs_theo('2201.02227', 'Singlet', mT, w)
-            return xs_Tb_tZ * 1000
+            coupling_strength_arr = coupling_strength_value = None
+
+            MT_arr, relative_width_arr, xs_theo_arr = get_data_from_files('2201.02227', 'Singlet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tb_tZ = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+            print(xs_Tb_tZ)
+
+            return xs_Tb_tZ
+
         elif i in [50, 51]:
             if i == 50:
                 file = '2405.05071_CMS_Fig4ur_pp_T_Zt_singlet_theo.dat'
+
                 xs_Tb_tZ = get_theo_xs_from_tables(mT, file)
-                return xs_Tb_tZ * 1000
+
+                return xs_Tb_tZ
             else:
                 file = '2405.05071_CMS_Fig4ul_pp_T_tH_singlet_theo.dat'
                 xs_Tb_tZ = get_theo_xs_from_tables(mT, file)
-                return xs_Tb_tZ * 1000
+                return xs_Tb_tZ
         elif i in [20, 21, 26, 27]:
-            xs_Tb_tZ = interp2d_xs_theo('2201.02227', 'Singlet', mT, w)
-            return xs_Tb_tZ * 1000
+            coupling_strength_arr = coupling_strength_value = None
+
+            MT_arr, relative_width_arr, xs_theo_arr = get_data_from_files('2201.02227', 'Singlet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tb_tZ = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            return xs_Tb_tZ
 
     def get_xs_pp_Tbq_tZ_plus_TH(self, i):
         mT = self.get_mT()
-        w = self.get_width_mass_ratio()
+        relative_width_value = self.get_width_mass_ratio()
         if i in [52, 53]:
             if i == 52:
                 file = '2405.05071_CMS_Fig4ll_pp_T_ZttH_singlet_theo.dat'
                 xs_Tb_tZ_tH = get_theo_xs_from_tables(mT, file)
-                return xs_Tb_tZ_tH * 1000
+                return xs_Tb_tZ_tH
             else:
                 file = '2405.05071_CMS_Fig4lr_pp_T_ZttH_singlet_theo.dat'
                 xs_Tb_tZ_tH = get_theo_xs_from_tables(mT, file)
-                return xs_Tb_tZ_tH * 1000
+                return xs_Tb_tZ_tH
         elif i in [22, 23, 28, 29]:
-            xs_Tb_tZ = interp2d_xs_theo('2201.02227', 'Singlet', mT, w)
-            xs_Tb_tZ_tH = xs_Tb_tZ * 2
-            return xs_Tb_tZ_tH * 1000
+            coupling_strength_arr = coupling_strength_value = None
 
+            MT_arr, relative_width_arr, xs_theo_arr = get_data_from_files('2201.02227', 'Singlet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tb_tZ = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            return xs_Tb_tZ * 2
     def get_xs_pp_Tbq(self, i):
         mT = self.get_mT()
-        w = self.get_width_mass_ratio()
+        relative_width_value = self.get_width_mass_ratio()
         if i == 15:
-            xs_pp_Tb = interp2d_xs_theo('2201.02227', 'Singlet', mT, w)
-            print("theo 15: ", xs_pp_Tb)
-            return (xs_pp_Tb * 1000) / 0.25
+            coupling_strength_arr = coupling_strength_value = None
 
+            MT_arr, relative_width_arr, xs_theo_arr = get_data_from_files('2201.02227', 'Singlet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tb_tZ = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            xs_Tb = xs_Tb_tZ / 0.25
+
+            return xs_Tb
     def T_decay_to_wb(self):
         mT = self.get_mT()
         s_l = self.get_sin_left()
@@ -319,70 +404,93 @@ class DoubletT:
 
     def get_xs_pp_Tj_Ztj_ts_channels(self, i):
         mT = self.get_mT()
-        k_T = self.get_coupling_strength()
+        coupling_strength_value = self.get_coupling_strength()
         if i in [23, 24, 25]:
-            MT, kT, XS = get_data_from_files('2305.03401', 'doublet', vlq='T')
-            xs_pp_Tj_Ztj_ts_channels = interpolate2d(None,
-                                                     k_T,
-                                                     None,
-                                                     MT,
-                                                     mT,
-                                                     XS,
-                                                     None,
-                                                     kT,
-                                                     case='theo')
-            return xs_pp_Tj_Ztj_ts_channels
+            relative_width_arr = relative_width_value = None
+
+            MT_arr, coupling_strength_arr, xs_theo_arr = get_data_from_files('2305.03401', 'doublet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tj_Zt = interpolate2d(expt_input=(None,), theo_input=theo_input)
+
+            return xs_Tj_Zt / 1000
+
         elif i in [26, 27, 28]:
-            MT, kT, XS = get_data_from_files('2307.07584', 'doublet', vlq='T')
-            xs_pp_Tj_Ztj_ts_channels = interpolate2d(None,
-                                                     k_T,
-                                                     None,
-                                                     MT,
-                                                     mT,
-                                                     XS,
-                                                     None,
-                                                     kT,
-                                                     case='theo')
-            return xs_pp_Tj_Ztj_ts_channels * 1000
+            relative_width_arr = relative_width_value = None
+            MT_arr, coupling_strength_arr, xs_theo_arr = get_data_from_files('2307.07584', 'doublet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tj_Zt = interpolate2d(expt_input=(None,), theo_input=theo_input)
+            return xs_Tj_Zt
 
     def get_xs_pp_Ttq_tZtq(self, i):
         mT = self.get_mT()
-        w_m = self.get_width_mass_ratio()
+        relative_width_value = self.get_width_mass_ratio()
+
         if i == 21:
             file = '1701.07409_CMS_Fig4right_pp_T_tZ_doublet_C05_theo.dat'
             xs_pp_Ttq_tZtq = get_theo_xs_from_tables(mT, file)
-            return xs_pp_Ttq_tZtq * 1000
+            return xs_pp_Ttq_tZtq
+
         elif i == 7:
             file = '1708.01062_CMS_Fig5right_pp_T_tZ_doublet_C05_theo.dat'
             xs_pp_Ttq_tZtq = get_theo_xs_from_tables(mT, file)
-            return xs_pp_Ttq_tZtq * 1000
+            return xs_pp_Ttq_tZtq
+
         elif i in [11, 12, 17, 18]:
-            MT, width_mass_ratio_arr, XS = get_data_from_files('1909.04721', 'doublet', vlq='T')
-            interp = interp2d_xs_theo('1909.04721', 'doublet', mT, w)
-            return (interp * 1000) / 2
+            coupling_strength_arr = coupling_strength_value = None
+
+            MT_arr, relative_width_arr, xs_theo_arr = get_data_from_files('1909.04721', 'doublet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tj_Zt = interpolate2d(expt_input=(None,), theo_input=theo_input)
+
+            return xs_Tj_Zt / 2
 
     def get_xs_pp_Ttq_tHtq(self, i):
         mT = self.get_mT()
-        w = self.get_width_mass_ratio()
+        relative_width_value = self.get_width_mass_ratio()
         if i == 5:
             file = '1701.07409_CMS_Fig4right_pp_T_tZ_doublet_C05_theo.dat'
-            interp = get_theo_xs_from_tables(mT, file)
-            return interp * 1000
+            Ttq_tHtq = get_theo_xs_from_tables(mT, file)
+            return Ttq_tHtq
         elif i == 29:
             file = '1612.05336_CMS_fig4lowerright_pp_T_tH_c05_doublet_theo_dat'
-            interp = get_theo_xs_from_tables(mT, file)
-            return interp * 1000
+            Ttq_tHtq = get_theo_xs_from_tables(mT, file)
+            return Ttq_tHtq
+
         elif i in [9, 10, 15, 16]:
-            interp = interp2d_xs_theo('1909.04721', 'doublet', mT, w)
-            print("interp 9:", interp)
-            return (interp * 1000) / 2
+            coupling_strength_arr = coupling_strength_value = None
+
+            MT_arr, relative_width_arr, xs_theo_arr = get_data_from_files('1909.04721', 'doublet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tj_tH = interpolate2d(expt_input=(None,), theo_input=theo_input)
+
+            return xs_Tj_tH / 2
 
     def get_xs_pp_Ttq_tZ_plus_TH(self, i):
         mT = self.get_mT()
-        w = self.get_width_mass_ratio()
+        relative_width_value = self.get_width_mass_ratio()
         if i in [13, 14, 19, 20]:
-            interp = interp2d_xs_theo('1909.04721', 'doublet', mT, w)
-            return interp * 1000
+            coupling_strength_arr = coupling_strength_value = None
+
+            MT_arr, relative_width_arr, xs_theo_arr = get_data_from_files('1909.04721', 'doublet')
+
+            theo_input = (MT_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mT, relative_width_value, coupling_strength_value)
+
+            xs_Tj_tH_tZ = interpolate2d(expt_input=(None,), theo_input=theo_input)
+
+            return xs_Tj_tH_tZ
 
     def T_decay_to_wb_TX(self):
         mT = self.get_mT()
@@ -403,6 +511,7 @@ class DoubletT:
         width = calculate_decay_width([mT, c.MZ, c.Mt], self.__sin_r, self.__kappa,
                                       self.__width_ratio, coupling, c.Cst2,  model='Doublet')
         return width
+
     def T_decay_to_ht_TX(self):
         mT = self.get_mT()
         s_r = self.get_sin_right()
@@ -411,20 +520,27 @@ class DoubletT:
         width = calculate_decay_width([mT, c.Mh, c.Mt], self.__sin_r, self.__kappa, self.__width_ratio,
                                       coupling, c.Cst3,  model='Doublet', to_higgs=True)
         return width
+
     def T_decay_to_zt_TB(self):
         mT = self.get_mT()
-        s_u_r = self.get_sin_up_right()
-        c_u_r = np.sqrt(1 - s_u_r ** 2)
-        coupling = [s_u_r * c_u_r, 0]
+        if self.get_sin_up_right() is not None:
+            s_u_r = self.get_sin_up_right()
+            c_u_r = np.sqrt(1 - s_u_r ** 2)
+            coupling = [s_u_r * c_u_r, 0]
+        else:
+            coupling = 0
         width = calculate_decay_width([mT, c.MZ, c.Mt], self.__sin_u_r, self.__kappa, self.__width_ratio,
                                       coupling, c.Cst2,  model='Doublet')
         return width
 
     def T_decay_to_ht_TB(self):
         mT = self.get_mT()
-        s_u_r = self.get_sin_up_right()
-        c_u_r = np.sqrt(1 - s_u_r ** 2)
-        coupling = [s_u_r * c_u_r, 0]
+        if self.get_sin_up_right() is not None:
+            s_u_r = self.get_sin_up_right()
+            c_u_r = np.sqrt(1 - s_u_r ** 2)
+            coupling = [s_u_r * c_u_r, 0]
+        else:
+            coupling = 0
         width = calculate_decay_width([mT, c.Mh, c.Mt], self.__sin_u_r, self.__kappa, self.__width_ratio,
                                       coupling, c.Cst3,  model='Doublet', to_higgs=True)
         return width

@@ -1,3 +1,5 @@
+import numpy as np
+
 from vector_like_T import *
 from vector_like_B import *
 from vector_like_X import *
@@ -10,7 +12,7 @@ from scipy.interpolate import interp1d
 class Coupling(TheoryCalc):
     def __init__(self, m):
         super().__init__(m)
-        if isinstance(m, (SingletT, DoubletT, SingletB, DoubletB, DoubletX, DoubletY)):
+        if isinstance(m, (SingletT, DoubletT, SingletB, DoubletB, DoubletX, DoubletY, TripletY)):
             self.m = m
         else:
             raise Exception('Invalid model. Must be a Singlet or Doublet')
@@ -19,6 +21,7 @@ class Coupling(TheoryCalc):
         self.k_keys = []
         self.width_keys = []
         self.mass_ratio = None
+        self.most_sensitive_channels = []
         self.initialize_coupling_data()
 
     def initialize_coupling_lists(self, number_of_atlas_cms_tables):
@@ -56,12 +59,15 @@ class Coupling(TheoryCalc):
         elif vlq == 'X':
             return 3
         elif vlq == 'Y':
-            return 3
+            if self.m.model() == 'Doublet':
+                return 4
+            elif self.m.model() == 'Triplet':
+                return 1
         else:
             if self.m.model() == 'Singlet':
-                return 20
+                return 21
             elif self.m.model() == 'Doublet':
-                return 5
+                return 6
             else:
                 print(f"Warning. There is no coupling limits for this model {self.m.model()}")
                 return 0
@@ -75,7 +81,7 @@ class Coupling(TheoryCalc):
             number_of_atlas_cms_tables = self.get_number_of_tables(vlq='X')
             if number_of_atlas_cms_tables > 0:
                 self.initialize_coupling_lists(number_of_atlas_cms_tables)
-        elif isinstance(self.m, DoubletY):
+        elif isinstance(self.m, (DoubletY, TripletY)):
             number_of_atlas_cms_tables = self.get_number_of_tables(vlq='Y')
             if number_of_atlas_cms_tables > 0:
                 self.initialize_coupling_lists(number_of_atlas_cms_tables)
@@ -207,38 +213,63 @@ class Coupling(TheoryCalc):
             coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected, observed,
                                   self.coupling_expt, vlq='X')
         elif self.VLY:
-            self.coupling_key[0] = '08328Fig44r'
-            self.coupling_label[0] = 'arXiv:1701.08328'
-            self.coupling_expt[0] = 'CMS'
-            self.coupling_file_name[0] = '2405.17605_CMS_Fig44_right_pp_tqY_bW_1701.08328.dat'
-            self.coupling_process[0] = 'pp --> Xtq --> tW --> bqq,lnu/blnu,qq'
-            self.which_coupling[0] = "k_y"
-            self.coupling_energy[0] = 13
-            self.coupling_luminosity[0] = 2.3
+            if self.m.model() == 'Doublet':
+                self.coupling_key[0] = '08328Fig44r'
+                self.coupling_label[0] = 'arXiv:1701.08328'
+                self.coupling_expt[0] = 'CMS'
+                self.coupling_file_name[0] = '2405.17605_CMS_Fig44_right_pp_tqY_bW_1701.08328.dat'
+                self.coupling_process[0] = 'pp --> Ytq --> bW --> bqq,lnu/blnu,qq'
+                self.which_coupling[0] = "k_y"
+                self.coupling_energy[0] = 13
+                self.coupling_luminosity[0] = 2.3
 
-            self.coupling_key[1] = '05606f8b'
-            self.coupling_label[1] = 'arXiv:1602.05606'
-            self.coupling_expt[1] = 'ATLAS'
-            self.coupling_file_name[1] = '1602.05606_ATLAS_Fig8b_pp_Ybj_Wb_Doublet_sinR.dat'
-            self.coupling_process[1] = 'pp --> Ybq --> bW --> b,lnu'
-            self.which_coupling[1] = "k_y"
-            self.coupling_energy[1] = 8
-            self.coupling_luminosity[1] = 20.3
+                self.coupling_key[1] = '05606f8b'
+                self.coupling_label[1] = 'arXiv:1602.05606'
+                self.coupling_expt[1] = 'ATLAS'
+                self.coupling_file_name[1] = '1602.05606_ATLAS_Fig8b_pp_Ybj_Wb_Doublet_sinR.dat'
+                self.coupling_process[1] = 'pp --> Ybq --> bW --> b,lnu'
+                self.which_coupling[1] = "k_y"
+                self.coupling_energy[1] = 8
+                self.coupling_luminosity[1] = 20.3
 
-            self.coupling_key[2] = '072f10b'
-            self.coupling_label[2] = 'ATLAS_CONF_2016_072'
-            self.coupling_expt[2] = 'ATLAS'
-            self.coupling_file_name[2] = 'ATLAS_CONF_2016_072_fig10b_doublet.dat'
-            self.coupling_process[2] = 'pp --> Ybq --> bW --> b,lnu'
-            self.which_coupling[2] = "k_y"
-            self.coupling_energy[2] = 13
-            self.coupling_luminosity[2] = 3.2
+                self.coupling_key[2] = '072f10b'
+                self.coupling_label[2] = 'ATLAS_CONF_2016_072'
+                self.coupling_expt[2] = 'ATLAS'
+                self.coupling_file_name[2] = 'ATLAS_CONF_2016_072_fig10b_doublet.dat'
+                self.coupling_process[2] = 'pp --> Ybq --> bW --> b,lnu'
+                self.which_coupling[2] = "k_y"
+                self.coupling_energy[2] = 13
+                self.coupling_luminosity[2] = 3.2
 
-            expected = [self.coupling_exp_upper, self.coupling_exp_lower]
-            observed = [self.coupling_obs_lower, self.coupling_obs_upper]
-            mass = [self.coupling_MY_obs, self.coupling_MY_exp]
-            coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected, observed,
-                                  self.coupling_expt, vlq='Y')
+                self.coupling_key[3] = '07343f8c'
+                self.coupling_label[3] = 'arXiv:1812.07343'
+                self.coupling_expt[3] = 'ATLAS'
+                self.coupling_file_name[3] = '1812.07343_ATLAS_pp_Ybq_Wbbq_Fig8c_doublet_Y_RH_sinR.dat'
+                self.coupling_process[3] = 'pp --> Ybq --> bW --> b,lnu'
+                self.which_coupling[3] = "k_y"
+                self.coupling_energy[3] = 13
+                self.coupling_luminosity[3] = 36.1
+
+                expected = [self.coupling_exp_upper, self.coupling_exp_lower]
+                observed = [self.coupling_obs_lower, self.coupling_obs_upper]
+                mass = [self.coupling_MY_obs, self.coupling_MY_exp]
+                coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected, observed,
+                                      self.coupling_expt, vlq='Y')
+            elif self.m.model() == 'Triplet':
+                self.coupling_key[0] = '07343f8b'
+                self.coupling_label[0] = 'ArXiv:1812.07343'
+                self.coupling_expt[0] = 'ATLAS'
+                self.coupling_file_name[0] = '1812.07343_ATLAS_Fig8b_pp_Ybq_Wb_triplet_Y_LH_sinL.dat'
+                self.coupling_process[0] = 'pp --> Ybq --> bW --> b,lnu'
+                self.which_coupling[0] = "s_d_l"
+                self.coupling_energy[0] = 13
+                self.coupling_luminosity[0] = 36.1
+
+                expected = [self.coupling_exp_upper, self.coupling_exp_lower]
+                observed = [self.coupling_obs_lower, self.coupling_obs_upper]
+                mass = [self.coupling_MY_obs, self.coupling_MY_exp]
+                coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected, observed,
+                                      self.coupling_expt, vlq='Y')
         else:
             if self.m.model() == 'Singlet':
                 self.coupling_key[0] = '05606f7b'
@@ -407,7 +438,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[18] = 'arXiv:1909.04721'
                 self.coupling_expt[18] = 'CMS'
                 self.which_coupling[18] = '|sin_left|'
-                self.coupling_process[18] = 'pp --> Tbq --> tZbq'
+                self.coupling_process[18] = 'pp --> Tbq --> (tZ + tH) --> bqq, bb'
                 self.coupling_file_name[18] = '2405.17605_CMS_Fig42_upper_pp_Tbq_tZ_tH_singlet_part1_1909.04721_cf.dat'
                 self.coupling_energy[18] = 13
                 self.coupling_luminosity[18] = 35.9
@@ -416,10 +447,19 @@ class Coupling(TheoryCalc):
                 self.coupling_label[19] = 'arXiv:1909.04721'
                 self.coupling_expt[19] = 'CMS'
                 self.which_coupling[19] = '|sin_left|'
-                self.coupling_process[19] = 'pp --> Tbq --> tZbq'
+                self.coupling_process[19] = 'pp --> Tbq --> (tZ + tH) --> bqq, bb'
                 self.coupling_file_name[19] = '2405.17605_CMS_Fig42_upper_pp_Tbq_tZ_tH_singlet_part2_1909.04721_cf.dat'
                 self.coupling_energy[19] = 13
                 self.coupling_luminosity[19] = 35.9
+
+                self.coupling_key[20] = '08789f6a'
+                self.coupling_label[20] = 'arXiv:2408.08789'
+                self.coupling_expt[20] = 'ATLAS'
+                self.which_coupling[20] = 'kappa'
+                self.coupling_process[20] = 'pp --> Tb(t)q --> tZ/H --> 1l + 2l + nl'
+                self.coupling_file_name[20] = '2408.08789_ATLAS_Fig6a_pp_Tbq_Ht_Zt_singlet.dat'
+                self.coupling_energy[20] = 13
+                self.coupling_luminosity[20] = 139
 
                 '''
                 self.coupling_key[21] = '17605f36'
@@ -502,6 +542,15 @@ class Coupling(TheoryCalc):
                 self.coupling_energy[4] = 13
                 self.coupling_luminosity[4] = 35.9
 
+                self.coupling_key[5] = '08789f6b'
+                self.coupling_label[5] = 'arXiv:2408.08789'
+                self.coupling_expt[5] = 'ATLAS'
+                self.which_coupling[5] = 'kappa'
+                self.coupling_process[5] = 'pp --> Tb(t)q --> tZ/H --> 1l + 2l + nl'
+                self.coupling_file_name[5] = '2408.08789_ATLAS_Fig6b_pp_Tbq_Ht_Zt_doublet.dat'
+                self.coupling_energy[5] = 13
+                self.coupling_luminosity[5] = 139
+
                 '''
                 self.coupling_key[2] = '01062f6'
                 self.coupling_label[2] = 'arXiv:1708.01062'
@@ -548,10 +597,16 @@ class Coupling(TheoryCalc):
                 return -1
         elif self.VLY:
             if i != -1:
-                if self.coupling_key[i] in self.k_keys:
-                    return self.m.get_coupling_strength()
+                if self.m.model() == 'Doublet':
+                    if self.coupling_key[i] in self.k_keys:
+                        return self.m.get_coupling_strength()
+                elif self.m.model() == 'Triplet':
+                    if self.coupling_key[i] in self.sin_l_keys:
+                        return self.m.get_sin_down_left()
                 else:
                     raise Exception("Something went wrong in filling coupling tables")
+            else:
+                return -1
         else:
             if self.m.model() == 'Singlet':
                 if self.coupling_key[i] in self.sin_l_keys:
@@ -579,7 +634,8 @@ class Coupling(TheoryCalc):
 
     def get_limit_from_data(self, num, index, t, mass):
         #if self.coupling_process[index][:9] == 'pp --> Tb' or self.coupling_process[index][:9] == 'pp --> Tt':
-        if self.coupling_expt[index] == 'ATLAS':
+        #if self.coupling_key[index] in self.k_keys:
+        #if self.coupling_expt[index] == 'ATLAS':
             if 0 <= num:
                 if self.VLB:
                     if self.m.model() == 'Singlet':
@@ -688,9 +744,9 @@ class Coupling(TheoryCalc):
             else:
                 d = -1
                 return d
-        else:
-            d = -1
-            return d
+        #else:
+        #    d = -1
+        #    return d
 
     def identify_strong_limit(self, exp_or_obs, mass):
         maxi = float('-inf')
@@ -936,6 +992,7 @@ class Coupling(TheoryCalc):
                 self.channel = coupling_channel + len(self.key)
             else:
                 self.channel = coupling_channel
+        self.most_sensitive_channels.append(self.channel)
         print("end results:", self.result, self.obs_ratio, self.exp_ratio, self.channel)
 
     def all_couplings(self):
@@ -961,13 +1018,38 @@ class Coupling(TheoryCalc):
                 f.write(f"{proc} \t\t {self.label[i]} ({self.expt[i]}) "
                         f"\t sqrt(s) = {self.energy[i]} TeV\t luminosity = {self.luminosity[i]} fb-1\n")
                 count = count + i
-            f.write("************* Coupling limits information part*****************\n")
+            f.write("************* Coupling limits information part   *****************\n")
             f.write(f"T quark in the {self.m.model()} scenario\n")
             for i, proc in enumerate(self.coupling_process):
                 f.write("***********************************************************************\n")
                 f.write(f"channel {i + count + 1}:\n")
                 f.write(f"{proc} \t\t {self.coupling_label[i]} ({self.coupling_expt[i]}) "
                         f"\t sqrt(s) = {self.coupling_energy[i]} TeV\t luminosity = {self.coupling_luminosity[i]} fb-1\n")
+
+    def get_sensitive_limits_info(self):
+        with open("strong_channels.dat", "w") as f:
+            f.write("************* limit information *****************\n")
+            f.write("This File has been generated with VLQBounds version 0.1\n")
+            f.write(f"With the T quark in the {self.m.model()} scenario\n")
+            high_sensitivity_channels = np.unique(self.most_sensitive_channels)
+            for i in high_sensitivity_channels:
+                f.write("***********************************************************************\n")
+                if i >= len(self.key):
+                    f.write(f"channel {i}:\n")
+                    f.write(
+                        f"{self.coupling_process[i - len(self.key)]} \t\t "
+                        f"{self.coupling_label[i - len(self.key)]} "
+                        f"({self.coupling_expt[i - len(self.key)]}) "
+                        f"\t sqrt(s) = {self.coupling_energy[i - len(self.key)]} TeV\t "
+                        f"luminosity = {self.coupling_luminosity[i - len(self.key)]} fb-1\n")
+                else:
+                    f.write(f"channel {i}:\n")
+                    f.write(
+                        f"{self.process[i]} \t\t "
+                        f"{self.label[i]} "
+                        f"({self.expt[i]}) "
+                        f"\t sqrt(s) = {self.energy[i]} TeV\t "
+                        f"luminosity = {self.luminosity[i]} fb-1\n")
 
     def fill_sin_and_kappa(self):
         #singlet and doublet and sin_right
@@ -1003,6 +1085,11 @@ class Coupling(TheoryCalc):
                 self.coupling_key[j]
                 for j, coupling in enumerate(self.which_coupling)
                 if coupling == 'k_y'
+            ]
+            self.sin_l_keys = [
+                self.coupling_key[j]
+                for j, coupling in enumerate(self.which_coupling)
+                if coupling == 's_d_l'
             ]
 
         else:

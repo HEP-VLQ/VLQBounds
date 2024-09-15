@@ -1,63 +1,6 @@
 ************* File for each coupling limit information*****************
 This File has been generated with PyTop version 0.1
-With the T quark in the Singlet scenario
+With the T quark in the Triplet scenario
 ***********************************************************************
 channel 0:
-pp --> Tbq --> Wb --> lnu,b 		 arXiv:1602.05606 (ATLAS) 	 sqrt(s) = 8 TeV	 luminosity = 20.3 fb-1
-***********************************************************************
-channel 1:
-pp --> Tbq --> Wb -->  		 arXiv:1812.07343 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
-***********************************************************************
-channel 2:
-pp --> Tbq --> tZ -->  		 arXiv:1812.09743 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
-***********************************************************************
-channel 3:
-pp --> Tbq --> tZ -->  		 arXiv:1806.10555 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
-***********************************************************************
-channel 4:
-pp --> Tbq --> bW --> 		 ATLAS-CONF-2016-072 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
-***********************************************************************
-channel 5:
-pp --> Tbq --> tH -->  		 arXiv:2302.12802 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
-***********************************************************************
-channel 6:
-pp --> Tbq --> tZ -->  		 arXiv:2402.16561 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 139 fb-1
-***********************************************************************
-channel 7:
-pp --> Tbq --> tH --> 		 arXiv:2201.07045 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 139 fb-1
-***********************************************************************
-channel 8:
-pp --> Tbq --> tZ(H) --> 		 arXiv:2305.03401 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 139 fb-1
-***********************************************************************
-channel 9:
-pp --> Tbq --> tZ -->  		 arXiv:2307.07584 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 139 fb-1
-***********************************************************************
-channel 10:
-pp --> Tbq --> tZbq 		 arXiv:1708.01062 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.9 fb-1
-***********************************************************************
-channel 11:
-pp --> Tbq --> tZbq 		 arXiv:1701.08328 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 2.3 fb-1
-***********************************************************************
-channel 12:
-pp --> Tbq --> tZbq 		 arXiv:2405.17605 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 138 fb-1
-***********************************************************************
-channel 13:
-pp --> Tbq --> tZbq 		 arXiv:1909.04721 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.9 fb-1
-***********************************************************************
-channel 14:
-pp --> Tbq --> tZbq 		 arXiv:1909.04721 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.9 fb-1
-***********************************************************************
-channel 15:
-pp --> Tbq --> tZbq 		 arXiv:1708.01062 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.9 fb-1
-***********************************************************************
-channel 16:
-pp --> Tbq --> tZbq 		 arXiv:2201.02227 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 137 fb-1
-***********************************************************************
-channel 17:
-pp --> Tbq --> tZbq 		 arXiv:2405.05071 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 138 fb-1
-***********************************************************************
-channel 18:
-pp --> Tbq --> tZbq 		 arXiv:1909.04721 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.9 fb-1
-***********************************************************************
-channel 19:
-pp --> Tbq --> tZbq 		 arXiv:1909.04721 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.9 fb-1
+pp --> Ybq --> bW --> b,lnu 		 ArXiv:1812.07343 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1

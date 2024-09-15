@@ -4,7 +4,7 @@ import numpy as np
 from glob import glob
 
 
-def interpolate_xs(MT_exp, mT_theo, xs_theo):
+def interpolate_xs(MT_exp: list, mT_theo: float, xs_theo: list):
     if np.min(MT_exp) <= mT_theo <= np.max(MT_exp):
         xs_QQ = interpolate.interp1d(MT_exp, xs_theo, 'linear')
         return xs_QQ(mT_theo)
@@ -12,7 +12,7 @@ def interpolate_xs(MT_exp, mT_theo, xs_theo):
         return -1
 
 
-def get_xs_from_tables(path, mQ, file_name):
+def get_xs_from_tables(path: str, mQ: float, file_name: str):
     try:
         table = np.loadtxt(path)
         MQ = table[:, 0]
@@ -48,7 +48,6 @@ def read_table(which_files):
 
 
 def get_data_from_files(file_key, model, vlq='T'):
-    "must be revisited and combined with interpolate 2d"
     current_path = os.getcwd()
     table = 'data/' + vlq + 'data/Theo_Tables'
     full_path = os.path.join(current_path, table)
@@ -83,43 +82,56 @@ def create_2d_interpolator(x_array, y_array, interpolated, indexes):
     return interpolate.LinearNDInterpolator(list(zip(appended_x.flatten(), appended_y.flatten())), interp.flatten())
 
 
-def interpolate2d(indexes, kappa, width_ratio, mass_array, m_theo, obs_exp, width_ratio_array,
-                  coupling_array, case='exp'):
-    if case == 'exp':
-        if coupling_array is None:
-            min_wr = min(width_ratio_array)
-            if min_wr == 0.05:
-                if width_ratio >= 0.05:
-                    interp = create_2d_interpolator(mass_array, width_ratio_array, obs_exp, indexes)
-                    return interp(m_theo, width_ratio)
+def interpolate2d(expt_input: tuple, theo_input: tuple, case='expt'):
+    if case == 'expt':
+        (indexes, mass_arr, relative_width_arr, coupling_strength_arr, obs_or_exp_arr,
+         m_theo_value, relative_width_value, coupling_strength_value) = expt_input
+        if coupling_strength_arr is None:
+            if min(relative_width_arr) == 0.05:
+                if relative_width_value >= 0.05:
+                    interp = create_2d_interpolator(mass_arr, relative_width_arr, obs_or_exp_arr, indexes)
+                    return interp(m_theo_value, relative_width_value)
                 else:
-                    expected_or_observed = interpolate.interp1d(mass_array[indexes[0]], obs_exp[indexes[0]], 'linear')
-                    denominator = expected_or_observed(m_theo)
+                    expected_or_observed = interpolate.interp1d(mass_arr[indexes[0]],
+                                                                obs_or_exp_arr[indexes[0]],
+                                                                'linear')
+                    denominator = expected_or_observed(m_theo_value)
                     return denominator
-            elif min_wr == 0.01:
-                if width_ratio >= 0.01:
-                    interp = create_2d_interpolator(mass_array, width_ratio_array, obs_exp, indexes)
-                    return interp(m_theo, width_ratio)
+            elif min(relative_width_arr) == 0.01:
+                if relative_width_value >= 0.01:
+                    interp = create_2d_interpolator(mass_arr, relative_width_arr, obs_or_exp_arr, indexes)
+                    return interp(m_theo_value, relative_width_value)
                 else:
                     return -1
         else:
-            interp = create_2d_interpolator(mass_array, coupling_array, obs_exp, indexes)
-            return interp(m_theo, kappa)
+            interp = create_2d_interpolator(mass_arr, coupling_strength_arr, obs_or_exp_arr, indexes)
+            return interp(m_theo_value, coupling_strength_value)
     else:
-        if coupling_array is None:
-            if min(width_ratio_array) == 0.05:
-                if width_ratio >= 0.05:
-                    interp2d = interpolate.LinearNDInterpolator(list(zip(mass_array, width_ratio_array)), obs_exp)
-                    return interp2d(m_theo, width_ratio)
+        print("hi")
+        (mass_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+         m_theo_value, relative_width_value, coupling_strength_value) = theo_input
+        if coupling_strength_arr is None:
+            print("hi")
+            if min(relative_width_arr) == 0.05:
+                if relative_width_value >= 0.05:
+                    interp2d = interpolate.LinearNDInterpolator(list(zip(mass_arr, relative_width_arr)), xs_theo_arr)
+                    return interp2d(m_theo_value, relative_width_value)
                 else:
-                    filtering_005_xs = width_ratio_array == 0.05
-                    expected_or_observed = interpolate.interp1d(mass_array[filtering_005_xs],
-                                                                obs_exp[filtering_005_xs],
+                    filtering_005_xs = relative_width_arr == 0.05
+                    expected_or_observed = interpolate.interp1d(mass_arr[filtering_005_xs],
+                                                                xs_theo_arr[filtering_005_xs],
                                                                 'linear')
-                    return expected_or_observed(m_theo)
+                    return expected_or_observed(m_theo_value)
+            elif min(relative_width_arr) == 0.01:
+                if relative_width_value >= 0.01:
+                    interp2d = interpolate.LinearNDInterpolator(list(zip(mass_arr, relative_width_arr)), xs_theo_arr)
+                    return interp2d(m_theo_value, relative_width_value)
+                else:
+                    return -1
+
         else:
-            interp2d = interpolate.LinearNDInterpolator(list(zip(mass_array, coupling_array)), obs_exp)
-            return interp2d(m_theo, width_ratio_array)
+            interp2d = interpolate.LinearNDInterpolator(list(zip(mass_arr, coupling_strength_arr)), xs_theo_arr)
+            return interp2d(m_theo_value, coupling_strength_value)
 
 
 def linear_interp2d(mass_arr, width_or_kappa_arr, cs_arr):

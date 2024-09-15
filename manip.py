@@ -1,8 +1,6 @@
-import numpy as np
 from scipy.interpolate import interp1d
 from initialize import Tables
 from output import Result
-from vector_like_B import *
 from vector_like_T import *
 from params_constraints import *
 
@@ -58,87 +56,16 @@ class TheoryCalc(Tables, Result):
         channel = self.process_condition(k, T_kappa_keys, coupling, model, "coupling_strength")
         return channel
 
-    def get_channel(self, k, r, pr, kappa):
+    def get_channel(self, k, r, kappa):
         if self.VLB:
             if self.m.model() == 'Singlet':
-                '''
-                if k in self.cs_keys['single_prod']:
-                    if kappa is not None:
-                        if k in c.B_kappa_keys['0.3<=k<=0.5']["Singlet"]:
-                            if 0.3 <= kappa <= 0.5:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
+                channel = self.get_channels_from_limit_condition(k, r, kappa, self.m.model())
+                return channel
 
-                        elif k in c.B_kappa_keys['k==0.5']["Singlet"]:
-                            if abs(kappa - 0.5) <= c.Threshold:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                    else:
-                        raise Exception("Error. Coupling strength is None")
-                    if r is not None:
-                        if k in c.B_width_mass_ratio_keys['r<=0.1']["Singlet"]:
-                            if r <= 0.1:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        elif k in c.B_width_mass_ratio_keys['0.01<=r<=0.3']["Singlet"]:
-                            if 0.01 < r <= 0.3:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                    else:
-                        raise Exception("Error. Width-to-mass ratio is None")
-                else:
-                    return self.get_pair_prod_channels(k)
-                '''
             elif self.m.model() == 'Doublet':
-                '''
-                if k in self.cs_keys['pair_prod']:
-                    if pr in self.process:
-                        index = self.key.index(k)
-                        return index
-                    else:
-                        raise Exception("pair productions are not calculated")
+                channel = self.get_channels_from_limit_condition(k, r, kappa, self.m.model())
+                return channel
 
-                elif k in self.cs_keys['single_prod']:
-                    if kappa is not None:
-                        if k in c.B_kappa_keys['0.3<=k<=0.5']["Doublet"]:
-                            if 0.3 <= kappa <= 0.5:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        elif k in c.B_kappa_keys['k==0.5']["Doublet"]:
-                            if abs(kappa - 0.5) <= c.Threshold:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                    else:
-                        raise Exception("Error. Coupling strength is None")
-
-                    if r is not None:
-                        if k in c.B_width_mass_ratio_keys['r<=0.1']["Doublet"]:
-                            if r <= 0.1:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        elif k in c.B_width_mass_ratio_keys['0.01<=r<=0.3']["Doublet"]:
-                            if 0.01 < r <= 0.3:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                    else:
-                        raise Exception("Error. Width-to-mass ratio is None")
-                '''
         elif self.VLX:
             channel = self.get_channels_from_limit_condition(k, r, kappa, self.m.model())
             return channel
@@ -147,129 +74,12 @@ class TheoryCalc(Tables, Result):
             return channel
         else:
             if self.m.model() == 'Singlet':
-                '''
-                for key, values in c.T_width_mass_ratio_keys.items():
-                    print("key is:", key)
-                    print("values is:", values)
-                    return self.get_channels_from_limit_condition(k, r, self.m.model(), c.T_width_mass_ratio_keys, key)
-                '''
-
                 channel = self.get_channels_from_limit_condition(k, r, kappa, self.m.model())
                 return channel
 
-                '''
-                if k in self.cs_keys['single_prod']:
-                    if kappa is not None:
-                        if k in c.T_kappa_keys['0.1<=k<=1.1']["Singlet"]:
-                            if 0.1 <= kappa <= 1.1:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        elif k in c.T_kappa_keys['0.2<=k<=0.6']["Singlet"]:
-                            if 0.2 <= kappa <= 0.6:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        elif k in c.T_kappa_keys['0.3<=k<=0.7']["Singlet"]:
-                            if 0.3 <= kappa <= 0.7:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        elif k in c.T_kappa_keys['k==0.5']["Singlet"]:
-                            if abs(kappa - 0.5) <= c.Threshold:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        elif k in c.T_kappa_keys['k==1']["Singlet"]:
-                            if abs(kappa - 1) <= c.Threshold:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                    else:
-                        raise Exception("Error. Coupling strength is None")
-
-                    if r is not None:
-                        if k in c.T_width_mass_ratio_keys['r==0.01']["Singlet"]:
-                            if abs(r - 0.01) <= c.Threshold:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        elif k in c.T_width_mass_ratio_keys['r<=0.05']["Singlet"]:
-                            if r <= 0.05:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        elif k in c.T_width_mass_ratio_keys['0.05<=r<=0.3']["Singlet"]:
-                            if 0.05 < r <= 0.3:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        else:
-                            index = self.key.index(k)
-                            return index
-                    else:
-                        raise Exception("Error. Width-to-mass ratio is None")
-
-                else:
-                    return self.get_pair_prod_channels(k)
-            '''
             elif self.m.model() == 'Doublet':
                 channel = self.get_channels_from_limit_condition(k, r, kappa, self.m.model())
                 return channel
-                '''
-                if k in self.cs_keys['single_prod']:
-                    if kappa is not None:
-                        if k in c.T_kappa_keys['0.2<=k<=0.6']["Doublet"]:
-                            if 0.2 <= kappa <= 0.6:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        elif k in c.T_kappa_keys['0.3<=k<=0.7']["Doublet"]:
-                            if 0.3 <= kappa <= 0.7:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                    else:
-                        Exception("Error. Coupling strength is None")
-
-                    if r is not None:
-                        if k in c.T_width_mass_ratio_keys['r<=0.05']["Doublet"]:
-                            if r <= 0.05:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        elif k in c.T_width_mass_ratio_keys['r<=0.1']["Doublet"]:
-                            if r <= 0.1:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        elif k in c.T_width_mass_ratio_keys['0.05<r<=0.3']["Doublet"]:
-                            if 0.05 < r <= 0.3:
-                                index = self.key.index(k)
-                                return index
-                            else:
-                                return ''
-                        else:
-                            index = self.key.index(k)
-                            return index
-                    else:
-                        raise Exception("Error. Width-to-mass ratio is None")
-
-                else:
-                    return self.get_pair_prod_channels(k)
-                '''
 
             elif self.m.model() == 'Pure':
                 return self.get_pair_prod_channels(k)
@@ -280,76 +90,78 @@ class TheoryCalc(Tables, Result):
         r, kappa = self.get_ratio_and_universal_coupling()
         if self.VLB:
             if self.m.model() == 'Singlet':
-                j = self.get_channel(self.key[i], r, self.process[i], kappa)
+                j = self.get_channel(self.key[i], r, kappa)
 
-                if j == 21:
-                    return self.m.get_xs_pp_Bbq_tWbq(j) / 1000
-                elif j == 22:
-                    return self.m.get_xs_pp_Btq_tWtq(j) / 1000
+                if j == 20:
+                    return self.m.get_xs_pp_Bbq_tWbq(j)
+                elif j == 21:
+                    return self.m.get_xs_pp_Btq_tWtq(j)
                 elif j in [15, 16, 17]:
-                    return self.m.get_xs_pp_Bj_bHj_ts_channels(j) / 1000
+                    return self.m.get_xs_pp_Bj_bHj_ts_channels(j)
                 elif j in [4, 5, 6, 7]:
-                    return self.m.get_xs_pp_Bbq_bHbq(j) / 1000
+                    return self.m.get_xs_pp_Bbq_bHbq(j)
                 elif j == 19:
-                    return self.m.get_xs_pp_Bbq_bZbq(j) / 1000
+                    return self.m.get_xs_pp_Bbq_bZbq(j)
                 elif j == 18:
-                    return self.m.get_xs_pp_Btq_bZtq(j) / 1000
+                    return self.m.get_xs_pp_Btq_bZtq(j)
                 else:
-                    return self.m.get_xs_pp_QQ() / 1000
+                    return self.m.get_xs_pp_QQ()
 
             elif self.m.model() == 'Doublet':
-                j = self.get_channel(self.key[i], r, self.process[i], kappa)
+                j = self.get_channel(self.key[i], r, kappa)
                 if j == 20:
-                    return self.m.get_xs_pp_Bbq_tWbq(j) / 1000
+                    return self.m.get_xs_pp_Bbq_tWbq(j)
                 elif j in [15, 16, 17]:
-                    return self.m.get_xs_pp_Bj_bHj_ts_channels(j) / 1000
+                    return self.m.get_xs_pp_Bj_bHj_ts_channels(j)
                 elif j in [5, 6, 7, 8]:
-                    return self.m.get_xs_pp_Bbq_bHbq(j) / 1000
+                    return self.m.get_xs_pp_Bbq_bHbq(j)
                 else:
-                    return self.m.get_xs_pp_QQ() / 1000
+                    return self.m.get_xs_pp_QQ()
             else:
                 if self.process[i][:9] == 'pp --> BB':
-                    return self.m.get_xs_pp_QQ() / 1000
+                    return self.m.get_xs_pp_QQ()
         elif self.VLX:
             if self.process[i][:9] == 'pp --> XX':
-                return self.m.get_xs_pp_QQ() / 1000
+                return self.m.get_xs_pp_QQ()
             else:
                 return -1
         elif self.VLY:
             if self.process[i][:9] == 'pp --> YY':
-                return self.m.get_xs_pp_QQ() / 1000
+                return self.m.get_xs_pp_QQ() 
             else:
                 return -1
         else:
             if self.m.model() == 'Singlet':
-                j = self.get_channel(self.key[i], r, self.process[i], kappa)
+
+                j = self.get_channel(self.key[i], r, kappa)
+
                 if j in [32, 33, 34, 35, 43, 44, 45]:
-                    return self.m.get_xs_pp_Tj_Ztj_ts_channels(j) / 1000
+                    return self.m.get_xs_pp_Tj_Ztj_ts_channels(j)
 
                 elif j in [37, 38, 39, 40, 41, 42, 17, 46, 16, 18, 19, 24, 25]:
-                    return self.m.get_xs_pp_Tbq_tHbq(j) / 1000
+                    return self.m.get_xs_pp_Tbq_tHbq(j)
 
                 elif j in [57, 31, 36, 14, 10, 11, 12, 13, 50, 51, 20, 21, 26, 27]:
-                    return self.m.get_xs_pp_Tbq_tZbq(j) / 1000
+                    return self.m.get_xs_pp_Tbq_tZbq(j)
 
                 elif j in [58, 30]:
-                    return self.m.get_xs_pp_Tbq_Wbbq(j) / 1000
+                    return self.m.get_xs_pp_Tbq_Wbbq(j)
 
                 elif j == 15:
-                    return self.m.get_xs_pp_Tbq(j) / 1000
+                    return self.m.get_xs_pp_Tbq(j)
 
                 elif j in [52, 53, 22, 23, 28, 29]:
-                    return self.m.get_xs_pp_Tbq_tZ_plus_TH(j) / 1000
+                    return self.m.get_xs_pp_Tbq_tZ_plus_TH(j)
 
                 elif j in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 47, 48, 49, 54, 55, 56]:
-                    return self.m.get_xs_pp_QQ() / 1000
+                    return self.m.get_xs_pp_QQ()
 
                 else:
                     return -1
 
             elif self.m.model() == 'Doublet':
                 if self.m.get_which_doublet() == 'TB' or self.m.get_which_doublet() == 'XT':
-                    j = self.get_channel(self.key[i], r, self.process[i], kappa)
+                    j = self.get_channel(self.key[i], r, kappa)
                     if j in [23, 24, 25, 26, 27, 28]:
                         return self.m.get_xs_pp_Tj_Ztj_ts_channels(j) / 1000
 
@@ -371,251 +183,104 @@ class TheoryCalc(Tables, Result):
                 if self.process[i][:9] == 'pp --> TT':
                     return self.m.get_xs_pp_QQ() / 1000
 
-
     def denominator(self, num, index, t):
-        #if (self.process[index][:9] == 'pp --> Bb' or self.process[index][:9] == 'pp --> Bt') and self.expt[index] == 'ATLAS':
-        #if self.process[index][:9] == 'pp --> TT':
-        #if index in [10, 11, 12, 13]:
-            if 0 <= num:
-                if self.VLB:
-                    if min(self.MB[index]) <= self.m.get_mB() <= max(self.MB[index]):
-                        if self.m.model() == 'Singlet':
-                            if index in [4, 5, 6, 7]:
-                                indexes = [4, 5, 6, 7]
-                                width_ratio_values = [0.01, 0.1, 0.2, 0.3]
-                                width_ratio = self.m.get_width_mass_ratio()
-                                mB = self.m.get_mB()
-                                d = interpolate2d(indexes, None, width_ratio, self.MB, mB, t,
-                                                  width_ratio_values, None)
-                                return d
-                            elif index in [15, 16, 17]:
-                                indexes = [15, 16, 17]
-                                coupling_array = [0.3, 0.4, 0.5]
-                                kappa = self.m.get_coupling_strength()
-                                mB = self.m.get_mB()
-                                d = interpolate2d(indexes, kappa, None, self.MB, mB,
-                                                  t, None, coupling_array)
-                                return d
-                            else:
-                                expected_or_observed = interp1d(self.MB[index], t[index], 'linear')
-                                d = expected_or_observed(self.m.get_mB())
-                                return d
-                        elif self.m.model() == 'Doublet':
-                            if index in [5, 6, 7, 8]:
-                                indexes = [5, 6, 7, 8]
-                                width_ratio_values = [0.01, 0.1, 0.2, 0.3]
-                                width_ratio = self.m.get_width_mass_ratio()
-                                mB = self.m.get_mB()
-                                d = interpolate2d(indexes, None, width_ratio, self.MB, mB,
-                                                  t, width_ratio_values, None)
-                                return d
-                            elif index in [15, 16, 17]:
-                                indexes = [15, 16, 17]
-                                coupling_array = [0.3, 0.4, 0.5]
-                                kappa = self.m.get_coupling_strength()
-                                mB = self.m.get_mB()
-                                d = interpolate2d(indexes, kappa, None, self.MB, mB,
-                                                  t, None, coupling_array)
-                                return d
-                            else:
-                                expected_or_observed = interp1d(self.MB[index], t[index], 'linear')
-                                d = expected_or_observed(self.m.get_mB())
-                                return d
-                    else:
-                        return -1
-                elif self.VLX:
-                    if min(self.MX[index]) <= self.m.get_mX() <= max(self.MX[index]):
-                        expected_or_observed = interp1d(self.MX[index], t[index], 'linear')
-                        d = expected_or_observed(self.m.get_mX())
-                        return d
-                    else:
-                        return -1
-                elif self.VLY:
-                    if min(self.MY[index]) <= self.m.get_mY() <= max(self.MY[index]):
-                        expected_or_observed = interp1d(self.MY[index], t[index], 'linear')
-                        d = expected_or_observed(self.m.get_mY())
-                        return d
-                    else:
-                        return -1
-                else:
-                    if min(self.MT[index]) <= self.m.get_mT() <= max(self.MT[index]):
-                        if self.m.model() == 'Singlet':
-                            for key1 in T_kappa_keys.keys():
-                                if self.key[index] in T_kappa_keys[key1][self.m.model()]:
-                                    if '==' not in key1:
-                                        indexes = [self.key.index(k) for k in T_kappa_keys[key1][self.m.model()]
-                                                   if k in self.key]
+        print("num:" + str(num) + "index:" + str(index))
+        if 0 <= num:
+            if self.VLB:
+                if min(self.MB[index]) <= self.m.get_mB() <= max(self.MB[index]):
+                    def get_xs_from_relative_width_interpolation(tables_indexes):
+                        t_indexes = tables_indexes
+                        relative_width_values = [0.01, 0.1, 0.2, 0.3]
+                        relative_width_value = self.m.get_width_mass_ratio()
+                        mB = self.m.get_mB()
+                        coupling_strength_arr = coupling_strength_value = None
+                        expt_input = (t_indexes, self.MB, relative_width_values, coupling_strength_arr, t,
+                                      mB, relative_width_value, coupling_strength_value)
 
-                                        min_kappa, max_kappa = [float(st) for st in key1.split('<=') if st != 'k']
-                                        coupling_array = np.linspace(min_kappa, max_kappa, len(indexes))
-                                        print("coupling_array:", coupling_array)
-                                        print("indexes:", indexes)
-                                        kappa = self.m.get_coupling_strength()
-                                        mT = self.m.get_mT()
-                                        d = interpolate2d(indexes, kappa, None, self.MT, mT,
-                                                          t, None, coupling_array)
-                                        return d
-                                    else:
-                                        expected_or_observed = interp1d(self.MT[index], t[index], 'linear')
-                                        d = expected_or_observed(self.m.get_mT())
-                                        return d
+                        expt_xs = interpolate2d(expt_input, theo_input=(None,), case='expt')
+                        return expt_xs
 
-                            if self.key[index] in T_width_mass_ratio_keys['0.05<=r<=0.3'][self.m.model()]:
-                                width_ratio_values = [0.05, 0.1, 0.2, 0.3]
-                                indexes = []
-                                table_indexes = []
-                                for k in T_width_mass_ratio_keys['0.05<=r<=0.3'][self.m.model()]:
-                                    indexes.append(self.key.index(k))
-                                    if len(indexes) % 3 == 0:
-                                        indexes.insert(0, indexes[0] - 1)
-                                        table_indexes = indexes.copy()
-                                        print("table_indexes:", table_indexes)
-                                        indexes.clear()
+                    def get_xs_from_coupling_strength_interpolation(tables_indexes):
+                        t_indexes = tables_indexes
+                        coupling_strength_arr = [0.3, 0.4, 0.5]
+                        coupling_strength_value = self.m.get_coupling_strength()
+                        mB = self.m.get_mB()
+                        relative_width_values = relative_width_value = None
+                        expt_input = (t_indexes, self.MB, relative_width_values, coupling_strength_arr, t,
+                                      mB, relative_width_value, coupling_strength_value)
+                        expt_xs = interpolate2d(expt_input, theo_input=(None,), case='expt')
+                        return expt_xs
 
-                                print("Final table_indexes:", table_indexes)
-                                print("table", width_ratio_values)
-
-                                d = interpolate2d(table_indexes, None, self.m.get_width_mass_ratio(),
-                                                  self.MT, self.m.get_mT(), t, width_ratio_values, None)
-                                return d
-
-                            else:
-                                expected_or_observed = interp1d(self.MT[index], t[index], 'linear')
-                                d = expected_or_observed(self.m.get_mT())
-                                return d
-
-
-                        elif self.m.model() == 'Doublet':
-                            for key1 in T_kappa_keys.keys():
-                                if self.key[index] in T_kappa_keys[key1][self.m.model()]:
-                                    if '==' not in key1:
-                                        indexes = [self.key.index(k) for k in T_kappa_keys[key1][self.m.model()]
-                                                   if k in self.key]
-
-                                        min_kappa, max_kappa = [float(st) for st in key1.split('<=') if st != 'k']
-                                        coupling_array = np.linspace(min_kappa, max_kappa, len(indexes))
-                                        print("coupling_array:", coupling_array)
-                                        print("indexes:", indexes)
-                                        kappa = self.m.get_coupling_strength()
-                                        mT = self.m.get_mT()
-                                        d = interpolate2d(indexes, kappa, None, self.MT, mT,
-                                                          t, None, coupling_array)
-                                        return d
-                                    else:
-                                        expected_or_observed = interp1d(self.MT[index], t[index], 'linear')
-                                        d = expected_or_observed(self.m.get_mT())
-                                        return d
-
-                            if self.key[index] in T_width_mass_ratio_keys['0.05<=r<=0.3'][self.m.model()]:
-                                width_ratio_values = [0.05, 0.1, 0.2, 0.3]
-                                indexes = []
-                                table_indexes = []
-                                for k in T_width_mass_ratio_keys['0.05<=r<=0.3'][self.m.model()]:
-                                    indexes.append(self.key.index(k))
-                                    if len(indexes) % 3 == 0:
-                                        indexes.insert(0, indexes[0] - 1)
-                                        table_indexes = indexes.copy()
-                                        print("table_indexes:", table_indexes)
-                                        indexes.clear()
-
-                                print("Final table_indexes:", table_indexes)
-                                print("table", width_ratio_values)
-
-                                d = interpolate2d(table_indexes, None, self.m.get_width_mass_ratio(),
-                                                  self.MT, self.m.get_mT(), t, width_ratio_values, None)
-                                return d
-
-                            else:
-
-                                expected_or_observed = interp1d(self.MT[index], t[index], 'linear')
-                                d = expected_or_observed(self.m.get_mT())
-                                return d
-                            '''
-                            if index in [26, 27, 28]:
-                                indexes = [26, 27, 28]
-                                coupling_arr = [0.3, 0.5, 0.7]
-                                kappa = self.m.get_coupling_strength()
-                                mT = self.m.get_mT()
-                                d = interpolate2d(indexes, kappa, None, self.MT, mT,
-                                                  t, None, coupling_arr)
-                                return d
-                            elif index in [23, 24, 25]:
-                                indexes = [23, 24, 25]
-                                coupling_arr = [0.2, 0.4, 0.6]
-                                kappa = self.m.get_coupling_strength()
-                                mT = self.m.get_mT()
-                                d = interpolate2d(indexes, kappa, None, self.MT, mT,
-                                                  t, None, coupling_arr)
-                                return d
-                            elif index in [9, 10, 15, 16]:
-                                indexes = [9, 10, 15, 16]
-                                width_ratio_values = [0.05, 0.1, 0.2, 0.3]
-                                width_ratio = self.m.get_width_mass_ratio()
-                                mT = self.m.get_mT()
-                                d = interpolate2d(indexes, None, width_ratio, self.MT, mT,
-                                                  t, width_ratio_values, None)
-                                return d
-                            elif index in [11, 12, 17, 18]:
-                                indexes = [11, 12, 27, 18]
-                                width_ratio_values = [0.05, 0.1, 0.2, 0.3]
-                                width_ratio = self.m.get_width_mass_ratio()
-                                mT = self.m.get_mT()
-                                d = interpolate2d(indexes, None, width_ratio, self.MT, mT,
-                                                  t, width_ratio_values, None)
-                                return d
-                            elif index in [13, 14, 19, 20]:
-                                indexes = [13, 14, 19, 20]
-                                width_ratio_values = [0.05, 0.1, 0.2, 0.3]
-                                width_ratio = self.m.get_width_mass_ratio()
-                                mT = self.m.get_mT()
-                                d = interpolate2d(indexes, None, width_ratio, self.MT, mT,
-                                                  t, width_ratio_values, None)
-                                return d
-                            else:
-                                expected_or_observed = interp1d(self.MT[index], t[index], 'linear')
-                                d = expected_or_observed(self.m.get_mT())
-                                return d
-                            '''
-
+                    if self.m.model() == 'Singlet':
+                        if index in [4, 5, 6, 7]:
+                            return get_xs_from_relative_width_interpolation([4, 5, 6, 7])
+                        elif index in [15, 16, 17]:
+                            return get_xs_from_coupling_strength_interpolation([15, 16, 17])
                         else:
-                            expected_or_observed = interp1d(self.MT[index], t[index], 'linear')
-                            d = expected_or_observed(self.m.get_mT())
-                            return d
-
-                    else:
-                        d = -1
-                        return d
+                            expected_or_observed = interp1d(self.MB[index], t[index], 'linear')
+                            expt_xs = expected_or_observed(self.m.get_mB())
+                            return expt_xs
+                    elif self.m.model() == 'Doublet':
+                        if index in [5, 6, 7, 8]:
+                            return get_xs_from_relative_width_interpolation([5, 6, 7, 8])
+                        elif index in [13, 14, 15]:
+                            return get_xs_from_coupling_strength_interpolation([13, 14, 15])
+                        else:
+                            expected_or_observed = interp1d(self.MB[index], t[index], 'linear')
+                            expt_xs = expected_or_observed(self.m.get_mB())
+                            return expt_xs
+                else:
+                    return -1
+            elif self.VLX:
+                if min(self.MX[index]) <= self.m.get_mX() <= max(self.MX[index]):
+                    expected_or_observed = interp1d(self.MX[index], t[index], 'linear')
+                    d = expected_or_observed(self.m.get_mX())
+                    return d
+                else:
+                    return -1
+            elif self.VLY:
+                if min(self.MY[index]) <= self.m.get_mY() <= max(self.MY[index]):
+                    expected_or_observed = interp1d(self.MY[index], t[index], 'linear')
+                    d = expected_or_observed(self.m.get_mY())
+                    return d
+                else:
+                    return -1
             else:
-                d = 1
-                return d
-        #else:
-        #    return -1
+                return self.get_expt_xs_from_2d_interpolation(index, t)
+        else:
+            d = 1
+            return d
 
     def expected_ratio_calc(self):
         maxi = float('-inf')
         pos = -1
         for index, k in enumerate(self.key):
             n = self.numerator(index)
-            d = self.denominator(n, index, self.obs)
-            if d == -1 or n == -1:
+            d_obs = self.denominator(n, index, self.obs)
+            print("denom:", d_obs, index)
+            print("num:", n, index)
+            if d_obs == -1 or n == -1:
                 continue
             else:
-                rat = n / d
-                if rat >= maxi:
-                    maxi = rat
+                obs_rat = n / d_obs
+                if obs_rat >= maxi:
+                    maxi = obs_rat
                     pos = index
-        self.exp_ratio = maxi
         return pos
 
     def check_channel(self):
         position = self.expected_ratio_calc()
-        numerator = self.numerator(position)
-        d = self.denominator(numerator, position, self.obs)
-        if numerator == -1 or d == -1:
+        predicted_xs = self.numerator(position)
+        observed_xs = self.denominator(predicted_xs, position, self.obs)
+        expected_xs = self.denominator(predicted_xs, position, self.exp)
+        if predicted_xs == -1 or observed_xs == -1:
             observed_ratio = float('-inf')
+            expected_ratio = float('-inf')
         else:
-            observed_ratio = numerator / d
+            observed_ratio = predicted_xs / observed_xs
+            expected_ratio = predicted_xs / expected_xs
         self.obs_ratio = observed_ratio
+        self.exp_ratio = expected_ratio
         if self.obs_ratio >= 1:
             self.result = 0
             self.channel = position
@@ -628,13 +293,84 @@ class TheoryCalc(Tables, Result):
         print("xs result:", self.result, self.obs_ratio, self.exp_ratio, self.channel)
         return self.result, self.obs_ratio, self.exp_ratio, self.channel
 
-    def index_finding(self):
-        indexes = []
-        for k in T_width_mass_ratio_keys['0.05<=r<=0.3'][self.m.model()]:
-            indexes.append(self.key.index(k))
-            print(indexes)
-            if len(indexes) % 3 == 0:
-                print("initiale indexes:", indexes)
-                indexes.insert(0, indexes[0] - 1)
-                print("indexes:", indexes)
-                return indexes
+    def get_expt_xs_from_2d_interpolation(self, index, expt_table):
+        def interpolation_based_on_kappa_keys(desired_key):
+            if '==' not in desired_key:
+                t_indexes = [self.key.index(k) for k in T_kappa_keys[desired_key][self.m.model()]
+                             if k in self.key]
+
+                min_kappa, max_kappa = [float(st) for st in desired_key.split('<=') if st != 'k']
+                coupling_strength_arr = np.linspace(min_kappa, max_kappa, len(t_indexes))
+                print("coupling_array:", coupling_strength_arr)
+                print("indexes:", t_indexes)
+                coupling_strength_value = self.m.get_coupling_strength()
+                mT = self.m.get_mT()
+                relative_width_values = relative_width_value = None
+                expt_input = (t_indexes, self.MT, relative_width_values, coupling_strength_arr,
+                              expt_table, mT, relative_width_value, coupling_strength_value)
+                expt_xsec = interpolate2d(expt_input, theo_input=(None,), case='expt')
+                return expt_xsec
+            else:
+                expect_or_observ = interp1d(self.MT[index], expt_table[index], 'linear')
+                expt_xsec = expect_or_observ(self.m.get_mT())
+                return expt_xsec
+
+        def interpolation_based_on_width_keys():
+            relative_width_values = [0.05, 0.1, 0.2, 0.3]
+            indexes = []
+            t_indexes = []
+            for k in T_width_mass_ratio_keys['0.05<=r<=0.3'][self.m.model()]:
+                indexes.append(self.key.index(k))
+                if len(indexes) % 3 == 0:
+                    indexes.insert(0, indexes[0] - 1)
+                    t_indexes = indexes.copy()
+                    print("table_indexes:", t_indexes)
+                    indexes.clear()
+            print("Final table_indexes:", t_indexes)
+            print("table", relative_width_values)
+            relative_width_value = self.m.get_width_mass_ratio()
+            mT = self.m.get_mT()
+            coupling_strength_arr = coupling_strength_value = None
+            expt_input = (t_indexes, self.MT, relative_width_values, coupling_strength_arr,
+                          expt_table, mT, relative_width_value, coupling_strength_value)
+            expt_xsec = interpolate2d(expt_input, theo_input=(None,), case='expt')
+            return expt_xsec
+
+        if min(self.MT[index]) <= self.m.get_mT() <= max(self.MT[index]):
+            if self.m.model() == 'Singlet':
+                for key1 in T_kappa_keys.keys():
+                    if self.key[index] in T_kappa_keys[key1][self.m.model()]:
+                        expt_xs = interpolation_based_on_kappa_keys(key1)
+                        return expt_xs
+
+                if self.key[index] in T_width_mass_ratio_keys['0.05<=r<=0.3'][self.m.model()]:
+                    expt_xs = interpolation_based_on_width_keys()
+                    return expt_xs
+                else:
+                    expected_or_observed = interp1d(self.MT[index], expt_table[index], 'linear')
+                    expt_xs = expected_or_observed(self.m.get_mT())
+                    return expt_xs
+
+            elif self.m.model() == 'Doublet':
+                for key1 in T_kappa_keys.keys():
+                    if self.key[index] in T_kappa_keys[key1][self.m.model()]:
+                        expt_xs = interpolation_based_on_kappa_keys(key1)
+                        return expt_xs
+
+                if self.key[index] in T_width_mass_ratio_keys['0.05<=r<=0.3'][self.m.model()]:
+                    if self.key[index] in T_width_mass_ratio_keys['0.05<=r<=0.3'][self.m.model()]:
+                        expt_xs = interpolation_based_on_width_keys()
+                        return expt_xs
+
+                else:
+                    expected_or_observed = interp1d(self.MT[index], expt_table[index], 'linear')
+                    expt_xs = expected_or_observed(self.m.get_mT())
+                    return expt_xs
+            else:
+                expected_or_observed = interp1d(self.MT[index], expt_table[index], 'linear')
+                expt_xs = expected_or_observed(self.m.get_mT())
+                return expt_xs
+
+        else:
+            expt_xs = -1
+            return expt_xs

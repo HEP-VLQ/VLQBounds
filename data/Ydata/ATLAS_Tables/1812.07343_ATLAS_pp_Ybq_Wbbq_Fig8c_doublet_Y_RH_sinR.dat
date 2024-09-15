@@ -1,0 +1,21 @@
+#arXiv:1812.07343
+#title:Search for single production of vector-like quarks decaying into $Wb$ in $pp$ collisions at $\sqrt{s} = 13$ TeV with the ATLASdetector
+#07343_ATLAS_36.1fb-1
+#M.~Aaboud show al.ATLAS Collaboration
+#Energy 13000 GeV
+#pp→Tbq→ Wbbq, Doublet (B, Y) Y RH
+#Fig 8c
+#Mass (GeV), obs, exp
+800 0.17 0.20
+900 0.18 0.19
+1000 0.17 0.17
+1100 0.17 0.18
+1200 0.17 0.20
+1300 0.19 0.22
+1400 0.24 0.25
+1500 0.31 0.28
+1600 0.45 0.37
+1700 0.59 0.46
+1800 0.55 0.43
+
+

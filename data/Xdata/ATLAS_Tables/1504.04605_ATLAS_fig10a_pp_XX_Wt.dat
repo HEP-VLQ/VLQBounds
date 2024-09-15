@@ -1,0 +1,18 @@
+#arXiv:1504.04605
+#title:Analysis of events with b-jets and a pair of leptons of the same charge in $pp$ collisions at $\sqrt{s}​=$8 TeV with the ATLAS detector
+#luminosity 20.3 fb-1 
+#Energy 8000 GeV 
+#G Aad show all.ATLAS Collaborations 
+#Fig10a 
+#pp → XX → Wt
+#Mass(GeV), obs(pb), exp(pb) 
+600 0.05087 0.03113
+650 0.04395 0.02695
+700 0.04327 0.02567
+750 0.03693 0.02206
+800 0.03417 0.02036
+850 0.03394 0.02001
+900 0.03312 0.02013
+950 0.02953 0.01809
+1000 0.03086 0.01859
+

@@ -13,7 +13,7 @@ def calculate_decay_width(involved_masses: list, sin_angle=None, kappa=None, wid
                 else:
                     raise Exception("Calculation error: Width, universal coupling, and mixing are all None.")
             else:
-                if model == 'Singlet':
+                if model == 'Singlet' or model == 'Triplet':
                     k = kappa / np.sqrt(2)
                 else:
                     k = kappa
@@ -35,14 +35,14 @@ def calculate_decay_width(involved_masses: list, sin_angle=None, kappa=None, wid
                 else:
                     raise Exception("Calculation error: Width, universal coupling, and mixing are all None.")
             else:
-                if model == 'Singlet':
+                if model == 'Singlet' or model == 'Triplet':
                     k = kappa / np.sqrt(2)
                 else:
                     k = kappa
                 width = calculate_width(decay_constants, m_vlq, m_A, [k, 0], m_q)
                 return width
         else:
-            if model == 'Singlet':
+            if model == 'Singlet' or model == 'Triplet':
                 k = kappa_coupling_from_width(m_vlq, width_ratio) / np.sqrt(2)
             else:
                 k = kappa_coupling_from_width(m_vlq, width_ratio)

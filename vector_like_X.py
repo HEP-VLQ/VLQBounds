@@ -78,7 +78,7 @@ class DoubletX:
     def get_xs_pp_QQ(self):
         mX = self.get_mX()
         xs_pp_XX = get_theo_xs_from_tables(mX, 'pp_QQ_NNLO.dat')
-        return xs_pp_XX
+        return xs_pp_XX / 1000
 
 
 

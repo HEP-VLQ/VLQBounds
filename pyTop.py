@@ -6,9 +6,12 @@ from utils import *
 from coupling import Coupling
 
 
-class PyTop(Coupling):
+models = (SingletT, DoubletT, PureTDecay, SingletB, DoubletB, PureBDecay, DoubletX, DoubletY, TripletY)
+
+
+class VLQBounds(Coupling):
     def __init__(self, m):
-        if isinstance(m, (SingletT, DoubletT, PureTDecay, SingletB, DoubletB, PureBDecay, DoubletX, DoubletY)):
+        if isinstance(m, models):
             super().__init__(m)
             self.m = m
             self.df = c.df
@@ -22,7 +25,6 @@ class PyTop(Coupling):
             self.VLX = True
         elif vlq == 'Y':
             self.VLY = True
-
 
     def filling_channels_data(self):
         self.initialize_tables_cms_and_atlas()
@@ -81,6 +83,8 @@ class PyTop(Coupling):
                     self.m.set_sin_r(kwargs[sin_key])
                 elif self.m.get_which_doublet() == 'TB':
                     self.m.set_sin_d_r(kwargs[sin_key])
+            elif isinstance(self.m, TripletY):
+                self.m.set_sin_down_left(kwargs[sin_key])
 
         if isinstance(self.m, SingletT):
             self.m.set_mT(kwargs[mass_key])
@@ -97,47 +101,53 @@ class PyTop(Coupling):
         elif isinstance(self.m, DoubletB):
             self.m.set_mB(kwargs[mass_key])
             self.check_mass_range(kwargs[mass_key], 'B')
+
         elif isinstance(self.m, DoubletX):
             self.m.set_mX(kwargs[mass_key])
             self.check_mass_range(kwargs[mass_key], 'X')
-        elif isinstance(self.m, DoubletY):
+
+        elif isinstance(self.m, (DoubletY, TripletY)):
             self.m.set_mY(kwargs[mass_key])
             self.check_mass_range(kwargs[mass_key], 'Y')
 
 
-    def T_singlet_params(self, **kwargs):
+    def singletT_params(self, **kwargs):
         self.validate_params(kwargs, "mT", {"k_T", "w_m", "s_l"})
         self.set_mass_and_coupling(kwargs, "mT", "k_T", "w_m", "s_l")
 
-    def B_singlet_params(self, **kwargs):
+    def singletB_params(self, **kwargs):
         self.validate_params(kwargs, "mB", {"k_B", "w_m", "s_l"})
         self.set_mass_and_coupling(kwargs, "mB", "k_B", "w_m", "s_l")
 
-    def T_in_doublet_TB_params(self, **kwargs):
+    def doubletT_TB_params(self, **kwargs):
         self.validate_params(kwargs, "mT", {"k_T", "w_m", "s_u_r"})
         self.m.change_to_TB()
         self.set_mass_and_coupling(kwargs, "mT", "k_T", "w_m", "s_u_r")
 
-    def B_in_doublet_TB_params(self, **kwargs):
+    def doubletB_TB_params(self, **kwargs):
         self.validate_params(kwargs, "mB", {"k_B", "w_m", "s_d_r"})
         self.m.change_to_TB()
         self.set_mass_and_coupling(kwargs, "mB", "k_B", "w_m", "s_d_r")
 
-    def T_in_doublet_XT_params(self, **kwargs):
+    def doubletT_XT_params(self, **kwargs):
         self.validate_params(kwargs, "mT", {"k_T", "w_m", "s_r"})
         self.set_mass_and_coupling(kwargs, "mT", "k_T", "w_m", "s_r")
 
-    def X_in_doublet_XT_params(self, **kwargs):
+    def doubletX_XT_params(self, **kwargs):
         self.validate_params(kwargs, "mX", {"k_X", "w_m", "s_r"})
         self.set_mass_and_coupling(kwargs, "mX", "k_X", "w_m", "s_r")
 
-    def B_in_doublet_BY_params(self, **kwargs):
+    def doubletB_BY_params(self, **kwargs):
         self.validate_params(kwargs, "mB", {"k_B", "w_m", "s_r"})
         self.set_mass_and_coupling(kwargs, "mB", "k_B", "w_m", "s_r")
 
-    def Y_in_doublet_BY_params(self, **kwargs):
+    def doubletY_BY_params(self, **kwargs):
         self.validate_params(kwargs, "mY", {"k_Y", "w_m", "s_r"})
         self.set_mass_and_coupling(kwargs, "mY", "k_Y", "w_m", "s_r")
+
+    def tripletY_TBY_params(self, **kwargs):
+        self.validate_params(kwargs, "mY", {"k_Y", "w_m", "s_d_l"})
+        self.set_mass_and_coupling(kwargs, "mY", "k_Y", "w_m", "s_d_l")
 
     def check_singlet_limit(self):
         self.check_channel()
@@ -180,6 +190,9 @@ class PyTop(Coupling):
         self.print_result()
         i = self.channel
         self.data_frame(i)
+
+    def get_key(self):
+        self.get_sensitive_limits_info()
 
     def set_df_attributes(self, mass, mixing, process, expt, luminosity, energy, label, which_doublet, channel):
         self.df = df_making(
@@ -259,8 +272,14 @@ class PyTop(Coupling):
                 return self.m.get_sin_right()
             else:
                 return self.m.get_sin_down_right()
-        elif self.VLY or self.VLX:
-            self.m.get_sin_right()
+        elif self.VLY:
+            if self.m.model() == 'Doublet':
+                return self.m.get_sin_right()
+            else:
+                return self.m.get_sin_down_left()
+        elif self.VLX:
+            if self.m.model() == 'Doublet':
+                return self.m.get_sin_right()
         else:
             if self.m.get_which_doublet() == 'TX':
                 return self.m.get_sin_right()
@@ -322,7 +341,10 @@ class PyTop(Coupling):
             print(f"Vector-like Y mass: {self.m.get_mY()}")
             print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
             print(f"coupling strength: {self.m.get_coupling_strength()}")
-            print(f"sin_right:", self.m.get_sin_right())
+            if self.m.model() == 'Doublet':
+                print(f"sin_right:", self.m.get_sin_right())
+            else:
+                print(f"s_d_l:", self.m.get_sin_down_left())
             if self.channel != -1:
                 if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
                     if self.channel < len(self.key):
@@ -385,6 +407,7 @@ class PyTop(Coupling):
                 else:
                     key = self.key
                     M_vlq = self.MB
+
         elif vlq == 'X':
             if not is_array_full_of_none(self.coupling_key):
                 if is_array_full_of_none(self.key):
@@ -399,6 +422,7 @@ class PyTop(Coupling):
                 else:
                     key = self.key
                     M_vlq = self.MX
+
         elif vlq == 'Y':
             if not is_array_full_of_none(self.coupling_key):
                 if is_array_full_of_none(self.key):
@@ -414,6 +438,7 @@ class PyTop(Coupling):
                     key = self.key
                     M_vlq = self.MY
 
+
         mini = float("inf")
         maxi = float("-inf")
         for i, k in enumerate(key):
@@ -422,6 +447,6 @@ class PyTop(Coupling):
             if max(M_vlq[i]) > maxi:
                 maxi = max(M_vlq[i])
         if m < mini or m > maxi:
-            raise Exception(f"Error in mass range. It must between {mini} and {maxi}")
+            print(f"the vlq mass {m} is beyond the experimental mass range [{mini}, {maxi}]")
 
 

@@ -63,34 +63,51 @@ class SingletB:
     def get_xs_pp_QQ(self):
         mB = self.get_mB()
         xs_pp_BB = get_theo_xs_from_tables(mB, 'pp_QQ_NNLO.dat')
-        return xs_pp_BB
+        return xs_pp_BB / 1000
 
     def get_xs_pp_Bbq_tWbq(self, i):
-        if i == 21:
+        if i == 20:
             mB = self.get_mB()
             xs_pp_Bb_tW = get_theo_xs_from_tables(mB, '2111.10216_Fig4_left_pp_B_Wt_singlet_theo.dat', vlq='B')
-            return xs_pp_Bb_tW * 1000
+            return xs_pp_Bb_tW
 
     def get_xs_pp_Btq_tWtq(self, i):
-        if i == 22:
+        if i == 21:
             mB = self.get_mB()
             xs_pp_Bb_tW = get_theo_xs_from_tables(mB, '2111.10216_Fig4_right_pp_Bt_Wt_singlet_theo.dat', vlq='B')
-            return xs_pp_Bb_tW * 1000
+            return xs_pp_Bb_tW
 
     def get_xs_pp_Bj_bHj_ts_channels(self, i):
         if i in [15, 16, 17]:
             mB = self.get_mB()
-            k = self.get_coupling_strength()
-            xs_pp_Bj_bH = interp2d_xs_theo('2308.02595', 'singlet', mB, k, vlq='B')
-            return xs_pp_Bj_bH * 1000
+            relative_width_arr = relative_width_value = None
+            coupling_strength_value = self.get_coupling_strength()
+            MB_arr, coupling_strength_arr, xs_theo_arr = get_data_from_files('2308.02595', 'singlet', 'B')
+
+            theo_input = (MB_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mB, relative_width_value, coupling_strength_value)
+
+            xs_pp_Bb_bH = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            return xs_pp_Bb_bH
 
 
     def get_xs_pp_Bbq_bHbq(self, i):
         if i in [4, 5, 6, 7]:
             mB = self.get_mB()
-            w = self.get_width_mass_ratio()
-            xs_pp_Bb_bH = interp2d_xs_theo('1802.01486', 'singlet', mB, w, vlq='B')
-            return xs_pp_Bb_bH * 1000
+
+            coupling_strength_arr = coupling_strength_value = None
+
+            relative_width_value = self.get_width_mass_ratio()
+
+            MB_arr, relative_width_arr, xs_theo_arr = get_data_from_files('1802.01486', 'singlet', 'B')
+
+            theo_input = (MB_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mB, relative_width_value, coupling_strength_value)
+
+            xs_pp_Bb_bH = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            return xs_pp_Bb_bH
 
     def get_xs_pp_Bbq_bZbq(self, i):
         if i == 19:
@@ -168,7 +185,7 @@ class SingletB:
 
 
 class DoubletB:
-
+    """indexes must be checked"""
     def __init__(self):
         self.__model = 'Doublet'
         self.__mB_theo = None
@@ -255,24 +272,41 @@ class DoubletB:
         return xs_pp_BB
 
     def get_xs_pp_Bbq_bHbq(self, i):
-        if i in [5, 6, 7, 8]:
+        if i in [3, 4, 5, 6]:
             mB = self.get_mB()
-            w = self.get_width_mass_ratio()
-            xs_pp_Bb_bH = interp2d_xs_theo('1802.01486', 'doublet', mB, w, vlq='B')
-            return xs_pp_Bb_bH * 1000
+
+            coupling_strength_arr = coupling_strength_value = None
+
+            relative_width_value = self.get_width_mass_ratio()
+
+            MB_arr, relative_width_arr, xs_theo_arr = get_data_from_files('1802.01486', 'doublet', 'B')
+
+            theo_input = (MB_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mB, relative_width_value, coupling_strength_value)
+
+            xs_pp_Bb_bH = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            return xs_pp_Bb_bH
 
     def get_xs_pp_Bj_bHj_ts_channels(self, i):
-        if i in [15, 16, 17]:
+        if i in [13, 14, 15]:
             mB = self.get_mB()
-            k = self.get_coupling_strength()
-            xs_pp_Bj_bH = interp2d_xs_theo('2308.02595', 'doublet', mB, k, vlq='B')
-            return xs_pp_Bj_bH * 1000
+            relative_width_arr = relative_width_value = None
+            coupling_strength_value = self.get_coupling_strength()
+            MB_arr, coupling_strength_arr, xs_theo_arr = get_data_from_files('2308.02595', 'doublet', 'B')
+
+            theo_input = (MB_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mB, relative_width_value, coupling_strength_value)
+
+            xs_pp_Bb_bH = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            return xs_pp_Bb_bH
 
     def get_xs_pp_Bbq_tWbq(self, i):
-        if i == 20:
+        if i == 18:
             mB = self.get_mB()
             xs_pp_Bb_tW = get_theo_xs_from_tables(mB, '2111.10216_Fig4_left_pp_B_Wt_doublet_theo.dat', vlq='B')
-            return xs_pp_Bb_tW * 1000
+            return xs_pp_Bb_tW
 
     def B_decay_to_wt_BY(self):
         mB = self.get_mB()
