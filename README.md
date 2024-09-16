@@ -1,4 +1,24 @@
-# pyT
-A python package to check LHC upper limits at 95% confidence level on Vector-like T. This code can be used to check whether a parameter point is excluded or not.
-# Authors
-The package is developed by [Rachid Benbrik](r.benbrik@uca.ac.ma), [Mohamed Ech-chaouy](m.echchaouy.ced@uca.ac.ma) and [khawla salime](k.salime.ced@uca.ac.ma).
+# VLQBounds
+
+**VLQBounds** is a Python 3 tool designed to test if a theoretical parameter point in vector-like quark (VLQ) models is excluded at the 95% confidence level based on exclusion bounds obtained from LHC data.
+
+## Authors
+
+This package is developed by:
+- [Rachid Benbrik](mailto:r.benbrik@uca.ac.ma)
+- [Mohamed Boukidi](mailto:mohammed.boukidi@ced.uca.ac.ma)
+- [Mohamed Ech-chaouy](mailto:m.echchaouy.ced@uca.ac.ma)
+- [Khawla Salime](mailto:k.salime.ced@uca.ac.ma)
+
+## Installation Instructions
+
+To use VLQBounds, you need to install the following dependencies: `numpy`, `scipy`, and `pandas`. These can be easily installed using `pip`. First, make sure `pip` is installed:
+
+```bash
+sudo apt install python3-pip python3-tk
+```
+Then, install the required Python packages:
+```bash
+pip3 install numpy scipy pandas
+```
+We included some examples in the example folder, 
