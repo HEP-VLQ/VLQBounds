@@ -21,4 +21,7 @@ Then, install the required Python packages:
 ```bash
 pip3 install numpy scipy pandas
 ```
-We included some examples in the example folder, 
+We have provided some examples in the examples folder. To run an example, use the following command:
+```bash
+python3 -m examples.singlet_T
+```
