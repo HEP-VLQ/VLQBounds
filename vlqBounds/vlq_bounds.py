@@ -18,7 +18,7 @@ class VLQBounds(Coupling):
 
     def set_VLQ_type(self, vlq):
         if vlq not in ['T', 'B', 'X', 'Y']:
-            raise ValueError("Error, VLQ must be 'T' or 'B'")
+            raise ValueError("Error, VLQ must be 'T', 'B', 'X' or 'Y'")
         if vlq == 'B':
             self.VLB = True
         elif vlq == 'X':

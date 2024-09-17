@@ -193,7 +193,6 @@ class SingletT:
                           mT, relative_width_value, coupling_strength_value)
 
             xs_Tb_tZ = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
-            print(xs_Tb_tZ)
 
             return xs_Tb_tZ
 

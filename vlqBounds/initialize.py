@@ -20,6 +20,7 @@ class Tables:
         self.file_name = None
         self.cs_keys = {}
         self.TB_XT_keys = {}
+        self.TB_YB_keys = {}
         self.VLB = False
         self.VLX = False
         self.VLY = False

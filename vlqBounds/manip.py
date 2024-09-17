@@ -289,7 +289,6 @@ class TheoryCalc(Tables, Result):
         else:
             self.result = 1
             self.channel = position
-        print("xs result:", self.result, self.obs_ratio, self.exp_ratio, self.channel)
         return self.result, self.obs_ratio, self.exp_ratio, self.channel
 
     def get_expt_xs_from_2d_interpolation(self, index, expt_table):
@@ -300,8 +299,6 @@ class TheoryCalc(Tables, Result):
 
                 min_kappa, max_kappa = [float(st) for st in desired_key.split('<=') if st != 'k']
                 coupling_strength_arr = np.linspace(min_kappa, max_kappa, len(t_indexes))
-                print("coupling_array:", coupling_strength_arr)
-                print("indexes:", t_indexes)
                 coupling_strength_value = self.m.get_coupling_strength()
                 mT = self.m.get_mT()
                 relative_width_values = relative_width_value = None
@@ -323,10 +320,7 @@ class TheoryCalc(Tables, Result):
                 if len(indexes) % 3 == 0:
                     indexes.insert(0, indexes[0] - 1)
                     t_indexes = indexes.copy()
-                    print("table_indexes:", t_indexes)
                     indexes.clear()
-            print("Final table_indexes:", t_indexes)
-            print("table", relative_width_values)
             relative_width_value = self.m.get_width_mass_ratio()
             mT = self.m.get_mT()
             coupling_strength_arr = coupling_strength_value = None

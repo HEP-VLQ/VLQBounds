@@ -824,7 +824,6 @@ class Coupling(TheoryCalc):
                 exp = self.get_limit_from_data(coupling_in, position2, self.coupling_exp_lower, self.coupling_MB_exp)
                 self.obs_ratio, self.exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
                 self.set_result(position)
-                print("coupling result:", self.result, self.obs_ratio, self.exp_ratio, self.channel)
                 return self.result, self.obs_ratio, self.exp_ratio, self.channel
             elif self.m.model() == 'Doublet':
                 position = self.identify_strong_limit(self.coupling_obs_lower, self.coupling_MB_obs)
@@ -834,7 +833,6 @@ class Coupling(TheoryCalc):
                 exp = self.get_limit_from_data(coupling_in, position2, self.coupling_exp_lower, self.coupling_MB_exp)
                 self.obs_ratio, self.exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
                 self.set_result(position)
-                print("coupling result:", self.result, self.obs_ratio, self.exp_ratio, self.channel)
                 return self.result, self.obs_ratio, self.exp_ratio, self.channel
             else:
                 raise Exception("Error. There are no coupling limits for this model")
@@ -846,7 +844,6 @@ class Coupling(TheoryCalc):
             exp = self.get_limit_from_data(coupling_in, position2, self.coupling_exp_lower, self.coupling_MX_exp)
             self.obs_ratio, self.exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
             self.set_result(position)
-            print("coupling result:", self.result, self.obs_ratio, self.exp_ratio, self.channel)
             return self.result, self.obs_ratio, self.exp_ratio, self.channel
         elif self.VLY:
             position = self.identify_strong_limit(self.coupling_obs_lower, self.coupling_MY_obs)
@@ -856,7 +853,6 @@ class Coupling(TheoryCalc):
             exp = self.get_limit_from_data(coupling_in, position2, self.coupling_exp_lower, self.coupling_MY_exp)
             self.obs_ratio, self.exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
             self.set_result(position)
-            print("coupling result:", self.result, self.obs_ratio, self.exp_ratio, self.channel)
             return self.result, self.obs_ratio, self.exp_ratio, self.channel
         else:
             if self.m.model() == 'Singlet':
@@ -877,7 +873,6 @@ class Coupling(TheoryCalc):
                 else:
                     raise Exception(f"The coupling key {self.coupling_key[position]} is not found in kappa, "
                                     f"sin_left and width ratio keys")
-                print("coupling result:", self.result, self.obs_ratio, self.exp_ratio, self.channel)
                 return self.result, self.obs_ratio, self.exp_ratio, self.channel
 
             elif self.m.model() == 'Doublet':
@@ -892,7 +887,6 @@ class Coupling(TheoryCalc):
                 else:
                     raise Exception(f"The coupling key {self.coupling_key[position]} "
                                     f"is not found in kappa or width keys.")
-                print("coupling result:", self.result, self.obs_ratio, self.exp_ratio, self.channel)
                 return self.result, self.obs_ratio, self.exp_ratio, self.channel
             else:
                 raise Exception("Error. There are no coupling limits for this model")
@@ -915,7 +909,6 @@ class Coupling(TheoryCalc):
             else:
                 self.channel = coupling_channel
         self.most_sensitive_channels.append(self.channel)
-        print("end results:", self.result, self.obs_ratio, self.exp_ratio, self.channel)
 
     def all_couplings(self):
         file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'keys', 'coupling_info.dat'))
@@ -950,9 +943,9 @@ class Coupling(TheoryCalc):
                         f"\t sqrt(s) = {self.coupling_energy[i]} TeV\t luminosity = {self.coupling_luminosity[i]} fb-1\n")
 
     def get_sensitive_limits_info(self):
-        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'keys', 'strong_channels.dat'))
+        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'keys', 'channels.key.dat'))
         with open(file_path, "w") as f:
-            f.write("************* limit information *****************\n")
+            f.write("************* channels information *****************\n")
             f.write("This File has been generated with VLQBounds version 0.1\n")
             f.write(f"With the {type(self.m).__name__[-1]} quark in the {self.m.model()} scenario\n")
             high_sensitivity_channels = np.unique(self.most_sensitive_channels)
