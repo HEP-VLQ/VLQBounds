@@ -7,7 +7,7 @@ def main():
     s = SingletT()
     pt = VLQBounds(s)
     pt.filling_couplings_and_xs_limits()
-    m_range = np.arange(800, 2200, 200)
+    m_range = np.arange(800, 2200, 1)
     for m in m_range:
         params = {
                 "mT": m,

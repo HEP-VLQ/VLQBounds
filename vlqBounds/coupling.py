@@ -1,4 +1,5 @@
 import os
+from typing import List, Optional
 import numpy as np
 from .models import *
 from .manip import TheoryCalc
@@ -9,36 +10,35 @@ from .utils import coupling_data_loading, max_min_mass_from_width_files, obs_exp
 class Coupling(TheoryCalc):
     def __init__(self, m):
         super().__init__(m)
-        self.coupling_luminosity = None
-        self.coupling_energy = None
-        self.which_coupling = None
-        self.coupling_process = None
-        self.coupling_exp_lower = None
-        self.coupling_obs_lower = None
-        self.coupling_exp_upper = None
-        self.coupling_obs_upper = None
-        self.coupling_MY_exp = None
-        self.coupling_MY_obs = None
-        self.coupling_MX_exp = None
-        self.coupling_MX_obs = None
-        self.coupling_MB_exp = None
-        self.coupling_MB_obs = None
-        self.coupling_MT_exp = None
-        self.coupling_MT_obs = None
-        self.coupling_expt = None
-        self.coupling_label = None
-        self.coupling_key = None
-        self.coupling_file_name = None
+        self.coupling_luminosity: Optional[List[float]] = None
+        self.coupling_energy: Optional[List[int]] = None
+        self.which_coupling: Optional[List[str]] = None
+        self.coupling_process: Optional[List[str]] = None
+        self.coupling_exp_lower: Optional[List[List[float]]] = None
+        self.coupling_obs_lower: Optional[List[List[float]]] = None
+        self.coupling_exp_upper: Optional[List[List[float]]] = None
+        self.coupling_obs_upper: Optional[List[List[float]]] = None
+        self.coupling_MY_exp: Optional[List[List[float]]] = None
+        self.coupling_MY_obs: Optional[List[List[float]]] = None
+        self.coupling_MX_exp: Optional[List[List[float]]] = None
+        self.coupling_MX_obs: Optional[List[List[float]]] = None
+        self.coupling_MB_exp: Optional[List[List[float]]] = None
+        self.coupling_MB_obs: Optional[List[List[float]]] = None
+        self.coupling_MT_exp: Optional[List[List[float]]] = None
+        self.coupling_MT_obs: Optional[List[List[float]]] = None
+        self.coupling_expt: Optional[List[str]] = None
+        self.coupling_label: Optional[List[str]] = None
+        self.coupling_key: Optional[List[str]] = None
+        self.coupling_file_name: Optional[List[str]] = None
         if isinstance(m, (SingletT, DoubletT, SingletB, DoubletB, DoubletX, DoubletY, TripletY)):
             self.m = m
         else:
             raise Exception('Invalid model. Must be a Singlet or Doublet')
-        self.sin_l_keys = []
-        self.sin_r_keys = []
-        self.k_keys = []
-        self.width_keys = []
-        self.mass_ratio = None
-        self.most_sensitive_channels = []
+        self.sin_l_keys: List[str] = []
+        self.sin_r_keys: List[str] = []
+        self.k_keys: List[str] = []
+        self.mass_ratio: Optional[float] = None
+        self.most_sensitive_channels: Optional[List[int]] = []
         self.initialize_coupling_data()
 
     def initialize_coupling_lists(self, number_of_atlas_cms_tables):
@@ -595,17 +595,11 @@ class Coupling(TheoryCalc):
                 elif self.coupling_key[i] in self.k_keys:
                     if self.which_coupling[i] == "|Tth_coupling|":
                         return self.m.get_sin_left()
-                elif self.coupling_key[i] in self.width_keys:
-                    if self.which_coupling[i] == "width_mass_ratio":
-                        return self.m.get_width_mass_ratio()
                 else:
                     raise Exception("Something went wrong in filling coupling tables")
             elif self.m.model() == 'Doublet':
                 if self.coupling_key[i] in self.k_keys:
                     return self.m.get_coupling_strength()
-                elif self.coupling_key[i] in self.width_keys:
-                    if self.which_coupling[i] == "width_mass_ratio":
-                        return self.m.get_width_mass_ratio()
                 else:
                     raise Exception("Something went wrong in filling coupling tables")
             else:
@@ -738,19 +732,19 @@ class Coupling(TheoryCalc):
 
     def set_result(self, pos):
         if pos == -1:
-            self.obs_ratio = -1
-            self.result = -1
-            self.channel = pos
+            self._obs_ratio = -1
+            self._result = -1
+            self._channel = pos
         else:
-            if self.obs_ratio >= 1:
-                self.result = 0
-                self.channel = pos
-            elif self.obs_ratio < 0:
-                self.result = -1
-                self.channel = pos
+            if self._obs_ratio >= 1:
+                self._result = 0
+                self._channel = pos
+            elif self._obs_ratio < 0:
+                self._result = -1
+                self._channel = pos
             else:
-                self.result = 1
-                self.channel = pos
+                self._result = 1
+                self._channel = pos
 
     def result_based_on_branches(self, pos, pos2, coupling, obs_lower):
         obs_upper_branch = self.get_limit_from_data(coupling, pos, self.coupling_obs_upper, self.coupling_MT_obs)
@@ -770,47 +764,47 @@ class Coupling(TheoryCalc):
 
         if pos in [2, 3]:
             if obs_lower <= coupling <= obs_upper_branch:
-                self.obs_ratio = coupling / obs_lower
-                self.result = 0
-                self.channel = pos
+                self._obs_ratio = coupling / obs_lower
+                self._result = 0
+                self._channel = pos
             elif obs_upper_branch <= coupling <= ch2_obs_upper_branch:
-                self.obs_ratio = coupling / obs_upper_branch
-                self.result = 0
-                self.channel = pos
+                self._obs_ratio = coupling / obs_upper_branch
+                self._result = 0
+                self._channel = pos
 
             elif coupling > ch2_obs_upper_branch and coupling > obs_upper_branch:
                 ch0_obs_lower = self.get_limit_from_data(coupling, 0, self.coupling_obs_lower,
-                                                                self.coupling_MT_obs)
+                                                         self.coupling_MT_obs)
                 ch1_obs_lower = self.get_limit_from_data(coupling, 1, self.coupling_obs_lower,
-                                                                self.coupling_MT_obs)
+                                                         self.coupling_MT_obs)
                 ch4_obs_lower = self.get_limit_from_data(coupling, 4, self.coupling_obs_lower, self.coupling_MT_obs)
 
                 if min(self.coupling_MT_obs[0]) <= self.m.get_mT() <= max(self.coupling_MT_obs[0]):
-                    self.obs_ratio = coupling / ch0_obs_lower
-                    self.result = 0
-                    self.channel = 0
+                    self._obs_ratio = coupling / ch0_obs_lower
+                    self._result = 0
+                    self._channel = 0
                 elif min(self.coupling_MT_obs[1]) <= self.m.get_mT() <= max(self.coupling_MT_obs[1]):
-                    self.obs_ratio = coupling / ch1_obs_lower
-                    self.result = 0
-                    self.channel = 1
+                    self._obs_ratio = coupling / ch1_obs_lower
+                    self._result = 0
+                    self._channel = 1
 
                 elif min(self.coupling_MT_obs[4]) <= self.m.get_mT() <= max(self.coupling_MT_obs[4]):
-                    self.obs_ratio = coupling / ch4_obs_lower
-                    self.result = 0
-                    self.channel = 4
+                    self._obs_ratio = coupling / ch4_obs_lower
+                    self._result = 0
+                    self._channel = 4
 
                 else:
-                    self.obs_ratio = max(ch2_obs_upper_branch, obs_upper_branch) / coupling
-                    self.result = 1
-                    self.channel = pos
+                    self._obs_ratio = max(ch2_obs_upper_branch, obs_upper_branch) / coupling
+                    self._result = 1
+                    self._channel = pos
 
             else:
-                self.result = 1
-                self.channel = pos
+                self._result = 1
+                self._channel = pos
 
             if ch2_exp_upper_branch is not None and coupling >= ch2_exp_upper_branch:
                 expected_ratio = ch2_exp_upper_branch / coupling
-                self.exp_ratio = expected_ratio
+                self._exp_ratio = expected_ratio
         else:
             self.set_result(pos)
 
@@ -822,18 +816,18 @@ class Coupling(TheoryCalc):
                 coupling_in = self.model_coupling_calc(position)
                 obs = self.get_limit_from_data(coupling_in, position, self.coupling_obs_lower, self.coupling_MB_obs)
                 exp = self.get_limit_from_data(coupling_in, position2, self.coupling_exp_lower, self.coupling_MB_exp)
-                self.obs_ratio, self.exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
+                self._obs_ratio, self._exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
                 self.set_result(position)
-                return self.result, self.obs_ratio, self.exp_ratio, self.channel
+                return self._result, self._obs_ratio, self._exp_ratio, self._channel
             elif self.m.model() == 'Doublet':
                 position = self.identify_strong_limit(self.coupling_obs_lower, self.coupling_MB_obs)
                 position2 = self.identify_strong_limit(self.coupling_exp_lower, self.coupling_MB_exp)
                 coupling_in = self.model_coupling_calc(position)
                 obs = self.get_limit_from_data(coupling_in, position, self.coupling_obs_lower, self.coupling_MB_obs)
                 exp = self.get_limit_from_data(coupling_in, position2, self.coupling_exp_lower, self.coupling_MB_exp)
-                self.obs_ratio, self.exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
+                self._obs_ratio, self._exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
                 self.set_result(position)
-                return self.result, self.obs_ratio, self.exp_ratio, self.channel
+                return self._result, self._obs_ratio, self._exp_ratio, self._channel
             else:
                 raise Exception("Error. There are no coupling limits for this model")
         elif self.VLX:
@@ -842,18 +836,18 @@ class Coupling(TheoryCalc):
             coupling_in = self.model_coupling_calc(position)
             obs = self.get_limit_from_data(coupling_in, position, self.coupling_obs_lower, self.coupling_MX_obs)
             exp = self.get_limit_from_data(coupling_in, position2, self.coupling_exp_lower, self.coupling_MX_exp)
-            self.obs_ratio, self.exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
+            self._obs_ratio, self._exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
             self.set_result(position)
-            return self.result, self.obs_ratio, self.exp_ratio, self.channel
+            return self._result, self._obs_ratio, self._exp_ratio, self._channel
         elif self.VLY:
             position = self.identify_strong_limit(self.coupling_obs_lower, self.coupling_MY_obs)
             position2 = self.identify_strong_limit(self.coupling_exp_lower, self.coupling_MY_exp)
             coupling_in = self.model_coupling_calc(position)
             obs = self.get_limit_from_data(coupling_in, position, self.coupling_obs_lower, self.coupling_MY_obs)
             exp = self.get_limit_from_data(coupling_in, position2, self.coupling_exp_lower, self.coupling_MY_exp)
-            self.obs_ratio, self.exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
+            self._obs_ratio, self._exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
             self.set_result(position)
-            return self.result, self.obs_ratio, self.exp_ratio, self.channel
+            return self._result, self._obs_ratio, self._exp_ratio, self._channel
         else:
             if self.m.model() == 'Singlet':
                 position = self.identify_strong_limit(self.coupling_obs_lower, self.coupling_MT_obs)
@@ -866,28 +860,33 @@ class Coupling(TheoryCalc):
                     exp_lower_branch = self.get_limit_from_data(coupling_in, position2,
                                                                 self.coupling_exp_lower, self.coupling_MT_exp)
 
-                    self.obs_ratio, self.exp_ratio = obs_exp_ratio_calc(coupling_in, obs_lower_branch, exp_lower_branch)
+                    self._obs_ratio, self._exp_ratio = (
+                        obs_exp_ratio_calc(coupling_in, obs_lower_branch, exp_lower_branch))
 
                     self.result_based_on_branches(position, position2, coupling_in, obs_lower_branch)
 
                 else:
                     raise Exception(f"The coupling key {self.coupling_key[position]} is not found in kappa, "
                                     f"sin_left and width ratio keys")
-                return self.result, self.obs_ratio, self.exp_ratio, self.channel
+                return self._result, self._obs_ratio, self._exp_ratio, self._channel
 
             elif self.m.model() == 'Doublet':
                 position = self.identify_strong_limit(self.coupling_obs_lower, self.coupling_MT_obs)
                 position2 = self.identify_strong_limit(self.coupling_exp_lower, self.coupling_MT_exp)
                 if self.coupling_key[position] in self.k_keys:
                     coupling_in = self.model_coupling_calc(position)
-                    obs = self.get_limit_from_data(coupling_in, position, self.coupling_obs_lower, self.coupling_MT_obs)
-                    exp = self.get_limit_from_data(coupling_in, position2, self.coupling_exp_lower, self.coupling_MT_exp)
-                    self.obs_ratio, self.exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
+                    obs = self.get_limit_from_data(coupling_in, position,
+                                                   self.coupling_obs_lower,
+                                                   self.coupling_MT_obs)
+                    exp = self.get_limit_from_data(coupling_in, position2,
+                                                   self.coupling_exp_lower,
+                                                   self.coupling_MT_exp)
+                    self._obs_ratio, self._exp_ratio = obs_exp_ratio_calc(coupling_in, obs, exp)
                     self.set_result(position)
                 else:
                     raise Exception(f"The coupling key {self.coupling_key[position]} "
                                     f"is not found in kappa or width keys.")
-                return self.result, self.obs_ratio, self.exp_ratio, self.channel
+                return self._result, self._obs_ratio, self._exp_ratio, self._channel
             else:
                 raise Exception("Error. There are no coupling limits for this model")
 
@@ -896,19 +895,19 @@ class Coupling(TheoryCalc):
         xs_res, xs_obs_ratio, xs_exp_ratio, xs_channel = self.check_channel()
         xs_is_stronger = biggest_ratio(coupling_obs_ratio, xs_obs_ratio)
         if xs_is_stronger:
-            self.result = xs_res
-            self.obs_ratio = xs_obs_ratio
-            self.exp_ratio = xs_exp_ratio
-            self.channel = xs_channel
+            self._result = xs_res
+            self._obs_ratio = xs_obs_ratio
+            self._exp_ratio = xs_exp_ratio
+            self._channel = xs_channel
         else:
-            self.result = coupling_res
-            self.obs_ratio = coupling_obs_ratio
-            self.exp_ratio = coupling_exp_ratio
+            self._result = coupling_res
+            self._obs_ratio = coupling_obs_ratio
+            self._exp_ratio = coupling_exp_ratio
             if coupling_channel != -1:
-                self.channel = coupling_channel + len(self.key)
+                self._channel = coupling_channel + len(self.key)
             else:
-                self.channel = coupling_channel
-        self.most_sensitive_channels.append(self.channel)
+                self._channel = coupling_channel
+        self.most_sensitive_channels.append(self._channel)
 
     def all_couplings(self):
         file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'keys', 'coupling_info.dat'))
@@ -920,7 +919,8 @@ class Coupling(TheoryCalc):
                 f.write("***********************************************************************\n")
                 f.write(f"channel {i}:\n")
                 f.write(f"{proc} \t\t {self.coupling_label[i]} ({self.coupling_expt[i]}) "
-                        f"\t sqrt(s) = {self.coupling_energy[i]} TeV\t luminosity = {self.coupling_luminosity[i]} fb-1\n")
+                        f"\t sqrt(s) = {self.coupling_energy[i]} TeV\t "
+                        f"luminosity = {self.coupling_luminosity[i]} fb-1\n")
 
     def coupling_and_xs_info(self):
         file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'keys', 'coupling_and_xs_info.dat'))
@@ -940,7 +940,8 @@ class Coupling(TheoryCalc):
                 f.write("***********************************************************************\n")
                 f.write(f"channel {i + len(self.key)}:\n")
                 f.write(f"{proc} \t\t {self.coupling_label[i]} ({self.coupling_expt[i]}) "
-                        f"\t sqrt(s) = {self.coupling_energy[i]} TeV\t luminosity = {self.coupling_luminosity[i]} fb-1\n")
+                        f"\t sqrt(s) = {self.coupling_energy[i]} TeV\t "
+                        f"luminosity = {self.coupling_luminosity[i]} fb-1\n")
 
     def get_sensitive_limits_info(self):
         file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'keys', 'channels.key.dat'))
@@ -988,7 +989,6 @@ class Coupling(TheoryCalc):
                     for j, coupling in enumerate(self.which_coupling)
                     if coupling == 'k_B'
                 ]
-                self.width_keys = 0
 
         elif self.VLX:
             self.k_keys = [
@@ -1019,4 +1019,3 @@ class Coupling(TheoryCalc):
                 for j, coupling in enumerate(self.which_coupling)
                 if coupling == 'k_T'
             ]
-

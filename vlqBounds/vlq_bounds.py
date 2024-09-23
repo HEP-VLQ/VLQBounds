@@ -158,25 +158,25 @@ class VLQBounds(Coupling):
     def check_SM_plus_TB_doublet_limit(self):
         self.check_channel()
         self.print_result()
-        i = self.channel
+        i = self._channel
         self.data_frame(i)
 
     def check_pure_limit(self):
         self.check_channel()
         self.print_result()
-        i = self.channel
+        i = self._channel
         self.data_frame(i)
 
     def check_coupling_limit(self):
         _, _, _, _ = self.coupling_limit()
         self.print_result()
-        i = self.channel
+        i = self._channel
         self.data_frame(i)
 
     def check_against_xs_and_coupling_limits(self):
         self.check_xs_and_coupling_limits()
         self.print_result()
-        i = self.channel
+        i = self._channel
         self.data_frame(i)
 
     def get_key(self):
@@ -189,10 +189,10 @@ class VLQBounds(Coupling):
             mixing=mixing,
             coupling=self.m.get_coupling_strength(),
             width_ratio=self.m.get_width_mass_ratio(),
-            result=self.result,
+            result=self._result,
             channel=channel,
-            obs_ratio=self.obs_ratio,
-            exp_ratio=self.exp_ratio,
+            obs_ratio=self._obs_ratio,
+            exp_ratio=self._exp_ratio,
             process=process[channel],
             experiment=expt[channel],
             luminosity=luminosity[channel],
@@ -236,7 +236,6 @@ class VLQBounds(Coupling):
                 return self.m.get_mY()
             else:
                 return self.m.get_mT()
-
 
         m_vlq = get_vlq_mass()
         mixing = get_mixing()
@@ -285,7 +284,6 @@ class VLQBounds(Coupling):
                                                  which_doublet,
                                                  chan)
 
-
     def print_result(self):
         print('', end='\t\t')
         print('VLQBounds v-0.1')
@@ -300,30 +298,30 @@ class VLQBounds(Coupling):
                 print(f"sin_right:", self.m.get_sin_right())
             elif self.m.model() == 'Doublet' and self.m.get_which_doublet() == 'TB':
                 print(f"sin_down_right:", self.m.get_sin_down_right())
-            if self.channel != -1:
+            if self._channel != -1:
                 if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
-                    if self.channel < len(self.key):
-                        print(f"Experiment: {self.expt[self.channel]}")
+                    if self._channel < len(self.key):
+                        print(f"Experiment: {self.expt[self._channel]}")
                     else:
-                        print(f"Experiment: {self.coupling_expt[self.channel - len(self.key)]}")
+                        print(f"Experiment: {self.coupling_expt[self._channel - len(self.key)]}")
                 elif not is_array_full_of_none(self.key):
-                    print(f"Experiment: {self.expt[self.channel]}")
+                    print(f"Experiment: {self.expt[self._channel]}")
                 elif not is_array_full_of_none(self.coupling_key):
-                    print(f"Experiment: {self.coupling_expt[self.channel]}")
+                    print(f"Experiment: {self.coupling_expt[self._channel]}")
             print(self)
         elif self.VLX:
             print(f"Vector-like X mass: {self.m.get_mX()}")
             print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
             print(f"coupling strength: {self.m.get_coupling_strength()}")
             print(f"sin_right:", self.m.get_sin_right())
-            if self.channel != -1:
+            if self._channel != -1:
                 if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
-                    if self.channel < len(self.key):
-                        print(f"Experiment: {self.expt[self.channel]}")
+                    if self._channel < len(self.key):
+                        print(f"Experiment: {self.expt[self._channel]}")
                     else:
-                        print(f"Experiment: {self.coupling_expt[self.channel - len(self.key)]}")
+                        print(f"Experiment: {self.coupling_expt[self._channel - len(self.key)]}")
                 elif not is_array_full_of_none(self.key):
-                    print(f"Experiment: {self.expt[self.channel]}")
+                    print(f"Experiment: {self.expt[self._channel]}")
                 elif not is_array_full_of_none(self.coupling_key):
                     print(f"Experiment: {self.coupling_expt[self.channel]}")
             print(self)
@@ -335,16 +333,16 @@ class VLQBounds(Coupling):
                 print(f"sin_right:", self.m.get_sin_right())
             else:
                 print(f"s_d_l:", self.m.get_sin_down_left())
-            if self.channel != -1:
+            if self._channel != -1:
                 if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
-                    if self.channel < len(self.key):
-                        print(f"Experiment: {self.expt[self.channel]}")
+                    if self._channel < len(self.key):
+                        print(f"Experiment: {self.expt[self._channel]}")
                     else:
-                        print(f"Experiment: {self.coupling_expt[self.channel - len(self.key)]}")
+                        print(f"Experiment: {self.coupling_expt[self._channel - len(self.key)]}")
                 elif not is_array_full_of_none(self.key):
-                    print(f"Experiment: {self.expt[self.channel]}")
+                    print(f"Experiment: {self.expt[self._channel]}")
                 elif not is_array_full_of_none(self.coupling_key):
-                    print(f"Experiment: {self.coupling_expt[self.channel]}")
+                    print(f"Experiment: {self.coupling_expt[self._channel]}")
             print(self)
         else:
             print(f"Vector-like T mass: {self.m.get_mT()}")
@@ -356,16 +354,16 @@ class VLQBounds(Coupling):
                 print(f"sin_right:", self.m.get_sin_right())
             elif self.m.model() == 'Doublet' and self.m.get_which_doublet() == 'TB':
                 print(f"sin_up_right:", self.m.get_sin_up_right())
-            if self.channel != -1:
+            if self._channel != -1:
                 if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
-                    if self.channel < len(self.key):
-                        print(f"Experiment: {self.expt[self.channel]}")
+                    if self._channel < len(self.key):
+                        print(f"Experiment: {self.expt[self._channel]}")
                     else:
-                        print(f"Experiment: {self.coupling_expt[self.channel - len(self.key)]}")
+                        print(f"Experiment: {self.coupling_expt[self._channel - len(self.key)]}")
                 elif not is_array_full_of_none(self.key):
-                    print(f"Experiment: {self.expt[self.channel]}")
+                    print(f"Experiment: {self.expt[self._channel]}")
                 elif not is_array_full_of_none(self.coupling_key):
-                    print(f"Experiment: {self.coupling_expt[self.channel]}")
+                    print(f"Experiment: {self.coupling_expt[self._channel]}")
             print(self)
 
     def check_mass_range(self, m, vlq='T'):
@@ -428,7 +426,6 @@ class VLQBounds(Coupling):
                     key = self.key
                     M_vlq = self.MY
 
-
         mini = float("inf")
         maxi = float("-inf")
         for i, k in enumerate(key):
@@ -462,5 +459,3 @@ def validate_params(kwargs, required_mass_key, valid_keys):
     other_key = set(kwargs.keys()) - {required_mass_key}
     if not other_key or other_key.pop() not in valid_keys:
         raise ValueError(f"Error, input must contain one of {valid_keys} besides '{required_mass_key}'")
-
-

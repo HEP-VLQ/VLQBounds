@@ -1,21 +1,22 @@
+from abc import ABC, abstractmethod
+from typing import Optional
 
 
-class Result:
-    def __init__(self):
-        self.result = None
-        self.channel = None
-        self.obs_ratio = None
-        self.exp_ratio = None
+class Result(ABC):
+    def __init__(self) -> None:
+        self._result: Optional[int] = None
+        self._channel: Optional[int] = None
+        self._obs_ratio: Optional[float] = None
+        self._exp_ratio: Optional[float] = None
 
-    def __str__(self):
+    @abstractmethod
+    def set_result(self, position: int) -> None:
+        pass
+
+    def __str__(self) -> str:
         return (
-            f"Exclusion result: {self.result} (1 allowed, 0 excluded)\n"
-            f"Channel         : {self.channel}\n"
-            f"Observed ratio  : {self.obs_ratio}\n"
-            f"Expected Ratio  : {self.exp_ratio}"
+            f"Exclusion result: {self._result} (1 = allowed, 0 = excluded)\n"
+            f"Channel         : {self._channel if self._channel is not None else 'N/A'}\n"
+            f"Observed ratio  : {self._obs_ratio if self._obs_ratio is not None else 'N/A'}\n"
+            f"Expected Ratio  : {self._exp_ratio if self._exp_ratio is not None else 'N/A'}"
         )
-
-
-
-
-

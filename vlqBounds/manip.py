@@ -1,4 +1,5 @@
 from scipy.interpolate import interp1d
+from typing import Tuple
 import numpy as np
 from .initialize import Tables
 from .output import Result
@@ -198,8 +199,8 @@ class TheoryCalc(Tables, Result):
                         expt_input = (t_indexes, self.MB, relative_width_values, coupling_strength_arr, t,
                                       mB, relative_width_value, coupling_strength_value)
 
-                        expt_xs = interpolate2d(expt_input, theo_input=(None,), case='expt')
-                        return expt_xs
+                        experimental_xs = interpolate2d(expt_input, theo_input=(None,), case='expt')
+                        return experimental_xs
 
                     def get_xs_from_coupling_strength_interpolation(tables_indexes):
                         t_indexes = tables_indexes
@@ -209,8 +210,8 @@ class TheoryCalc(Tables, Result):
                         relative_width_values = relative_width_value = None
                         expt_input = (t_indexes, self.MB, relative_width_values, coupling_strength_arr, t,
                                       mB, relative_width_value, coupling_strength_value)
-                        expt_xs = interpolate2d(expt_input, theo_input=(None,), case='expt')
-                        return expt_xs
+                        experimental_xs = interpolate2d(expt_input, theo_input=(None,), case='expt')
+                        return experimental_xs
 
                     if self.m.model() == 'Singlet':
                         if index in [4, 5, 6, 7]:
@@ -267,7 +268,7 @@ class TheoryCalc(Tables, Result):
                     pos = index
         return pos
 
-    def check_channel(self):
+    def check_channel(self) -> Tuple[int, float, float, int]:
         position = self.expected_ratio_calc()
         predicted_xs = self.numerator(position)
         observed_xs = self.denominator(predicted_xs, position, self.obs)
@@ -278,18 +279,11 @@ class TheoryCalc(Tables, Result):
         else:
             observed_ratio = predicted_xs / observed_xs
             expected_ratio = predicted_xs / expected_xs
-        self.obs_ratio = observed_ratio
-        self.exp_ratio = expected_ratio
-        if self.obs_ratio >= 1:
-            self.result = 0
-            self.channel = position
-        elif self.obs_ratio < 0:
-            self.result = -1
-            self.channel = position
-        else:
-            self.result = 1
-            self.channel = position
-        return self.result, self.obs_ratio, self.exp_ratio, self.channel
+
+        self._obs_ratio = observed_ratio
+        self._exp_ratio = expected_ratio
+        self.set_result(position)
+        return self._result, self._obs_ratio, self._exp_ratio, self._channel
 
     def get_expt_xs_from_2d_interpolation(self, index, expt_table):
         def interpolation_based_on_kappa_keys(desired_key):
@@ -367,3 +361,19 @@ class TheoryCalc(Tables, Result):
         else:
             expt_xs = -1
             return expt_xs
+
+    def set_result(self, pos):
+        if pos == -1:
+            self._obs_ratio = -1
+            self._result = -1
+            self._channel = pos
+        else:
+            if self._obs_ratio >= 1:
+                self._result = 0
+                self._channel = pos
+            elif self._obs_ratio < 0:
+                self._result = -1
+                self._channel = pos
+            else:
+                self._result = 1
+                self._channel = pos

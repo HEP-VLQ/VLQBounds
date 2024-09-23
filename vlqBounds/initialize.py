@@ -1,29 +1,30 @@
+from typing import List, Dict, Optional
 from .models import *
 from .utils import *
 
 
 class Tables:
     def __init__(self, m):
-        self.MY = None
-        self.MX = None
-        self.MB = None
-        self.which_doublet = None
-        self.MT = None
-        self.exp = None
-        self.obs = None
-        self.luminosity = None
-        self.energy = None
-        self.process = None
-        self.expt = None
-        self.label = None
-        self.key = None
-        self.file_name = None
-        self.cs_keys = {}
-        self.TB_XT_keys = {}
-        self.TB_YB_keys = {}
-        self.VLB = False
-        self.VLX = False
-        self.VLY = False
+        self.MY: Optional[List[List[float]]] = None
+        self.MX: Optional[List[List[float]]] = None
+        self.MB: Optional[List[List[float]]] = None
+        self.which_doublet: Optional[List[str]] = None
+        self.MT: Optional[List[List[float]]] = None
+        self.exp: Optional[List[List[float]]] = None
+        self.obs: Optional[List[List[float]]] = None
+        self.luminosity: Optional[List[float]] = None
+        self.energy: Optional[List[int]] = None
+        self.process: Optional[List[str]] = None
+        self.expt: Optional[List[str]] = None
+        self.label: Optional[List[str]] = None
+        self.key: Optional[List[str]] = None
+        self.file_name: Optional[List[str]] = None
+        self.cs_keys: Dict[str, List[str]] = {}
+        self.TB_XT_keys: Dict[str, List[str]] = {}
+        self.TB_YB_keys: Dict[str, List[str]] = {}
+        self.VLB: bool = False
+        self.VLX: bool = False
+        self.VLY: bool = False
         self.m = m
         self.initialize_bounds_arrays()
 
