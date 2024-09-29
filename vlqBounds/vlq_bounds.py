@@ -15,15 +15,16 @@ class VLQBounds(Coupling):
             self.m = m
             self.df = c.df
             self.welcome_message()
+            self.set_VLQ_type()
 
-    def set_VLQ_type(self, vlq):
-        if vlq not in ['T', 'B', 'X', 'Y']:
-            raise ValueError("Error, VLQ must be 'T', 'B', 'X' or 'Y'")
-        if vlq == 'B':
+    def set_VLQ_type(self):
+        if not isinstance(self.m, models):
+            raise ValueError("Error, this model is not included")
+        if isinstance(self.m, (SingletB, DoubletB, PureBDecay)):
             self.VLB = True
-        elif vlq == 'X':
+        elif isinstance(self.m, DoubletX):
             self.VLX = True
-        elif vlq == 'Y':
+        elif isinstance(self.m, (DoubletY, TripletY)):
             self.VLY = True
 
     def filling_channels_data(self):

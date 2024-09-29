@@ -614,16 +614,16 @@ class Coupling(TheoryCalc):
                         exp_or_obs = expected_or_observed(self.m.get_mB())
                         return exp_or_obs
                     else:
-                        d = -1
-                        return d
+                        exp_or_obs = -1
+                        return exp_or_obs
                 elif self.m.model() == 'Doublet':
                     if min(mass[index]) <= self.m.get_mB() <= max(mass[index]):
                         expected_or_observed = interp1d(mass[index], t[index], 'linear')
                         exp_or_obs = expected_or_observed(self.m.get_mB())
                         return exp_or_obs
                     else:
-                        d = -1
-                        return d
+                        exp_or_obs = -1
+                        return exp_or_obs
 
             elif self.VLX:
                 if min(mass[index]) <= self.m.get_mX() <= max(mass[index]):
@@ -631,16 +631,16 @@ class Coupling(TheoryCalc):
                     exp_or_obs = expected_or_observed(self.m.get_mX())
                     return exp_or_obs
                 else:
-                    d = -1
-                    return d
+                    exp_or_obs = -1
+                    return exp_or_obs
             elif self.VLY:
                 if min(mass[index]) <= self.m.get_mY() <= max(mass[index]):
                     expected_or_observed = interp1d(mass[index], t[index], 'linear')
                     exp_or_obs = expected_or_observed(self.m.get_mY())
                     return exp_or_obs
                 else:
-                    d = -1
-                    return d
+                    exp_or_obs = -1
+                    return exp_or_obs
 
             else:
                 if self.m.model() == 'Singlet':
@@ -650,33 +650,9 @@ class Coupling(TheoryCalc):
                             exp_or_obs = expected_or_observed(self.m.get_mT())
                             return exp_or_obs
                         else:
-                            d = -1
-                            return d
-                    else:
-                        max_mass, min_mass = max_min_mass_from_width_files(mass, [10, 11, 12])
-                        if min_mass > self.m.get_mT() or max_mass < self.m.get_mT():
-                            if min(t[index] / 100) <= self.m.get_width_mass_ratio() <= max(t[index] / 100):
-                                expected_or_observed = interp1d(t[index] / 100, mass[index], 'linear')
-                                mass_interp = expected_or_observed(self.m.get_width_mass_ratio())
-                                self.mass_ratio = mass_interp / self.m.get_mT()
-                                d = self.m.get_width_mass_ratio()
-                                return d, mass_interp
-                            else:
-                                d, mass_interp = -1, -1
-                                return d, mass_interp
-                        elif min_mass <= self.m.get_mT() <= max_mass:
-                            if min(t[index] / 100) <= self.m.get_width_mass_ratio() <= max(t[index] / 100):
-                                expected_or_observed = interp1d(t[index] / 100, mass[index], 'linear')
-                                mass_interp = expected_or_observed(self.m.get_width_mass_ratio())
-                                self.mass_ratio = mass_interp / self.m.get_mT()
-                                d = self.m.get_width_mass_ratio()
-                                return d, mass_interp
-                            else:
-                                d, mass_interp = -1, -1
-                                return d, mass_interp
-                        else:
-                            d, mass_interp = -1, -1
-                            return d, mass_interp
+                            exp_or_obs = -1
+                            return exp_or_obs
+
                 else:
                     if self.coupling_key[index] in self.k_keys:
                         if min(mass[index]) <= self.m.get_mT() <= max(mass[index]):
@@ -684,36 +660,11 @@ class Coupling(TheoryCalc):
                             exp_or_obs = expected_or_observed(self.m.get_mT())
                             return exp_or_obs
                         else:
-                            d = -1
-                            return d
-                    else:
-                        max_mass, min_mass = max_min_mass_from_width_files(mass, [2])
-                        if min_mass > self.m.get_mT() or max_mass < self.m.get_mT():
-                            if min(t[index] / 100) <= self.m.get_width_mass_ratio() <= max(t[index] / 100):
-                                expected_or_observed = interp1d(t[index] / 100, mass[index], 'linear')
-                                mass_interp = expected_or_observed(self.m.get_width_mass_ratio())
-                                self.mass_ratio = mass_interp / self.m.get_mT()
-                                d = self.m.get_width_mass_ratio()
-                                return d, mass_interp
-                            else:
-                                d, mass_interp = -1, -1
-                                return d, mass_interp
-                        elif min_mass <= self.m.get_mT() <= max_mass:
-                            if min(t[index] / 100) <= self.m.get_width_mass_ratio() <= max(t[index] / 100):
-                                expected_or_observed = interp1d(t[index] / 100, mass[index], 'linear')
-                                mass_interp = expected_or_observed(self.m.get_width_mass_ratio())
-                                self.mass_ratio = mass_interp / self.m.get_mT()
-                                d = self.m.get_width_mass_ratio()
-                                return d, mass_interp
-                            else:
-                                d = (-1, -1)
-                                return d
-                        else:
-                            d, mass_interp = -1, -1
-                            return d, mass_interp
+                            exp_or_obs = -1
+                            return exp_or_obs
         else:
-            d = -1
-            return d
+            exp_or_obs = -1
+            return exp_or_obs
 
     def identify_strong_limit(self, exp_or_obs, mass):
         maxi = float('-inf')
