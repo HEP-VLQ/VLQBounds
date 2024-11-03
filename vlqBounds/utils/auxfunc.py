@@ -177,3 +177,11 @@ def which_equivalence(a_string):
             values_from_string = [float(st) for st in leq_array if st != which_letter]
             from_equal = False
             return values_from_string, from_equal
+
+
+def from_cf_to_kappa(cf_arr, mQ_arr, model):
+    if model == 'Singlet':
+        k_Q = np.sqrt(2) * (((c.v / mQ_arr) + 2) * cf_arr) / 3
+    elif model == 'Doublet':
+        k_Q = (((c.v / mQ_arr) + 1) * cf_arr) / 2
+    return k_Q

@@ -4,7 +4,7 @@ import numpy as np
 from .models import *
 from .manip import TheoryCalc
 from scipy.interpolate import interp1d
-from .utils import coupling_data_loading, max_min_mass_from_width_files, obs_exp_ratio_calc, biggest_ratio
+from .utils import coupling_data_loading, obs_exp_ratio_calc, biggest_ratio, from_cf_to_kappa
 
 
 class Coupling(TheoryCalc):
@@ -108,7 +108,6 @@ class Coupling(TheoryCalc):
                 self.initialize_coupling_lists(number_of_atlas_cms_tables)
 
     def fill_coupling_tables(self):
-
         if self.VLB:
             if self.m.model() == 'Singlet':
                 self.coupling_key[0] = '02595f9a'
@@ -171,7 +170,7 @@ class Coupling(TheoryCalc):
                 coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected, observed,
                                       self.coupling_expt, vlq='B')
 
-            else:
+            elif self.m.model() == 'Doublet':
                 self.coupling_key[0] = '02595f9b'
                 self.coupling_label[0] = 'arXiv:2308.02595'
                 self.coupling_expt[0] = 'ATLAS'
@@ -195,6 +194,8 @@ class Coupling(TheoryCalc):
                 mass = [self.coupling_MB_obs, self.coupling_MB_exp]
                 coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected,
                                       observed, self.coupling_expt, vlq='B')
+
+            self.coupling_factor_to_coupling_strength('B')
 
         elif self.VLX:
             self.coupling_key[0] = '08597Fig44l'
@@ -337,8 +338,8 @@ class Coupling(TheoryCalc):
                 self.coupling_key[5] = '12802f5'
                 self.coupling_label[5] = 'arXiv:2302.12802'
                 self.coupling_expt[5] = 'CMS'
-                self.coupling_file_name[5] = '2302.12802_CMS_Fig5_pp_Tbq_tH_k.dat'
-                self.which_coupling[5] = "s_l"
+                self.coupling_file_name[5] = '2302.12802_CMS_Fig5_pp_Tbq_tH_cf.dat'
+                self.which_coupling[5] = "k_T"
                 self.coupling_process[5] = 'pp --> Tbq --> tH --> '
                 self.coupling_energy[5] = 13
                 self.coupling_luminosity[5] = 36.1
@@ -382,7 +383,7 @@ class Coupling(TheoryCalc):
                 self.coupling_key[10] = '01062f42u'
                 self.coupling_label[10] = 'arXiv:1708.01062'
                 self.coupling_expt[10] = 'CMS'
-                self.which_coupling[10] = "s_l"
+                self.which_coupling[10] = "k_T"
                 self.coupling_process[10] = 'pp --> Tbq --> tZbq'
                 self.coupling_file_name[10] = '2405.17605_CMS_Fig42_upper_pp_Tbq_tZ_ll_singlet_1708.01062_cf.dat'
                 self.coupling_energy[10] = 13
@@ -391,7 +392,7 @@ class Coupling(TheoryCalc):
                 self.coupling_key[11] = '08328f42u'
                 self.coupling_label[11] = 'arXiv:1701.08328'
                 self.coupling_expt[11] = 'CMS'
-                self.which_coupling[11] = "s_l"
+                self.which_coupling[11] = "k_T"
                 self.coupling_process[11] = 'pp --> Tbq --> tZbq'
                 self.coupling_file_name[11] = '2405.17605_CMS_Fig42_upper_pp_T_bW_singlet_1701.08328_cf.dat'
                 self.coupling_energy[11] = 13
@@ -400,7 +401,7 @@ class Coupling(TheoryCalc):
                 self.coupling_key[12] = '17605f42u'
                 self.coupling_label[12] = 'arXiv:2405.17605'
                 self.coupling_expt[12] = 'CMS'
-                self.which_coupling[12] = "s_l"
+                self.which_coupling[12] = "k_T"
                 self.coupling_process[12] = 'pp --> Tbq --> tZbq'
                 self.coupling_file_name[12] = '2405.17605_CMS_Fig42_upper_pp_T_combination_singlet_cf.dat'
                 self.coupling_energy[12] = 13
@@ -409,7 +410,7 @@ class Coupling(TheoryCalc):
                 self.coupling_key[13] = '04721f42up1'
                 self.coupling_label[13] = 'arXiv:1909.04721'
                 self.coupling_expt[13] = 'CMS'
-                self.which_coupling[13] = "s_l"
+                self.which_coupling[13] = "k_T"
                 self.coupling_process[13] = 'pp --> Tbq --> tZbq'
                 self.coupling_file_name[13] = '2405.17605_CMS_Fig42_upper_pp_Ttq_tZ_tH_singlet_part1_1909.04721_cf.dat'
                 self.coupling_energy[13] = 13
@@ -418,7 +419,7 @@ class Coupling(TheoryCalc):
                 self.coupling_key[14] = '04721f42up2'
                 self.coupling_label[14] = 'arXiv:1909.04721'
                 self.coupling_expt[14] = 'CMS'
-                self.which_coupling[14] = "s_l"
+                self.which_coupling[14] = "k_T"
                 self.coupling_process[14] = 'pp --> Tbq --> tZbq'
                 self.coupling_file_name[14] = '2405.17605_CMS_Fig42_upper_pp_Ttq_tZ_tH_part2_singlet_1909.04721_cf.dat'
                 self.coupling_energy[14] = 13
@@ -427,7 +428,7 @@ class Coupling(TheoryCalc):
                 self.coupling_key[15] = '01062f42utq'
                 self.coupling_label[15] = 'arXiv:1708.01062'
                 self.coupling_expt[15] = 'CMS'
-                self.which_coupling[15] = "s_l"
+                self.which_coupling[15] = "k_T"
                 self.coupling_process[15] = 'pp --> Tbq --> tZbq'
                 self.coupling_file_name[15] = '2405.17605_CMS_Fig42_upper_pp_Ttq_tZ_singlet_1708.01062_cf.dat'
                 self.coupling_energy[15] = 13
@@ -436,7 +437,7 @@ class Coupling(TheoryCalc):
                 self.coupling_key[16] = '02227f42u'
                 self.coupling_label[16] = 'arXiv:2201.02227'
                 self.coupling_expt[16] = 'CMS'
-                self.which_coupling[16] = "s_l"
+                self.which_coupling[16] = "k_T"
                 self.coupling_process[16] = 'pp --> Tbq --> tZbq'
                 self.coupling_file_name[16] = '2405.17605_CMS_Fig42_upper_pp_T_tZ_singlet_2201.02227_cf.dat'
                 self.coupling_energy[16] = 13
@@ -445,7 +446,7 @@ class Coupling(TheoryCalc):
                 self.coupling_key[17] = '05071f42u'
                 self.coupling_label[17] = 'arXiv:2405.05071'
                 self.coupling_expt[17] = 'CMS'
-                self.which_coupling[17] = "s_l"
+                self.which_coupling[17] = "k_T"
                 self.coupling_process[17] = 'pp --> Tbq --> tZbq'
                 self.coupling_file_name[17] = '2405.17605_CMS_Fig42_upper_pp_T_tZ_tH_singlet_2405.05071_cf.dat'
                 self.coupling_energy[17] = 13
@@ -454,7 +455,7 @@ class Coupling(TheoryCalc):
                 self.coupling_key[18] = '04721f42ubq1'
                 self.coupling_label[18] = 'arXiv:1909.04721'
                 self.coupling_expt[18] = 'CMS'
-                self.which_coupling[18] = "s_l"
+                self.which_coupling[18] = "k_T"
                 self.coupling_process[18] = 'pp --> Tbq --> (tZ + tH) --> bqq, bb'
                 self.coupling_file_name[18] = '2405.17605_CMS_Fig42_upper_pp_Tbq_tZ_tH_singlet_part1_1909.04721_cf.dat'
                 self.coupling_energy[18] = 13
@@ -463,7 +464,7 @@ class Coupling(TheoryCalc):
                 self.coupling_key[19] = '04721f42ubq2'
                 self.coupling_label[19] = 'arXiv:1909.04721'
                 self.coupling_expt[19] = 'CMS'
-                self.which_coupling[19] = "s_l"
+                self.which_coupling[19] = "k_T"
                 self.coupling_process[19] = 'pp --> Tbq --> (tZ + tH) --> bqq, bb'
                 self.coupling_file_name[19] = '2405.17605_CMS_Fig42_upper_pp_Tbq_tZ_tH_singlet_part2_1909.04721_cf.dat'
                 self.coupling_energy[19] = 13
@@ -490,7 +491,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[0] = 'arXiv:2305.03401'
                 self.coupling_expt[0] = 'ATLAS'
                 self.coupling_file_name[0] = '2305.03401_ATLAS_f13b_pp_Tbq_Ztbq_k_T_doublet.dat'
-                self.which_coupling[0] = 'kappa'
+                self.which_coupling[0] = 'k_T'
                 self.coupling_process[0] = 'pp --> Tbq --> tZbq'
                 self.coupling_energy[0] = 13
                 self.coupling_luminosity[0] = 139
@@ -499,7 +500,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[1] = 'arXiv:2307.07584'
                 self.coupling_expt[1] = 'ATLAS'
                 self.coupling_file_name[1] = '2307.07584_ATLAS_f9b_pp_Tbq_Ztbq_k_T_doublet.dat'
-                self.which_coupling[1] = 'kappa'
+                self.which_coupling[1] = 'k_T'
                 self.coupling_process[1] = 'pp --> Tbq --> tZbq'
                 self.coupling_energy[1] = 13
                 self.coupling_luminosity[1] = 139
@@ -508,7 +509,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[2] = 'arXiv:1708.01062'
                 self.coupling_expt[2] = 'CMS'
                 self.coupling_file_name[2] = '2405.17605_CMS_Fig42_lower_pp_T_tZ_doublet_1708.01062_cf.dat'
-                self.which_coupling[2] = 'kappa'
+                self.which_coupling[2] = 'k_T'
                 self.coupling_process[2] = 'pp --> Tbq --> tZbq'
                 self.coupling_energy[2] = 13
                 self.coupling_luminosity[2] = 35.9
@@ -517,7 +518,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[3] = 'arXiv:1909.04721'
                 self.coupling_expt[3] = 'CMS'
                 self.coupling_file_name[3] = '2405.17605_CMS_Fig42_lower_pp_T_tZ_tH_doublet_part1_1909.04721_cf.dat'
-                self.which_coupling[3] = 'kappa'
+                self.which_coupling[3] = 'k_T'
                 self.coupling_process[3] = 'pp --> Tbq --> tZbq'
                 self.coupling_energy[3] = 13
                 self.coupling_luminosity[3] = 35.9
@@ -526,7 +527,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[4] = 'arXiv:1909.04721'
                 self.coupling_expt[4] = 'CMS'
                 self.coupling_file_name[4] = '2405.17605_Fig42_lower_pp_T_tZ_tH_doublet_part2_cf_1909.04721.dat'
-                self.which_coupling[4] = 'kappa'
+                self.which_coupling[4] = 'k_T'
                 self.coupling_process[4] = 'pp --> Tbq --> tZbq'
                 self.coupling_energy[4] = 13
                 self.coupling_luminosity[4] = 35.9
@@ -534,7 +535,7 @@ class Coupling(TheoryCalc):
                 self.coupling_key[5] = '08789f6b'
                 self.coupling_label[5] = 'arXiv:2408.08789'
                 self.coupling_expt[5] = 'ATLAS'
-                self.which_coupling[5] = 'kappa'
+                self.which_coupling[5] = 'k_T'
                 self.coupling_process[5] = 'pp --> Tb(t)q --> tZ/H --> 1l + 2l + nl'
                 self.coupling_file_name[5] = '2408.08789_ATLAS_Fig6b_pp_Tbq_Ht_Zt_doublet.dat'
                 self.coupling_energy[5] = 13
@@ -546,6 +547,8 @@ class Coupling(TheoryCalc):
 
                 coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected,
                                       observed, self.coupling_expt)
+
+            self.coupling_factor_to_coupling_strength()
 
     def model_coupling_calc(self, i):
         if self.VLB:
@@ -970,3 +973,27 @@ class Coupling(TheoryCalc):
                 for j, coupling in enumerate(self.which_coupling)
                 if coupling == 'k_T'
             ]
+
+    def coupling_factor_to_coupling_strength(self, vlq='T'):
+        for file in self.coupling_file_name:
+            if 'cf' in file:
+                j = self.coupling_file_name.index(file)
+                if vlq == 'T':
+                    self.coupling_obs_lower[j] = from_cf_to_kappa(self.coupling_obs_lower[j],
+                                                                  self.coupling_MT_obs[j],
+                                                                  self.m.model()
+                                                                  )
+                    self.coupling_exp_lower[j] = from_cf_to_kappa(self.coupling_exp_lower[j],
+                                                                  self.coupling_MT_exp[j],
+                                                                  self.m.model()
+                                                                  )
+
+                elif vlq == 'B':
+                    self.coupling_obs_lower[j] = from_cf_to_kappa(self.coupling_obs_lower[j],
+                                                                  self.coupling_MB_obs[j],
+                                                                  self.m.model())
+
+                    self.coupling_exp_lower[j] = from_cf_to_kappa(self.coupling_exp_lower[j],
+                                                                  self.coupling_MB_exp[j],
+                                                                  self.m.model())
+
