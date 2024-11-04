@@ -898,7 +898,7 @@ class Coupling(TheoryCalc):
                         f"luminosity = {self.coupling_luminosity[i]} fb-1\n")
 
     def get_sensitive_limits_info(self):
-        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'keys', 'channels.key.dat'))
+        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'keys', 'channels_key.dat'))
         with open(file_path, "w") as f:
             f.write("************* selected limits *****************\n")
             f.write("This File has been generated with VLQBounds version 0.1\n")
