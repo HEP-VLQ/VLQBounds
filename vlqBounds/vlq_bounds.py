@@ -292,13 +292,13 @@ class VLQBounds(Coupling):
         if self.VLB:
             print(f"Vector-like B mass: {self.m.get_mB()}")
             print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
-            print(f"coupling strength: {self.m.get_coupling_strength()}")
+            print(f"k_B: {self.m.get_coupling_strength()}")
             if self.m.model() == 'Singlet':
-                print("sin_left:", self.m.get_sin_left())
+                print("s_L:", self.m.get_sin_left())
             elif self.m.model() == 'Doublet' and self.m.get_which_doublet() == 'YB':
-                print(f"sin_right:", self.m.get_sin_right())
+                print(f"s_R:", self.m.get_sin_right())
             elif self.m.model() == 'Doublet' and self.m.get_which_doublet() == 'TB':
-                print(f"sin_down_right:", self.m.get_sin_down_right())
+                print(f"s_d_r:", self.m.get_sin_down_right())
             if self._channel != -1:
                 if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
                     if self._channel < len(self.key):
@@ -313,8 +313,8 @@ class VLQBounds(Coupling):
         elif self.VLX:
             print(f"Vector-like X mass: {self.m.get_mX()}")
             print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
-            print(f"coupling strength: {self.m.get_coupling_strength()}")
-            print(f"sin_right:", self.m.get_sin_right())
+            print(f"k_X: {self.m.get_coupling_strength()}")
+            print(f"s_R:", self.m.get_sin_right())
             if self._channel != -1:
                 if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
                     if self._channel < len(self.key):
@@ -329,9 +329,9 @@ class VLQBounds(Coupling):
         elif self.VLY:
             print(f"Vector-like Y mass: {self.m.get_mY()}")
             print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
-            print(f"coupling strength: {self.m.get_coupling_strength()}")
+            print(f"k_Y: {self.m.get_coupling_strength()}")
             if self.m.model() == 'Doublet':
-                print(f"sin_right:", self.m.get_sin_right())
+                print(f"s_R:", self.m.get_sin_right())
             else:
                 print(f"s_d_l:", self.m.get_sin_down_left())
             if self._channel != -1:
@@ -348,13 +348,13 @@ class VLQBounds(Coupling):
         else:
             print(f"Vector-like T mass: {self.m.get_mT()}")
             print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
-            print(f"coupling strength: {self.m.get_coupling_strength()}")
+            print(f"k_T: {self.m.get_coupling_strength()}")
             if self.m.model() == 'Singlet':
-                print("sin_left:", self.m.get_sin_left())
+                print("s_L:", self.m.get_sin_left())
             elif self.m.model() == 'Doublet' and self.m.get_which_doublet() == 'TX':
-                print(f"sin_right:", self.m.get_sin_right())
+                print(f"s_R:", self.m.get_sin_right())
             elif self.m.model() == 'Doublet' and self.m.get_which_doublet() == 'TB':
-                print(f"sin_up_right:", self.m.get_sin_up_right())
+                print(f"s_u_R:", self.m.get_sin_up_right())
             if self._channel != -1:
                 if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
                     if self._channel < len(self.key):
@@ -366,6 +366,7 @@ class VLQBounds(Coupling):
                 elif not is_array_full_of_none(self.coupling_key):
                     print(f"Experiment: {self.coupling_expt[self._channel]}")
             print(self)
+            print("-----------------------------------------------")
 
     def check_mass_range(self, m, vlq='T'):
         if vlq == 'T':
