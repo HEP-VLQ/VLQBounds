@@ -27,18 +27,18 @@ class VLQBounds(Coupling):
         elif isinstance(self.m, (DoubletY, TripletY)):
             self.VLY = True
 
-    def filling_channels_data(self):
+    def initialize_xs_data(self):
         self.initialize_tables_cms_and_atlas()
         self.all_processes()
         self.cs_dict()
         self.tb_xt_dict()
 
-    def filling_couplings_data(self):
+    def initialize_couplings_data(self):
         self.fill_coupling_tables()
         self.all_couplings()
         self.fill_sin_and_kappa()
 
-    def filling_couplings_and_xs_limits(self):
+    def initialize_vlq_bounds(self):
         self.initialize_tables_cms_and_atlas()
         self.cs_dict()
         self.tb_xt_dict()
@@ -138,37 +138,13 @@ class VLQBounds(Coupling):
         validate_params(kwargs, "mY", {"k_Y", "w_m", "s_d_l"})
         self.set_mass_and_coupling(kwargs, "mY", "k_Y", "w_m", "s_d_l")
 
-    def check_singlet_limit(self):
-        self.check_channel()
-        self.print_result()
-        i = self.channel
-        self.data_frame(i)
-
-    def check_SM_TX_doublet_limit(self):
-        self.check_channel()
-        self.print_result()
-        i = self.channel
-        self.data_frame(i)
-
-    def check_SM_YB_doublet_limit(self):
-        self.check_channel()
-        self.print_result()
-        i = self.channel
-        self.data_frame(i)
-
-    def check_SM_plus_TB_doublet_limit(self):
+    def check_against_xs_limits(self):
         self.check_channel()
         self.print_result()
         i = self._channel
         self.data_frame(i)
 
-    def check_pure_limit(self):
-        self.check_channel()
-        self.print_result()
-        i = self._channel
-        self.data_frame(i)
-
-    def check_coupling_limit(self):
+    def check_against_coupling_limits(self):
         _, _, _, _ = self.coupling_limit()
         self.print_result()
         i = self._channel
@@ -324,7 +300,7 @@ class VLQBounds(Coupling):
                 elif not is_array_full_of_none(self.key):
                     print(f"Experiment: {self.expt[self._channel]}")
                 elif not is_array_full_of_none(self.coupling_key):
-                    print(f"Experiment: {self.coupling_expt[self.channel]}")
+                    print(f"Experiment: {self.coupling_expt[self._channel]}")
             print(self)
         elif self.VLY:
             print(f"Vector-like Y mass: {self.m.get_mY()}")
@@ -366,6 +342,7 @@ class VLQBounds(Coupling):
                 elif not is_array_full_of_none(self.coupling_key):
                     print(f"Experiment: {self.coupling_expt[self._channel]}")
             print(self)
+            print("-----------------------------------------------")
 
     def check_mass_range(self, m, vlq='T'):
         if vlq == 'T':

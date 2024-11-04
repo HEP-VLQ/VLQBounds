@@ -900,7 +900,7 @@ class Coupling(TheoryCalc):
     def get_sensitive_limits_info(self):
         file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'keys', 'channels.key.dat'))
         with open(file_path, "w") as f:
-            f.write("************* channels information *****************\n")
+            f.write("************* selected limits *****************\n")
             f.write("This File has been generated with VLQBounds version 0.1\n")
             f.write(f"With the {type(self.m).__name__[-1]} quark in the {self.m.model()} scenario\n")
             high_sensitivity_channels = np.unique(self.most_sensitive_channels)

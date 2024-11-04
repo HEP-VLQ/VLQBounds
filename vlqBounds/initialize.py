@@ -1833,7 +1833,8 @@ class Tables:
                 raise Exception("Error in model choice")
 
     def all_processes(self):
-        with open("processes_info.dat", "w") as f:
+        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'keys', 'coupling_info.dat'))
+        with open(file_path, "w") as f:
             f.write("************* File for each cross section limit information*****************\n")
             f.write("This File has been generated with PyTop version 0.1\n")
             f.write(f"With the T quark in the {self.m.model()} scenario\n")

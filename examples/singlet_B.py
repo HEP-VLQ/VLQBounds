@@ -6,7 +6,7 @@ from vlqBounds import VLQBounds
 def main():
     s = SingletB()
     pt = VLQBounds(s)
-    pt.filling_couplings_and_xs_limits()
+    pt.initialize_vlq_bounds()
     m_range = np.arange(800, 2000, 200)
     for m in m_range:
         params = {

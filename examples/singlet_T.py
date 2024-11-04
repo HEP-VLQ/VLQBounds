@@ -7,7 +7,7 @@ import time
 def main():
     s = SingletT()
     pt = VLQBounds(s)
-    pt.filling_couplings_and_xs_limits()
+    pt.initialize_vlq_bounds()
     '''
     m_range = np.arange(800, 2200, 10)
     for m in m_range:
