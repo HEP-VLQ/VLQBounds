@@ -223,16 +223,20 @@ class DoubletB:
         return self.__model
 
     def get_sin_down_right(self):
-        return self.__sin_d_r
+        if self.__sin_d_r is not None:
+            return self.__sin_d_r
+        else:
+            if self.__kappa is not None:
+                return self.__kappa
+            else:
+                return kappa_coupling_from_width(self.get_mB(), self.__width_ratio)
 
     def get_coupling_strength(self):
         if self.__width_ratio is None:
             if self.__kappa is None:
                 if self.__which_d == 'BY':
-                    #c_r = np.sqrt(1 - self.__sin_r ** 2)
                     return self.__sin_r
                 else:
-                    #c_d_r = np.sqrt(1 - self.__sin_d_r ** 2)
                     return self.__sin_d_r
             else:
                 return self.__kappa

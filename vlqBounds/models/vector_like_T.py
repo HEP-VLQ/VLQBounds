@@ -373,13 +373,19 @@ class DoubletT:
         if self.__sin_u_r is not None:
             return abs(self.__sin_u_r)
         else:
-            return
+            if self.__kappa is not None:
+                return self.__kappa
+            else:
+                return kappa_coupling_from_width(self.get_mT(), self.__width_ratio)
 
     def get_sin_right(self):
         if self.__sin_r is not None:
             return abs(self.__sin_r)
         else:
-            return
+            if self.__kappa is not None:
+                return self.__kappa
+            else:
+                return kappa_coupling_from_width(self.get_mT(), self.__width_ratio)
 
     def get_width_mass_ratio(self):
         if self.__width_ratio is None:
