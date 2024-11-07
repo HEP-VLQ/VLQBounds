@@ -405,7 +405,7 @@ class DoubletT:
     def get_xs_pp_QQ(self):
         mT = self.get_mT()
         xs_pp_TT = get_theo_xs_from_tables(mT, 'pp_QQ_NNLO.dat')
-        return xs_pp_TT
+        return xs_pp_TT / 1000
 
     def get_xs_pp_Tj_Ztj_ts_channels(self, i):
         mT = self.get_mT()

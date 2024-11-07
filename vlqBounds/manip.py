@@ -187,7 +187,6 @@ class TheoryCalc(Tables, Result):
                     return self.m.get_xs_pp_QQ() / 1000
 
     def denominator(self, num, index, t):
-        print(num, index)
         if 0 <= num:
             if self.VLB:
                 if min(self.MB[index]) <= self.m.get_mB() <= max(self.MB[index]):

@@ -273,7 +273,7 @@ class DoubletB:
     def get_xs_pp_QQ(self):
         mB = self.get_mB()
         xs_pp_BB = get_theo_xs_from_tables(mB, 'pp_QQ_NNLO.dat')
-        return xs_pp_BB
+        return xs_pp_BB / 1000
 
     def get_xs_pp_Bbq_bHbq(self, i):
         if i in [3, 4, 5, 6]:
