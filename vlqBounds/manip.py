@@ -112,11 +112,11 @@ class TheoryCalc(Tables, Result):
 
             elif self.m.model() == 'Doublet':
                 j = self.get_channel(self.key[i], r, kappa)
-                if j == 20:
+                if j == 18:
                     return self.m.get_xs_pp_Bbq_tWbq(j)
-                elif j in [15, 16, 17]:
+                elif j in [13, 14, 15]:
                     return self.m.get_xs_pp_Bj_bHj_ts_channels(j)
-                elif j in [5, 6, 7, 8]:
+                elif j in [3, 4, 5, 6]:
                     return self.m.get_xs_pp_Bbq_bHbq(j)
                 else:
                     return self.m.get_xs_pp_QQ()
@@ -187,6 +187,7 @@ class TheoryCalc(Tables, Result):
                     return self.m.get_xs_pp_QQ() / 1000
 
     def denominator(self, num, index, t):
+        print(num, index)
         if 0 <= num:
             if self.VLB:
                 if min(self.MB[index]) <= self.m.get_mB() <= max(self.MB[index]):
