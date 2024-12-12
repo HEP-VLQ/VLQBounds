@@ -1,5 +1,5 @@
 from vlqBounds.utils.decay_calc import *
-from vlqBounds.utils.theory_XS import get_theo_xs_from_tables
+from vlqBounds.utils.theory_XS import get_theo_xs_from_tables, get_data_from_files
 
 
 class DoubletX:
@@ -64,7 +64,7 @@ class DoubletX:
         mx = self.get_mX()
         s_r = self.get_sin_right()
         s_l = self.sin_left_calc(s_r)
-        coupling = [s_r, s_l]
+        coupling = [s_r, 0]
         width = calculate_decay_width([mx, c.MW, c.Mt], self.__sin_r, self.__kappa,
                                       self.__width_ratio, coupling, c.Cst1, model='Doublet')
         return width
@@ -75,6 +75,14 @@ class DoubletX:
             return self.x_decay_to_wt() / mx
         else:
             return self.__width_ratio
+
+    def get_xs_pp_Xtq_twtq(self, i):
+        mX = self.get_mX()
+        file = '1809.08597_Fig8_upper_right_pp_X_Wt_gamma_M1.dat'
+        if i == 14:
+            xs_pp_Xt_tW = get_theo_xs_from_tables(mX, file, vlq='X')
+            return xs_pp_Xt_tW
+
 
     def get_xs_pp_QQ(self):
         mX = self.get_mX()

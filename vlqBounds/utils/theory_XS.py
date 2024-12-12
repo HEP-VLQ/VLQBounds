@@ -120,6 +120,7 @@ def interpolate2d(expt_input: tuple, theo_input: tuple, case='expt'):
                                                                 xs_theo_arr[filtering_005_xs],
                                                                 'linear')
                     return expected_or_observed(m_theo_value)
+
             elif min(relative_width_arr) == 0.01:
                 if relative_width_value >= 0.01:
                     interp2d = interpolate.LinearNDInterpolator(list(zip(mass_arr, relative_width_arr)), xs_theo_arr)

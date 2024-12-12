@@ -114,14 +114,14 @@ class SingletB:
             mB = self.get_mB()
             file = '1701.07409_Fig5_right_pp_Bt_bZ_cbZ05_singlet_theo.dat'
             xs_pp_Bb_bZ = get_theo_xs_from_tables(mB, file, vlq='B')
-            return xs_pp_Bb_bZ * 1000
+            return xs_pp_Bb_bZ
 
     def get_xs_pp_Btq_bZtq(self, i):
         if i == 18:
             mB = self.get_mB()
             file = '1701.07409_Fig5_left_pp_Bt_bZ_cWt05_singlet_theo.dat'
             xs_pp_Bt_bZ = get_theo_xs_from_tables(mB, file, vlq='B')
-            return xs_pp_Bt_bZ * 1000
+            return xs_pp_Bt_bZ
 
     def B_decay_to_wt(self):
         mB = self.get_mB()
@@ -225,19 +225,16 @@ class DoubletB:
     def get_sin_down_right(self):
         if self.__sin_d_r is not None:
             return self.__sin_d_r
-        else:
-            if self.__kappa is not None:
-                return self.__kappa
-            else:
-                return kappa_coupling_from_width(self.get_mB(), self.__width_ratio)
 
     def get_coupling_strength(self):
         if self.__width_ratio is None:
             if self.__kappa is None:
                 if self.__which_d == 'BY':
-                    return self.__sin_r
+                    c_r = np.sqrt(1 - self.__sin_r ** 2)
+                    return self.__sin_r * c_r
                 else:
-                    return self.__sin_d_r
+                    c_d_r = np.sqrt(1 - self.__sin_d_r ** 2)
+                    return self.__sin_d_r * c_d_r
             else:
                 return self.__kappa
         else:
@@ -262,13 +259,6 @@ class DoubletB:
     def get_sin_right(self):
         if self.__sin_r is not None:
             return abs(self.__sin_r)
-        else:
-            if self.__kappa is not None:
-                return self.__kappa
-            else:
-                if self.__width_ratio is not None:
-                    kappa = kappa_coupling_from_width(self.get_mB(), self.__width_ratio)
-                    return kappa
 
     def get_xs_pp_QQ(self):
         mB = self.get_mB()
@@ -289,6 +279,8 @@ class DoubletB:
                           mB, relative_width_value, coupling_strength_value)
 
             xs_pp_Bb_bH = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+
+            print(xs_pp_Bb_bH)
 
             return xs_pp_Bb_bH
 
@@ -399,7 +391,7 @@ class DoubletB:
         return s_l
 
 
-class PureBDecay:
+class PureB:
 
     def __init__(self):
         self.mB_theo = None
@@ -411,10 +403,10 @@ class PureBDecay:
     def get_mB(self):
         return self.mB_theo
 
-    def get_xs_pp_BB(self):
+    def get_xs_pp_QQ(self):
         mB = self.get_mB()
         xs_pp_BB = get_theo_xs_from_tables(mB, 'pp_QQ_NNLO.dat')
-        return xs_pp_BB
+        return xs_pp_BB / 1000
 
     def model(self):
         return self.__model

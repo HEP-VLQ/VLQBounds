@@ -1,0 +1,20 @@
+#arXiv:2409.20273
+#title:Search for single-production of vector-like quarks decaying into Wb in the fully hadronic final state in $pp$ collisions at $\sqrt{s}​=$13 TeV with the ATLAS detector
+#luminosity 139 fb-1 
+#Energy 13000 GeV 
+#G Aad show all.ATLAS Collaborations 
+#Fig5a 
+#pp → T(Y)bq → Wbbq, T singlet
+#Mass(GeV), k_T, \sigma_theo(pb)
+1000 0.5 0.28665818124639825
+1200 0.5 0.15211447491689106
+1400 0.5 0.08290956779033126
+1600 0.5 0.047675425045383954
+1800 0.5 0.02815868717505635
+2000 0.5 0.017082763938087137
+2200 0.5 0.010271358957979001
+2400 0.5 0.0063434508815193805
+2600 0.5 0.003917628548556404
+2700 0.5 0.0032192294939906775
+
+

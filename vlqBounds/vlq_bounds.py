@@ -4,7 +4,7 @@ from .utils import *
 from .coupling import Coupling
 
 
-models = (SingletT, DoubletT, PureTDecay, SingletB, DoubletB, PureBDecay, DoubletX, DoubletY, TripletY)
+models = (SingletT, DoubletT, PureT, SingletB, DoubletB, PureB, DoubletX, DoubletY, TripletY)
 
 
 class VLQBounds(Coupling):
@@ -17,23 +17,13 @@ class VLQBounds(Coupling):
             self.welcome_message()
             self.set_VLQ_type()
 
-    def set_VLQ_type(self):
-        if not isinstance(self.m, models):
-            raise ValueError("Error, this model is not included")
-        if isinstance(self.m, (SingletB, DoubletB, PureBDecay)):
-            self.VLB = True
-        elif isinstance(self.m, DoubletX):
-            self.VLX = True
-        elif isinstance(self.m, (DoubletY, TripletY)):
-            self.VLY = True
-
     def initialize_xs_data(self):
         self.initialize_tables_cms_and_atlas()
         self.all_processes()
         self.cs_dict()
         self.tb_xt_dict()
 
-    def initialize_couplings_data(self):
+    def initialize_coupling_bounds(self):
         self.fill_coupling_tables()
         self.all_couplings()
         self.fill_sin_and_kappa()
@@ -42,63 +32,10 @@ class VLQBounds(Coupling):
         self.initialize_tables_cms_and_atlas()
         self.cs_dict()
         self.tb_xt_dict()
-        self.fill_coupling_tables()
-        self.fill_sin_and_kappa()
-        self.coupling_and_xs_info()
-
-    def set_mass_and_coupling(self, kwargs, mass_key, coupling_key, width_key, sin_key):
-        if coupling_key in kwargs:
-            if kwargs[coupling_key] is None:
-                raise ValueError(f"Error, {coupling_key} must not be None")
-            self.m.set_coupling_strength(abs(kwargs[coupling_key]))
-
-        elif width_key in kwargs:
-            if kwargs[width_key] is None or kwargs[width_key] <= 0:
-                raise ValueError(f"Error, {width_key} must be greater than 0")
-            self.m.set_width_mass_ratio(kwargs[width_key])
-
-        elif sin_key in kwargs:
-            if kwargs[sin_key] is None:
-                raise ValueError(f"Error, {sin_key} must not be None")
-            check_sin(kwargs[sin_key])
-            if isinstance(self.m, (SingletT, SingletB)):
-                self.m.set_sin_l(kwargs[sin_key])
-            elif isinstance(self.m, (DoubletT, DoubletX)):
-                if self.m.get_which_doublet() == 'XT':
-                    self.m.set_sin_r(kwargs[sin_key])
-                elif self.m.get_which_doublet() == 'TB':
-                    self.m.set_sin_u_r(kwargs[sin_key])
-            elif isinstance(self.m, (DoubletB, DoubletY)):
-                if self.m.get_which_doublet() == 'YB':
-                    self.m.set_sin_r(kwargs[sin_key])
-                elif self.m.get_which_doublet() == 'TB':
-                    self.m.set_sin_d_r(kwargs[sin_key])
-            elif isinstance(self.m, TripletY):
-                self.m.set_sin_down_left(kwargs[sin_key])
-
-        if isinstance(self.m, SingletT):
-            self.m.set_mT(kwargs[mass_key])
-            self.check_mass_range(kwargs[mass_key])
-
-        elif isinstance(self.m, SingletB):
-            self.m.set_mB(kwargs[mass_key])
-            self.check_mass_range(kwargs[mass_key], 'B')
-
-        if isinstance(self.m, DoubletT):
-            self.m.set_mT(kwargs[mass_key])
-            self.check_mass_range(kwargs[mass_key])
-
-        elif isinstance(self.m, DoubletB):
-            self.m.set_mB(kwargs[mass_key])
-            self.check_mass_range(kwargs[mass_key], 'B')
-
-        elif isinstance(self.m, DoubletX):
-            self.m.set_mX(kwargs[mass_key])
-            self.check_mass_range(kwargs[mass_key], 'X')
-
-        elif isinstance(self.m, (DoubletY, TripletY)):
-            self.m.set_mY(kwargs[mass_key])
-            self.check_mass_range(kwargs[mass_key], 'Y')
+        if not isinstance(self.m, (PureT, PureB)):
+            self.fill_coupling_tables()
+            self.fill_sin_and_kappa()
+            self.coupling_and_xs_info()
 
     def singletT_params(self, **kwargs):
         validate_params(kwargs, "mT", {"k_T", "w_m", "s_l"})
@@ -138,6 +75,30 @@ class VLQBounds(Coupling):
         validate_params(kwargs, "mY", {"k_Y", "w_m", "s_d_l"})
         self.set_mass_and_coupling(kwargs, "mY", "k_Y", "w_m", "s_d_l")
 
+    def pure_T_to_Wb(self, mT:float)-> None:
+        self.to_H, self.to_W, self.to_Z = False, True, False
+        self.m.set_mT(mT)
+
+    def pure_T_to_Zt(self, mT:float)-> None:
+        self.to_H, self.to_W, self.to_Z = False, False, True
+        self.m.set_mT(mT)
+
+    def pure_T_to_Ht(self, mT:float) -> None:
+        self.to_H, self.to_W, self.to_Z = True, False, False
+        self.m.set_mT(mT)
+
+    def pure_B_to_Wt(self, mB:float) -> None:
+        self.to_H, self.to_W, self.to_Z = False, True, False
+        self.m.set_mB(mB)
+
+    def pure_B_to_Zb(self, mB:float) -> None:
+        self.to_H, self.to_W, self.to_Z = False, False, True
+        self.m.set_mB(mB)
+
+    def pure_B_to_Hb(self, mB:float) -> None:
+        self.to_H, self.to_W, self.to_Z = True, False, False
+        self.m.set_mB(mB)
+
     def check_against_xs_limits(self):
         self.check_channel()
         self.print_result()
@@ -152,20 +113,83 @@ class VLQBounds(Coupling):
 
     def check_against_xs_and_coupling_limits(self):
         self.check_xs_and_coupling_limits()
-        self.print_result()
         i = self._channel
         self.data_frame(i)
 
     def get_key(self):
         self.get_sensitive_limits_info()
 
+    def set_VLQ_type(self):
+        if not isinstance(self.m, models):
+            raise ValueError("Error, this model is not included")
+        if isinstance(self.m, (SingletB, DoubletB, PureB)):
+            self.VLB = True
+        elif isinstance(self.m, DoubletX):
+            self.VLX = True
+        elif isinstance(self.m, (DoubletY, TripletY)):
+            self.VLY = True
+
+    def set_mass_and_coupling(self, kwargs, mass_key, coupling_key, width_key, sin_key):
+        if coupling_key in kwargs:
+            if kwargs[coupling_key] is None:
+                raise ValueError(f"Error, {coupling_key} must not be None")
+            self.m.set_coupling_strength(abs(kwargs[coupling_key]))
+
+        elif width_key in kwargs:
+            if kwargs[width_key] is None or kwargs[width_key] <= 0:
+                raise ValueError(f"Error, {width_key} must be greater than 0")
+            self.m.set_width_mass_ratio(kwargs[width_key])
+
+        elif sin_key in kwargs:
+            if kwargs[sin_key] is None:
+                raise ValueError(f"Error, {sin_key} must not be None")
+            check_sin(kwargs[sin_key])
+            if isinstance(self.m, (SingletT, SingletB)):
+                self.m.set_sin_l(kwargs[sin_key])
+            elif isinstance(self.m, (DoubletT, DoubletX)):
+                if self.m.get_which_doublet() == 'XT':
+                    self.m.set_sin_r(kwargs[sin_key])
+                elif self.m.get_which_doublet() == 'TB':
+                    self.m.set_sin_u_r(kwargs[sin_key])
+            elif isinstance(self.m, (DoubletB, DoubletY)):
+                if self.m.get_which_doublet() == 'BY':
+                    self.m.set_sin_r(kwargs[sin_key])
+                elif self.m.get_which_doublet() == 'TB':
+                    self.m.set_sin_d_r(kwargs[sin_key])
+            elif isinstance(self.m, TripletY):
+                self.m.set_sin_down_left(kwargs[sin_key])
+
+        if isinstance(self.m, SingletT):
+            self.m.set_mT(kwargs[mass_key])
+            self.check_mass_range(kwargs[mass_key])
+
+        elif isinstance(self.m, SingletB):
+            self.m.set_mB(kwargs[mass_key])
+            self.check_mass_range(kwargs[mass_key], 'B')
+
+        if isinstance(self.m, DoubletT):
+            self.m.set_mT(kwargs[mass_key])
+            self.check_mass_range(kwargs[mass_key])
+
+        elif isinstance(self.m, DoubletB):
+            self.m.set_mB(kwargs[mass_key])
+            self.check_mass_range(kwargs[mass_key], 'B')
+
+        elif isinstance(self.m, DoubletX):
+            self.m.set_mX(kwargs[mass_key])
+            self.check_mass_range(kwargs[mass_key], 'X')
+
+        elif isinstance(self.m, (DoubletY, TripletY)):
+            self.m.set_mY(kwargs[mass_key])
+            self.check_mass_range(kwargs[mass_key], 'Y')
+
     def set_df_attributes(self, mass, mixing, process, expt, luminosity, energy, label, which_doublet, channel):
         self.df = df_making(
             self.df,
             mass=mass,
-            mixing=mixing,
-            coupling=self.m.get_coupling_strength(),
-            width_ratio=self.m.get_width_mass_ratio(),
+            mixing=mixing if not self.m.model() == 'Pure' else None,
+            coupling=self.m.get_coupling_strength() if not self.m.model() == 'Pure' else None,
+            width_ratio=self.m.get_width_mass_ratio() if not self.m.model() == 'Pure' else None,
             result=self._result,
             channel=channel,
             obs_ratio=self._obs_ratio,
@@ -184,12 +208,12 @@ class VLQBounds(Coupling):
         def get_mixing():
             if self.m.model() == 'Singlet':
                 return self.m.get_sin_left()
-
             if self.VLB:
-                if self.m.get_which_doublet() == 'YB':
-                    return self.m.get_sin_right()
-                else:
-                    return self.m.get_sin_down_right()
+                if self.m.model() == 'Doublet':
+                    if self.m.get_which_doublet() == 'YB':
+                        return self.m.get_sin_right()
+                    else:
+                        return self.m.get_sin_down_right()
             elif self.VLY:
                 if self.m.model() == 'Doublet':
                     return self.m.get_sin_right()
@@ -199,10 +223,11 @@ class VLQBounds(Coupling):
                 if self.m.model() == 'Doublet':
                     return self.m.get_sin_right()
             else:
-                if self.m.get_which_doublet() == 'TX':
-                    return self.m.get_sin_right()
-                else:
-                    return self.m.get_sin_up_right()
+                if self.m.model() == 'Doublet':
+                    if self.m.get_which_doublet() == 'TX':
+                        return self.m.get_sin_right()
+                    else:
+                        return self.m.get_sin_up_right()
 
         def get_vlq_mass():
             if self.VLB:
@@ -267,13 +292,17 @@ class VLQBounds(Coupling):
         print("-----------------------------------------------")
         if self.VLB:
             print(f"Vector-like B mass: {self.m.get_mB()}")
-            print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
-            print(f"k_B: {self.m.get_coupling_strength()}")
             if self.m.model() == 'Singlet':
+                print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
+                print(f"k_B: {self.m.get_coupling_strength()}")
                 print("s_L:", self.m.get_sin_left())
             elif self.m.model() == 'Doublet' and self.m.get_which_doublet() == 'YB':
+                print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
+                print(f"k_B: {self.m.get_coupling_strength()}")
                 print(f"s_R:", self.m.get_sin_right())
             elif self.m.model() == 'Doublet' and self.m.get_which_doublet() == 'TB':
+                print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
+                print(f"k_B: {self.m.get_coupling_strength()}")
                 print(f"s_d_r:", self.m.get_sin_down_right())
             if self._channel != -1:
                 if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
@@ -323,13 +352,17 @@ class VLQBounds(Coupling):
             print(self)
         else:
             print(f"Vector-like T mass: {self.m.get_mT()}")
-            print(f"Width-to-mass ratio: {self.m.get_width_mass_ratio()}")
-            print(f"k_T: {self.m.get_coupling_strength()}")
             if self.m.model() == 'Singlet':
+                print(f"Relative width: {self.m.get_width_mass_ratio()}")
+                print(f"k_T: {self.m.get_coupling_strength()}")
                 print("s_L:", self.m.get_sin_left())
             elif self.m.model() == 'Doublet' and self.m.get_which_doublet() == 'TX':
+                print(f"Relative width: {self.m.get_width_mass_ratio()}")
+                print(f"k_T: {self.m.get_coupling_strength()}")
                 print(f"s_R:", self.m.get_sin_right())
             elif self.m.model() == 'Doublet' and self.m.get_which_doublet() == 'TB':
+                print(f"Relative width: {self.m.get_width_mass_ratio()}")
+                print(f"k_T: {self.m.get_coupling_strength()}")
                 print(f"s_u_R:", self.m.get_sin_up_right())
             if self._channel != -1:
                 if not is_array_full_of_none(self.key) and not is_array_full_of_none(self.coupling_key):
@@ -342,9 +375,11 @@ class VLQBounds(Coupling):
                 elif not is_array_full_of_none(self.coupling_key):
                     print(f"Experiment: {self.coupling_expt[self._channel]}")
             print(self)
-            print("-----------------------------------------------")
+        print("-----------------------------------------------")
 
     def check_mass_range(self, m, vlq='T'):
+        key = ''
+        M_vlq = -1
         if vlq == 'T':
             if not is_array_full_of_none(self.coupling_key):
                 if is_array_full_of_none(self.key):

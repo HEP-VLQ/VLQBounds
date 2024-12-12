@@ -134,7 +134,7 @@ def biggest_ratio(coupling_ratio, xs_ratio):
 def calculate_width(constant: float, mQ_theo: float, m_A: float, coupling: list, m_q: float) -> float:
     c1, c2 = coupling
     width = (constant * mQ_theo / (m_A ** 2) * np.sqrt(lambda_func(mQ_theo, m_q, m_A))
-             * (c1 + c2) ** 2 * ((1 + r_x(m_A, mQ_theo) ** 2 - 2 * r_x(m_q, mQ_theo) ** 2
+             * (c1 ** 2 + c2 ** 2) * ((1 + r_x(m_A, mQ_theo) ** 2 - 2 * r_x(m_q, mQ_theo) ** 2
                                  - 2 * r_x(m_A, mQ_theo) ** 4 + r_x(m_q, mQ_theo) ** 4
                                  + r_x(m_q, mQ_theo) ** 2 * r_x(m_A, mQ_theo) ** 2)
                                  - 12 * r_x(m_A, mQ_theo) ** 2 * r_x(m_q, mQ_theo) * c1 * c2))
@@ -150,15 +150,19 @@ def calculate_width_to_higgs_from_k(constant: float, mQ_theo: float, coupling: f
 
 
 def calculate_width_to_higgs_from_mixing(constant: float, mQ_theo: float, coupling: float, m_q: float) -> float:
+    c1, c2 = coupling
     width = (constant * mQ_theo / (c.MW ** 2) * np.sqrt(lambda_func(mQ_theo, c.Mt, c.Mh))
-             * coupling ** 2 * (1 + 6 * r_x(m_q, mQ_theo) ** 2 - r_x(c.Mh, mQ_theo) ** 2 + r_x(m_q, mQ_theo) ** 4
+             * (c1 ** 2 + c2 ** 2) * (1 + 6 * r_x(m_q, mQ_theo) ** 2 - r_x(c.Mh, mQ_theo) ** 2 + r_x(m_q, mQ_theo) ** 4
                                 - r_x(m_q, mQ_theo) ** 2 * r_x(c.Mh, mQ_theo) ** 2))
 
     return width
 
 
 def is_array_full_of_none(array):
-    return all(element is None for element in array)
+    if array is not None:
+        return all(element is None for element in array)
+    else:
+        return True
 
 
 def which_equivalence(a_string):

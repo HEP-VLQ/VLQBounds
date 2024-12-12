@@ -39,6 +39,11 @@ T_kappa_keys = {
         "Doublet": ['07584f8b', '07584f8d', '07584f8f']
     },
 
+    '0.5<=k<=0.7': {
+        "Singlet": ['20273f5a', '20273f5b'],
+        "Doublet": []
+    },
+
     'k==0.5': {
         "Singlet": ['10555f15', '16561f9c', '09743f4c', '01062f5a', '00999f10a', '05336f4ul', '07409f4a',
                     '09743f4c', '08328'],
@@ -66,7 +71,6 @@ B_kappa_keys = {
 }
 
 B_width_mass_ratio_keys = {
-
     '0.01<=r<=0.3': {
         "Singlet": ['01486Fig6a', '01486Fig6b', '01486Fig6c', '01486Fig6d'],
         "Doublet": ['01486Fig6a', '01486Fig6b', '01486Fig6c', '01486Fig6d']
@@ -78,3 +82,28 @@ B_width_mass_ratio_keys = {
     }
 }
 
+X_width_mass_ratio_keys = {
+    'r==0.01': {
+        "Doublet": ['10216f4ld']
+    }}
+X_kappa_keys = {}
+
+
+Y_kappa_keys = {
+    '0.5<=k<=0.7': {
+        "Doublet": ['20273f5a', '20273f5b'],
+        "Triplet": []
+    },
+
+    'k==0.35': {
+        "Doublet": ['08328f5'],
+        "Triplet": ['08328f5']
+    },
+
+    'k==0.7': {
+        "Doublet": ['05606f6'],
+        "Triplet": []
+    },
+}
+
+Y_width_mass_ratio_keys = {}

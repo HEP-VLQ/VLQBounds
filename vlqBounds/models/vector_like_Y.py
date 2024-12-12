@@ -63,7 +63,7 @@ class DoubletY:
         my = self.get_mY()
         s_r = self.get_sin_right()
         s_l = self.sin_left_calc(s_r)
-        coupling = [s_r, s_l]
+        coupling = [s_r, 0]
         width = calculate_decay_width([my, c.MW, c.Mb], self.__sin_r, self.__kappa,
                                       self.__width_ratio, coupling, c.Cst1, model='Doublet')
         return width
@@ -74,6 +74,27 @@ class DoubletY:
             return self.y_decay_to_wb() / my
         else:
             return self.__width_ratio
+
+    def get_xs_pp_Ybq_Wbbq(self, i):
+        mY = self.get_mY()
+        coupling_strength_value = self.get_coupling_strength()
+        relative_width_arr = relative_width_value = None
+        if i in [6, 7]:
+            MY_arr, coupling_strength_arr, xs_theo_arr = get_data_from_files('2409.20273', 'doublet', 'Y')
+
+            theo_input = (MY_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
+                          mY, relative_width_value, coupling_strength_value)
+
+            xs_Y_Wb = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
+            return xs_Y_Wb
+        elif i == 0:
+            file = '1701.08328_CMS_Fig5_pp_Ybq_bWbq_c05_theo.dat'
+            xs_Yb_Wb = get_theo_xs_from_tables(mY, file, 'Y')
+            return xs_Yb_Wb
+        elif i == 4:
+            file = '1602.05606_ATLAS_Fig6_pp_Ybj_Wb_doublet_theo.dat'
+            xs_Yb_Wb = get_theo_xs_from_tables(mY, file, 'Y')
+            return xs_Yb_Wb
 
     def get_xs_pp_QQ(self):
         mY = self.get_mY()
@@ -153,6 +174,13 @@ class TripletY:
             return self.y_decay_to_wb() / my
         else:
             return self.__width_ratio
+
+    def get_xs_pp_Ybq_Wbbq(self, i):
+        mY = self.get_mY()
+        if i == 0:
+            file = '1701.08328_CMS_Fig5_pp_Ybq_bWbq_c05_theo.dat'
+            xs_Yb_Wb = get_theo_xs_from_tables(mY, file, 'Y')
+            return xs_Yb_Wb
 
     def get_xs_pp_QQ(self):
         mY = self.get_mY()
