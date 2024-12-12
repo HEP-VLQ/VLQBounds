@@ -528,7 +528,7 @@ class Tables:
                 self.label[2] = 'arXiv:1812.09768'
                 self.expt[2] = 'CMS'
                 self.file_name[2] = '1812.09768_CMS_Fig7_upper_left_pp_BB_bZ.dat'
-                self.process[2] = 'pp --> BB --> ZbZb'
+                self.process[2] = 'pp --> BB --> ZbZb --> l+l-'
                 self.energy[2] = 13
                 self.luminosity[2] = 35.9
 
