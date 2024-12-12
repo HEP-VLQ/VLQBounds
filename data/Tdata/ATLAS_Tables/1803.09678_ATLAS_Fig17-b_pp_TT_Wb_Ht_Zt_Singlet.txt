@@ -5,8 +5,7 @@
 #M.~Aaboud \textit{et al.} [ATLAS] 
 #Fig 17b 
 #pp → TT→Wb, Zt, Ht, Singlet
-#Mass(GeV), obs(pb), exp(pb) 
-#mass (GeV) obseved (pb) expected (pb) 
+#Mass(GeV), obs(pb), exp(pb)  
 700.0 0.04959292707820492 0.0642679959339427
 800.0 0.03186984928434088 0.045257168981514814
 900.0 0.023853981311258245 0.03413337864735446
