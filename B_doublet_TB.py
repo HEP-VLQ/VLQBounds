@@ -1,20 +1,20 @@
 import numpy as np
-from vlqBounds.models import DoubletT
+from vlqBounds.models import DoubletB
 from vlqBounds import VLQBounds
 
 
 def main():
-    d = DoubletT()
+    d = DoubletB()
     vb = VLQBounds(d)
     vb.initialize_vlq_bounds()
     for i in range(2000):
         print("i:", i)
         s = np.random.uniform(0,0.8)
         m = np.random.uniform(1400, 2000)
-        vb.doubletT_TB_params(mT=m, s_u_r=s)
+        vb.doubletB_TB_params(mB=m, s_d_r=s)
         vb.check_against_xs_and_coupling_limits()
         vb.print_result()
-    vb.df.to_csv("~/data/T_doublet_wm.dat", sep=' ')
+    vb.df.to_csv("~/data/B_doublet_wm.dat", sep=' ')
     vb.get_key()
 
 

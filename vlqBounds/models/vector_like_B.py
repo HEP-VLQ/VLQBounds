@@ -83,12 +83,9 @@ class SingletB:
             relative_width_arr = relative_width_value = None
             coupling_strength_value = self.get_coupling_strength()
             MB_arr, coupling_strength_arr, xs_theo_arr = get_data_from_files('2308.02595', 'singlet', 'B')
-
             theo_input = (MB_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
                           mB, relative_width_value, coupling_strength_value)
-
             xs_pp_Bb_bH = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
-
             return xs_pp_Bb_bH
 
 
@@ -268,20 +265,12 @@ class DoubletB:
     def get_xs_pp_Bbq_bHbq(self, i):
         if i in [3, 4, 5, 6]:
             mB = self.get_mB()
-
             coupling_strength_arr = coupling_strength_value = None
-
             relative_width_value = self.get_width_mass_ratio()
-
             MB_arr, relative_width_arr, xs_theo_arr = get_data_from_files('1802.01486', 'doublet', 'B')
-
             theo_input = (MB_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
                           mB, relative_width_value, coupling_strength_value)
-
             xs_pp_Bb_bH = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
-
-            print(xs_pp_Bb_bH)
-
             return xs_pp_Bb_bH
 
     def get_xs_pp_Bj_bHj_ts_channels(self, i):
@@ -290,12 +279,9 @@ class DoubletB:
             relative_width_arr = relative_width_value = None
             coupling_strength_value = self.get_coupling_strength()
             MB_arr, coupling_strength_arr, xs_theo_arr = get_data_from_files('2308.02595', 'doublet', 'B')
-
             theo_input = (MB_arr, relative_width_arr, coupling_strength_arr, xs_theo_arr,
                           mB, relative_width_value, coupling_strength_value)
-
             xs_pp_Bb_bH = interpolate2d(expt_input=(None,), theo_input=theo_input, case='theo')
-
             return xs_pp_Bb_bH
 
     def get_xs_pp_Bbq_tWbq(self, i):
@@ -319,7 +305,7 @@ class DoubletB:
         c_l = np.sqrt(1 - s_l ** 2)
         s_r = self.get_sin_right()
         c_r = np.sqrt(1 - s_r ** 2)
-        coupling = [s_r * c_r, 2 * s_l * c_l]
+        coupling = [s_r * c_r, 0]
         width = calculate_decay_width([mB, c.MZ, c.Mb], self.__sin_r, self.__kappa,
                                       self.__width_ratio, coupling, c.Cst2, model='Doublet')
         return width
@@ -328,7 +314,7 @@ class DoubletB:
         mB = self.get_mB()
         s_r = self.get_sin_right()
         c_r = np.sqrt(1 - s_r ** 2)
-        coupling = s_r * c_r
+        coupling = [s_r * c_r, 0]
         width = calculate_decay_width([mB, c.Mh, c.Mb], self.__sin_r, self.__kappa,
                                       self.__width_ratio, coupling, c.Cst3, model='Doublet', to_higgs=True)
         return width
@@ -346,7 +332,7 @@ class DoubletB:
         mB = self.get_mB()
         s_d_r = self.get_sin_down_right()
         c_d_r = np.sqrt(1 - s_d_r ** 2)
-        coupling = s_d_r * c_d_r
+        coupling = [s_d_r * c_d_r, 0]
         width = calculate_decay_width([mB, c.Mh, c.Mb], self.__sin_d_r, self.__kappa,
                                       self.__width_ratio, coupling, c.Cst3,  model='Doublet', to_higgs=True)
         return width
