@@ -45,6 +45,7 @@ class VLQBounds(Coupling):
         validate_params(kwargs, "mB", {"k_B", "w_m", "s_l"})
         self.set_mass_and_coupling(kwargs, "mB", "k_B", "w_m", "s_l")
 
+
     def doubletT_TB_params(self, **kwargs):
         validate_params(kwargs, "mT", {"k_T", "w_m", "s_u_r"})
         self.m.change_to_TB()

@@ -523,7 +523,6 @@ class Tables:
                 self.energy[1] = 13
                 self.luminosity[1] = 139
 
-
                 self.key[2] = '09768fig7ul'
                 self.label[2] = 'arXiv:1812.09768'
                 self.expt[2] = 'CMS'
