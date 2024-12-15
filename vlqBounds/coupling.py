@@ -118,7 +118,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[0] = 'arXiv:2308.02595'
                 self.coupling_expt[0] = 'ATLAS'
                 self.coupling_file_name[0] = '2308.02595_ATLAS_Fig9a_pp_B_bH_k_singlet.dat'
-                self.coupling_process[0] = 'pp --> Bbq --> bH --> b, bb --> 0l'
+                self.coupling_process[0] = 'pp --> Bbq --> bH --> 0l'
                 self.which_coupling[0] = "k_B"
                 self.coupling_energy[0] = 13
                 self.coupling_luminosity[0] = 139
@@ -179,7 +179,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[0] = 'arXiv:2308.02595'
                 self.coupling_expt[0] = 'ATLAS'
                 self.coupling_file_name[0] = '2308.02595_ATLAS_Fig9b_pp_B_bH_k_doublet.dat'
-                self.coupling_process[0] = 'pp --> Bbq --> bH --> bbb --> 0l'
+                self.coupling_process[0] = 'pp --> Bbq --> bH --> 0l'
                 self.which_coupling[0] = "k_B"
                 self.coupling_energy[0] = 13
                 self.coupling_luminosity[0] = 139
@@ -188,7 +188,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[1] = 'arXiv:1802.01486'
                 self.coupling_expt[1] = 'CMS'
                 self.coupling_file_name[1] = '2405.17605_Fig43_lower_pp_B_bH_doublet_1802.01486_cf.dat'
-                self.coupling_process[1] = 'pp --> Bbq --> bH -- bbb --> 0l'
+                self.coupling_process[1] = 'pp --> Bbq --> bH --> 0l'
                 self.which_coupling[1] = "k_B"
                 self.coupling_energy[1] = 13
                 self.coupling_luminosity[1] = 35.9
@@ -206,7 +206,7 @@ class Coupling(TheoryCalc):
             self.coupling_label[0] = 'arXiv:1809.08597'
             self.coupling_expt[0] = 'CMS'
             self.coupling_file_name[0] = '2405.17605_CMS_Fig44_left_pp_tqX_tW_1809.08597.dat'
-            self.coupling_process[0] = 'pp --> Xtq --> tW --> bqq,lnu/blnu,qq --> 1l'
+            self.coupling_process[0] = 'pp --> Xtq --> tW --> bqq,lnu/blnu,qq '
             self.which_coupling[0] = "k_x"
             self.coupling_energy[0] = 13
             self.coupling_luminosity[0] = 35.9
@@ -215,7 +215,7 @@ class Coupling(TheoryCalc):
             self.coupling_label[1] = 'arXiv:2111.10216'
             self.coupling_expt[1] = 'CMS'
             self.coupling_file_name[1] = '2405.17605_CMS_Fig44_left_pp_tqX_tW_2111.10216.dat'
-            self.coupling_process[1] = 'pp --> Xtq --> tW --> bqq,lnu/blnu,qq --> 1l'
+            self.coupling_process[1] = 'pp --> Xtq --> tW --> bqq,lnu/blnu,qq '
             self.which_coupling[1] = "k_x"
             self.coupling_energy[1] = 13
             self.coupling_luminosity[1] = 138
@@ -240,7 +240,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[0] = 'arXiv:1701.08328'
                 self.coupling_expt[0] = 'CMS'
                 self.coupling_file_name[0] = '2405.17605_CMS_Fig44_right_pp_tqY_bW_1701.08328.dat'
-                self.coupling_process[0] = 'pp --> Ytq --> bW --> bqq,lnu/blnu,qq --> 1l'
+                self.coupling_process[0] = 'pp --> Ytq --> bW --> bqq,lnu/blnu,qq '
                 self.which_coupling[0] = "k_y"
                 self.coupling_energy[0] = 13
                 self.coupling_luminosity[0] = 2.3
@@ -249,7 +249,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[1] = 'arXiv:1602.05606'
                 self.coupling_expt[1] = 'ATLAS'
                 self.coupling_file_name[1] = '1602.05606_ATLAS_Fig8b_pp_Ybj_Wb_Doublet_sinR.dat'
-                self.coupling_process[1] = 'pp --> Ybq --> bW --> b,lnu --> 1l'
+                self.coupling_process[1] = 'pp --> Ybq --> bW --> b,lnu '
                 self.which_coupling[1] = "k_y"
                 self.coupling_energy[1] = 8
                 self.coupling_luminosity[1] = 20.3
@@ -258,7 +258,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[2] = 'ATLAS_CONF_2016_072'
                 self.coupling_expt[2] = 'ATLAS'
                 self.coupling_file_name[2] = 'ATLAS_CONF_2016_072_fig10b_doublet.dat'
-                self.coupling_process[2] = 'pp --> Ybq --> bW --> b,lnu --> 1l'
+                self.coupling_process[2] = 'pp --> Ybq --> bW --> b,lnu '
                 self.which_coupling[2] = "k_y"
                 self.coupling_energy[2] = 13
                 self.coupling_luminosity[2] = 3.2
@@ -267,7 +267,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[3] = 'arXiv:1812.07343'
                 self.coupling_expt[3] = 'ATLAS'
                 self.coupling_file_name[3] = '1812.07343_ATLAS_pp_Ybq_Wbbq_Fig8c_doublet_Y_RH_sinR.dat'
-                self.coupling_process[3] = 'pp --> Ybq --> bW --> b,lnu --> 1l'
+                self.coupling_process[3] = 'pp --> Ybq --> bW --> b,lnu '
                 self.which_coupling[3] = "k_y"
                 self.coupling_energy[3] = 13
                 self.coupling_luminosity[3] = 36.1
@@ -291,7 +291,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[0] = 'ArXiv:1812.07343'
                 self.coupling_expt[0] = 'ATLAS'
                 self.coupling_file_name[0] = '1812.07343_ATLAS_Fig8b_pp_Ybq_Wb_triplet_Y_LH_sinL.dat'
-                self.coupling_process[0] = 'pp --> Ybq --> bW --> b,lnu--> 1l'
+                self.coupling_process[0] = 'pp --> Ybq --> bW --> b,lnu'
                 self.which_coupling[0] = "s_d_l"
                 self.coupling_energy[0] = 13
                 self.coupling_luminosity[0] = 36.1
@@ -307,7 +307,7 @@ class Coupling(TheoryCalc):
                 self.coupling_label[0] = 'arXiv:1602.05606'
                 self.coupling_expt[0] = 'ATLAS'
                 self.coupling_file_name[0] = '1602.05606_ATLAS_f7b_pp_Tbj_Wbbj_s_L_Singlet.dat'
-                self.coupling_process[0] = 'pp --> Tbq --> Wb --> lnu,b --> 1l'
+                self.coupling_process[0] = 'pp --> Tbq --> Wb --> lnu,b '
                 self.which_coupling[0] = "s_l"
                 self.coupling_energy[0] = 8
                 self.coupling_luminosity[0] = 20.3

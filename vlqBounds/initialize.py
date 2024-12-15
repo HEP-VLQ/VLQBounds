@@ -114,7 +114,7 @@ class Tables:
                 self.label[0] = 'arXiv:1806.01762'
                 self.expt[0] = 'ATLAS'
                 self.file_name[0] = '1806.01762_ATLAS_fig4b_pp_BB_Wt_singlet.dat'
-                self.process[0] = 'pp --> BB -->1l'
+                self.process[0] = 'pp --> BB --> Wt --> 1l'
                 self.energy[0] = 13
                 self.luminosity[0] = 36.1
 
@@ -122,7 +122,7 @@ class Tables:
                 self.label[1] = 'arXiv:1806.10555'
                 self.expt[1] = 'ATLAS'
                 self.file_name[1] = '1806.10555_ATLAS_fig13b_pp_BB_Zb_singlet.dat'
-                self.process[1] = 'pp --> BB --> l+l-+>=3l'
+                self.process[1] = 'pp --> BB --> Zb --> l+l-+>=3l'
                 self.energy[1] = 13
                 self.luminosity[1] = 36.1
 
@@ -130,7 +130,7 @@ class Tables:
                 self.label[2] = 'arXiv:2210.15413'
                 self.expt[2] = 'ATLAS'
                 self.file_name[2] = '2210.15413_ATLAS_fig7b_pp_BB_Zb_singlet.dat'
-                self.process[2] = 'pp --> BB --> l+l-+3l'
+                self.process[2] = 'pp --> BB --> Zb --> l+l-+3l'
                 self.energy[2] = 13
                 self.luminosity[2] = 139
 
@@ -138,7 +138,7 @@ class Tables:
                 self.label[3] = 'arXiv:2212.05263'
                 self.expt[3] = 'ATLAS'
                 self.file_name[3] = '2212.05263_ATLAS_fig7d_pp_BB_Wt_singlet.dat'
-                self.process[3] = 'pp --> BB --> 1l'
+                self.process[3] = 'pp --> BB --> Wt --> 1l'
                 self.energy[3] = 13
                 self.luminosity[3] = 139
 
@@ -527,7 +527,7 @@ class Tables:
                 self.label[2] = 'arXiv:1812.09768'
                 self.expt[2] = 'CMS'
                 self.file_name[2] = '1812.09768_CMS_Fig7_upper_left_pp_BB_bZ.dat'
-                self.process[2] = 'pp --> BB --> ZbZb'
+                self.process[2] = 'pp --> BB --> ZbZb --> l+l-'
                 self.energy[2] = 13
                 self.luminosity[2] = 35.9
 
@@ -543,7 +543,7 @@ class Tables:
                 self.label[4] = 'arXiv:2008.09835'
                 self.expt[4] = 'CMS'
                 self.file_name[4] = '2008.09835_CMS_fig11_upper_right_pp_B_bZ.dat'
-                self.process[4] = 'pp --> BB --> ZbZb'
+                self.process[4] = 'pp --> BB --> ZbZb --> 0l'
                 self.energy[4] = 13
                 self.luminosity[4] = 137
 
@@ -551,7 +551,7 @@ class Tables:
                 self.label[5] = 'arXiv:1204.1265'
                 self.expt[5] = 'ATLAS'
                 self.file_name[5] = '1204.1265_ATLAS_Fig5_pp_BB_Zb.dat'
-                self.process[5] = 'pp --> BB --> ZbZb'
+                self.process[5] = 'pp --> BB --> ZbZb --> l+l-'
                 self.energy[5] = 13
                 self.luminosity[5] = 137
 
@@ -559,7 +559,7 @@ class Tables:
                 self.label[6] = 'arXiv:1504.04605'
                 self.expt[6] = 'ATLAS'
                 self.file_name[6] = '1504.04605_ATLAS_Fig6a_pp_BB_Wt.dat'
-                self.process[6] = 'pp --> BB --> WtWt'
+                self.process[6] = 'pp --> BB --> WtWt --> l+l+'
                 self.energy[6] = 8
                 self.luminosity[6] = 20.3
 
@@ -567,7 +567,7 @@ class Tables:
                 self.label[7] = 'arXiv:1505.04306'
                 self.expt[7] = 'ATLAS'
                 self.file_name[7] = '1505.04306_ATLAS_Fig22a_pp_BB_Hb.dat'
-                self.process[7] = 'pp --> BB --> HbHb'
+                self.process[7] = 'pp --> BB --> HbHb --> 1l'
                 self.energy[7] = 8
                 self.luminosity[7] = 20.3
 
@@ -575,7 +575,7 @@ class Tables:
                 self.label[8] = 'arXiv:2402.13808'
                 self.expt[8] = 'CMS'
                 self.file_name[8] = '2402.13808_CMS_Fig18_upper_left_pp_BB_bH.dat'
-                self.process[8] = 'pp --> BB --> HbHb'
+                self.process[8] = 'pp --> BB --> HbHb --> 0l+l+l-'
                 self.energy[8] = 13
                 self.luminosity[8] = 138
 
@@ -583,7 +583,7 @@ class Tables:
                 self.label[9] = 'arXiv:2402.13808'
                 self.expt[9] = 'CMS'
                 self.file_name[9] = '2402.13808_CMS_Fig18_upper_right_pp_BB_bZ.dat'
-                self.process[9] = 'pp --> BB --> ZbZb'
+                self.process[9] = 'pp --> BB --> ZbZb --> 0l+l+l-'
                 self.energy[9] = 13
                 self.luminosity[9] = 138
 
@@ -591,7 +591,7 @@ class Tables:
                 self.label[10] = 'arXiv:1507.07129'
                 self.expt[10] = 'CMS'
                 self.file_name[10] = '1507.07129_Fig13_left_pp_BB_Wt.dat'
-                self.process[10] = 'pp --> BB --> WtWt'
+                self.process[10] = 'pp --> BB --> WtWt --> 1l+2l+>=2l'
                 self.energy[10] = 8
                 self.luminosity[10] = 19.7
 
@@ -599,7 +599,7 @@ class Tables:
                 self.label[11] = 'arXiv:1507.07129'
                 self.expt[11] = 'CMS'
                 self.file_name[11] = '1507.07129_Fig13_middle_pp_BB_bZ.dat'
-                self.process[11] = 'pp --> BB --> ZbZb'
+                self.process[11] = 'pp --> BB --> ZbZb --> 1l+2l+>=2l'
                 self.energy[11] = 8
                 self.luminosity[11] = 19.7
 
@@ -607,7 +607,7 @@ class Tables:
                 self.label[12] = 'arXiv:1507.07129'
                 self.expt[12] = 'CMS'
                 self.file_name[12] = '1507.07129_Fig13_right_pp_BB_bH.dat'
-                self.process[12] = 'pp --> BB --> HbHb'
+                self.process[12] = 'pp --> BB --> HbHb --> 1l+2l+>=2l'
                 self.energy[12] = 8
                 self.luminosity[12] = 19.7
 
@@ -615,7 +615,7 @@ class Tables:
                 self.label[13] = 'arXiv:2405.17605'
                 self.expt[13] = 'CMS'
                 self.file_name[13] = '2405.17605_CMS_Fig38_lower_pp_BB_tW.dat'
-                self.process[13] = 'pp --> BB --> WtWt'
+                self.process[13] = 'pp --> BB --> WtWt --> 0l+>=1l+2l'
                 self.energy[13] = 13
                 self.luminosity[13] = 19.7
 
@@ -623,7 +623,7 @@ class Tables:
                 self.label[14] = 'arXiv:2405.17605'
                 self.expt[14] = 'CMS'
                 self.file_name[14] = '2405.17605_CMS_Fig38_upper_left_pp_BB_bZ.dat'
-                self.process[14] = 'pp --> BB --> ZbZb'
+                self.process[14] = 'pp --> BB --> ZbZb --> 0l+2l'
                 self.energy[14] = 13
                 self.luminosity[14] = 138
 
@@ -631,7 +631,7 @@ class Tables:
                 self.label[15] = 'arXiv:2405.17605'
                 self.expt[15] = 'CMS'
                 self.file_name[15] = '2405.17605_CMS_Fig38_upper_right_pp_BB_bH.dat'
-                self.process[15] = 'pp --> BB --> HbHb'
+                self.process[15] = 'pp --> BB --> HbHb --> 0l+2l'
                 self.energy[15] = 13
                 self.luminosity[15] = 138
 
@@ -639,7 +639,7 @@ class Tables:
                 self.label[16] = 'arXiv:2212.05263'
                 self.expt[16] = 'ATLAS'
                 self.file_name[16] = '2212.05263_ATLAS_fig7b_pp_BB_BYorTB_doublet.dat'
-                self.process[16] = 'pp --> BB --> WtWt'
+                self.process[16] = 'pp --> BB --> WtWt --> 1l'
                 self.energy[16] = 13
                 self.luminosity[16] = 139
 
@@ -650,7 +650,7 @@ class Tables:
             self.label[0] = 'arXiv:1810.03188'
             self.expt[0] = 'CMS'
             self.file_name[0] = '1810.03188_CMS_Fig7a_pp_XX_tW_left_handed.dat'
-            self.process[0] = 'pp --> XX'
+            self.process[0] = 'pp --> XX --> Wt --> 1l+l+l+'
             self.energy[0] = 13
             self.luminosity[0] = 35.9
 
@@ -658,7 +658,7 @@ class Tables:
             self.label[1] = 'arXiv:1810.03188'
             self.expt[1] = 'CMS'
             self.file_name[1] = '1810.03188_CMS_Fig7b_pp_XX_tW_right_handed.dat'
-            self.process[1] = 'pp --> XX'
+            self.process[1] = 'pp --> XX --> Wt --> 1l+l+l+'
             self.energy[1] = 13
             self.luminosity[1] = 35.9
 
@@ -666,7 +666,7 @@ class Tables:
             self.label[2] = 'arXiv:1810.03188'
             self.expt[2] = 'CMS'
             self.file_name[2] = '1810.03188_CMS_Fig7c_pp_XX_tW_left_handed.dat'
-            self.process[2] = 'pp --> XX'
+            self.process[2] = 'pp --> XX --> Wt --> 1l+l+l+'
             self.energy[2] = 13
             self.luminosity[2] = 35.9
 
@@ -674,7 +674,7 @@ class Tables:
             self.label[3] = 'arXiv:1810.03188'
             self.expt[3] = 'CMS'
             self.file_name[3] = '1810.03188_CMS_Fig7d_pp_XX_tW_right_handed.dat'
-            self.process[3] = 'pp --> XX'
+            self.process[3] = 'pp --> XX --> Wt --> 1l+l+l+'
             self.energy[3] = 13
             self.luminosity[3] = 35.9
 
@@ -682,7 +682,7 @@ class Tables:
             self.label[4] = 'arXiv:1810.03188'
             self.expt[4] = 'CMS'
             self.file_name[4] = '1810.03188_CMS_Fig7d_pp_XX_tW_right_handed.dat'
-            self.process[4] = 'pp --> XX'
+            self.process[4] = 'pp --> XX --> Wt --> 1l+l+l+'
             self.energy[4] = 13
             self.luminosity[4] = 35.9
 
@@ -690,7 +690,7 @@ class Tables:
             self.label[5] = 'arXiv:1810.03188'
             self.expt[5] = 'CMS'
             self.file_name[5] = '1810.03188_CMS_Fig8a_pp_XX_tW_left_handed_combination.dat'
-            self.process[5] = 'pp --> XX'
+            self.process[5] = 'pp --> XX --> Wt --> 1l+l+l+'
             self.energy[5] = 13
             self.luminosity[5] = 35.9
 
@@ -698,7 +698,7 @@ class Tables:
             self.label[6] = 'arXiv:1810.03188'
             self.expt[6] = 'CMS'
             self.file_name[6] = '1810.03188_CMS_Fig8b_pp_XX_tW_right_handed_combination.dat'
-            self.process[6] = 'pp --> XX'
+            self.process[6] = 'pp --> XX --> Wt --> 1l+l+l+'
             self.energy[6] = 13
             self.luminosity[6] = 35.9
 
@@ -706,7 +706,7 @@ class Tables:
             self.label[7] = 'arXiv:1707.03347'
             self.expt[7] = 'ATLAS'
             self.file_name[7] = '1707.03347_ATLAS_fig4a_pp_XX_Wb.dat'
-            self.process[7] = 'pp --> XX'
+            self.process[7] = 'pp --> XX --> Wb --> 1l'
             self.energy[7] = 13
             self.luminosity[7] = 36.1
 
@@ -714,7 +714,7 @@ class Tables:
             self.label[8] = 'arXiv:1806.01762'
             self.expt[8] = 'ATLAS'
             self.file_name[8] = '1806.01762_ATLAS_Fig4a_pp_XX_Wt.dat'
-            self.process[8] = 'pp --> XX'
+            self.process[8] = 'pp --> XX --> Wt --> 1l'
             self.energy[8] = 13
             self.luminosity[8] = 36.1
 
@@ -722,7 +722,7 @@ class Tables:
             self.label[9] = 'arXiv:1807.11883'
             self.expt[9] = 'ATLAS'
             self.file_name[9] = '1807.11883_ATLAS_Fig10a_pp_XX_Wt.dat'
-            self.process[9] = 'pp --> XX'
+            self.process[9] = 'pp --> XX --> l+l+'
             self.energy[9] = 13
             self.luminosity[9] = 36.1
 
@@ -730,7 +730,7 @@ class Tables:
             self.label[10] = 'arXiv:2212.05263'
             self.expt[10] = 'ATLAS'
             self.file_name[10] = '2212.05263_ATLAS_fig7b_pp_XX_Wt_doublet.dat'
-            self.process[10] = 'pp --> XX'
+            self.process[10] = 'pp --> XX --> Wt --> 1l'
             self.energy[10] = 13
             self.luminosity[10] = 139
 
@@ -738,7 +738,7 @@ class Tables:
             self.label[11] = 'arXiv:2212.05263'
             self.expt[11] = 'ATLAS'
             self.file_name[11] = '2212.05263_ATLAS_fig7f_pp_XX_Wt_doublet.dat'
-            self.process[11] = 'pp --> XX'
+            self.process[11] = 'pp --> XX --> Wt --> 1l'
             self.energy[11] = 13
             self.luminosity[11] = 139
 
@@ -746,7 +746,7 @@ class Tables:
             self.label[12] = 'arXiv:1504.04605'
             self.expt[12] = 'ATLAS'
             self.file_name[12] = '1504.04605_ATLAS_fig10a_pp_XX_Wt.dat'
-            self.process[12] = 'pp --> XX'
+            self.process[12] = 'pp --> XX --> Wt --> l+l+'
             self.energy[12] = 8
             self.luminosity[12] = 20.3
 
@@ -754,7 +754,7 @@ class Tables:
             self.label[13] = 'arXiv:1809.08597'
             self.expt[13] = 'CMS'
             self.file_name[13] = '1809.08597_Fig8_upper_right_pp_X_Wt_gamma_M1.dat'
-            self.process[13] = 'pp --> Xtq --> Wt'
+            self.process[13] = 'pp --> Xtq --> Wt --> 1l'
             self.energy[13] = 13
             self.luminosity[13] = 35.9
 
@@ -766,7 +766,7 @@ class Tables:
                 self.label[0] = 'arXiv:1701.08328'
                 self.expt[0] = 'CMS'
                 self.file_name[0] = '1701.08328_CMS_Fig5_pp_Ybq_bWbq_c05.dat'
-                self.process[0] = 'pp --> Ybq --> bW'
+                self.process[0] = 'pp --> Ybq --> bW --> 1l'
                 self.energy[0] = 13
                 self.luminosity[0] = 2.3
 
@@ -774,7 +774,7 @@ class Tables:
                 self.label[1] = 'arXiv:1710.01539'
                 self.expt[1] = 'CMS'
                 self.file_name[1] = '1710.01539_CMS_Fig4_upper_pp_YY_Wb.dat'
-                self.process[1] = 'pp --> YY'
+                self.process[1] = 'pp --> YY --> Wb --> 1l'
                 self.energy[1] = 13
                 self.luminosity[1] = 35.8
 
@@ -782,7 +782,7 @@ class Tables:
                 self.label[2] = 'arXiv:1707.03347'
                 self.expt[2] = 'ATLAS'
                 self.file_name[2] = '1707.03347_ATLAS_fig4a_pp_YY_Wb.dat'
-                self.process[2] = 'pp --> YY'
+                self.process[2] = 'pp --> YY --> Wb --> 1l '
                 self.energy[2] = 13
                 self.luminosity[2] = 36.1
 
@@ -790,7 +790,7 @@ class Tables:
                 self.label[3] = 'arXiv:2401.17165'
                 self.expt[3] = 'ATLAS'
                 self.file_name[3] = '2401.17165_ATLAS_Fig5a_pp_YY_bW.dat'
-                self.process[3] = 'pp --> YY'
+                self.process[3] = 'pp --> YY --> Wb --> 1l'
                 self.energy[3] = 13
                 self.luminosity[3] = 140
 
@@ -798,7 +798,7 @@ class Tables:
                 self.label[4] = 'arXiv:1602.05606'
                 self.expt[4] = 'ATLAS'
                 self.file_name[4] = '1602.05606_ATLAS_Fig6_pp_Ybj_Wb.dat'
-                self.process[4] = 'pp --> Ybq --> bW'
+                self.process[4] = 'pp --> Ybq --> bW --> 1l'
                 self.energy[4] = 8
                 self.luminosity[4] = 20.3
 
@@ -806,7 +806,7 @@ class Tables:
                 self.label[5] = 'arXiv:1812.07343'
                 self.expt[5] = 'ATLAS'
                 self.file_name[5] = '1812.07343_fig9_pp_Y_Wb.dat'
-                self.process[5] = 'pp --> Ybq --> bW'
+                self.process[5] = 'pp --> Ybq --> bW --> 1l'
                 self.energy[5] = 13
                 self.luminosity[5] = 36.1
 
@@ -814,7 +814,7 @@ class Tables:
                 self.label[6] = 'arXiv:2409.20273'
                 self.expt[6] = 'ATLAS'
                 self.file_name[6] = '2409.20273_ATLAS_Fig5a_pp_Qbq_Wb_k05_Tsinglet_Ydoublet.dat'
-                self.process[6] = 'pp --> Ybq --> bW'
+                self.process[6] = 'pp --> Ybq --> bW --> 0l'
                 self.energy[6] = 13
                 self.luminosity[6] = 139
 
@@ -822,7 +822,7 @@ class Tables:
                 self.label[7] = 'arXiv:2409.20273'
                 self.expt[7] = 'ATLAS'
                 self.file_name[7] = '2409.20273_ATLAS_Fig5b_pp_Qbq_Wb_k07_Tsinglet_YDoublet.dat'
-                self.process[7] = 'pp --> Ybq --> bW'
+                self.process[7] = 'pp --> Ybq --> bW --> 0l'
                 self.energy[7] = 13
                 self.luminosity[7] = 139
 
@@ -831,7 +831,7 @@ class Tables:
                 self.label[0] = 'arXiv:1701.08328'
                 self.expt[0] = 'CMS'
                 self.file_name[0] = '1701.08328_CMS_Fig5_pp_Ybq_bWbq_c05.dat'
-                self.process[0] = 'pp --> Ybq --> bW'
+                self.process[0] = 'pp --> Ybq --> bW --> 1l'
                 self.energy[0] = 13
                 self.luminosity[0] = 2.3
 
@@ -839,7 +839,7 @@ class Tables:
                 self.label[1] = 'arXiv:1710.01539'
                 self.expt[1] = 'CMS'
                 self.file_name[1] = '1710.01539_CMS_Fig4_upper_pp_YY_Wb.dat'
-                self.process[1] = 'pp --> YY'
+                self.process[1] = 'pp --> YY --> Wb --> 1l'
                 self.energy[1] = 13
                 self.luminosity[1] = 35.8
 
@@ -847,7 +847,7 @@ class Tables:
                 self.label[2] = 'arXiv:1707.03347'
                 self.expt[2] = 'ATLAS'
                 self.file_name[2] = '1707.03347_ATLAS_fig4a_pp_YY_Wb.dat'
-                self.process[2] = 'pp --> YY'
+                self.process[2] = 'pp --> YY --> Wb --> 1l'
                 self.energy[2] = 13
                 self.luminosity[2] = 36.1
 
@@ -855,7 +855,7 @@ class Tables:
                 self.label[3] = 'arXiv:2401.17165'
                 self.expt[3] = 'ATLAS'
                 self.file_name[3] = '2401.17165_ATLAS_Fig5a_pp_YY_bW.dat'
-                self.process[3] = 'pp --> YY'
+                self.process[3] = 'pp --> YY --> Wb --> 1l'
                 self.energy[3] = 13
                 self.luminosity[3] = 140
 
@@ -1339,7 +1339,7 @@ class Tables:
                 self.label[59] = 'arXiv:2409.20273'
                 self.expt[59] = 'ATLAS'
                 self.file_name[59] = '2409.20273_ATLAS_Fig5a_pp_Qbq_Wb_k05_Tsinglet_Ydoublet.dat'
-                self.process[59] = 'pp --> Tbq --> bWbq'
+                self.process[59] = 'pp --> Tbq --> bWbq --> 0l'
                 self.energy[59] = 13
                 self.luminosity[59] = 139
 
@@ -1347,7 +1347,7 @@ class Tables:
                 self.label[60] = 'arXiv:2409.20273'
                 self.expt[60] = 'ATLAS'
                 self.file_name[60] = '2409.20273_ATLAS_Fig5b_pp_Qbq_Wb_k07_Tsinglet_YDoublet.dat'
-                self.process[60] = 'pp --> Tbq --> bWbq'
+                self.process[60] = 'pp --> Tbq --> bWbq --> 0l'
                 self.energy[60] = 13
                 self.luminosity[60] = 139
 
@@ -1658,7 +1658,7 @@ class Tables:
                 self.label[0] = 'arXiv:2212.05263'
                 self.expt[0] = 'ATLAS'
                 self.file_name[0] = '2212.05263_ATLAS_fig7a_pp_TT_tZ.txt'
-                self.process[0] = 'pp --> TT --> ZtZt'
+                self.process[0] = 'pp --> TT --> ZtZt --> 1l'
                 self.energy[0] = 13
                 self.luminosity[0] = 139
 
@@ -1666,7 +1666,7 @@ class Tables:
                 self.label[1] = 'arXiv:1812.09768'
                 self.expt[1] = 'CMS'
                 self.file_name[1] = '1812.09768_CMS_fig4a_pp_TT_tZ.txt'
-                self.process[1] = 'pp --> TT --> ZtZt'
+                self.process[1] = 'pp --> TT --> ZtZt --> l+l-'
                 self.energy[1] = 13
                 self.luminosity[1] = 36.1
 
@@ -1674,7 +1674,7 @@ class Tables:
                 self.label[2] = 'arXiv:1705.10751'
                 self.expt[2] = 'ATLAS'
                 self.file_name[2] = '1705.10751_ATLAS_fig6a_pp_TT_Zt.txt'
-                self.process[2] = 'pp --> TT --> ZtZt'
+                self.process[2] = 'pp --> TT --> ZtZt --> 1l'
                 self.energy[2] = 13
                 self.luminosity[2] = 36.1
 
@@ -1682,7 +1682,7 @@ class Tables:
                 self.label[3] = 'arXiv:1808.01771'
                 self.expt[3] = 'ATLAS'
                 self.file_name[3] = '1808.01771_ATLAS_fig13a_pp_TT_Ht.txt'
-                self.process[3] = 'pp --> TT --> HtHt'
+                self.process[3] = 'pp --> TT --> HtHt --> 0l'
                 self.energy[3] = 13
                 self.luminosity[3] = 36.1
 
@@ -1690,7 +1690,7 @@ class Tables:
                 self.label[4] = 'arXiv:1503.01952'
                 self.expt[4] = 'CMS'
                 self.file_name[4] = '1503.01952_CMS_fig13_pp_TT_tH.txt'
-                self.process[4] = 'pp --> TT --> HtHt'
+                self.process[4] = 'pp --> TT --> HtHt --> 0l'
                 self.energy[4] = 8
                 self.luminosity[4] = 19.7
 
@@ -1698,7 +1698,7 @@ class Tables:
                 self.label[5] = 'arXiv:1707.03347'
                 self.expt[5] = 'ATLAS'
                 self.file_name[5] = '1707.03347_ATLAS_fig4a_pp_TT_Wb.txt'
-                self.process[5] = 'pp --> TT --> WbWb'
+                self.process[5] = 'pp --> TT --> WbWb --> 1l'
                 self.energy[5] = 13
                 self.luminosity[5] = 36.1
 
@@ -1706,7 +1706,7 @@ class Tables:
                 self.label[6] = 'arXiv:1806.10555'
                 self.expt[6] = 'ATLAS'
                 self.file_name[6] = '1806.10555_ATLAS_Fig-13e_pp_TT_Zt.txt'
-                self.process[6] = 'pp --> TT --> ZtZt'
+                self.process[6] = 'pp --> TT --> ZtZt --> l+l-'
                 self.energy[6] = 13
                 self.luminosity[6] = 36.1
 
@@ -1714,7 +1714,7 @@ class Tables:
                 self.label[7] = 'arXiv:1509.04177'
                 self.expt[7] = 'CMS'
                 self.file_name[7] = '1509.04177_CMS_fig8_pp_TT_bW.txt'
-                self.process[7] = 'pp --> TT --> WbWb'
+                self.process[7] = 'pp --> TT --> WbWb --> 0l+1l+2l'
                 self.energy[7] = 8
                 self.luminosity[7] = 19.7
 
@@ -1722,7 +1722,7 @@ class Tables:
                 self.label[8] = 'arXiv:1509.04177'
                 self.expt[8] = 'CMS'
                 self.file_name[8] = '1509.04177_CMS_fig8_pp_TT_tH.txt'
-                self.process[8] = 'pp --> TT --> HtHt'
+                self.process[8] = 'pp --> TT --> HtHt --> 0l+1l+2l'
                 self.energy[8] = 8
                 self.luminosity[8] = 19.7
 
@@ -1730,7 +1730,7 @@ class Tables:
                 self.label[9] = 'arXiv:1509.04177'
                 self.expt[9] = 'CMS'
                 self.file_name[9] = '1509.04177_CMS_fig8_pp_TT_tZ.txt'
-                self.process[9] = 'pp --> TT --> ZtZt'
+                self.process[9] = 'pp --> TT --> ZtZt --> 0l+1l+2l'
                 self.energy[9] = 8
                 self.luminosity[9] = 19.7
 
@@ -1738,7 +1738,7 @@ class Tables:
                 self.label[10] = 'arXiv:1706.03408'
                 self.expt[10] = 'CMS'
                 self.file_name[10] = '1706.03408_CMS_Fig-11-left_pp_TT_bW.txt'
-                self.process[10] = 'pp --> TT --> WbWb'
+                self.process[10] = 'pp --> TT --> WbWb --> 1l'
                 self.energy[10] = 13
                 self.luminosity[10] = 2.6
 
@@ -1746,7 +1746,7 @@ class Tables:
                 self.label[11] = 'arXiv:1706.03408'
                 self.expt[11] = 'CMS'
                 self.file_name[11] = '1706.03408_CMS_Fig-11-right_pp_TT_tH.txt'
-                self.process[11] = 'pp --> TT --> HtHt'
+                self.process[11] = 'pp --> TT --> HtHt --> 1l'
                 self.energy[11] = 13
                 self.luminosity[11] = 2.6
 
@@ -1754,7 +1754,7 @@ class Tables:
                 self.label[12] = 'arXiv:1209.0471'
                 self.expt[12] = 'CMS'
                 self.file_name[12] = '1209.0471_CMS_Fig6_upper_pp_TT_bW.txt'
-                self.process[12] = 'pp --> TT --> WbWb'
+                self.process[12] = 'pp --> TT --> WbWb --> 1l'
                 self.energy[12] = 13
                 self.luminosity[12] = 2.6
 
@@ -1762,7 +1762,7 @@ class Tables:
                 self.label[13] = 'arXiv:1209.0471'
                 self.expt[13] = 'CMS'
                 self.file_name[13] = '1209.0471_CMS_Fig6_middle_pp_TT_bW.txt'
-                self.process[13] = 'pp --> TT --> WbWb'
+                self.process[13] = 'pp --> TT --> WbWb --> 1l'
                 self.energy[13] = 7
                 self.luminosity[13] = 5
 
@@ -1770,7 +1770,7 @@ class Tables:
                 self.label[14] = 'arXiv:1209.0471'
                 self.expt[14] = 'CMS'
                 self.file_name[14] = '1209.0471_CMS_Fig6_lower_pp_TT_bW.txt'
-                self.process[14] = 'pp --> TT --> WbWb'
+                self.process[14] = 'pp --> TT --> WbWb --> 1l'
                 self.energy[14] = 7
                 self.luminosity[14] = 5
 
@@ -1778,7 +1778,7 @@ class Tables:
                 self.label[15] = 'arXiv:1505.04306'
                 self.expt[15] = 'ATLAS'
                 self.file_name[15] = '1505.04306_ATLAS_Fig18-a_pp_TT_Wb+X.txt'
-                self.process[15] = 'pp --> TT --> WbWb'
+                self.process[15] = 'pp --> TT --> WbWb --> 1l'
                 self.energy[15] = 8
                 self.luminosity[15] = 20.3
 
@@ -1786,7 +1786,7 @@ class Tables:
                 self.label[16] = 'arXiv:1210.5468' 
                 self.expt[16] = 'ATLAS'
                 self.file_name[16] = '1210.5468_ATLAS_Fig-3_pp_tt_Wb.txt'
-                self.process[16] = 'pp --> TT --> WbWb'
+                self.process[16] = 'pp --> TT --> WbWb --> 1l '
                 self.energy[16] = 7
                 self.luminosity[16] = 4.7
 
@@ -1794,7 +1794,7 @@ class Tables:
                 self.label[17] = 'arXiv:1710.01539'
                 self.expt[17] = 'CMS'
                 self.file_name[17] = '1710.01539_CMS_Fig4_upper_pp_TT_bW.txt'
-                self.process[17] = 'pp --> TT --> WbWb'
+                self.process[17] = 'pp --> TT --> WbWb --> 1l'
                 self.energy[17] = 13
                 self.luminosity[17] = 35.8
 
@@ -1802,7 +1802,7 @@ class Tables:
                 self.label[18] = 'ATLAS-CONF-2016-104'
                 self.expt[18] = 'ATLAS'
                 self.file_name[18] = 'ATLAS-CONF-2016-104_ATLAS_Fig15a_pp_TT_tH.txt'
-                self.process[18] = 'pp --> TT --> HtHt'
+                self.process[18] = 'pp --> TT --> HtHt --> 0l+1l '
                 self.energy[18] = 13
                 self.luminosity[18] = 13.2
 
@@ -1810,7 +1810,7 @@ class Tables:
                 self.label[19] = 'ATLAS-CONF-2016-104'
                 self.expt[19] = 'ATLAS'
                 self.file_name[19] = 'ATLAS-CONF-2016-104_ATLAS_Fig15b_pp_TT_tZ.txt'
-                self.process[19] = 'pp --> TT --> ZtZt'
+                self.process[19] = 'pp --> TT --> ZtZt --> 0l+1l '
                 self.energy[19] = 13
                 self.luminosity[19] = 13.2
 
@@ -1818,7 +1818,7 @@ class Tables:
                 self.label[20] = 'arXiv:1906.11903'
                 self.expt[20] = 'CMS'
                 self.file_name[20] = '1906.11903_CMS_Fig6_lower_left_pp_TT_bW.txt'
-                self.process[20] = 'pp --> TT --> WbWb'
+                self.process[20] = 'pp --> TT --> WbWb --> 0l'
                 self.energy[20] = 13
                 self.luminosity[20] = 35.9
 
@@ -1826,7 +1826,7 @@ class Tables:
                 self.label[21] = 'arXiv:1906.11903'
                 self.expt[21] = 'CMS'
                 self.file_name[21] = '1906.11903_CMS_Fig6_upper_left_pp_TT_tZ.txt'
-                self.process[21] = 'pp --> TT --> ZtZt'
+                self.process[21] = 'pp --> TT --> ZtZt --> 0l'
                 self.energy[21] = 13
                 self.luminosity[21] = 35.9
 
@@ -1834,7 +1834,7 @@ class Tables:
                 self.label[22] = 'arXiv:1906.11903'
                 self.expt[22] = 'CMS'
                 self.file_name[22] = '1906.11903_CMS_Fig6_middle_left_pp_TT_tH.txt'
-                self.process[22] = 'pp --> TT --> HtHt'
+                self.process[22] = 'pp --> TT --> HtHt --> 0l'
                 self.energy[22] = 13
                 self.luminosity[22] = 35.9
 
@@ -1842,7 +1842,7 @@ class Tables:
                 self.label[23] = 'arXiv:1203.5410'
                 self.expt[23] = 'CMS'
                 self.file_name[23] = '1203.5410_CMS_Fig2_pp_tt_bWbW.txt'
-                self.process[23] = 'pp --> TT --> WbWb'
+                self.process[23] = 'pp --> TT --> WbWb --> l+l-'
                 self.energy[23] = 7
                 self.luminosity[23] = 5
 
@@ -1850,7 +1850,7 @@ class Tables:
                 self.label[24] = 'arXiv:1202.3076'
                 self.expt[24] = 'ATLAS'
                 self.file_name[24] = '1202.3076_ATLAS_Fig2_pp_tt_WbWb.txt'
-                self.process[24] = 'pp --> TT --> WbWb'
+                self.process[24] = 'pp --> TT --> WbWb --> 1l'
                 self.energy[24] = 7
                 self.luminosity[24] = 1.04
 
@@ -1858,7 +1858,7 @@ class Tables:
                 self.label[25] = 'arXiv:1606.03903' 
                 self.expt[25] = 'ATLAS'
                 self.file_name[25] = '1606.03903_ATLAS_Fig9_pp_TT_Zt.txt'
-                self.process[25] = 'pp --> TT --> ZtZt'
+                self.process[25] = 'pp --> TT --> ZtZt --> 1l'
                 self.energy[25] = 13
                 self.luminosity[25] = 3.2
 
@@ -1866,7 +1866,7 @@ class Tables:
                 self.label[26] = 'arXiv:2210.15413'
                 self.expt[26] = 'ATLAS'
                 self.file_name[26] = '2210.15413_ATLAS_Fig7-e_pp_TT_Zt.txt'
-                self.process[26] = 'pp --> TT --> ZtZt'
+                self.process[26] = 'pp --> TT --> ZtZt --> l+l-'
                 self.energy[26] = 13
                 self.luminosity[26] = 139
 
