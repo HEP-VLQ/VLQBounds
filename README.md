@@ -17,11 +17,11 @@ To use VLQBounds, you need to install the following dependencies: `numpy`, `scip
 ```bash
 sudo apt install python3-pip python3-tk
 ```
-Then, install the required Python packages:
+The VLQBounds package can be downloaded using the command:
 ```bash
-pip3 install numpy scipy pandas
+git clone url.git
 ```
 We have provided some examples in the examples folder. To run an example, use the following command:
 ```bash
-python3 -m examples.singlet_T
+python3 examples/singlet_B.py
 ```

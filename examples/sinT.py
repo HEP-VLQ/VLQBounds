@@ -1,6 +1,6 @@
 import numpy as np
-from vlqBounds.models import SingletT
-from vlqBounds import VLQBounds
+from src.models import SingletT
+from src import VLQBounds
 
 
 def main():

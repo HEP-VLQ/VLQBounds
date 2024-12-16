@@ -1,6 +1,6 @@
 import numpy as np
-from vlqBounds.models import PureT
-from vlqBounds import VLQBounds
+from src.models import PureT
+from src import VLQBounds
 
 
 def main():

@@ -1,6 +1,7 @@
 import datetime
 from .models import *
 from .utils import *
+from . import constants as c
 from .coupling import Coupling
 
 

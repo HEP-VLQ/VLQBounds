@@ -1,5 +1,5 @@
-from vlqBounds.utils.theory_XS import get_theo_xs_from_tables, get_data_from_files, interpolate2d
-from vlqBounds.utils.decay_calc import *
+from src.utils.theory_XS import get_theo_xs_from_tables, get_data_from_files, interpolate2d
+from src.utils.decay_calc import *
 
 
 class SingletB:

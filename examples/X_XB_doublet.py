@@ -1,7 +1,8 @@
 import numpy as np
-from vlqBounds.models import DoubletX
-from vlqBounds import VLQBounds
+from src.models import DoubletX
+from src import VLQBounds
 import random
+
 
 def main():
     d = DoubletX()
@@ -13,6 +14,7 @@ def main():
         vlq.doubletX_XT_params(mX=m, s_r=s)
         vlq.check_against_xs_and_coupling_limits()
     vlq.get_key()
+
 
 main()
 

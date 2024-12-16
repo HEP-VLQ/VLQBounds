@@ -1,7 +1,6 @@
 import numpy as np
-from vlqBounds.models import DoubletT
-from vlqBounds import VLQBounds
-import time
+from src.models import DoubletT
+from src import VLQBounds
 
 
 def main():
@@ -14,7 +13,6 @@ def main():
             pt.singletT_params(mT=m, k_T=k)
             pt.check_against_coupling_limits()
     pt.get_key()
-    #pt.df.to_csv("../../doubletT_cms_single_prod.dat", sep=' ')
 
 
 main()

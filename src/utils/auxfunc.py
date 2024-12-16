@@ -1,7 +1,7 @@
 import numpy as np
 import os
 import pandas as pd
-from vlqBounds import constants as c
+from src import constants as c
 
 
 def r_x(m1, m2): return m1/m2

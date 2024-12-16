@@ -1,5 +1,5 @@
-from vlqBounds.utils import *
-from vlqBounds.utils import get_theo_xs_from_tables
+from src.utils import *
+from src.utils import get_theo_xs_from_tables
 
 
 class DoubletY:
