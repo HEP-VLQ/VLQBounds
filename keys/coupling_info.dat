@@ -3,82 +3,94 @@ This File has been generated with PyTop version 0.1
 With the T quark in the Pure scenario
 ***********************************************************************
 channel 0:
-pp --> TT --> ZtZt 		 arXiv:2212.05263 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 139 fb-1
+pp --> TT --> ZtZt --> 1l 		 arXiv:2212.05263 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 139 fb-1
 ***********************************************************************
 channel 1:
-pp --> TT --> ZtZt 		 arXiv:1812.09768 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
+pp --> TT --> ZtZt --> l+l- 		 arXiv:1812.09768 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
 ***********************************************************************
 channel 2:
-pp --> TT --> ZtZt 		 arXiv:1705.10751 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
+pp --> TT --> ZtZt --> 1l 		 arXiv:1705.10751 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
 ***********************************************************************
 channel 3:
-pp --> TT --> HtHt 		 arXiv:1808.01771 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
+pp --> TT --> HtHt --> 0l 		 arXiv:1808.01771 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
 ***********************************************************************
 channel 4:
-pp --> TT --> HtHt 		 arXiv:1503.01952 (CMS) 	 sqrt(s) = 8 TeV	 luminosity = 19.7 fb-1
+pp --> TT --> HtHt --> 0l 		 arXiv:1503.01952 (CMS) 	 sqrt(s) = 8 TeV	 luminosity = 19.7 fb-1
 ***********************************************************************
 channel 5:
-pp --> TT --> WbWb 		 arXiv:1707.03347 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
+pp --> TT --> WbWb --> 1l 		 arXiv:1707.03347 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
 ***********************************************************************
 channel 6:
-pp --> TT --> ZtZt 		 arXiv:1806.10555 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
+pp --> TT --> ZtZt --> l+l- 		 arXiv:1806.10555 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 36.1 fb-1
 ***********************************************************************
 channel 7:
-pp --> TT --> WbWb 		 arXiv:1509.04177 (CMS) 	 sqrt(s) = 8 TeV	 luminosity = 19.7 fb-1
+pp --> TT --> WbWb --> 0l+1l+2l 		 arXiv:1509.04177 (CMS) 	 sqrt(s) = 8 TeV	 luminosity = 19.7 fb-1
 ***********************************************************************
 channel 8:
-pp --> TT --> HtHt 		 arXiv:1509.04177 (CMS) 	 sqrt(s) = 8 TeV	 luminosity = 19.7 fb-1
+pp --> TT --> HtHt --> 0l+1l+2l 		 arXiv:1509.04177 (CMS) 	 sqrt(s) = 8 TeV	 luminosity = 19.7 fb-1
 ***********************************************************************
 channel 9:
-pp --> TT --> ZtZt 		 arXiv:1509.04177 (CMS) 	 sqrt(s) = 8 TeV	 luminosity = 19.7 fb-1
+pp --> TT --> ZtZt --> 0l+1l+2l 		 arXiv:1509.04177 (CMS) 	 sqrt(s) = 8 TeV	 luminosity = 19.7 fb-1
 ***********************************************************************
 channel 10:
-pp --> TT --> WbWb 		 arXiv:1706.03408 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 2.6 fb-1
+pp --> TT --> WbWb --> 1l 		 arXiv:1706.03408 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 2.6 fb-1
 ***********************************************************************
 channel 11:
-pp --> TT --> HtHt 		 arXiv:1706.03408 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 2.6 fb-1
+pp --> TT --> HtHt --> 1l 		 arXiv:1706.03408 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 2.6 fb-1
 ***********************************************************************
 channel 12:
-pp --> TT --> WbWb 		 arXiv:1209.0471 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 2.6 fb-1
+pp --> TT --> WbWb --> 1l 		 arXiv:1209.0471 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 2.6 fb-1
 ***********************************************************************
 channel 13:
-pp --> TT --> WbWb 		 arXiv:1209.0471 (CMS) 	 sqrt(s) = 7 TeV	 luminosity = 5 fb-1
+pp --> TT --> WbWb --> 1l 		 arXiv:1209.0471 (CMS) 	 sqrt(s) = 7 TeV	 luminosity = 5 fb-1
 ***********************************************************************
 channel 14:
-pp --> TT --> WbWb 		 arXiv:1209.0471 (CMS) 	 sqrt(s) = 7 TeV	 luminosity = 5 fb-1
+pp --> TT --> WbWb --> 1l 		 arXiv:1209.0471 (CMS) 	 sqrt(s) = 7 TeV	 luminosity = 5 fb-1
 ***********************************************************************
 channel 15:
-pp --> TT --> WbWb 		 arXiv:1505.04306 (ATLAS) 	 sqrt(s) = 8 TeV	 luminosity = 20.3 fb-1
+pp --> TT --> WbWb --> 1l 		 arXiv:1505.04306 (ATLAS) 	 sqrt(s) = 8 TeV	 luminosity = 20.3 fb-1
 ***********************************************************************
 channel 16:
-pp --> TT --> WbWb 		 arXiv:1210.5468 (ATLAS) 	 sqrt(s) = 7 TeV	 luminosity = 4.7 fb-1
+pp --> TT --> WbWb --> 1l  		 arXiv:1210.5468 (ATLAS) 	 sqrt(s) = 7 TeV	 luminosity = 4.7 fb-1
 ***********************************************************************
 channel 17:
-pp --> TT --> WbWb 		 arXiv:1710.01539 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.8 fb-1
+pp --> TT --> WbWb --> 1l 		 arXiv:1710.01539 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.8 fb-1
 ***********************************************************************
 channel 18:
-pp --> TT --> HtHt 		 ATLAS-CONF-2016-104 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 13.2 fb-1
+pp --> TT --> HtHt --> 0l+1l  		 ATLAS-CONF-2016-104 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 13.2 fb-1
 ***********************************************************************
 channel 19:
-pp --> TT --> ZtZt 		 ATLAS-CONF-2016-104 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 13.2 fb-1
+pp --> TT --> ZtZt --> 0l+1l  		 ATLAS-CONF-2016-104 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 13.2 fb-1
 ***********************************************************************
 channel 20:
-pp --> TT --> WbWb 		 arXiv:1906.11903 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.9 fb-1
+pp --> TT --> WbWb --> 0l 		 arXiv:1906.11903 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.9 fb-1
 ***********************************************************************
 channel 21:
-pp --> TT --> ZtZt 		 arXiv:1906.11903 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.9 fb-1
+pp --> TT --> ZtZt --> 0l 		 arXiv:1906.11903 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.9 fb-1
 ***********************************************************************
 channel 22:
-pp --> TT --> HtHt 		 arXiv:1906.11903 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.9 fb-1
+pp --> TT --> HtHt --> 0l 		 arXiv:1906.11903 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 35.9 fb-1
 ***********************************************************************
 channel 23:
-pp --> TT --> WbWb 		 arXiv:1203.5410 (CMS) 	 sqrt(s) = 7 TeV	 luminosity = 5 fb-1
+pp --> TT --> WbWb --> l+l- 		 arXiv:1203.5410 (CMS) 	 sqrt(s) = 7 TeV	 luminosity = 5 fb-1
 ***********************************************************************
 channel 24:
-pp --> TT --> WbWb 		 arXiv:1202.3076 (ATLAS) 	 sqrt(s) = 7 TeV	 luminosity = 1.04 fb-1
+pp --> TT --> WbWb --> 1l 		 arXiv:1202.3076 (ATLAS) 	 sqrt(s) = 7 TeV	 luminosity = 1.04 fb-1
 ***********************************************************************
 channel 25:
-pp --> TT --> ZtZt 		 arXiv:1606.03903 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 3.2 fb-1
+pp --> TT --> ZtZt --> 1l 		 arXiv:1606.03903 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 3.2 fb-1
 ***********************************************************************
 channel 26:
-pp --> TT --> ZtZt 		 arXiv:2210.15413 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 139 fb-1
+pp --> TT --> ZtZt --> l+l- 		 arXiv:2210.15413 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 139 fb-1
+***********************************************************************
+channel 27:
+pp --> TT --> WbWb --> 1l + jets 		 arXiv:2401.17165 (ATLAS) 	 sqrt(s) = 13 TeV	 luminosity = 140 fb-1
+***********************************************************************
+channel 28:
+pp --> TT --> WbWb --> >=1l + jets 		 arXiv:2209.07327 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 138 fb-1
+***********************************************************************
+channel 29:
+pp --> TT --> ZtZt --> >=1l + jets 		 arXiv:2209.07327 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 138 fb-1
+***********************************************************************
+channel 30:
+pp --> TT --> HtHt --> >=1l + jets 		 arXiv:2209.07327 (CMS) 	 sqrt(s) = 13 TeV	 luminosity = 138 fb-1

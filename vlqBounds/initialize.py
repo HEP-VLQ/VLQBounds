@@ -85,7 +85,7 @@ class Tables:
             elif self.m.model() == 'Doublet':
                 return 33
             else:
-                return 27
+                return 31
 
     def initialize_bounds_arrays(self):
         if isinstance(self.m, (SingletB, DoubletB, PureB)):
@@ -1869,6 +1869,38 @@ class Tables:
                 self.process[26] = 'pp --> TT --> ZtZt --> l+l-'
                 self.energy[26] = 13
                 self.luminosity[26] = 139
+
+                self.key[27] = '17165f5a'
+                self.label[27] = 'arXiv:2401.17165'
+                self.expt[27] = 'ATLAS'
+                self.file_name[27] = '2401.17165_ATLAS_Fig5a_pp_TT_bW.dat'
+                self.process[27] = 'pp --> TT --> WbWb --> 1l + jets'
+                self.energy[27] = 13
+                self.luminosity[27] = 140
+
+                self.key[28] = '07327fwb'
+                self.label[28] = 'arXiv:2209.07327'
+                self.expt[28] = 'CMS'
+                self.file_name[28] = '2209.07327_CMS_Table11_pp_TT_Wb.dat'
+                self.process[28] = 'pp --> TT --> WbWb --> >=1l + jets'
+                self.energy[28] = 13
+                self.luminosity[28] = 138
+
+                self.key[29] = '07327fzt'
+                self.label[29] = 'arXiv:2209.07327'
+                self.expt[29] = 'CMS'
+                self.file_name[29] = '2209.07327_CMS_Table11_pp_TT_Zt.dat'
+                self.process[29] = 'pp --> TT --> ZtZt --> >=1l + jets'
+                self.energy[29] = 13
+                self.luminosity[29] = 138
+
+                self.key[30] = '07327fht'
+                self.label[30] = 'arXiv:2209.07327'
+                self.expt[30] = 'CMS'
+                self.file_name[30] = '2209.07327_CMS_Table11_pp_TT_Ht.dat'
+                self.process[30] = 'pp --> TT --> HtHt --> >=1l + jets'
+                self.energy[30] = 13
+                self.luminosity[30] = 138
 
                 load_data_from_files(self.file_name, len(self.key), self.MT, self.exp, self.obs, self.expt)
 

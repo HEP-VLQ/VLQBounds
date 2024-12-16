@@ -95,19 +95,16 @@ class TheoryCalc(Tables, Result):
         def pure_VLQ_decay():
             if self.to_W:
                 if 'W' in self.process[i]:
-                    print("W")
                     return self.m.get_xs_pp_QQ()
                 else:
                     return -1
             elif self.to_Z:
                 if 'Z' in self.process[i]:
-                    print("Z")
                     return self.m.get_xs_pp_QQ()
                 else:
                     return -1
             elif self.to_H:
                 if 'H' in self.process[i]:
-                    print("H")
                     return self.m.get_xs_pp_QQ()
                 else:
                     return -1

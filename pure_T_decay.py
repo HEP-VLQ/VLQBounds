@@ -9,7 +9,7 @@ def main():
     vb.initialize_xs_data()
     mT = np.arange(800, 2000, 1)
     for m in mT:
-        vb.pure_T_to_Wb(mT)
+        vb.pure_T_to_Ht(m)
         vb.check_against_xs_limits()
     vb.get_key()
 
