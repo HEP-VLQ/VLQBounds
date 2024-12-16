@@ -15,6 +15,7 @@ def main():
         }
         pt.singletB_params(**params)
         pt.check_against_xs_and_coupling_limits()
+        pt.print_result()
     pt.get_key()
 
 
