@@ -12,6 +12,7 @@ def main():
         for m in m_range:
             vlq.doubletB_BY_params(mB=m, k_B=k)
             vlq.check_against_xs_and_coupling_limits()
+            vlq.print_result()
     vlq.get_key()
     vlq.df.to_csv("~/doubletB_example.dat", sep=' ')
 
