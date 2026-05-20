@@ -37,107 +37,6 @@ class TableEntry:
 # Each catalogue is a list[TableEntry].  Entries are looked up by VLQ type
 # and model via _CATALOGUE below.
 
-_B_SINGLET: List[TableEntry] = [
-    TableEntry('01762fb',   'arXiv:1806.01762', 'ATLAS', '1806.01762_ATLAS_fig4b_pp_BB_Wt_singlet.dat',                             'pp --> BB --> Wt --> 1l',             13,  36.1),
-    TableEntry('10555f13b', 'arXiv:1806.10555', 'ATLAS', '1806.10555_ATLAS_fig13b_pp_BB_Zb_singlet.dat',                            'pp --> BB --> Zb --> l+l-+>=3l',      13,  36.1),
-    TableEntry('15413f7b',  'arXiv:2210.15413', 'ATLAS', '2210.15413_ATLAS_fig7b_pp_BB_Zb_singlet.dat',                             'pp --> BB --> Zb --> l+l-+3l',        13, 139.0),
-    TableEntry('05263f7d',  'arXiv:2212.05263', 'ATLAS', '2212.05263_ATLAS_fig7d_pp_BB_Wt_singlet.dat',                             'pp --> BB --> Wt --> 1l',             13, 139.0),
-    TableEntry('01486Fig6a','arXiv:1802.01486', 'CMS',   '1802.01486_Fig6a_CMS_upper_left_pp_B_bH_Gamma_M1_singlet_or_doublet.dat', 'pp --> Bbq --> bHbq --> 0l',          13,  35.9),
-    TableEntry('01486Fig6b','arXiv:1802.01486', 'CMS',   '1802.01486_Fig6b_CMS_upper_right_pp_B_bH_Gamma_M10_singlet_or_doublet.dat','pp --> Bbq --> bHbq --> 0l',         13,  35.9),
-    TableEntry('01486Fig6c','arXiv:1802.01486', 'CMS',   '1802.01486_Fig6c_CMS_lower_left_pp_B_bH_Gamma_M20_singlet_or_doublet.dat','pp --> Bbq --> bHbq --> 0l',          13,  35.9),
-    TableEntry('01486Fig6d','arXiv:1802.01486', 'CMS',   '1802.01486_Fig6d_CMS_lower_right_pp_B_bH_Gamma_M30_singlet_or_doublet.dat','pp --> Bbq --> bHbq --> 0l',         13,  35.9),
-    TableEntry('04758f8ll', 'arXiv:1805.04758', 'CMS',   '1805.04758_CMS_Fig8_lower_left_singlet.dat',                              'pp --> BB --> 1l+l+l++3l',            13,  35.9),
-    TableEntry('07327f9c',  'arXiv:2209.07327', 'CMS',   '2209.07327_CMS_f9c_pp_BB_singlet.dat',                                    'pp --> BB --> 1l+l+l++3l',            13, 138.0),
-    TableEntry('5500f12a',  'arXiv:1409.5500',  'ATLAS', '1409.5500_ATLAS_Fig12a_pp_BB_singlet.dat',                                'pp --> BB --> l+l-+3l',                8,  20.3),
-    TableEntry('05425f8',   'arXiv:1503.05425', 'ATLAS', '1503.05425_ATLAS_Fig8_pp_BB_Wt_Zb_HB_singlet.dat',                        'pp --> BB --> 1l',                     8,  20.3),
-    TableEntry('04605f7a',  'arXiv:1504.04605', 'ATLAS', '1504.04605_ATLAS_Fig7a_pp_BB_singlet.dat',                                'pp --> BB --> l+l+',                   8,  20.3),
-    TableEntry('04306f22b', 'arXiv:1505.04306', 'ATLAS', '1505.04306_ATLAS_Fig22b_pp_BB_Hb_singlet.dat',                            'pp --> BB --> 1l',                     8,  20.3),
-    TableEntry('02343f3a',  'arXiv:1808.02343', 'ATLAS', '1808.02343_ATLAS_Fig3a_pp_BB_singlet.dat',                                'pp --> BB --> 1l+l+l++3l',            13,  36.1),
-    TableEntry('02595f8a',  'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig8a_pp_B_bH_k03_singlet.dat',                          'pp --> Bb(t)q --> bHb(t)q --> 0l',    13, 139.0),
-    TableEntry('02595f8c',  'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig8c_pp_B_bH_k04_singlet.dat',                          'pp --> Bb(t)q --> bHb(t)q --> 0l',    13, 139.0),
-    TableEntry('02595f8e',  'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig8e_pp_B_bH_k05_singlet.dat',                          'pp --> Bb(t)q --> bHb(t)q --> 0l',    13, 139.0),
-    TableEntry('07409f5l',  'arXiv:1701.07409', 'CMS',   '1701.07409_CMS_Fig5_left_pp_Bt_bZ_cWt05_singlet.dat',                     'pp --> Btq --> bZtq --> 0l',          13,   2.3),
-    TableEntry('07409f5r',  'arXiv:1701.07409', 'CMS',   '1701.07409_CMS_Fig5_right_pp_Bb_bZ_cbZ05_singlet.dat',                    'pp --> Bbq --> bZbq --> 0l',          13,   2.3),
-    TableEntry('10216f4l',  'arXiv:2111.10216', 'CMS',   '2111.10216_CMS_Fig4_left_pp_B_Wt_singlet_doublet.dat',                    'pp --> Bbq --> tWbq --> 1l',          13, 138.0),
-    TableEntry('10216f4r',  'arXiv:2111.10216', 'CMS',   '2111.10216_CMS_Fig4_right_pp_B_Wt_singlet_doublet.dat',                   'pp --> Btq --> tWtq --> 1l',          13, 138.0),
-    TableEntry('17605f39ll','arXiv:2405.17605', 'CMS',   '2405.17605_CMS_Fig39_lower_left_pp_BB_singlet.dat',                       'pp --> BB --> 0l',                    13, 138.0),
-]
-
-_B_DOUBLET: List[TableEntry] = [
-    TableEntry('10555f13d',  'arXiv:1806.10555', 'ATLAS', '1806.10555_ATLAS_fig13d_pp_BB_BY_doublet.dat',                             'pp --> BB --> l+l-+>=3l',        13,  36.1, 'BY'),
-    TableEntry('01771f13c',  'arXiv:1808.01771', 'ATLAS', '1808.01771_ATLAS_fig13c_pp_BB_BY_doublet.dat',                             'pp --> BB --> 0l',               13,  36.1, 'BY'),
-    TableEntry('05263f7f',   'arXiv:2212.05263', 'ATLAS', '2212.05263_ATLAS_fig7f_pp_QQ_mass_degenerate_BYorTB_doublet.dat',          'pp --> BB --> 1l',               13, 139.0, 'TB'),
-    TableEntry('01486Fig6a', 'arXiv:1802.01486', 'CMS',   '1802.01486_Fig6a_CMS_upper_left_pp_B_bH_Gamma_M1_singlet_or_doublet.dat',  'pp --> Bbq --> bHbq --> 0l',     13,  35.9, 'BYorTB'),
-    TableEntry('01486Fig6b', 'arXiv:1802.01486', 'CMS',   '1802.01486_Fig6b_CMS_upper_right_pp_B_bH_Gamma_M10_singlet_or_doublet.dat','pp --> Bbq --> bHbq --> 0l',     13,  35.9, 'BYorTB'),
-    TableEntry('01486Fig6c', 'arXiv:1802.01486', 'CMS',   '1802.01486_Fig6c_CMS_lower_left_pp_B_bH_Gamma_M20_singlet_or_doublet.dat', 'pp --> Bbq --> bHbq --> 0l',     13,  35.9, 'BYorTB'),
-    TableEntry('01486Fig6d', 'arXiv:1802.01486', 'CMS',   '1802.01486_Fig6d_CMS_lower_right_pp_B_bH_Gamma_M30_singlet_or_doublet.dat','pp --> Bbq --> bHbq --> 0l',     13,  35.9, 'BYorTB'),
-    TableEntry('04758Fig8lr','arXiv:1805.04758', 'CMS',   '1805.04758_CMS_Fig8_lower_right_pp_BB_doublet.dat',                        'pp --> BB --> 1l+l+l++3l',       13,  35.9, 'BYorTB'),
-    TableEntry('09768Fig7ur','arXiv:1812.09768', 'CMS',   '1812.09768_CMS_Fig7_upper_right_pp_BB_doublet.dat',                        'pp --> BB --> l+l-',             13,  35.9, 'BYorTB'),
-    TableEntry('09835Fig11l','arXiv:2008.09835', 'CMS',   '2008.09835_CMS_Fig11_lower_pp_BB_doublet.dat',                             'pp --> BB --> 0l',               13, 137.0, 'BYorTB'),
-    TableEntry('07327f9d',   'arXiv:2209.07327', 'CMS',   '2209.07327_CMS_f9d_pp_BB_doublet.dat',                                     'pp --> BB --> 1l+l+l++3l',       13, 137.0, 'BYorTB'),
-    TableEntry('02343f3b',   'arXiv:1808.02343', 'ATLAS', '1808.02343_ATLAS_Fig3b_pp_BB_TB_doublet.dat',                              'pp --> BB --> 1l+l+l++3l',       13,  36.1, 'TB'),
-    TableEntry('02343f3c',   'arXiv:1808.02343', 'ATLAS', '1808.02343_ATLAS_Fig3c_pp_BB_BY_doublet.dat',                              'pp --> BB --> 1l+l+l++3l',       13,  36.1, 'BY'),
-    TableEntry('02595f8b',   'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig8b_pp_B_bH_k03_BY_doublet.dat',                        'pp --> Bb(t)q --> bHb(t)q --> 0l',13,139.0, 'BY'),
-    TableEntry('02595f8d',   'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig8d_pp_B_bH_k04_BY_doublet.dat',                        'pp --> Bb(t)q --> bHb(t)q --> 0l',13,139.0, 'BY'),
-    TableEntry('02595f8f',   'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig8f_pp_B_bH_k05_BY_doublet.dat',                        'pp --> Bb(t)q --> bHb(t)q --> 0l',13,139.0, 'BY'),
-    TableEntry('03408f13r',  'arXiv:1706.03408', 'CMS',   '1706.03408_CMS_Fig13_right_pp_BB_doublet.dat',                             'pp --> BB --> 1l',               13,   2.6, 'BYorTB'),
-    TableEntry('13808f18ll', 'arXiv:2402.13808', 'CMS',   '2402.13808_CMS_Fig18_lower_left_pp_BB_TB_doublet.dat',                     'pp --> BB --> 0l+l+l-',          13, 138.0, 'TB'),
-    TableEntry('10216f4ld',  'arXiv:2111.10216', 'CMS',   '2111.10216_CMS_Fig4_left_pp_B_Wt_singlet_doublet.dat',                     'pp --> Bbq --> tWbq --> 1l',     13, 138.0, 'BYorTB'),
-    TableEntry('17605f39lr', 'arXiv:2405.17605', 'CMS',   '2405.17605_CMS_Fig39_lower_right_pp_BB_doublet.dat',                       'pp --> BB --> 0l',               13, 138.0, 'BYorTB'),
-    TableEntry('15413f7d',   'arXiv:2210.15413', 'ATLAS', '2210.15413_ATLAS_fig7d_pp_BB_BY_doublet.dat',                              'pp --> BB --> l+l-+3l',          13, 139.0, 'BY'),
-]
-
-_B_PURE: List[TableEntry] = [
-    TableEntry('01762f4a',    'arXiv:1806.01762',      'ATLAS', '1806.01762_ATLAS_fig4a_pp_BB_Wt.dat',                       'pp --> BB --> WtWt --> 1l',          13,  36.1),
-    TableEntry('15413fig7f',  'arXiv:2210.15413',      'ATLAS', '2210.15413_ATLAS_fig7f_pp_BB_Zb.dat',                       'pp --> BB --> ZbZb --> >= l+l-',     13, 139.0),
-    TableEntry('09768fig7ul', 'arXiv:1812.09768',      'CMS',   '1812.09768_CMS_Fig7_upper_left_pp_BB_bZ.dat',               'pp --> BB --> ZbZb --> l+l-',        13,  35.9),
-    TableEntry('09835fig11ul','arXiv:2008.09835',      'CMS',   '2008.09835_CMS_fig11_upper_left_pp_B_bH.dat',               'pp --> BB --> HbHb --> 0l',          13, 137.0),
-    TableEntry('09835fig11ur','arXiv:2008.09835',      'CMS',   '2008.09835_CMS_fig11_upper_right_pp_B_bZ.dat',              'pp --> BB --> ZbZb --> 0l',          13, 137.0),
-    TableEntry('1265f5',      'arXiv:1204.1265',       'ATLAS', '1204.1265_ATLAS_Fig5_pp_BB_Zb.dat',                         'pp --> BB --> ZbZb --> l+l-',        13, 137.0),
-    TableEntry('04605f6a',    'arXiv:1504.04605',      'ATLAS', '1504.04605_ATLAS_Fig6a_pp_BB_Wt.dat',                       'pp --> BB --> WtWt --> l+l+',         8,  20.3),
-    TableEntry('04306f22a',   'arXiv:1505.04306',      'ATLAS', '1505.04306_ATLAS_Fig22a_pp_BB_Hb.dat',                      'pp --> BB --> HbHb --> 1l',           8,  20.3),
-    TableEntry('13808f18ul',  'arXiv:2402.13808',      'CMS',   '2402.13808_CMS_Fig18_upper_left_pp_BB_bH.dat',              'pp --> BB --> HbHb --> 0l+l+l-',     13, 138.0),
-    TableEntry('13808f18ur',  'arXiv:2402.13808',      'CMS',   '2402.13808_CMS_Fig18_upper_right_pp_BB_bZ.dat',             'pp --> BB --> ZbZb --> 0l+l+l-',     13, 138.0),
-    TableEntry('07129f13l',   'arXiv:1507.07129',      'CMS',   '1507.07129_Fig13_left_pp_BB_Wt.dat',                        'pp --> BB --> WtWt --> 1l+2l+>=2l',   8,  19.7),
-    TableEntry('07129f13m',   'arXiv:1507.07129',      'CMS',   '1507.07129_Fig13_middle_pp_BB_bZ.dat',                      'pp --> BB --> ZbZb --> 1l+2l+>=2l',   8,  19.7),
-    TableEntry('07129f13r',   'arXiv:1507.07129',      'CMS',   '1507.07129_Fig13_right_pp_BB_bH.dat',                       'pp --> BB --> HbHb --> 1l+2l+>=2l',   8,  19.7),
-    TableEntry('17605f38l',   'arXiv:2405.17605',      'CMS',   '2405.17605_CMS_Fig38_lower_pp_BB_tW.dat',                   'pp --> BB --> WtWt --> 0l+>=1l+2l',  13,  19.7),
-    TableEntry('17605f38ul',  'arXiv:2405.17605',      'CMS',   '2405.17605_CMS_Fig38_upper_left_pp_BB_bZ.dat',              'pp --> BB --> ZbZb --> 0l+2l',       13, 138.0),
-    TableEntry('17605f38ur',  'arXiv:2405.17605',      'CMS',   '2405.17605_CMS_Fig38_upper_right_pp_BB_bH.dat',             'pp --> BB --> HbHb --> 0l+2l',       13, 138.0),
-    TableEntry('05263f7f',    'arXiv:2212.05263',      'ATLAS', '2212.05263_ATLAS_fig7b_pp_BB_BYorTB_doublet.dat',           'pp --> BB --> WtWt --> 1l',          13, 139.0),
-]
-
-_X_DOUBLET: List[TableEntry] = [
-    TableEntry('03188f7a',  'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig7a_pp_XX_tW_left_handed.dat',              'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
-    TableEntry('03188f7b',  'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig7b_pp_XX_tW_right_handed.dat',             'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
-    TableEntry('03188f7c',  'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig7c_pp_XX_tW_left_handed.dat',              'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
-    TableEntry('03188f7d',  'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig7d_pp_XX_tW_right_handed.dat',             'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
-    TableEntry('03188f7d2', 'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig7d_pp_XX_tW_right_handed.dat',             'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
-    TableEntry('03188f8a',  'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig8a_pp_XX_tW_left_handed_combination.dat',  'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
-    TableEntry('03188f8b',  'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig8b_pp_XX_tW_right_handed_combination.dat', 'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
-    TableEntry('03347f4a',  'arXiv:1707.03347', 'ATLAS', '1707.03347_ATLAS_fig4a_pp_XX_Wb.dat',                        'pp --> XX --> Wb --> 1l',       13, 36.1),
-    TableEntry('01762f4a',  'arXiv:1806.01762', 'ATLAS', '1806.01762_ATLAS_Fig4a_pp_XX_Wt.dat',                        'pp --> XX --> Wt --> 1l',       13, 36.1),
-    TableEntry('11883f10a', 'arXiv:1807.11883', 'ATLAS', '1807.11883_ATLAS_Fig10a_pp_XX_Wt.dat',                       'pp --> XX --> l+l+',            13, 36.1),
-    TableEntry('05263f7b',  'arXiv:2212.05263', 'ATLAS', '2212.05263_ATLAS_fig7b_pp_XX_Wt_doublet.dat',                'pp --> XX --> Wt --> 1l',       13, 139.0),
-    TableEntry('05263f7f',  'arXiv:2212.05263', 'ATLAS', '2212.05263_ATLAS_fig7f_pp_XX_Wt_doublet.dat',                'pp --> XX --> Wt --> 1l',       13, 139.0),
-    TableEntry('04605f10a', 'arXiv:1504.04605', 'ATLAS', '1504.04605_ATLAS_fig10a_pp_XX_Wt.dat',                       'pp --> XX --> Wt --> l+l+',      8,  20.3),
-    TableEntry('08597f8ur', 'arXiv:1809.08597', 'CMS',   '1809.08597_Fig8_upper_right_pp_X_Wt_gamma_M1.dat',           'pp --> Xtq --> Wt --> 1l',      13,  35.9),
-]
-
-_Y_DOUBLET: List[TableEntry] = [
-    TableEntry('08328f5',   'arXiv:1701.08328', 'CMS',   '1701.08328_CMS_Fig5_pp_Ybq_bWbq_c05.dat',                                   'pp --> Ybq --> bW --> 1l',  13,   2.3),
-    TableEntry('01539f4',   'arXiv:1710.01539', 'CMS',   '1710.01539_CMS_Fig4_upper_pp_YY_Wb.dat',                                     'pp --> YY --> Wb --> 1l',   13,  35.8),
-    TableEntry('03347f4a',  'arXiv:1707.03347', 'ATLAS', '1707.03347_ATLAS_fig4a_pp_YY_Wb.dat',                                        'pp --> YY --> Wb --> 1l',   13,  36.1),
-    TableEntry('17165f5a',  'arXiv:2401.17165', 'ATLAS', '2401.17165_ATLAS_Fig5a_pp_YY_bW.dat',                                        'pp --> YY --> Wb --> 1l',   13, 140.0),
-    TableEntry('05606f6',   'arXiv:1602.05606', 'ATLAS', '1602.05606_ATLAS_Fig6_pp_Ybj_Wb.dat',                                        'pp --> Ybq --> bW --> 1l',   8,  20.3),
-    TableEntry('07343f9',   'arXiv:1812.07343', 'ATLAS', '1812.07343_fig9_pp_Y_Wb.dat',                                                'pp --> Ybq --> bW --> 1l',  13,  36.1),
-    TableEntry('20273f5a',  'arXiv:2409.20273', 'ATLAS', '2409.20273_ATLAS_Fig5a_pp_Qbq_Wb_k05_Tsinglet_Ydoublet.dat',                 'pp --> Ybq --> bW --> 0l',  13, 139.0),
-    TableEntry('20273f5b',  'arXiv:2409.20273', 'ATLAS', '2409.20273_ATLAS_Fig5b_pp_Qbq_Wb_k07_Tsinglet_YDoublet.dat',                 'pp --> Ybq --> bW --> 0l',  13, 139.0),
-]
-
-# Y-Triplet reuses the first 4 entries of Y-Doublet
-_Y_TRIPLET: List[TableEntry] = _Y_DOUBLET[:4]
-
 _T_SINGLET: List[TableEntry] = [
     TableEntry('10751fig6b', 'arXiv:1705.10751',      'ATLAS', '1705.10751_ATLAS_fig6b_pp_TT_Zt_Singlet.txt',                           'pp --> TT --> 1l',                             13,  36.1),
     TableEntry('73270',      'arXiv:2209.07327',      'CMS',   '2209.07327_CMS_f9a_pp_TTbar_Singlet.txt',                               'pp --> TT --> 1l+l+l++3l',                     13, 138.0),
@@ -272,49 +171,152 @@ _T_PURE: List[TableEntry] = [
     TableEntry('07327fht',  'arXiv:2209.07327',      'CMS',   '2209.07327_CMS_Table11_pp_TT_Ht.dat',                         'pp --> TT --> HtHt --> >=1l + jets',      13, 138.0),
 ]
 
+
+_B_SINGLET: List[TableEntry] = [
+    TableEntry('01762fb',   'arXiv:1806.01762', 'ATLAS', '1806.01762_ATLAS_fig4b_pp_BB_Wt_singlet.dat',                             'pp --> BB --> Wt --> 1l',             13,  36.1),
+    TableEntry('10555f13b', 'arXiv:1806.10555', 'ATLAS', '1806.10555_ATLAS_fig13b_pp_BB_Zb_singlet.dat',                            'pp --> BB --> Zb --> l+l-+>=3l',      13,  36.1),
+    TableEntry('15413f7b',  'arXiv:2210.15413', 'ATLAS', '2210.15413_ATLAS_fig7b_pp_BB_Zb_singlet.dat',                             'pp --> BB --> Zb --> l+l-+3l',        13, 139.0),
+    TableEntry('05263f7d',  'arXiv:2212.05263', 'ATLAS', '2212.05263_ATLAS_fig7d_pp_BB_Wt_singlet.dat',                             'pp --> BB --> Wt --> 1l',             13, 139.0),
+    TableEntry('01486Fig6a','arXiv:1802.01486', 'CMS',   '1802.01486_Fig6a_CMS_upper_left_pp_B_bH_Gamma_M1_singlet_or_doublet.dat', 'pp --> Bbq --> bHbq --> 0l',          13,  35.9),
+    TableEntry('01486Fig6b','arXiv:1802.01486', 'CMS',   '1802.01486_Fig6b_CMS_upper_right_pp_B_bH_Gamma_M10_singlet_or_doublet.dat','pp --> Bbq --> bHbq --> 0l',         13,  35.9),
+    TableEntry('01486Fig6c','arXiv:1802.01486', 'CMS',   '1802.01486_Fig6c_CMS_lower_left_pp_B_bH_Gamma_M20_singlet_or_doublet.dat','pp --> Bbq --> bHbq --> 0l',          13,  35.9),
+    TableEntry('01486Fig6d','arXiv:1802.01486', 'CMS',   '1802.01486_Fig6d_CMS_lower_right_pp_B_bH_Gamma_M30_singlet_or_doublet.dat','pp --> Bbq --> bHbq --> 0l',         13,  35.9),
+    TableEntry('04758f8ll', 'arXiv:1805.04758', 'CMS',   '1805.04758_CMS_Fig8_lower_left_singlet.dat',                              'pp --> BB --> 1l+l+l++3l',            13,  35.9),
+    TableEntry('07327f9c',  'arXiv:2209.07327', 'CMS',   '2209.07327_CMS_f9c_pp_BB_singlet.dat',                                    'pp --> BB --> 1l+l+l++3l',            13, 138.0),
+    TableEntry('5500f12a',  'arXiv:1409.5500',  'ATLAS', '1409.5500_ATLAS_Fig12a_pp_BB_singlet.dat',                                'pp --> BB --> l+l-+3l',                8,  20.3),
+    TableEntry('05425f8',   'arXiv:1503.05425', 'ATLAS', '1503.05425_ATLAS_Fig8_pp_BB_Wt_Zb_HB_singlet.dat',                        'pp --> BB --> 1l',                     8,  20.3),
+    TableEntry('04605f7a',  'arXiv:1504.04605', 'ATLAS', '1504.04605_ATLAS_Fig7a_pp_BB_singlet.dat',                                'pp --> BB --> l+l+',                   8,  20.3),
+    TableEntry('04306f22b', 'arXiv:1505.04306', 'ATLAS', '1505.04306_ATLAS_Fig22b_pp_BB_Hb_singlet.dat',                            'pp --> BB --> 1l',                     8,  20.3),
+    TableEntry('02343f3a',  'arXiv:1808.02343', 'ATLAS', '1808.02343_ATLAS_Fig3a_pp_BB_singlet.dat',                                'pp --> BB --> 1l+l+l++3l',            13,  36.1),
+    TableEntry('02595f8a',  'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig8a_pp_B_bH_k03_singlet.dat',                          'pp --> Bb(t)q --> bHb(t)q --> 0l',    13, 139.0),
+    TableEntry('02595f8c',  'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig8c_pp_B_bH_k04_singlet.dat',                          'pp --> Bb(t)q --> bHb(t)q --> 0l',    13, 139.0),
+    TableEntry('02595f8e',  'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig8e_pp_B_bH_k05_singlet.dat',                          'pp --> Bb(t)q --> bHb(t)q --> 0l',    13, 139.0),
+    TableEntry('07409f5l',  'arXiv:1701.07409', 'CMS',   '1701.07409_CMS_Fig5_left_pp_Bt_bZ_cWt05_singlet.dat',                     'pp --> Btq --> bZtq --> 0l',          13,   2.3),
+    TableEntry('07409f5r',  'arXiv:1701.07409', 'CMS',   '1701.07409_CMS_Fig5_right_pp_Bb_bZ_cbZ05_singlet.dat',                    'pp --> Bbq --> bZbq --> 0l',          13,   2.3),
+    TableEntry('10216f4l',  'arXiv:2111.10216', 'CMS',   '2111.10216_CMS_Fig4_left_pp_B_Wt_singlet_doublet.dat',                    'pp --> Bbq --> tWbq --> 1l',          13, 138.0),
+    TableEntry('10216f4r',  'arXiv:2111.10216', 'CMS',   '2111.10216_CMS_Fig4_right_pp_B_Wt_singlet_doublet.dat',                   'pp --> Btq --> tWtq --> 1l',          13, 138.0),
+    TableEntry('17605f39ll','arXiv:2405.17605', 'CMS',   '2405.17605_CMS_Fig39_lower_left_pp_BB_singlet.dat',                       'pp --> BB --> 0l',                    13, 138.0),
+]
+
+_B_DOUBLET: List[TableEntry] = [
+    TableEntry('10555f13d',  'arXiv:1806.10555', 'ATLAS', '1806.10555_ATLAS_fig13d_pp_BB_BY_doublet.dat',                             'pp --> BB --> l+l-+>=3l',        13,  36.1, 'BY'),
+    TableEntry('01771f13c',  'arXiv:1808.01771', 'ATLAS', '1808.01771_ATLAS_fig13c_pp_BB_BY_doublet.dat',                             'pp --> BB --> 0l',               13,  36.1, 'BY'),
+    TableEntry('05263f7f',   'arXiv:2212.05263', 'ATLAS', '2212.05263_ATLAS_fig7f_pp_QQ_mass_degenerate_BYorTB_doublet.dat',          'pp --> BB --> 1l',               13, 139.0, 'TB'),
+    TableEntry('01486Fig6a', 'arXiv:1802.01486', 'CMS',   '1802.01486_Fig6a_CMS_upper_left_pp_B_bH_Gamma_M1_singlet_or_doublet.dat',  'pp --> Bbq --> bHbq --> 0l',     13,  35.9, 'BYorTB'),
+    TableEntry('01486Fig6b', 'arXiv:1802.01486', 'CMS',   '1802.01486_Fig6b_CMS_upper_right_pp_B_bH_Gamma_M10_singlet_or_doublet.dat','pp --> Bbq --> bHbq --> 0l',     13,  35.9, 'BYorTB'),
+    TableEntry('01486Fig6c', 'arXiv:1802.01486', 'CMS',   '1802.01486_Fig6c_CMS_lower_left_pp_B_bH_Gamma_M20_singlet_or_doublet.dat', 'pp --> Bbq --> bHbq --> 0l',     13,  35.9, 'BYorTB'),
+    TableEntry('01486Fig6d', 'arXiv:1802.01486', 'CMS',   '1802.01486_Fig6d_CMS_lower_right_pp_B_bH_Gamma_M30_singlet_or_doublet.dat','pp --> Bbq --> bHbq --> 0l',     13,  35.9, 'BYorTB'),
+    TableEntry('04758Fig8lr','arXiv:1805.04758', 'CMS',   '1805.04758_CMS_Fig8_lower_right_pp_BB_doublet.dat',                        'pp --> BB --> 1l+l+l++3l',       13,  35.9, 'BYorTB'),
+    TableEntry('09768Fig7ur','arXiv:1812.09768', 'CMS',   '1812.09768_CMS_Fig7_upper_right_pp_BB_doublet.dat',                        'pp --> BB --> l+l-',             13,  35.9, 'BYorTB'),
+    TableEntry('09835Fig11l','arXiv:2008.09835', 'CMS',   '2008.09835_CMS_Fig11_lower_pp_BB_doublet.dat',                             'pp --> BB --> 0l',               13, 137.0, 'BYorTB'),
+    TableEntry('07327f9d',   'arXiv:2209.07327', 'CMS',   '2209.07327_CMS_f9d_pp_BB_doublet.dat',                                     'pp --> BB --> 1l+l+l++3l',       13, 137.0, 'BYorTB'),
+    TableEntry('02343f3b',   'arXiv:1808.02343', 'ATLAS', '1808.02343_ATLAS_Fig3b_pp_BB_TB_doublet.dat',                              'pp --> BB --> 1l+l+l++3l',       13,  36.1, 'TB'),
+    TableEntry('02343f3c',   'arXiv:1808.02343', 'ATLAS', '1808.02343_ATLAS_Fig3c_pp_BB_BY_doublet.dat',                              'pp --> BB --> 1l+l+l++3l',       13,  36.1, 'BY'),
+    TableEntry('02595f8b',   'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig8b_pp_B_bH_k03_BY_doublet.dat',                        'pp --> Bb(t)q --> bHb(t)q --> 0l',13,139.0, 'BY'),
+    TableEntry('02595f8d',   'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig8d_pp_B_bH_k04_BY_doublet.dat',                        'pp --> Bb(t)q --> bHb(t)q --> 0l',13,139.0, 'BY'),
+    TableEntry('02595f8f',   'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig8f_pp_B_bH_k05_BY_doublet.dat',                        'pp --> Bb(t)q --> bHb(t)q --> 0l',13,139.0, 'BY'),
+    TableEntry('03408f13r',  'arXiv:1706.03408', 'CMS',   '1706.03408_CMS_Fig13_right_pp_BB_doublet.dat',                             'pp --> BB --> 1l',               13,   2.6, 'BYorTB'),
+    TableEntry('13808f18ll', 'arXiv:2402.13808', 'CMS',   '2402.13808_CMS_Fig18_lower_left_pp_BB_TB_doublet.dat',                     'pp --> BB --> 0l+l+l-',          13, 138.0, 'TB'),
+    TableEntry('10216f4ld',  'arXiv:2111.10216', 'CMS',   '2111.10216_CMS_Fig4_left_pp_B_Wt_singlet_doublet.dat',                     'pp --> Bbq --> tWbq --> 1l',     13, 138.0, 'BYorTB'),
+    TableEntry('17605f39lr', 'arXiv:2405.17605', 'CMS',   '2405.17605_CMS_Fig39_lower_right_pp_BB_doublet.dat',                       'pp --> BB --> 0l',               13, 138.0, 'BYorTB'),
+    TableEntry('15413f7d',   'arXiv:2210.15413', 'ATLAS', '2210.15413_ATLAS_fig7d_pp_BB_BY_doublet.dat',                              'pp --> BB --> l+l-+3l',          13, 139.0, 'BY'),
+]
+
+_B_PURE: List[TableEntry] = [
+    TableEntry('01762f4a',    'arXiv:1806.01762',      'ATLAS', '1806.01762_ATLAS_fig4a_pp_BB_Wt.dat',                       'pp --> BB --> WtWt --> 1l',          13,  36.1),
+    TableEntry('15413fig7f',  'arXiv:2210.15413',      'ATLAS', '2210.15413_ATLAS_fig7f_pp_BB_Zb.dat',                       'pp --> BB --> ZbZb --> >= l+l-',     13, 139.0),
+    TableEntry('09768fig7ul', 'arXiv:1812.09768',      'CMS',   '1812.09768_CMS_Fig7_upper_left_pp_BB_bZ.dat',               'pp --> BB --> ZbZb --> l+l-',        13,  35.9),
+    TableEntry('09835fig11ul','arXiv:2008.09835',      'CMS',   '2008.09835_CMS_fig11_upper_left_pp_B_bH.dat',               'pp --> BB --> HbHb --> 0l',          13, 137.0),
+    TableEntry('09835fig11ur','arXiv:2008.09835',      'CMS',   '2008.09835_CMS_fig11_upper_right_pp_B_bZ.dat',              'pp --> BB --> ZbZb --> 0l',          13, 137.0),
+    TableEntry('1265f5',      'arXiv:1204.1265',       'ATLAS', '1204.1265_ATLAS_Fig5_pp_BB_Zb.dat',                         'pp --> BB --> ZbZb --> l+l-',        13, 137.0),
+    TableEntry('04605f6a',    'arXiv:1504.04605',      'ATLAS', '1504.04605_ATLAS_Fig6a_pp_BB_Wt.dat',                       'pp --> BB --> WtWt --> l+l+',         8,  20.3),
+    TableEntry('04306f22a',   'arXiv:1505.04306',      'ATLAS', '1505.04306_ATLAS_Fig22a_pp_BB_Hb.dat',                      'pp --> BB --> HbHb --> 1l',           8,  20.3),
+    TableEntry('13808f18ul',  'arXiv:2402.13808',      'CMS',   '2402.13808_CMS_Fig18_upper_left_pp_BB_bH.dat',              'pp --> BB --> HbHb --> 0l+l+l-',     13, 138.0),
+    TableEntry('13808f18ur',  'arXiv:2402.13808',      'CMS',   '2402.13808_CMS_Fig18_upper_right_pp_BB_bZ.dat',             'pp --> BB --> ZbZb --> 0l+l+l-',     13, 138.0),
+    TableEntry('07129f13l',   'arXiv:1507.07129',      'CMS',   '1507.07129_Fig13_left_pp_BB_Wt.dat',                        'pp --> BB --> WtWt --> 1l+2l+>=2l',   8,  19.7),
+    TableEntry('07129f13m',   'arXiv:1507.07129',      'CMS',   '1507.07129_Fig13_middle_pp_BB_bZ.dat',                      'pp --> BB --> ZbZb --> 1l+2l+>=2l',   8,  19.7),
+    TableEntry('07129f13r',   'arXiv:1507.07129',      'CMS',   '1507.07129_Fig13_right_pp_BB_bH.dat',                       'pp --> BB --> HbHb --> 1l+2l+>=2l',   8,  19.7),
+    TableEntry('17605f38l',   'arXiv:2405.17605',      'CMS',   '2405.17605_CMS_Fig38_lower_pp_BB_tW.dat',                   'pp --> BB --> WtWt --> 0l+>=1l+2l',  13,  19.7),
+    TableEntry('17605f38ul',  'arXiv:2405.17605',      'CMS',   '2405.17605_CMS_Fig38_upper_left_pp_BB_bZ.dat',              'pp --> BB --> ZbZb --> 0l+2l',       13, 138.0),
+    TableEntry('17605f38ur',  'arXiv:2405.17605',      'CMS',   '2405.17605_CMS_Fig38_upper_right_pp_BB_bH.dat',             'pp --> BB --> HbHb --> 0l+2l',       13, 138.0),
+    TableEntry('05263f7f',    'arXiv:2212.05263',      'ATLAS', '2212.05263_ATLAS_fig7b_pp_BB_BYorTB_doublet.dat',           'pp --> BB --> WtWt --> 1l',          13, 139.0),
+]
+
+_X_DOUBLET: List[TableEntry] = [
+    TableEntry('03188f7a',  'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig7a_pp_XX_tW_left_handed.dat',              'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
+    TableEntry('03188f7b',  'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig7b_pp_XX_tW_right_handed.dat',             'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
+    TableEntry('03188f7c',  'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig7c_pp_XX_tW_left_handed.dat',              'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
+    TableEntry('03188f7d',  'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig7d_pp_XX_tW_right_handed.dat',             'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
+    TableEntry('03188f7d2', 'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig7d_pp_XX_tW_right_handed.dat',             'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
+    TableEntry('03188f8a',  'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig8a_pp_XX_tW_left_handed_combination.dat',  'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
+    TableEntry('03188f8b',  'arXiv:1810.03188', 'CMS',   '1810.03188_CMS_Fig8b_pp_XX_tW_right_handed_combination.dat', 'pp --> XX --> Wt --> 1l+l+l+', 13, 35.9),
+    TableEntry('03347f4a',  'arXiv:1707.03347', 'ATLAS', '1707.03347_ATLAS_fig4a_pp_XX_Wb.dat',                        'pp --> XX --> Wb --> 1l',       13, 36.1),
+    TableEntry('01762f4a',  'arXiv:1806.01762', 'ATLAS', '1806.01762_ATLAS_Fig4a_pp_XX_Wt.dat',                        'pp --> XX --> Wt --> 1l',       13, 36.1),
+    TableEntry('11883f10a', 'arXiv:1807.11883', 'ATLAS', '1807.11883_ATLAS_Fig10a_pp_XX_Wt.dat',                       'pp --> XX --> l+l+',            13, 36.1),
+    TableEntry('05263f7b',  'arXiv:2212.05263', 'ATLAS', '2212.05263_ATLAS_fig7b_pp_XX_Wt_doublet.dat',                'pp --> XX --> Wt --> 1l',       13, 139.0),
+    TableEntry('05263f7f',  'arXiv:2212.05263', 'ATLAS', '2212.05263_ATLAS_fig7f_pp_XX_Wt_doublet.dat',                'pp --> XX --> Wt --> 1l',       13, 139.0),
+    TableEntry('04605f10a', 'arXiv:1504.04605', 'ATLAS', '1504.04605_ATLAS_fig10a_pp_XX_Wt.dat',                       'pp --> XX --> Wt --> l+l+',      8,  20.3),
+    TableEntry('08597f8ur', 'arXiv:1809.08597', 'CMS',   '1809.08597_Fig8_upper_right_pp_X_Wt_gamma_M1.dat',           'pp --> Xtq --> Wt --> 1l',      13,  35.9),
+]
+
+_Y_DOUBLET: List[TableEntry] = [
+    TableEntry('08328f5',   'arXiv:1701.08328', 'CMS',   '1701.08328_CMS_Fig5_pp_Ybq_bWbq_c05.dat',                                   'pp --> Ybq --> bW --> 1l',  13,   2.3),
+    TableEntry('01539f4',   'arXiv:1710.01539', 'CMS',   '1710.01539_CMS_Fig4_upper_pp_YY_Wb.dat',                                     'pp --> YY --> Wb --> 1l',   13,  35.8),
+    TableEntry('03347f4a',  'arXiv:1707.03347', 'ATLAS', '1707.03347_ATLAS_fig4a_pp_YY_Wb.dat',                                        'pp --> YY --> Wb --> 1l',   13,  36.1),
+    TableEntry('17165f5a',  'arXiv:2401.17165', 'ATLAS', '2401.17165_ATLAS_Fig5a_pp_YY_bW.dat',                                        'pp --> YY --> Wb --> 1l',   13, 140.0),
+    TableEntry('05606f6',   'arXiv:1602.05606', 'ATLAS', '1602.05606_ATLAS_Fig6_pp_Ybj_Wb.dat',                                        'pp --> Ybq --> bW --> 1l',   8,  20.3),
+    TableEntry('07343f9',   'arXiv:1812.07343', 'ATLAS', '1812.07343_fig9_pp_Y_Wb.dat',                                                'pp --> Ybq --> bW --> 1l',  13,  36.1),
+    TableEntry('20273f5a',  'arXiv:2409.20273', 'ATLAS', '2409.20273_ATLAS_Fig5a_pp_Qbq_Wb_k05_Tsinglet_Ydoublet.dat',                 'pp --> Ybq --> bW --> 0l',  13, 139.0),
+    TableEntry('20273f5b',  'arXiv:2409.20273', 'ATLAS', '2409.20273_ATLAS_Fig5b_pp_Qbq_Wb_k07_Tsinglet_YDoublet.dat',                 'pp --> Ybq --> bW --> 0l',  13, 139.0),
+]
+
+# Y-Triplet reuses the first 4 entries of Y-Doublet
+_Y_TRIPLET: List[TableEntry] = _Y_DOUBLET[:4]
+
+
 # Map model type → catalogue
 _CATALOGUE: Dict[type, List[TableEntry]] = {
+    SingletT:  _T_SINGLET,
+    DoubletT:  _T_DOUBLET,
+    PureT:     _T_PURE,
     SingletB:  _B_SINGLET,
     DoubletB:  _B_DOUBLET,
     PureB:     _B_PURE,
     DoubletX:  _X_DOUBLET,
     DoubletY:  _Y_DOUBLET,
     TripletY:  _Y_TRIPLET,
-    SingletT:  _T_SINGLET,
-    DoubletT:  _T_DOUBLET,
-    PureT:     _T_PURE,
 }
 
 # VLQ tag used in load_data_from_files
 _VLQ_TAG: Dict[type, str] = {
+    SingletT: 'T', DoubletT: 'T', PureT: 'T',
     SingletB: 'B', DoubletB: 'B', PureB: 'B',
     DoubletX: 'X',
     DoubletY: 'Y', TripletY: 'Y',
-    SingletT: 'T', DoubletT: 'T', PureT: 'T',
 }
 
 # Mass-array attribute name per VLQ family
 _MASS_ATTR: Dict[type, str] = {
+    SingletT: 'MT', DoubletT: 'MT', PureT: 'MT',
     SingletB: 'MB', DoubletB: 'MB', PureB: 'MB',
     DoubletX: 'MX',
     DoubletY: 'MY', TripletY: 'MY',
-    SingletT: 'MT', DoubletT: 'MT', PureT: 'MT',
 }
 
 # Pair-production prefixes per VLQ family
 _PAIR_PREFIX: Dict[str, str] = {
+    'T': 'pp --> TT',
     'B': 'pp --> BB',
     'X': 'pp --> XX',
     'Y': 'pp --> YY',
-    'T': 'pp --> TT',
 }
 
 # Single-production prefixes per VLQ family
 _SINGLE_PREFIXES: Dict[str, tuple] = {
+    'T': ('pp --> Tb', 'pp --> Tt'),
     'B': ('pp --> Bb', 'pp --> Bt'),
     'X': ('pp --> Xt',),
     'Y': ('pp --> Yb',),
-    'T': ('pp --> Tb', 'pp --> Tt'),
 }
 
 
