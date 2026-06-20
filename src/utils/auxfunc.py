@@ -62,7 +62,7 @@ def coupling_data_loading(file_name, number_of_files, mass, expected, observed, 
             file_path = os.path.join(current_path, 'data/' + vlq + 'data/CMS_Tables', file_name[i])
 
         try:
-            data = pd.read_table(file_path, comment='#', delim_whitespace=True, header=None)
+            data = pd.read_table(file_path, comment='#', sep=r"\s+", header=None)
             cols = data.shape[1]
 
             if cols == 6:

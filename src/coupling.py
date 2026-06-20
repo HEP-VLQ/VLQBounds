@@ -31,12 +31,14 @@ class CouplingTableEntry:
 # ---------------------------------------------------------------------------
 
 _B_SINGLET_COUPLING: List[CouplingTableEntry] = [
-    CouplingTableEntry('02595f9a',  'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig9a_pp_B_bH_k_singlet.dat',                              'pp --> Bbq --> bH --> 0l',                       'k_B', 13, 139.0),
-    CouplingTableEntry('01486f43',  'arXiv:1802.01486', 'CMS',   '2405.17605_Fig43_upper_pp_B_bH_singlet_1802.01486_cf.dat',                  'pp --> Bqq --> bH --> b,bb,bq',                  'k_B', 13,  35.9),
-    CouplingTableEntry('01486f43b', 'arXiv:1809.08597', 'CMS',   '2405.17605_Fig43_upper_pp_Bbq_tW_singlet_1809.08597_cf.dat',                'pp --> Bbq --> tW --> bqq,lnu/blnu,qq',          'k_B', 13,  35.9),
-    CouplingTableEntry('10216f43',  'arXiv:2111.10216', 'CMS',   '2405.17605_Fig43_upper_pp_Bbq_tW_singlet_2111.10216_cf.dat',                'pp --> Bbq --> tW --> bqq,lnu/qq',               'k_B', 13, 138.0),
-    CouplingTableEntry('01486f43t', 'arXiv:1809.08597', 'CMS',   '2405.17605_Fig43_upper_pp_Btq_tW_singlet_1809.08597_cf.dat',                'pp --> Btq --> tW --> bqq,lnu/blnu,qq',          'k_B', 13,  35.9),
-    CouplingTableEntry('10216f43t', 'arXiv:2111.10216', 'CMS',   '2405.17605_Fig43_upper_pp_Btq_tW_singlet_2111.10216_cf.dat',                'pp --> Btq --> tW --> bqq,lnu/qq',               'k_B', 13, 138.0),
+    CouplingTableEntry('02595f9a',  'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig9a_pp_B_bH_k_singlet.dat', 'pp --> Bbq --> bH --> 0l', 'k_B', 13, 139.0),
+    CouplingTableEntry('01486f43',  'arXiv:1802.01486', 'CMS',   '2405.17605_Fig43_upper_pp_B_bH_singlet_1802.01486_cf.dat',  'pp --> Bqq --> bH --> b,bb,bq',                  'k_B', 13,  35.9),
+    CouplingTableEntry('01486f43b', 'arXiv:1809.08597', 'CMS',   '2405.17605_Fig43_upper_pp_Bbq_tW_singlet_1809.08597_cf.dat',  'pp --> Bbq --> tW --> bqq,lnu/blnu,qq',       'k_B', 13,  35.9),
+    CouplingTableEntry('10216f43',  'arXiv:2111.10216', 'CMS',   '2405.17605_Fig43_upper_pp_Bbq_tW_singlet_2111.10216_cf.dat', 'pp --> Bbq --> tW --> bqq,lnu/qq',               'k_B', 13, 138.0),
+    CouplingTableEntry('01486f43t', 'arXiv:1809.08597', 'CMS',   '2405.17605_Fig43_upper_pp_Btq_tW_singlet_1809.08597_cf.dat',  'pp --> Btq --> tW --> bqq,lnu/blnu,qq',          'k_B', 13,  35.9),
+    CouplingTableEntry('10216f43t', 'arXiv:2111.10216', 'CMS',   '2405.17605_Fig43_upper_pp_Btq_tW_singlet_2111.10216_cf.dat', 'pp --> Btq --> tW --> bqq,lnu/qq',               'k_B', 13, 138.0),
+    CouplingTableEntry('01423f10a', 'arXiv:2606.01423', 'CMS',   '2606.01423_CMS_Fig10a_pp_Bbq_wtbq_singlet.txt',    'pp --> Bbq --> tW --> l',   'k_B', 13,  138),
+    CouplingTableEntry('01423f10b', 'arXiv:2606.01423', 'CMS',   '2606.01423_CMS_Fig10b_pp_Btq_wttq_singlet.txt',     'pp --> Btq --> tW --> l',   'k_B', 13, 138.0),
 ]
 
 _B_DOUBLET_COUPLING: List[CouplingTableEntry] = [

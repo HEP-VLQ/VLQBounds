@@ -1,0 +1,20 @@
+#arXiv:2606.01423
+#title:Search for single production of a vector-like $B′$ quark decaying to a top quark and a W boson in the single-lepton final state in proton-proton collisions at $\sqrt{s}​=$13 #TeV 
+#luminosity 138 fb$^{-1}$ 
+#Energy 13 TeV 
+#CMS Collaborations 
+#Fig10b
+#pp → B'bq → Wtbq, singlet 
+#m_B' [GeV], Observed [pb], Expected [pb] 
+800 0.42662 0.46499
+900 0.27083 0.42666
+1000 0.24773 0.40841
+1100 0.29376 0.37955
+1200 0.33177 0.36194
+1300 0.3571 0.35744
+1400 0.33065 0.36642
+1500 0.31298 0.3807
+1600 0.31214 0.40366
+1700 0.31504 0.41862
+1800 0.3249 0.41841
+2000 0.3993 0.42099
