@@ -98,7 +98,8 @@ _T_SINGLET: List[TableEntry] = [
     TableEntry('10555f15',   'arXiv:1806.10555',      'ATLAS', '1806.10555_ATLAS_Fig15_pp_T_Zt_Singlet.txt',                             'pp --> Tbq --> tZbq --> l+l-+>=3l',            13,  36.1),
     TableEntry('08328',      'arXiv:1701.08328',      'CMS',   '1701.08328_CMS_fig5_pp_Tbq_or_Ybq_bW.txt',                              'pp --> Tbq --> bWbq --> 1l',                   13,   2.3),
     TableEntry('20273f5a',   'arXiv:2409.20273',      'ATLAS', '2409.20273_ATLAS_Fig5a_pp_Qbq_Wb_k05_Tsinglet_Ydoublet.dat',            'pp --> Tbq --> bWbq --> 0l',                   13, 139.0),
-    TableEntry('20273f5b',   'arXiv:2409.20273',      'ATLAS', '2409.20273_ATLAS_Fig5b_pp_Qbq_Wb_k07_Tsinglet_YDoublet.dat',            'pp --> Tbq --> bWbq --> 0l',                   13, 139.0),
+    TableEntry('20273f5b',   'arXiv:2409.20273',      'ATLAS', '2409.20273_ATLAS_Fig5b_pp_Qbq_Wb_k07_Tsinglet_YDoublet.dat',            'pp --> Tbq --> bWbq --> 0l', 13, 139.0),
+    
 ]
 
 _T_DOUBLET: List[TableEntry] = [

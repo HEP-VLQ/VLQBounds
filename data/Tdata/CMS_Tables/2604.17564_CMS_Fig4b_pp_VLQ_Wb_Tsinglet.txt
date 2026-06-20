@@ -1,0 +1,25 @@
+#arXiv:2604.17564
+#title:Search for the single production of vector-like quarks decaying into a W boson and a b quark using single-lepton final states in proton-proton collisions at $\sqrt{s}​=$13 TeV #luminosity 138 fb$^{-1}$ 
+#Energy 13 TeV 
+#CMS Collaborations 
+#Fig4b
+#pp → VLQ → Wb,  Singlet 
+#mT_{VLQ} [GeV],Observed [pb], Expected [pb] 
+700 0.24508 0.25300
+800 0.21727 0.18226
+900 0.14660 0.15102
+1000 0.14116 0.12617
+1100 0.15783 0.11407
+1200 0.16616 0.11792
+1300 0.12638 0.12313
+1400 0.12214 0.12859
+1500 0.14517 0.13934
+1600 0.17658 0.15012
+1700 0.19007 0.16522
+1800 0.17188 0.17927
+1900 0.15923 0.19840
+2000 0.15193 0.21486
+2100 0.18327 0.23507
+2200 0.22473 0.25059
+2300 0.23797 0.26525
+2400 0.27018 0.27018

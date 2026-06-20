@@ -1,11 +1,124 @@
 import os
-from typing import List, Optional
+from dataclasses import dataclass
+from typing import Dict, List, Optional
 from numpy.typing import NDArray
 import numpy as np
 from .models import *
 from .manip import TheoryCalc
 from scipy.interpolate import interp1d
 from .utils import coupling_data_loading, obs_exp_ratio_calc, biggest_ratio, from_cf_to_kappa
+
+
+# ---------------------------------------------------------------------------
+# Data classes
+# ---------------------------------------------------------------------------
+
+@dataclass
+class CouplingTableEntry:
+    """One experimental coupling-limit table row."""
+    key: str
+    label: str
+    expt: str
+    file_name: str
+    process: str
+    which_coupling: str
+    energy: int
+    luminosity: float
+
+
+# ---------------------------------------------------------------------------
+# Table catalogues (pure data - no logic)
+# ---------------------------------------------------------------------------
+
+_B_SINGLET_COUPLING: List[CouplingTableEntry] = [
+    CouplingTableEntry('02595f9a',  'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig9a_pp_B_bH_k_singlet.dat',                              'pp --> Bbq --> bH --> 0l',                       'k_B', 13, 139.0),
+    CouplingTableEntry('01486f43',  'arXiv:1802.01486', 'CMS',   '2405.17605_Fig43_upper_pp_B_bH_singlet_1802.01486_cf.dat',                  'pp --> Bqq --> bH --> b,bb,bq',                  'k_B', 13,  35.9),
+    CouplingTableEntry('01486f43b', 'arXiv:1809.08597', 'CMS',   '2405.17605_Fig43_upper_pp_Bbq_tW_singlet_1809.08597_cf.dat',                'pp --> Bbq --> tW --> bqq,lnu/blnu,qq',          'k_B', 13,  35.9),
+    CouplingTableEntry('10216f43',  'arXiv:2111.10216', 'CMS',   '2405.17605_Fig43_upper_pp_Bbq_tW_singlet_2111.10216_cf.dat',                'pp --> Bbq --> tW --> bqq,lnu/qq',               'k_B', 13, 138.0),
+    CouplingTableEntry('01486f43t', 'arXiv:1809.08597', 'CMS',   '2405.17605_Fig43_upper_pp_Btq_tW_singlet_1809.08597_cf.dat',                'pp --> Btq --> tW --> bqq,lnu/blnu,qq',          'k_B', 13,  35.9),
+    CouplingTableEntry('10216f43t', 'arXiv:2111.10216', 'CMS',   '2405.17605_Fig43_upper_pp_Btq_tW_singlet_2111.10216_cf.dat',                'pp --> Btq --> tW --> bqq,lnu/qq',               'k_B', 13, 138.0),
+]
+
+_B_DOUBLET_COUPLING: List[CouplingTableEntry] = [
+    CouplingTableEntry('02595f9b',  'arXiv:2308.02595', 'ATLAS', '2308.02595_ATLAS_Fig9b_pp_B_bH_k_doublet.dat',                              'pp --> Bbq --> bH --> 0l',                       'k_B', 13, 139.0),
+    CouplingTableEntry('01486f43l', 'arXiv:1802.01486', 'CMS',   '2405.17605_Fig43_lower_pp_B_bH_doublet_1802.01486_cf.dat',                  'pp --> Bbq --> bH --> 0l',                       'k_B', 13,  35.9),
+]
+
+_X_DOUBLET_COUPLING: List[CouplingTableEntry] = [
+    CouplingTableEntry('08597Fig44l', 'arXiv:1809.08597', 'CMS',   '2405.17605_CMS_Fig44_left_pp_tqX_tW_1809.08597.dat',                      'pp --> Xtq --> tW --> bqq,lnu/blnu,qq ',         'k_x', 13,  35.9),
+    CouplingTableEntry('10216Fig44l', 'arXiv:2111.10216', 'CMS',   '2405.17605_CMS_Fig44_left_pp_tqX_tW_2111.10216.dat',                      'pp --> Xtq --> tW --> bqq,lnu/blnu,qq ',         'k_x', 13, 138.0),
+    CouplingTableEntry('11883f10b',   'arXiv:1807.11883', 'ATLAS', '1807.11883_ATLAS_Fig10b_pp_XX_Wt_coupling.dat',                            'pp --> XX(Xtq) --> tW --> l+l+ ',                'k_x', 13,  36.1),
+]
+
+_Y_DOUBLET_COUPLING: List[CouplingTableEntry] = [
+    CouplingTableEntry('08328Fig44r', 'arXiv:1701.08328',    'CMS',   '2405.17605_CMS_Fig44_right_pp_tqY_bW_1701.08328.dat',                  'pp --> Ytq --> bW --> bqq,lnu/blnu,qq ',         'k_y',  13,   2.3),
+    CouplingTableEntry('05606f8b',    'arXiv:1602.05606',    'ATLAS', '1602.05606_ATLAS_Fig8b_pp_Ybj_Wb_Doublet_sinR.dat',                    'pp --> Ybq --> bW --> b,lnu ',                   'k_y',   8,  20.3),
+    CouplingTableEntry('072f10b',     'ATLAS_CONF_2016_072', 'ATLAS', 'ATLAS_CONF_2016_072_fig10b_doublet.dat',                               'pp --> Ybq --> bW --> b,lnu ',                   'k_y',  13,   3.2),
+    CouplingTableEntry('07343f8c',    'arXiv:1812.07343',    'ATLAS', '1812.07343_ATLAS_pp_Ybq_Wbbq_Fig8c_doublet_Y_RH_sinR.dat',             'pp --> Ybq --> bW --> b,lnu ',                   'k_y',  13,  36.1),
+    CouplingTableEntry('20273',       'arXiv:2409.20273',    'ATLAS', '2409.20273_ATLAS_Fig6_pp_Ybq_Wb_doublet_BY.dat',                       'pp --> Ybq --> bW --> b, qq',                    'k_y',  13,  36.1),
+]
+
+_Y_TRIPLET_COUPLING: List[CouplingTableEntry] = [
+    CouplingTableEntry('07343f8b', 'ArXiv:1812.07343', 'ATLAS', '1812.07343_ATLAS_Fig8b_pp_Ybq_Wb_triplet_Y_LH_sinL.dat',                      'pp --> Ybq --> bW --> b,lnu',                    's_d_l', 13, 36.1),
+]
+
+_T_SINGLET_COUPLING: List[CouplingTableEntry] = [
+    CouplingTableEntry('05606f7b',      'arXiv:1602.05606',    'ATLAS', '1602.05606_ATLAS_f7b_pp_Tbj_Wbbj_s_L_Singlet.dat',                   'pp --> Tbq --> Wb --> lnu,b ',                   's_l',  8,  20.3),
+    CouplingTableEntry('07343f8as_L',   'arXiv:1812.07343',    'ATLAS', '1812.07343_ATLAS_f8a_pp_Tbq_wbbq_Singlet_s_L.dat',                   'pp --> Tbq --> Wb --> 1l ',                      's_l', 13,  36.1),
+    CouplingTableEntry('09743f6b_s_L',  'arXiv:1812.09743',    'ATLAS', '1812.09743_ATLAS_f6b_pp_Tbq_tZbq_s_L_Singlet.dat',                   'pp --> Tbq --> tZ --> 0l+1l ',                   's_l', 13,  36.1),
+    CouplingTableEntry('10555f16b_s_L', 'arXiv:1806.10555',    'ATLAS', '1806.10555_ATLAS_f16b_pp_Tbq_Zt_s_L_Singlet.dat',                    'pp --> Tbq --> tZ --> l+l-+>=3l',                's_l', 13,  36.1),
+    CouplingTableEntry('072f10b',       'ATLAS-CONF-2016-072', 'ATLAS', 'ATLAS-CONF-2016-072_ATLAS_f10a_pp_Tqb_Wb_singlet_s_L.dat',           'pp --> Tbq --> bW --> 1l',                       's_l', 13,  36.1),
+    CouplingTableEntry('12802f5',       'arXiv:2302.12802',    'CMS',   '2302.12802_CMS_Fig5_pp_Tbq_tH_cf.dat',                                'pp --> Tbq --> tH --> gamma gamma, 0l/1l',       'k_T', 13,  36.1),
+    CouplingTableEntry('16561f12a_k_T', 'arXiv:2402.16561',    'ATLAS', '2402.16561_ATLAS_Fig12a_pp_T_Ht_Zt_k_T_singlet.dat',                  'pp --> Tbq --> tZ --> 0l',                       'k_T', 13, 139.0),
+    CouplingTableEntry('07045f9_k_T',   'arXiv:2201.07045',    'ATLAS', '2201.07045_ATLAS_f9_pp_Tbq_Htbq_k_T_singlet.dat',                    'pp --> Tbq --> tH --> 0l',                       'k_T', 13, 139.0),
+    CouplingTableEntry('03401f13a',     'arXiv:2305.03401',    'ATLAS', '2305.03401_ATLAS_f13a_pp_Tbq_Ztbq_singlet_k_T.dat',                  'pp --> Tbq --> tZ(H) --> 1l',                    'k_T', 13, 139.0),
+    CouplingTableEntry('07584f9a',      'arXiv:2307.07584',    'ATLAS', '2307.07584_ATLAS_f9a_pp_Tbq_Ztbq_k_T_singlet.dat',                   'pp --> Tbq --> tZ --> l+l-+3l ',                 'k_T', 13, 139.0),
+    CouplingTableEntry('01062f42u',     'arXiv:1708.01062',    'CMS',   '2405.17605_CMS_Fig42_upper_pp_Tbq_tZ_ll_singlet_1708.01062_cf.dat',  'pp --> Tbq --> tZbq --> l+l-',                   'k_T', 13,  35.9),
+    CouplingTableEntry('08328f42u',     'arXiv:1701.08328',    'CMS',   '2405.17605_CMS_Fig42_upper_pp_T_bW_singlet_1701.08328_cf.dat',       'pp --> Tbq --> tZbq --> 1l',                     'k_T', 13,   2.3),
+    CouplingTableEntry('17605f42u',     'arXiv:2405.17605',    'CMS',   '2405.17605_CMS_Fig42_upper_pp_T_combination_singlet_cf.dat',         'pp --> Tbq --> tZbq --> 0l',                     'k_T', 13, 138.0),
+    CouplingTableEntry('04721f42up1',   'arXiv:1909.04721',    'CMS',   '2405.17605_CMS_Fig42_upper_pp_Ttq_tZ_tH_singlet_part1_1909.04721_cf.dat', 'pp --> Tbq --> tZbq --> 0l',                  'k_T', 13,  35.9),
+    CouplingTableEntry('04721f42up2',   'arXiv:1909.04721',    'CMS',   '2405.17605_CMS_Fig42_upper_pp_Ttq_tZ_tH_part2_singlet_1909.04721_cf.dat', 'pp --> Tbq --> tZbq --> 0l',                  'k_T', 13,  35.9),
+    CouplingTableEntry('01062f42utq',   'arXiv:1708.01062',    'CMS',   '2405.17605_CMS_Fig42_upper_pp_Ttq_tZ_singlet_1708.01062_cf.dat',     'pp --> Tbq --> tZbq --> l+l-',                   'k_T', 13,  35.9),
+    CouplingTableEntry('02227f42u',     'arXiv:2201.02227',    'CMS',   '2405.17605_CMS_Fig42_upper_pp_T_tZ_singlet_2201.02227_cf.dat',       'pp --> Tbq --> tZbq --> 0l',                     'k_T', 13, 137.0),
+    CouplingTableEntry('05071f42u',     'arXiv:2405.05071',    'CMS',   '2405.17605_CMS_Fig42_upper_pp_T_tZ_tH_singlet_2405.05071_cf.dat',    'pp --> Tbq --> tZbq --> 0l',                     'k_T', 13, 138.0),
+    CouplingTableEntry('04721f42ubq1',  'arXiv:1909.04721',    'CMS',   '2405.17605_CMS_Fig42_upper_pp_Tbq_tZ_tH_singlet_part1_1909.04721_cf.dat', 'pp --> Tbq --> (tZ + tH)bq --> bqq, bb',      'k_T', 13,  35.9),
+    CouplingTableEntry('04721f42ubq2',  'arXiv:1909.04721',    'CMS',   '2405.17605_CMS_Fig42_upper_pp_Tbq_tZ_tH_singlet_part2_1909.04721_cf.dat', 'pp --> Tbq --> (tZ + tH)bq --> bqq, bb',      'k_T', 13,  35.9),
+    CouplingTableEntry('08789f6a',      'arXiv:2408.08789',    'ATLAS', '2408.08789_ATLAS_Fig6a_pp_Tbq_Ht_Zt_singlet.dat',                    'pp --> Tb(t)q --> tZ/H --> 0l+1l+>=2l',          'k_T', 13, 139.0),
+    CouplingTableEntry('15515f6a',   'arXiv:2506.15515',      'ATLAS', '2506.15515_ATLAS_Fig6a_pp_Tbq_Wb_singlet.txt',  'pp -->  Tbq --> Wbbq --> 1l', 'k_T', 13, 140.0),
+    
+    CouplingTableEntry('17564f4b',   'arXiv:2604.17564',      'CMS',   '2604.17564_CMS_Fig4b_pp_VLQ_Wb_Tsinglet.txt',  'pp --> T --> Wb --> 1l', 'k_T', 13, 138.0),
+]
+
+_T_DOUBLET_COUPLING: List[CouplingTableEntry] = [
+    CouplingTableEntry('03401f13b', 'arXiv:2305.03401', 'ATLAS', '2305.03401_ATLAS_f13b_pp_Tbq_Ztbq_k_T_doublet.dat',                          'pp --> Tbq --> tZbq --> 1l',                     'k_T', 13, 139.0),
+    CouplingTableEntry('07584f9b',  'arXiv:2307.07584', 'ATLAS', '2307.07584_ATLAS_f9b_pp_Tbq_Ztbq_k_T_doublet.dat',                           'pp --> Tbq --> tZbq --> l+l-+3l',                'k_T', 13, 139.0),
+    CouplingTableEntry('01062f42l', 'arXiv:1708.01062', 'CMS',   '2405.17605_CMS_Fig42_lower_pp_T_tZ_doublet_1708.01062_cf.dat',               'pp --> Tbq --> tZbq --> l+l-',                   'k_T', 13,  35.9),
+    CouplingTableEntry('04721f42lp1', 'arXiv:1909.04721', 'CMS', '2405.17605_CMS_Fig42_lower_pp_T_tZ_tH_doublet_part1_1909.04721_cf.dat',      'pp --> Tbq --> tZbq --> 0l',                     'k_T', 13,  35.9),
+    CouplingTableEntry('04721f42lp2', 'arXiv:1909.04721', 'CMS', '2405.17605_Fig42_lower_pp_T_tZ_tH_doublet_part2_cf_1909.04721.dat',          'pp --> Tbq --> tZbq --> 0l',                     'k_T', 13,  35.9),
+    CouplingTableEntry('08789f6b',  'arXiv:2408.08789', 'ATLAS', '2408.08789_ATLAS_Fig6b_pp_Tbq_Ht_Zt_doublet.dat',                            'pp --> Tb(t)q --> tZ/H --> 1l + 2l + >=3l',      'k_T', 13, 139.0),
+]
+
+# Model type -> catalogue of coupling-limit tables.
+# Note: Pure* models have no coupling-limit tables (mirrors the original
+# `get_number_of_tables` warning/zero-table behaviour).
+_COUPLING_CATALOGUE: Dict[type, List[CouplingTableEntry]] = {
+    SingletB: _B_SINGLET_COUPLING,
+    DoubletB: _B_DOUBLET_COUPLING,
+    DoubletX: _X_DOUBLET_COUPLING,
+    DoubletY: _Y_DOUBLET_COUPLING,
+    TripletY: _Y_TRIPLET_COUPLING,
+    SingletT: _T_SINGLET_COUPLING,
+    DoubletT: _T_DOUBLET_COUPLING,
+}
+
+# VLQ tag used for mass-array attribute names (coupling_M{tag}_obs/_exp)
+# and passed through to coupling_data_loading(..., vlq=tag).
+_COUPLING_VLQ_TAG: Dict[type, str] = {
+    SingletB: 'B', DoubletB: 'B',
+    DoubletX: 'X',
+    DoubletY: 'Y', TripletY: 'Y',
+    SingletT: 'T', DoubletT: 'T',
+}
 
 
 class Coupling(TheoryCalc):
@@ -42,6 +155,11 @@ class Coupling(TheoryCalc):
         self.mass_ratio: Optional[float] = None
         self.initialize_coupling_data()
 
+    # ------------------------------------------------------------------
+    # Catalogue-driven setup (replaces the old per-branch hand-written
+    # initialize_coupling_data / fill_coupling_tables)
+    # ------------------------------------------------------------------
+
     def initialize_coupling_lists(self, number_of_atlas_cms_tables):
         self.coupling_file_name = [None] * number_of_atlas_cms_tables
         self.coupling_key = [None] * number_of_atlas_cms_tables
@@ -68,500 +186,53 @@ class Coupling(TheoryCalc):
             self.coupling_MY_obs = [None] * number_of_atlas_cms_tables
             self.coupling_MY_exp = [None] * number_of_atlas_cms_tables
 
-    def get_number_of_tables(self, vlq='T'):
-        if vlq == 'B':
-            if self.m.model() == 'Singlet':
-                return 6
-            elif self.m.model() == 'Doublet':
-                return 2
-            else:
-                print(f"Warning. There is no coupling limits for this model {self.m.model()}")
-                return 0
-        elif vlq == 'X':
-            return 3
-        elif vlq == 'Y':
-            if self.m.model() == 'Doublet':
-                return 5
-            elif self.m.model() == 'Triplet':
-                return 1
-        else:
-            if self.m.model() == 'Singlet':
-                return 21
-            elif self.m.model() == 'Doublet':
-                return 6
-            else:
-                print(f"Warning. There is no coupling limits for this model {self.m.model()}")
-                return 0
-
     def initialize_coupling_data(self):
-        if isinstance(self.m, (SingletB, DoubletB)):
-            number_of_atlas_cms_tables = self.get_number_of_tables(vlq='B')
-            if number_of_atlas_cms_tables > 0:
-                self.initialize_coupling_lists(number_of_atlas_cms_tables)
-        elif isinstance(self.m, DoubletX):
-            number_of_atlas_cms_tables = self.get_number_of_tables(vlq='X')
-            if number_of_atlas_cms_tables > 0:
-                self.initialize_coupling_lists(number_of_atlas_cms_tables)
-        elif isinstance(self.m, (DoubletY, TripletY)):
-            number_of_atlas_cms_tables = self.get_number_of_tables(vlq='Y')
-            if number_of_atlas_cms_tables > 0:
-                self.initialize_coupling_lists(number_of_atlas_cms_tables)
-        else:
-            number_of_atlas_cms_tables = self.get_number_of_tables()
-            if number_of_atlas_cms_tables > 0:
-                self.initialize_coupling_lists(number_of_atlas_cms_tables)
+        entries = _COUPLING_CATALOGUE.get(type(self.m))
+        if not entries:
+            print(f"Warning. There is no coupling limits for this model {self.m.model()}")
+            return
+        self.initialize_coupling_lists(len(entries))
+
+    def _load_coupling_data(self, vlq_tag):
+        """Read the data files for the currently-loaded catalogue and fill
+        the observed/expected/mass arrays (mirrors the repeated
+        `expected = [...]; observed = [...]; mass = [...]; coupling_data_loading(...)`
+        block that used to appear after every branch)."""
+        mass_obs = getattr(self, f'coupling_M{vlq_tag}_obs')
+        mass_exp = getattr(self, f'coupling_M{vlq_tag}_exp')
+        expected = [self.coupling_exp_upper, self.coupling_exp_lower]
+        observed = [self.coupling_obs_lower, self.coupling_obs_upper]
+        mass = [mass_obs, mass_exp]
+        coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected, observed,
+                              self.coupling_expt, vlq=vlq_tag)
 
     def fill_coupling_tables(self):
+        entries = _COUPLING_CATALOGUE.get(type(self.m))
+        if not entries:
+            return
+
+        self.coupling_key = [e.key for e in entries]
+        self.coupling_label = [e.label for e in entries]
+        self.coupling_expt = [e.expt for e in entries]
+        self.coupling_file_name = [e.file_name for e in entries]
+        self.coupling_process = [e.process for e in entries]
+        self.which_coupling = [e.which_coupling for e in entries]
+        self.coupling_energy = [e.energy for e in entries]
+        self.coupling_luminosity = [e.luminosity for e in entries]
+
+        vlq_tag = _COUPLING_VLQ_TAG[type(self.m)]
+        self._load_coupling_data(vlq_tag)
+
+        # Only B and T models convert cf-style files into kappa couplings
+        # (matches the original: VLX/VLY branches never called this).
         if self.VLB:
-            if self.m.model() == 'Singlet':
-                self.coupling_key[0] = '02595f9a'
-                self.coupling_label[0] = 'arXiv:2308.02595'
-                self.coupling_expt[0] = 'ATLAS'
-                self.coupling_file_name[0] = '2308.02595_ATLAS_Fig9a_pp_B_bH_k_singlet.dat'
-                self.coupling_process[0] = 'pp --> Bbq --> bH --> 0l'
-                self.which_coupling[0] = "k_B"
-                self.coupling_energy[0] = 13
-                self.coupling_luminosity[0] = 139
-
-                self.coupling_key[1] = '01486f43'
-                self.coupling_label[1] = 'arXiv:1802.01486'
-                self.coupling_expt[1] = 'CMS'
-                self.coupling_file_name[1] = '2405.17605_Fig43_upper_pp_B_bH_singlet_1802.01486_cf.dat'
-                self.coupling_process[1] = 'pp --> Bqq --> bH --> b,bb,bq'
-                self.which_coupling[1] = "k_B"
-                self.coupling_energy[1] = 13
-                self.coupling_luminosity[1] = 35.9
-
-                self.coupling_key[2] = '01486f43b'
-                self.coupling_label[2] = 'arXiv:1809.08597'
-                self.coupling_expt[2] = 'CMS'
-                self.coupling_file_name[2] = '2405.17605_Fig43_upper_pp_Bbq_tW_singlet_1809.08597_cf.dat'
-                self.coupling_process[2] = 'pp --> Bbq --> tW --> bqq,lnu/blnu,qq'
-                self.which_coupling[2] = "k_B"
-                self.coupling_energy[2] = 13
-                self.coupling_luminosity[2] = 35.9
-
-                self.coupling_key[3] = '10216f43'
-                self.coupling_label[3] = 'arXiv:2111.10216'
-                self.coupling_expt[3] = 'CMS'
-                self.coupling_file_name[3] = '2405.17605_Fig43_upper_pp_Bbq_tW_singlet_2111.10216_cf.dat'
-                self.coupling_process[3] = 'pp --> Bbq --> tW --> bqq,lnu/qq'
-                self.which_coupling[3] = "k_B"
-                self.coupling_energy[3] = 13
-                self.coupling_luminosity[3] = 138
-
-                self.coupling_key[4] = '01486f43t'
-                self.coupling_label[4] = 'arXiv:1809.08597'
-                self.coupling_expt[4] = 'CMS'
-                self.coupling_file_name[4] = '2405.17605_Fig43_upper_pp_Btq_tW_singlet_1809.08597_cf.dat'
-                self.coupling_process[4] = 'pp --> Btq --> tW --> bqq,lnu/blnu,qq'
-                self.which_coupling[4] = "k_B"
-                self.coupling_energy[4] = 13
-                self.coupling_luminosity[4] = 35.9
-
-                self.coupling_key[5] = '10216f43t'
-                self.coupling_label[5] = 'arXiv:2111.10216'
-                self.coupling_expt[5] = 'CMS'
-                self.coupling_file_name[5] = '2405.17605_Fig43_upper_pp_Btq_tW_singlet_2111.10216_cf.dat'
-                self.coupling_process[5] = 'pp --> Btq --> tW --> bqq,lnu/qq'
-                self.which_coupling[5] = "k_B"
-                self.coupling_energy[5] = 13
-                self.coupling_luminosity[5] = 138
-
-                expected = [self.coupling_exp_upper, self.coupling_exp_lower]
-                observed = [self.coupling_obs_lower, self.coupling_obs_upper]
-                mass = [self.coupling_MB_obs, self.coupling_MB_exp]
-                coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected, observed,
-                                      self.coupling_expt, vlq='B')
-
-            elif self.m.model() == 'Doublet':
-                self.coupling_key[0] = '02595f9b'
-                self.coupling_label[0] = 'arXiv:2308.02595'
-                self.coupling_expt[0] = 'ATLAS'
-                self.coupling_file_name[0] = '2308.02595_ATLAS_Fig9b_pp_B_bH_k_doublet.dat'
-                self.coupling_process[0] = 'pp --> Bbq --> bH --> 0l'
-                self.which_coupling[0] = "k_B"
-                self.coupling_energy[0] = 13
-                self.coupling_luminosity[0] = 139
-
-                self.coupling_key[1] = '01486f43l'
-                self.coupling_label[1] = 'arXiv:1802.01486'
-                self.coupling_expt[1] = 'CMS'
-                self.coupling_file_name[1] = '2405.17605_Fig43_lower_pp_B_bH_doublet_1802.01486_cf.dat'
-                self.coupling_process[1] = 'pp --> Bbq --> bH --> 0l'
-                self.which_coupling[1] = "k_B"
-                self.coupling_energy[1] = 13
-                self.coupling_luminosity[1] = 35.9
-
-                expected = [self.coupling_exp_upper, self.coupling_exp_lower]
-                observed = [self.coupling_obs_lower, self.coupling_obs_upper]
-                mass = [self.coupling_MB_obs, self.coupling_MB_exp]
-                coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected,
-                                      observed, self.coupling_expt, vlq='B')
-
             self.coupling_factor_to_coupling_strength('B')
-
-        elif self.VLX:
-            self.coupling_key[0] = '08597Fig44l'
-            self.coupling_label[0] = 'arXiv:1809.08597'
-            self.coupling_expt[0] = 'CMS'
-            self.coupling_file_name[0] = '2405.17605_CMS_Fig44_left_pp_tqX_tW_1809.08597.dat'
-            self.coupling_process[0] = 'pp --> Xtq --> tW --> bqq,lnu/blnu,qq '
-            self.which_coupling[0] = "k_x"
-            self.coupling_energy[0] = 13
-            self.coupling_luminosity[0] = 35.9
-
-            self.coupling_key[1] = '10216Fig44l'
-            self.coupling_label[1] = 'arXiv:2111.10216'
-            self.coupling_expt[1] = 'CMS'
-            self.coupling_file_name[1] = '2405.17605_CMS_Fig44_left_pp_tqX_tW_2111.10216.dat'
-            self.coupling_process[1] = 'pp --> Xtq --> tW --> bqq,lnu/blnu,qq '
-            self.which_coupling[1] = "k_x"
-            self.coupling_energy[1] = 13
-            self.coupling_luminosity[1] = 138
-
-            self.coupling_key[2] = '11883f10b'
-            self.coupling_label[2] = 'arXiv:1807.11883'
-            self.coupling_expt[2] = 'ATLAS'
-            self.coupling_file_name[2] = '1807.11883_ATLAS_Fig10b_pp_XX_Wt_coupling.dat'
-            self.coupling_process[2] = 'pp --> XX(Xtq) --> tW --> l+l+ '
-            self.which_coupling[2] = "k_x"
-            self.coupling_energy[2] = 13
-            self.coupling_luminosity[2] = 36.1
-
-            expected = [self.coupling_exp_upper, self.coupling_exp_lower]
-            observed = [self.coupling_obs_lower, self.coupling_obs_upper]
-            mass = [self.coupling_MX_obs, self.coupling_MX_exp]
-            coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected, observed,
-                                  self.coupling_expt, vlq='X')
-        elif self.VLY:
-            if self.m.model() == 'Doublet':
-                self.coupling_key[0] = '08328Fig44r'
-                self.coupling_label[0] = 'arXiv:1701.08328'
-                self.coupling_expt[0] = 'CMS'
-                self.coupling_file_name[0] = '2405.17605_CMS_Fig44_right_pp_tqY_bW_1701.08328.dat'
-                self.coupling_process[0] = 'pp --> Ytq --> bW --> bqq,lnu/blnu,qq '
-                self.which_coupling[0] = "k_y"
-                self.coupling_energy[0] = 13
-                self.coupling_luminosity[0] = 2.3
-
-                self.coupling_key[1] = '05606f8b'
-                self.coupling_label[1] = 'arXiv:1602.05606'
-                self.coupling_expt[1] = 'ATLAS'
-                self.coupling_file_name[1] = '1602.05606_ATLAS_Fig8b_pp_Ybj_Wb_Doublet_sinR.dat'
-                self.coupling_process[1] = 'pp --> Ybq --> bW --> b,lnu '
-                self.which_coupling[1] = "k_y"
-                self.coupling_energy[1] = 8
-                self.coupling_luminosity[1] = 20.3
-
-                self.coupling_key[2] = '072f10b'
-                self.coupling_label[2] = 'ATLAS_CONF_2016_072'
-                self.coupling_expt[2] = 'ATLAS'
-                self.coupling_file_name[2] = 'ATLAS_CONF_2016_072_fig10b_doublet.dat'
-                self.coupling_process[2] = 'pp --> Ybq --> bW --> b,lnu '
-                self.which_coupling[2] = "k_y"
-                self.coupling_energy[2] = 13
-                self.coupling_luminosity[2] = 3.2
-
-                self.coupling_key[3] = '07343f8c'
-                self.coupling_label[3] = 'arXiv:1812.07343'
-                self.coupling_expt[3] = 'ATLAS'
-                self.coupling_file_name[3] = '1812.07343_ATLAS_pp_Ybq_Wbbq_Fig8c_doublet_Y_RH_sinR.dat'
-                self.coupling_process[3] = 'pp --> Ybq --> bW --> b,lnu '
-                self.which_coupling[3] = "k_y"
-                self.coupling_energy[3] = 13
-                self.coupling_luminosity[3] = 36.1
-
-                self.coupling_key[4] = '20273'
-                self.coupling_label[4] = 'arXiv:2409.20273'
-                self.coupling_expt[4] = 'ATLAS'
-                self.coupling_file_name[4] = '2409.20273_ATLAS_Fig6_pp_Ybq_Wb_doublet_BY.dat'
-                self.coupling_process[4] = 'pp --> Ybq --> bW --> b, qq'
-                self.which_coupling[4] = "k_y"
-                self.coupling_energy[4] = 13
-                self.coupling_luminosity[4] = 36.1
-
-                expected = [self.coupling_exp_upper, self.coupling_exp_lower]
-                observed = [self.coupling_obs_lower, self.coupling_obs_upper]
-                mass = [self.coupling_MY_obs, self.coupling_MY_exp]
-                coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected, observed,
-                                      self.coupling_expt, vlq='Y')
-            elif self.m.model() == 'Triplet':
-                self.coupling_key[0] = '07343f8b'
-                self.coupling_label[0] = 'ArXiv:1812.07343'
-                self.coupling_expt[0] = 'ATLAS'
-                self.coupling_file_name[0] = '1812.07343_ATLAS_Fig8b_pp_Ybq_Wb_triplet_Y_LH_sinL.dat'
-                self.coupling_process[0] = 'pp --> Ybq --> bW --> b,lnu'
-                self.which_coupling[0] = "s_d_l"
-                self.coupling_energy[0] = 13
-                self.coupling_luminosity[0] = 36.1
-
-                expected = [self.coupling_exp_upper, self.coupling_exp_lower]
-                observed = [self.coupling_obs_lower, self.coupling_obs_upper]
-                mass = [self.coupling_MY_obs, self.coupling_MY_exp]
-                coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected, observed,
-                                      self.coupling_expt, vlq='Y')
-        else:
-            if self.m.model() == 'Singlet':
-                self.coupling_key[0] = '05606f7b'
-                self.coupling_label[0] = 'arXiv:1602.05606'
-                self.coupling_expt[0] = 'ATLAS'
-                self.coupling_file_name[0] = '1602.05606_ATLAS_f7b_pp_Tbj_Wbbj_s_L_Singlet.dat'
-                self.coupling_process[0] = 'pp --> Tbq --> Wb --> lnu,b '
-                self.which_coupling[0] = "s_l"
-                self.coupling_energy[0] = 8
-                self.coupling_luminosity[0] = 20.3
-
-                self.coupling_key[1] = '07343f8as_L'
-                self.coupling_label[1] = 'arXiv:1812.07343'
-                self.coupling_expt[1] = 'ATLAS'
-                self.coupling_file_name[1] = '1812.07343_ATLAS_f8a_pp_Tbq_wbbq_Singlet_s_L.dat'
-                self.which_coupling[1] = "s_l"
-                self.coupling_process[1] = 'pp --> Tbq --> Wb --> 1l '
-                self.coupling_energy[1] = 13
-                self.coupling_luminosity[1] = 36.1
-
-                self.coupling_key[2] = '09743f6b_s_L'
-                self.coupling_label[2] = 'arXiv:1812.09743'
-                self.coupling_expt[2] = 'ATLAS'
-                self.coupling_file_name[2] = '1812.09743_ATLAS_f6b_pp_Tbq_tZbq_s_L_Singlet.dat'
-                self.which_coupling[2] = "s_l"
-                self.coupling_process[2] = 'pp --> Tbq --> tZ --> 0l+1l '
-                self.coupling_energy[2] = 13
-                self.coupling_luminosity[2] = 36.1
-
-                self.coupling_key[3] = '10555f16b_s_L'
-                self.coupling_label[3] = 'arXiv:1806.10555'
-                self.coupling_expt[3] = 'ATLAS'
-                self.coupling_file_name[3] = '1806.10555_ATLAS_f16b_pp_Tbq_Zt_s_L_Singlet.dat'
-                self.coupling_process[3] = 'pp --> Tbq --> tZ --> l+l-+>=3l'
-                self.which_coupling[3] = "s_l"
-                self.coupling_energy[3] = 13
-                self.coupling_luminosity[3] = 36.1
-
-                self.coupling_key[4] = '072f10b'
-                self.coupling_label[4] = 'ATLAS-CONF-2016-072'
-                self.coupling_expt[4] = 'ATLAS'
-                self.coupling_file_name[4] = 'ATLAS-CONF-2016-072_ATLAS_f10a_pp_Tqb_Wb_singlet_s_L.dat'
-                self.which_coupling[4] = "s_l"
-                self.coupling_process[4] = 'pp --> Tbq --> bW --> 1l'
-                self.coupling_energy[4] = 13
-                self.coupling_luminosity[4] = 36.1
-                
-                self.coupling_key[5] = '12802f5'
-                self.coupling_label[5] = 'arXiv:2302.12802'
-                self.coupling_expt[5] = 'CMS'
-                self.coupling_file_name[5] = '2302.12802_CMS_Fig5_pp_Tbq_tH_cf.dat'
-                self.which_coupling[5] = "k_T"
-                self.coupling_process[5] = 'pp --> Tbq --> tH --> gamma gamma, 0l/1l'
-                self.coupling_energy[5] = 13
-                self.coupling_luminosity[5] = 36.1
-
-                self.coupling_key[6] = '16561f12a_k_T'
-                self.coupling_label[6] = 'arXiv:2402.16561'
-                self.coupling_expt[6] = 'ATLAS'
-                self.coupling_file_name[6] = '2402.16561_ATLAS_Fig12a_pp_T_Ht_Zt_k_T_singlet.dat'
-                self.which_coupling[6] = 'k_T'
-                self.coupling_process[6] = 'pp --> Tbq --> tZ --> 0l'
-                self.coupling_energy[6] = 13
-                self.coupling_luminosity[6] = 139
-
-                self.coupling_key[7] = '07045f9_k_T'
-                self.coupling_label[7] = 'arXiv:2201.07045'
-                self.coupling_expt[7] = 'ATLAS'
-                self.coupling_file_name[7] = '2201.07045_ATLAS_f9_pp_Tbq_Htbq_k_T_singlet.dat'
-                self.which_coupling[7] = 'k_T'
-                self.coupling_process[7] = 'pp --> Tbq --> tH --> 0l'
-                self.coupling_energy[7] = 13
-                self.coupling_luminosity[7] = 139
-
-                self.coupling_key[8] = '03401f13a'
-                self.coupling_label[8] = 'arXiv:2305.03401'
-                self.coupling_expt[8] = 'ATLAS'
-                self.coupling_file_name[8] = '2305.03401_ATLAS_f13a_pp_Tbq_Ztbq_singlet_k_T.dat'
-                self.which_coupling[8] = 'k_T'
-                self.coupling_process[8] = 'pp --> Tbq --> tZ(H) --> 1l'
-                self.coupling_energy[8] = 13
-                self.coupling_luminosity[8] = 139
-
-                self.coupling_key[9] = '07584f9a'
-                self.coupling_label[9] = 'arXiv:2307.07584'
-                self.coupling_expt[9] = 'ATLAS'
-                self.which_coupling[9] = 'k_T'
-                self.coupling_process[9] = 'pp --> Tbq --> tZ --> l+l-+3l '
-                self.coupling_file_name[9] = '2307.07584_ATLAS_f9a_pp_Tbq_Ztbq_k_T_singlet.dat'
-                self.coupling_energy[9] = 13
-                self.coupling_luminosity[9] = 139
-
-                self.coupling_key[10] = '01062f42u'
-                self.coupling_label[10] = 'arXiv:1708.01062'
-                self.coupling_expt[10] = 'CMS'
-                self.which_coupling[10] = "k_T"
-                self.coupling_process[10] = 'pp --> Tbq --> tZbq --> l+l-'
-                self.coupling_file_name[10] = '2405.17605_CMS_Fig42_upper_pp_Tbq_tZ_ll_singlet_1708.01062_cf.dat'
-                self.coupling_energy[10] = 13
-                self.coupling_luminosity[10] = 35.9
-
-                self.coupling_key[11] = '08328f42u'
-                self.coupling_label[11] = 'arXiv:1701.08328'
-                self.coupling_expt[11] = 'CMS'
-                self.which_coupling[11] = "k_T"
-                self.coupling_process[11] = 'pp --> Tbq --> tZbq --> 1l'
-                self.coupling_file_name[11] = '2405.17605_CMS_Fig42_upper_pp_T_bW_singlet_1701.08328_cf.dat'
-                self.coupling_energy[11] = 13
-                self.coupling_luminosity[11] = 2.3
-
-                self.coupling_key[12] = '17605f42u'
-                self.coupling_label[12] = 'arXiv:2405.17605'
-                self.coupling_expt[12] = 'CMS'
-                self.which_coupling[12] = "k_T"
-                self.coupling_process[12] = 'pp --> Tbq --> tZbq --> 0l'
-                self.coupling_file_name[12] = '2405.17605_CMS_Fig42_upper_pp_T_combination_singlet_cf.dat'
-                self.coupling_energy[12] = 13
-                self.coupling_luminosity[12] = 138
-
-                self.coupling_key[13] = '04721f42up1'
-                self.coupling_label[13] = 'arXiv:1909.04721'
-                self.coupling_expt[13] = 'CMS'
-                self.which_coupling[13] = "k_T"
-                self.coupling_process[13] = 'pp --> Tbq --> tZbq --> 0l'
-                self.coupling_file_name[13] = '2405.17605_CMS_Fig42_upper_pp_Ttq_tZ_tH_singlet_part1_1909.04721_cf.dat'
-                self.coupling_energy[13] = 13
-                self.coupling_luminosity[13] = 35.9
-
-                self.coupling_key[14] = '04721f42up2'
-                self.coupling_label[14] = 'arXiv:1909.04721'
-                self.coupling_expt[14] = 'CMS'
-                self.which_coupling[14] = "k_T"
-                self.coupling_process[14] = 'pp --> Tbq --> tZbq --> 0l'
-                self.coupling_file_name[14] = '2405.17605_CMS_Fig42_upper_pp_Ttq_tZ_tH_part2_singlet_1909.04721_cf.dat'
-                self.coupling_energy[14] = 13
-                self.coupling_luminosity[14] = 35.9
-
-                self.coupling_key[15] = '01062f42utq'
-                self.coupling_label[15] = 'arXiv:1708.01062'
-                self.coupling_expt[15] = 'CMS'
-                self.which_coupling[15] = "k_T"
-                self.coupling_process[15] = 'pp --> Tbq --> tZbq --> l+l-'
-                self.coupling_file_name[15] = '2405.17605_CMS_Fig42_upper_pp_Ttq_tZ_singlet_1708.01062_cf.dat'
-                self.coupling_energy[15] = 13
-                self.coupling_luminosity[15] = 35.9
-
-                self.coupling_key[16] = '02227f42u'
-                self.coupling_label[16] = 'arXiv:2201.02227'
-                self.coupling_expt[16] = 'CMS'
-                self.which_coupling[16] = "k_T"
-                self.coupling_process[16] = 'pp --> Tbq --> tZbq --> 0l'
-                self.coupling_file_name[16] = '2405.17605_CMS_Fig42_upper_pp_T_tZ_singlet_2201.02227_cf.dat'
-                self.coupling_energy[16] = 13
-                self.coupling_luminosity[16] = 137
-
-                self.coupling_key[17] = '05071f42u'
-                self.coupling_label[17] = 'arXiv:2405.05071'
-                self.coupling_expt[17] = 'CMS'
-                self.which_coupling[17] = "k_T"
-                self.coupling_process[17] = 'pp --> Tbq --> tZbq --> 0l'
-                self.coupling_file_name[17] = '2405.17605_CMS_Fig42_upper_pp_T_tZ_tH_singlet_2405.05071_cf.dat'
-                self.coupling_energy[17] = 13
-                self.coupling_luminosity[17] = 138
-
-                self.coupling_key[18] = '04721f42ubq1'
-                self.coupling_label[18] = 'arXiv:1909.04721'
-                self.coupling_expt[18] = 'CMS'
-                self.which_coupling[18] = "k_T"
-                self.coupling_process[18] = 'pp --> Tbq --> (tZ + tH) --> bqq, bb'
-                self.coupling_file_name[18] = '2405.17605_CMS_Fig42_upper_pp_Tbq_tZ_tH_singlet_part1_1909.04721_cf.dat'
-                self.coupling_energy[18] = 13
-                self.coupling_luminosity[18] = 35.9
-
-                self.coupling_key[19] = '04721f42ubq2'
-                self.coupling_label[19] = 'arXiv:1909.04721'
-                self.coupling_expt[19] = 'CMS'
-                self.which_coupling[19] = "k_T"
-                self.coupling_process[19] = 'pp --> Tbq --> (tZ + tH) --> bqq, bb'
-                self.coupling_file_name[19] = '2405.17605_CMS_Fig42_upper_pp_Tbq_tZ_tH_singlet_part2_1909.04721_cf.dat'
-                self.coupling_energy[19] = 13
-                self.coupling_luminosity[19] = 35.9
-
-                self.coupling_key[20] = '08789f6a'
-                self.coupling_label[20] = 'arXiv:2408.08789'
-                self.coupling_expt[20] = 'ATLAS'
-                self.which_coupling[20] = 'k_T'
-                self.coupling_process[20] = 'pp --> Tb(t)q --> tZ/H --> 0l+1l+>=2l'
-                self.coupling_file_name[20] = '2408.08789_ATLAS_Fig6a_pp_Tbq_Ht_Zt_singlet.dat'
-                self.coupling_energy[20] = 13
-                self.coupling_luminosity[20] = 139
-
-                expected = [self.coupling_exp_upper, self.coupling_exp_lower]
-                observed = [self.coupling_obs_lower, self.coupling_obs_upper]
-                mass = [self.coupling_MT_obs, self.coupling_MT_exp]
-
-                coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected,
-                                      observed, self.coupling_expt)
-
-            elif self.m.model() == 'Doublet':
-                self.coupling_key[0] = '03401f13b'
-                self.coupling_label[0] = 'arXiv:2305.03401'
-                self.coupling_expt[0] = 'ATLAS'
-                self.coupling_file_name[0] = '2305.03401_ATLAS_f13b_pp_Tbq_Ztbq_k_T_doublet.dat'
-                self.which_coupling[0] = 'k_T'
-                self.coupling_process[0] = 'pp --> Tbq --> tZbq --> 1l'
-                self.coupling_energy[0] = 13
-                self.coupling_luminosity[0] = 139
-
-                self.coupling_key[1] = '07584f9b'
-                self.coupling_label[1] = 'arXiv:2307.07584'
-                self.coupling_expt[1] = 'ATLAS'
-                self.coupling_file_name[1] = '2307.07584_ATLAS_f9b_pp_Tbq_Ztbq_k_T_doublet.dat'
-                self.which_coupling[1] = 'k_T'
-                self.coupling_process[1] = 'pp --> Tbq --> tZbq --> l+l-+3l'
-                self.coupling_energy[1] = 13
-                self.coupling_luminosity[1] = 139
-
-                self.coupling_key[2] = '01062f42l'
-                self.coupling_label[2] = 'arXiv:1708.01062'
-                self.coupling_expt[2] = 'CMS'
-                self.coupling_file_name[2] = '2405.17605_CMS_Fig42_lower_pp_T_tZ_doublet_1708.01062_cf.dat'
-                self.which_coupling[2] = 'k_T'
-                self.coupling_process[2] = 'pp --> Tbq --> tZbq --> l+l-'
-                self.coupling_energy[2] = 13
-                self.coupling_luminosity[2] = 35.9
-
-                self.coupling_key[3] = '04721f42lp1'
-                self.coupling_label[3] = 'arXiv:1909.04721'
-                self.coupling_expt[3] = 'CMS'
-                self.coupling_file_name[3] = '2405.17605_CMS_Fig42_lower_pp_T_tZ_tH_doublet_part1_1909.04721_cf.dat'
-                self.which_coupling[3] = 'k_T'
-                self.coupling_process[3] = 'pp --> Tbq --> tZbq --> 0l'
-                self.coupling_energy[3] = 13
-                self.coupling_luminosity[3] = 35.9
-
-                self.coupling_key[4] = '04721f42lp2'
-                self.coupling_label[4] = 'arXiv:1909.04721'
-                self.coupling_expt[4] = 'CMS'
-                self.coupling_file_name[4] = '2405.17605_Fig42_lower_pp_T_tZ_tH_doublet_part2_cf_1909.04721.dat'
-                self.which_coupling[4] = 'k_T'
-                self.coupling_process[4] = 'pp --> Tbq --> tZbq --> 0l'
-                self.coupling_energy[4] = 13
-                self.coupling_luminosity[4] = 35.9
-
-                self.coupling_key[5] = '08789f6b'
-                self.coupling_label[5] = 'arXiv:2408.08789'
-                self.coupling_expt[5] = 'ATLAS'
-                self.which_coupling[5] = 'k_T'
-                self.coupling_process[5] = 'pp --> Tb(t)q --> tZ/H --> 1l + 2l + >=3l'
-                self.coupling_file_name[5] = '2408.08789_ATLAS_Fig6b_pp_Tbq_Ht_Zt_doublet.dat'
-                self.coupling_energy[5] = 13
-                self.coupling_luminosity[5] = 139
-
-                expected = [self.coupling_exp_upper, self.coupling_exp_lower]
-                observed = [self.coupling_obs_lower, self.coupling_obs_upper]
-                mass = [self.coupling_MT_obs, self.coupling_MT_exp]
-
-                coupling_data_loading(self.coupling_file_name, len(self.coupling_key), mass, expected,
-                                      observed, self.coupling_expt)
-
+        elif not self.VLX and not self.VLY:
             self.coupling_factor_to_coupling_strength()
+
+    # ------------------------------------------------------------------
+    # Everything below is unchanged business logic
+    # ------------------------------------------------------------------
 
     def model_coupling_calc(self, i):
         if self.VLB:
@@ -1003,4 +674,3 @@ class Coupling(TheoryCalc):
                     self.coupling_exp_lower[j] = from_cf_to_kappa(self.coupling_exp_lower[j],
                                                                   self.coupling_MB_exp[j],
                                                                   self.m.model())
-
